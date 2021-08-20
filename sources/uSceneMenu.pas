@@ -1,0 +1,210 @@
+unit uSceneMenu;
+
+interface
+
+uses Classes, uScene;
+
+type
+  TSceneMenu = class(TScene)
+  private
+    Count, P, T: Integer;
+    CursorPos: Integer;
+    procedure MenuItem(S: string);
+    procedure DrawCopyright;
+    procedure DrawLogo;
+  public
+    procedure Render(); override;
+    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+    procedure KeyPress(var Key: Char); override;
+    constructor Create;
+    destructor Destroy; override;
+  end;
+
+var
+  SceneMenu: TSceneMenu;
+
+implementation
+
+uses Graphics, SysUtils, uGraph, uColor, uSceneName, uScenes, uMain, uSceneRecords,
+  uCreatures, uGame, uSceneLoad, uError, uUtils, uSceneSettings, uLang,
+  uSettings, uItem, uCreature;
+
+{ TSceneMenu }
+
+procedure TSceneMenu.DrawCopyright;
+var
+  I, T: Integer;
+  S: string;
+begin
+  S := '';
+  T := Graph.Height div Graph.CharHeight;
+  if ParamDebug then
+  begin
+    for I := 1 to ParamCount do S := S + ParamStr(I) + #32;
+    S := Trim(S);
+  end;  
+  with Graph.Surface.Canvas do
+  begin
+    Font.Style := [];
+    Brush.Color := 0;
+  end;
+  with Graph do
+  begin
+    if ParamDebug and (S <> '') then
+    begin
+      Surface.Canvas.Font.Color := cRdGray;
+      Text.TextCenter(T - 3, Format('[Items: %d, Enemies: %d]',
+        [ItemsCount, CreaturesCount]));
+      Text.TextCenter(T - 4, '[' + S + ']');
+    end;
+    Surface.Canvas.Font.Color := cBgColor;
+    Text.TextCenter(T - 2,
+      Format('v.%s (C) 2013-2014 Sergiy Tkach', [GameVersion]));
+      Surface.Canvas.Font.Color := cRdGray;
+    Text.TextCenter(T - 1, 'skype: sergiytkach | e-mail: bees@meta.ua');
+  end;
+end;
+
+constructor TSceneMenu.Create;
+begin
+  CursorPos := 0;
+  Count := 5;
+end;
+
+destructor TSceneMenu.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure TSceneMenu.KeyDown(var Key: Word; Shift: TShiftState);
+var
+  S: TSettings;
+begin
+  try
+    case Key of
+      38, 40:
+      begin
+        CursorPos := CursorPos + (Key - 39);
+        CursorPos := ClampCycle(CursorPos, 0, Count - 1);
+        Render;
+      end;
+      13:
+      case CursorPos of
+        0: begin
+             with Creatures do
+             if (PC.Name = '') then    
+             begin
+               S := TSettings.Create;
+               try
+                 PC.Name := S.Read('Settings', 'LastName', '');
+               finally
+                 S.Free;
+               end;            
+             end; 
+             Scenes.Scene := SceneName;
+           end;
+        1: begin
+             SceneLoad.ReadSaveDir;
+             Scenes.Scene := SceneLoad;
+           end;
+        2: begin
+             Scenes.Scene := SceneSettings;
+           end;
+        3: begin
+             Scenes.Scene := SceneRecords;
+           end;
+        4: fMain.Close;
+      end;
+    end;
+  except
+    on E: Exception do Error.Add('SceneMenu.KeyDown (#' + IntToStr(Key) + ')', E.Message);
+  end;
+end;
+
+procedure TSceneMenu.KeyPress(var Key: Char);
+begin
+  inherited;
+
+end;
+
+procedure TSceneMenu.MenuItem(S: string);
+begin
+  try
+    with Graph.Surface.Canvas do
+    begin
+      if (CursorPos = P) then
+      begin
+        Font.Color := cAcColor;
+        Font.Style := [fsBold];
+        Graph.RenderMenu(P, T, cDkGray);
+      end else begin
+        Font.Color := cBgColor;
+        Font.Style := [];
+      end;
+      TextOut((Graph.Width div 2) - (TextWidth(S) div 2),
+        (P * Graph.CharHeight) + T, S);
+      Inc(P);
+    end;
+  except
+    on E: Exception do Error.Add('SceneMenu.MenuItem', E.Message);
+  end;
+end;
+
+procedure TSceneMenu.Render;
+var
+  I, N: Byte;
+begin
+  inherited;
+  try
+    P := 0;
+    Graph.Clear(0);
+    T := (Graph.Height div 2) - ((Count - 1) * Graph.CharHeight div 2);
+    for I := 0 to Count - 1 do
+    begin
+      if (I < Count - 1) then N := I else N := 9;
+      MenuItem(GetLang(N));
+    end;
+    IsGame := False;
+    DrawLogo();
+    DrawCopyright();
+    Graph.Render();
+  except
+    on E: Exception do Error.Add('SceneMenu.Render', E.Message);
+  end;
+end;
+
+procedure TSceneMenu.DrawLogo;
+var
+  X, Y, H: Word;
+const
+  Logo: array [0..6] of string =  
+  ('               #          #        ',
+   '    # ####### ##   ###    ###      ',
+   '   ##    #   #  #  #  #   #  #  #  ',
+   '  #  #   #   ####  ###    ###   #  ',
+   '  ####   #  #    # #  #   #  #  #  ',
+   ' #    #  # #       #   #      # #  ',
+   '#        #              #       ###');
+
+begin
+  with Graph.Surface.Canvas do
+  begin
+    H := High(Logo) * Graph.CharHeight;
+    X := (Graph.Surface.Width div 2) - ((Length(Logo[0]) * Graph.CharWidth) div 2);
+    for Y := 0 to High(Logo) do
+    begin
+      Font.Style := [fsBold];
+      Font.Color := DarkColor(cLtRed, Y * 13);
+      TextOut(X, (Y * Graph.CharHeight) + ((T div 2) - (H div 2)), Logo[Y]);
+    end;
+  end;
+end;
+
+initialization
+  SceneMenu := TSceneMenu.Create;
+
+finalization
+  SceneMenu.Free;
+
+end.
