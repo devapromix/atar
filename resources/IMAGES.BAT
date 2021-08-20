@@ -1,4 +1,4 @@
 brcc32 images.rc
-copy images.res ..\source\images.res
+copy images.res ..\sources\images.res
 del images.res
 pause

@@ -5,7 +5,7 @@ interface
 uses uSkill;
 
 const
-  RacesCount = 8;
+  RacesCount = 9;
 
 type
   TItemProp = record
@@ -115,6 +115,16 @@ const
   RHWeapon  : (ID: 'LIGHTCROSSBOW'; Count: 1);
   LHWeapon  : (ID: 'BOLT';          Count: 50);
   Skills    : ((Skill: skCrossBow; Level: 10), (Skill: skTrap; Level: 10));
+  ),
+  ( // Deep Dwarf
+  NameLangID: 190;
+  Strength  : 1;
+  Dexterity : 1;
+  Will      : 0;
+  Speed     : -2;
+  RHWeapon  : (ID: 'HATCHET';       Count: 1);
+  LHWeapon  : (ID: 'SMALLSHIELD';   Count: 1);
+  Skills    : ((Skill: skAxe; Level: 10), (Skill: skShield; Level: 10));
   )
   );
   
