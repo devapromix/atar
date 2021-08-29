@@ -492,7 +492,7 @@ begin
       Result := Result + Format(' [%d-%d]', [MinDamage, MaxDamage]);
     if (Protect > 0) then
       Result := Result + Format(' [%d]', [Protect]);
-    if (ACount > 1) then Result := Result + Format(' (%d)', [ACount]);
+    if (ACount > 1) then Result := Result + Format(' (%dx)', [ACount]);
     if not IsStack and (MaxTough > 0) then
       Result := Result + Format(' <%d/%d>', [ATough, MaxTough]);
   end;  

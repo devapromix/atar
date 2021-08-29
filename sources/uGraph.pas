@@ -27,6 +27,7 @@ type
       IsNewBar: Boolean = False); overload;
     procedure BarOut(const KeyID: string; LID: Word;
       IsNewBar: Boolean = False); overload;
+    procedure DrawText(const X, Y: Integer; const S: string);
     procedure DrawOut(const X, Y: Integer; const S: string);
     procedure TitleOut(const S: string; P: Integer = 0);
     procedure TextCenter(const PY: Integer; const StrID: string);
@@ -480,13 +481,31 @@ begin
 end;
 
 function TText.ClearText(const S: string): string;
+var
+  I, N: Integer;
+  C: Char;
 begin
-  Result := S;
-  if S.Contains('#') then
+  N := 0;
+  Result := '';
+  for I := 1 to Length(S) do
   begin
-    Result := Result.Substring(2);
-    Result := StringReplace(Result, '$', '', [rfReplaceAll]);
+    C := S.Chars[N];
+    case C of
+      '#':
+        begin
+          Inc(N, 2);
+          Continue;
+        end;
+      '$':
+        begin
+          Inc(N);
+          Continue;
+        end;
+    end;
+    Result := Result + C;
+    Inc(N);
   end;
+  Result := Trim(Result);
 end;
 
 constructor TText.Create;
@@ -501,6 +520,11 @@ begin
 end;
 
 procedure TText.DrawOut(const X, Y: Integer; const S: string);
+begin
+  Graph.Surface.Canvas.TextOut(X * Graph.CharWidth, Y * Graph.CharHeight, S);
+end;
+
+procedure TText.DrawText(const X, Y: Integer; const S: string);
 var
   T: string;
   V: Char;

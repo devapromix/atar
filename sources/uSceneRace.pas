@@ -284,9 +284,9 @@ begin
            Font.Style := [fsBold]
              else Font.Style := [];
           if (Creatures.PC.Inv.GetCount(J) > 1) then
-            F := ' (' + IntToStr(Creatures.PC.Inv.GetCount(J)) + ')'
+            F := ' (' + IntToStr(Creatures.PC.Inv.GetCount(J)) + 'x)'
               else F := '';
-          Graph.Text.DrawOut(T * 3, H + R, GetItemLang(DungeonItems[V].Sprite) + F + Items.GetDollText(J, V));
+          Graph.Text.DrawText(T * 3, H + R, GetItemLang(DungeonItems[V].Sprite) + F + Items.GetDollText(J, V));
         end;
       //
       if (Count = 1) then Graph.Text.BarOut('a', GetLang(181), False)
