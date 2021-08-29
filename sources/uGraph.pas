@@ -21,12 +21,12 @@ type
   TText = class(TObject)
   private
     FKeyCursorPos: Integer;
-    function ClearText(const S: string): string;
   public
     procedure BarOut(const KeyID, StrID: string;
       IsNewBar: Boolean = False); overload;
     procedure BarOut(const KeyID: string; LID: Word;
       IsNewBar: Boolean = False); overload;
+    function ClearText(const S: string): string;
     procedure DrawText(const X, Y: Integer; const S: string);
     procedure DrawOut(const X, Y: Integer; const S: string);
     procedure TitleOut(const S: string; P: Integer = 0);

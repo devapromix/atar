@@ -1,11 +1,11 @@
-unit uInv;
+﻿unit uInv;
 
 interface
 
 uses Classes;
 
 type
-  TRecInv = record  
+  TRecInv = record
     ID: string;
     Stack, Doll: Boolean;
     Count, Weight, Tough: Integer;
@@ -13,7 +13,7 @@ type
 
   TInv = class(TObject)
   private
-    FItem: array [1..26] of TRecInv;
+    FItem: array [1 .. 26] of TRecInv;
     FMaxCount: Integer;
     FMaxWeight: Integer;
     function IndexOf(ID: string): Integer;
@@ -28,7 +28,8 @@ type
     procedure Clear; overload;
     procedure Empty(I: Integer);
     procedure SetTough(ID, ATough: Integer);
-    function Add(ID: string; ACount, AWeight, ATough: Integer; AStack: Boolean): Boolean;
+    function Add(ID: string; ACount, AWeight, ATough: Integer;
+      AStack: Boolean): Boolean;
     function Del(ID: string; ACount: Integer = 1): Boolean; overload;
     function Del(I: Integer; ACount: Integer = 1): Boolean; overload;
     function Count: Integer;
@@ -81,7 +82,8 @@ end;
 function TInv.GetCount(ID: Integer): Integer;
 begin
   Result := FItem[ID].Count;
-  if (Result < 0) then Result := 0;
+  if (Result < 0) then
+    Result := 0;
 end;
 
 function TInv.GetCount(ID: string): Integer;
@@ -89,33 +91,39 @@ var
   I: Integer;
 begin
   Result := 0;
-  if (ID = '') then Exit;
+  if (ID = '') then
+    Exit;
   I := IndexOf(ID);
-  if (I = 0) then Exit;
+  if (I = 0) then
+    Exit;
   Result := GetCount(I);
 end;
 
 function TInv.GetWeight(I: Integer): Integer;
 begin
   Result := FItem[I].Weight * FItem[I].Count;
-  if (Result < 0) then Result := 0;
+  if (Result < 0) then
+    Result := 0;
 end;
 
 function TInv.GetItemWeight(I: Integer): Integer;
 begin
   Result := FItem[I].Weight;
-  if (Result < 0) then Result := 0;
+  if (Result < 0) then
+    Result := 0;
 end;
 
 function TInv.GetTough(I: Integer): Integer;
 begin
   Result := FItem[I].Tough;
-  if (Result < 0) then Result := 0;
+  if (Result < 0) then
+    Result := 0;
 end;
 
 procedure TInv.SetTough(ID, ATough: Integer);
 begin
-  if (ATough < 0) then ATough := 0;
+  if (ATough < 0) then
+    ATough := 0;
   FItem[ID].Tough := ATough;
 end;
 
@@ -131,18 +139,20 @@ end;
 
 procedure TInv.Clear(AMaxCount, AMaxWeight: Integer);
 var
-  I: 1..26;
+  I: 1 .. 26;
 begin
   MaxCount := AMaxCount;
   MaxWeight := AMaxWeight;
-  for I := 1 to 26 do Empty(I);
+  for I := 1 to 26 do
+    Empty(I);
 end;
 
 procedure TInv.Clear;
 var
-  I: 1..26;
+  I: 1 .. 26;
 begin
-  for I := 1 to 26 do Empty(I);
+  for I := 1 to 26 do
+    Empty(I);
 end;
 
 procedure TInv.Empty(I: Integer);
@@ -157,7 +167,7 @@ end;
 
 function TInv.IndexOf(ID: string): Integer;
 var
-  I: 1..26;
+  I: 1 .. 26;
 begin
   Result := 0;
   for I := 1 to 26 do
@@ -166,12 +176,13 @@ begin
       Result := I;
       Break;
     end;
-  if (Result < 0) then Result := 0;
+  if (Result < 0) then
+    Result := 0;
 end;
 
 function TInv.Count: Integer;
 var
-  I: 1..26;
+  I: 1 .. 26;
   FCount: Integer;
 begin
   FCount := 0;
@@ -179,12 +190,13 @@ begin
     if (FItem[I].ID <> '') then
       FCount := FCount + 1;
   Result := FCount;
-  if (Result < 0) then Result := 0;
+  if (Result < 0) then
+    Result := 0;
 end;
 
 function TInv.Weight: Integer;
 var
-  I: 1..26;
+  I: 1 .. 26;
   FWeight: Integer;
 begin
   FWeight := 0;
@@ -192,23 +204,29 @@ begin
     if (FItem[I].ID <> '') then
       FWeight := FWeight + (FItem[I].Weight * FItem[I].Count);
   Result := FWeight;
-  if (Result < 0) then Result := 0;
+  if (Result < 0) then
+    Result := 0;
 end;
 
-function TInv.Add(ID: string; ACount, AWeight, ATough: Integer; AStack: Boolean): Boolean;
+function TInv.Add(ID: string; ACount, AWeight, ATough: Integer;
+  AStack: Boolean): Boolean;
 var
-  I: 1..26;
+  I: 1 .. 26;
 begin
   Result := False;
-  if (ACount <= 0) then Exit;
+  if (ACount <= 0) then
+    Exit;
   I := IndexOf(ID);
   if (I = 0) or not AStack then
   begin
     I := IndexOf('');
-    if (I = 0) then Exit;
+    if (I = 0) then
+      Exit;
   end;
-  if (Self.Weight >= MaxWeight) then Exit;
-  if (FItem[I].Count = 0) and (Self.Count >= MaxCount) then Exit;
+  if (Self.Weight >= MaxWeight) then
+    Exit;
+  if (FItem[I].Count = 0) and (Self.Count >= MaxCount) then
+    Exit;
   FItem[I].ID := ID;
   FItem[I].Weight := AWeight;
   FItem[I].Stack := AStack;
@@ -219,14 +237,15 @@ end;
 
 function TInv.Del(I, ACount: Integer): Boolean;
 var
-  J: 1..26;
+  J: 1 .. 26;
 begin
   Result := False;
-  if (FItem[I].Count = 0) or (FItem[I].Count < ACount) then 
+  if (FItem[I].Count = 0) or (FItem[I].Count < ACount) then
     Exit;
 
   FItem[I].Count := FItem[I].Count - ACount;
-  if (FItem[I].Count = 0) then Empty(I);
+  if (FItem[I].Count = 0) then
+    Empty(I);
   Result := True;
 
   for J := I to Count do
@@ -241,11 +260,12 @@ end;
 
 function TInv.Del(ID: string; ACount: Integer): Boolean;
 var
-  I: 1..26;
+  I: 1 .. 26;
 begin
   Result := False;
   I := IndexOf(ID);
-  if (I = 0) then Exit;
+  if (I = 0) then
+    Exit;
   Del(I, ACount);
 end;
 
@@ -271,7 +291,7 @@ end;
 procedure TAdvInv.Load;
 var
   P, I: Integer;
-  E: TExplodeResult;  
+  E: TExplodeResult;
 begin
   P := 1;
   E := nil;
@@ -294,19 +314,19 @@ end;
 
 procedure TAdvInv.Save;
 var
-  I: 1..26;
+  I: 1 .. 26;
 begin
   FF.Clear;
   for I := 1 to 26 do
     with FItem[I] do
-      FF.Append(Format('%s/%d/%d/%d/%d',
-        [ID, Count, Weight, Tough, ToInt(Doll)]));
+      FF.Append(Format('%s/%d/%d/%d/%d', [ID, Count, Weight, Tough,
+        ToInt(Doll)]));
 end;
 
 function TAdvInv.Equip(I: Integer): Boolean;
 begin
-//  Result := False;
-//  if not FItem[I].Stack and (FItem[I].Count = 1) then
+  // Result := False;
+  // if not FItem[I].Stack and (FItem[I].Count = 1) then
   begin
     FItem[I].Doll := True;
     Result := True;
@@ -316,7 +336,7 @@ end;
 function TAdvInv.UnEquip(I: Integer): Boolean;
 begin
   Result := False;
-  if FItem[I].Doll {and not FItem[I].Stack and (FItem[I].Count = 1)} then
+  if FItem[I].Doll { and not FItem[I].Stack and (FItem[I].Count = 1) } then
   begin
     FItem[I].Doll := False;
     Result := True;
@@ -325,15 +345,19 @@ end;
 
 procedure TInv.SetMaxCount(Value: Integer);
 begin
-  if (Value < 0) then Value := 0;
-  if (Value > 26) then Value := 26;
+  if (Value < 0) then
+    Value := 0;
+  if (Value > 26) then
+    Value := 26;
   FMaxCount := Value;
 end;
 
 procedure TInv.SetMaxWeight(Value: Integer);
 begin
-  if (Value < 0) then Value := 0;
-  if (Value > 500) then Value := 500;
+  if (Value < 0) then
+    Value := 0;
+  if (Value > 500) then
+    Value := 500;
   FMaxWeight := Value;
 end;
 

@@ -27,7 +27,7 @@ implementation
 
 uses Graphics, SysUtils, uGraph, uColor, uSceneName, uScenes, uMain, uSceneRecords,
   uCreatures, uGame, uSceneLoad, uError, uUtils, uSceneSettings, uLang,
-  uSettings, uItem, uCreature;
+  uSettings, uItem, uCreature, uMap;
 
 { TSceneMenu }
 
@@ -53,8 +53,8 @@ begin
     if ParamDebug and (S <> '') then
     begin
       Surface.Canvas.Font.Color := cRdGray;
-      Text.TextCenter(T - 3, Format('[Items: %d, Enemies: %d]',
-        [ItemsCount, CreaturesCount]));
+      Text.TextCenter(T - 3, Format('[Items: %d, Enemies: %d, Maps: %d]',
+        [ItemsCount, CreaturesCount, MapsCount]));
       Text.TextCenter(T - 4, '[' + S + ']');
     end;
     Surface.Canvas.Font.Color := cBgColor;
