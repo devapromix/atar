@@ -1,4 +1,4 @@
-unit uMiniMap;
+Ôªøunit uMiniMap;
 
 interface
 
@@ -49,7 +49,7 @@ procedure TMiniMap.Make;
 var
   X, Y: Integer;
 begin
-  with Surface.Canvas do  
+  with Surface.Canvas do
     for X := 0 to Width - 1 do
       for Y := 0 to Height - 1 do
         RenderCell(X, Y);
@@ -78,20 +78,23 @@ begin
       for X := 0 to Width - 1 do
         for Y := 0 to Height - 1 do
           PSet(X, Y);
-    end else begin
+    end
+    else
+    begin
       for X := Creatures.PC.Pos.X - 7 to Creatures.PC.Pos.X + 7 do
         for Y := Creatures.PC.Pos.Y - 7 to Creatures.PC.Pos.Y + 7 do
           RenderCell(X, Y);
     end;
   end;
 
-  // Show all enemies on map. "√Î‡Á ◊‡Ó‰Âˇ".
+  // Show all enemies on map. "–ì–ª–∞–∑ –ß–∞—Ä–æ–¥–µ—è".
   with Creatures do
-  if PC.TempSys.IsVar('WizardEye') then
-    for J := 0 to High(Enemy) do
-      if not Enemy[J].Life.IsMin then
-        if (GetDist(PC.Pos.X, PC.Pos.Y, Enemy[J].Pos.X, Enemy[J].Pos.Y) <= PC.TempSys.Power('WizardEye')) then
-          PSet(Enemy[J].Pos.X, Enemy[J].Pos.Y, clRed);
+    if PC.TempSys.IsVar('WizardEye') then
+      for J := 0 to High(Enemy) do
+        if not Enemy[J].Life.IsMin then
+          if (GetDist(PC.Pos.X, PC.Pos.Y, Enemy[J].Pos.X, Enemy[J].Pos.Y) <=
+            PC.TempSys.Power('WizardEye')) then
+            PSet(Enemy[J].Pos.X, Enemy[J].Pos.Y, clRed);
 
   PSet(Creatures.PC.Pos.X, Creatures.PC.Pos.Y, cWhite);
   Graph.Surface.Canvas.Draw(Graph.DL, Graph.CharHeight * 6, Surface);
@@ -99,7 +102,8 @@ end;
 
 procedure TMiniMap.RenderCell(X, Y: Integer);
 begin
-  if IsValidCell(X, Y) and Map.Cell[Y, X].Viz then PSet(X, Y);
+  if IsValidCell(X, Y) and Map.Cell[Y, X].Viz then
+    PSet(X, Y);
 end;
 
 end.

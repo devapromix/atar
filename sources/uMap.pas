@@ -1,4 +1,4 @@
-unit uMap;
+ο»Ώunit uMap;
 
 interface
 
@@ -272,7 +272,7 @@ begin
   try
     Self.Clear;
     SetLength(DR, Self.Width * Self.Height);
-    CreateMap(Self.Width, Self.Height, Info.GenID, DR, Self.Width * Self.Height); // ρσοεπ 1, 7, 17, 18, 19, 21
+    CreateMap(Self.Width, Self.Height, Info.GenID, DR, Self.Width * Self.Height); // ΡΡƒΠΏΠµΡ€ 1, 7, 17, 18, 19, 21
     SetLength(Cell, Self.Height + 1);
 
     for Y := 0 to Self.Height - 1 do    

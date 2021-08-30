@@ -1,2 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject/>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2021.08.30 10:54:25.347,=C:\Dev\github-atar-git\sources\Unit1.pas</Transaction>
+    <Transaction>2021.08.30 10:54:48.945,C:\Dev\github-atar-git\sources\uGlobalMap.pas=C:\Dev\github-atar-git\sources\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>
