@@ -1,4 +1,4 @@
-unit uRandItems;
+﻿unit uRandItems;
 
 interface
 
@@ -15,12 +15,12 @@ const
   RandItemCount = 12;
 
 type
-  TRandItem = array[1..RandItemCount] of TRandItemRec;
+  TRandItem = array [1 .. RandItemCount] of TRandItemRec;
 
 const
-  AllowColors: array[1..RandItemCount] of Integer =
-    (cGolden, cIndigo, cJade, cAzure, cLight, cDark, cGray, cBrown, cFxBlack,
-     cFxWhite, cSkyBlue, cLtYellow);
+  AllowColors: array [1 .. RandItemCount] of Integer = (cGolden, cIndigo, cJade,
+    cAzure, cLight, cDark, cGray, cBrown, cFxBlack, cFxWhite, cSkyBlue,
+    cLtYellow);
 
 type
   TRandItems = class(TObject)
@@ -59,12 +59,12 @@ var
   I: Byte;
 begin
   for I := 1 to RandItemCount do
-  with RandItem[I] do
-  begin
-    Name := '';
-    Color := 0;
-    Defined := 0;
-  end;
+    with RandItem[I] do
+    begin
+      Name := '';
+      Color := 0;
+      Defined := 0;
+    end;
 end;
 
 constructor TRandItems.Create(ACount: Byte);
@@ -77,7 +77,7 @@ end;
 destructor TRandItems.Destroy;
 begin
   FreeAndNil(FF);
-  inherited;     
+  inherited;
 end;
 
 function TRandItems.IsThisColor(C: Integer): Boolean;
@@ -130,20 +130,32 @@ end;
 
 function TRandItems.GetColorName(Index: Integer): string;
 begin
-  Result := ''; 
+  Result := '';
   case GetColor(Index) of
-    cGolden   : Result := GetLang(250);
-    cIndigo   : Result := GetLang(251);
-    cJade     : Result := GetLang(252);
-    cAzure    : Result := GetLang(253);
-    cLight    : Result := GetLang(254);
-    cDark     : Result := GetLang(255);
-    cGray     : Result := GetLang(256);
-    cBrown    : Result := GetLang(257);
-    cFxBlack  : Result := GetLang(258);
-    cFxWhite  : Result := GetLang(259);
-    cSkyBlue  : Result := GetLang(260);
-    cLtYellow : Result := GetLang(261);
+    cGolden:
+      Result := GetLang(250);
+    cIndigo:
+      Result := GetLang(251);
+    cJade:
+      Result := GetLang(252);
+    cAzure:
+      Result := GetLang(253);
+    cLight:
+      Result := GetLang(254);
+    cDark:
+      Result := GetLang(255);
+    cGray:
+      Result := GetLang(256);
+    cBrown:
+      Result := GetLang(257);
+    cFxBlack:
+      Result := GetLang(258);
+    cFxWhite:
+      Result := GetLang(259);
+    cSkyBlue:
+      Result := GetLang(260);
+    cLtYellow:
+      Result := GetLang(261);
   end;
 end;
 
@@ -166,21 +178,21 @@ end;
 procedure TRandItems.Load;
 var
   I, P: Integer;
-  E: TExplodeResult;  
+  E: TExplodeResult;
 begin
   Clear;
-  P := 1;  
+  P := 1;
   E := nil;
   for I := 0 to FF.Count - 1 do
   begin
     E := Explode('/', FF[I]);
     if (Trim(E[0]) <> '') then
-    with RandItem[P] do
-    begin
-      Name := E[0];
-      Color := StrToInt(E[1]);
-      Defined := StrToInt(E[2]);
-    end;
+      with RandItem[P] do
+      begin
+        Name := E[0];
+        Color := StrToInt(E[1]);
+        Defined := StrToInt(E[2]);
+      end;
     Inc(P);
   end;
 end;

@@ -1,8 +1,9 @@
-unit uPC;
+ï»¿unit uPC;
 
 interface
 
-uses Classes, uEffect, uCreature, uInv, uSkill, uTempSys, uRandItems;
+uses Classes, uEffect, uCreature, uInv, uSkill, uTempSys, uRandItems,
+  uGlobalMap;
 
 type
   TPC = class(TCreature)
@@ -24,6 +25,7 @@ type
     FEffects: TEffects;
     FScrolls: TRandItems;
     FPotions: TRandItems;
+    FWorld: TGlobalMap;
     function GetText: string;
     procedure SetInv(const Value: TAdvInv);
     procedure SetSkill(const Value: TSkill);
@@ -71,6 +73,7 @@ type
     property Skill: TSkill read FSkill write SetSkill;
     property Scrolls: TRandItems read FScrolls write SetScrolls;
     property Potions: TRandItems read FPotions write SetPotions;
+    property World: TGlobalMap read FWorld write FWorld;
     property TempSys: TTempSys read FTempSys write SetTempSys;
     property Race: Integer read FRace write SetRace;
     property Dungeon: Integer read FDungeon write SetDungeon;
@@ -90,7 +93,8 @@ type
 
 implementation
 
-uses Windows, SysUtils, Graphics, uError, uGraph, uLog, uDecorator, uLang, uItem,
+uses Windows, SysUtils, Graphics, uError, uGraph, uLog, uDecorator, uLang,
+  uItem,
   uScenes, uSceneLevelUp, uCreatures, uProjectiles, uUtils, uMap,
   uSceneItem, uSceneGame, uTime, uSettings, uScreenshot, uGame,
   uSceneRecords, uFormulas;
@@ -120,6 +124,7 @@ begin
   inherited Create;
   FF := TStringList.Create;
   TempSys := TTempSys.Create;
+  World := TGlobalMap.Create;
   Inv := TAdvInv.Create;
   Skill := TSkill.Create;
   Dungeon := 0;
@@ -140,6 +145,7 @@ end;
 
 destructor TPC.Destroy;
 begin
+  World.Free;
   Potions.Free;
   Scrolls.Free;
   Effects.Free;
@@ -160,14 +166,14 @@ begin
     with Graph.Surface.Canvas do
     begin
       B := Graphics.TBitmap.Create;
-      B.Handle := Windows.LoadBitmap(hInstance, 'PC');  
+      B.Handle := Windows.LoadBitmap(hInstance, 'PC');
       Graph.BitmapFromTileset(Image, B, Race);
       B.Free;
       for L := Low(L) to High(L) do
         for I := 1 to Inv.Count do
-          if Inv.GetDoll(I)
-            and (DungeonItems[Items.ItemIndex(I)].Category in WeapArmSet)
-            and (DungeonItems[Items.ItemIndex(I)].Category = L) then
+          if Inv.GetDoll(I) and (DungeonItems[Items.ItemIndex(I)].Category
+            in WeapArmSet) and (DungeonItems[Items.ItemIndex(I)].Category = L)
+          then
           begin
             D := Graphics.TBitmap.Create;
             B := Graphics.TBitmap.Create;
@@ -181,11 +187,12 @@ begin
       Image.Transparent := True;
     end;
   except
-    on E: Exception do Error.Add('PC.Render', E.Message);
+    on E: Exception do
+      Error.Add('PC.Render', E.Message);
   end;
 end;
 
-procedure TPC.Load;    
+procedure TPC.Load;
 var
   ID, X, Y: Word;
 
@@ -197,7 +204,7 @@ var
 
   function Get: Integer;
   begin
-    Result := StrToInt(FF[ID]);  
+    Result := StrToInt(FF[ID]);
     Inc(ID);
   end;
 
@@ -231,7 +238,8 @@ begin
     Year := Get;
     Calc;
   except
-    on E: Exception do Error.Add('PC.Load', E.Message);
+    on E: Exception do
+      Error.Add('PC.Load', E.Message);
   end;
 end;
 
@@ -275,7 +283,8 @@ begin
     Add(Month);
     Add(Year);
   except
-    on E: Exception do Error.Add('PC.Save', E.Message);
+    on E: Exception do
+      Error.Add('PC.Save', E.Message);
   end;
 end;
 
@@ -283,29 +292,33 @@ function TPC.MaxExp(ALevel: Integer): Integer;
 var
   L: Integer;
 begin
-  if (ALevel = 0) then L := Prop.Level else L := ALevel;
+  if (ALevel = 0) then
+    L := Prop.Level
+  else
+    L := ALevel;
   Result := L * ((L * 3) + 30);
 end;
 
 function TPC.AddExp(Value: Word): Boolean;
-begin     
+begin
   Result := False;
   try
     Prop.Exp := Prop.Exp + Value;
     Log.Add(Format(GetLang(64), [Value]));
     Kills := Kills + 1;
     with Prop do
-    while (Exp >= MaxExp) do
-    begin
-      Result := True;
-      Level := Level + 1;
-      Rating := Rating + (Level * 10);
-      Log.Add(GetLang(60));
-      Log.Add(Format(GetLang(61), [Level]));
-      Scenes.Scene := SceneLevelUp;
-    end;
+      while (Exp >= MaxExp) do
+      begin
+        Result := True;
+        Level := Level + 1;
+        Rating := Rating + (Level * 10);
+        Log.Add(GetLang(60));
+        Log.Add(Format(GetLang(61), [Level]));
+        Scenes.Scene := SceneLevelUp;
+      end;
   except
-    on E: Exception do Error.Add('PC.AddExp', E.Message);
+    on E: Exception do
+      Error.Add('PC.AddExp', E.Message);
   end;
 end;
 
@@ -314,45 +327,52 @@ var
   I, V: Integer;
 begin
   with Creatures do
-  try              
-    // Move
-    for I := 0 to High(Enemy) do
-      if not Enemy[I].Life.IsMin
-        and (Pos.X + AX = Enemy[I].Pos.X)
-        and (Pos.Y + AY = Enemy[I].Pos.Y) then
+    try
+      // Move
+      for I := 0 to High(Enemy) do
+        if not Enemy[I].Life.IsMin and (Pos.X + AX = Enemy[I].Pos.X) and
+          (Pos.Y + AY = Enemy[I].Pos.Y) then
         begin
-          if not Items.IsRangedWeapon then Melee(I);
+          if not Items.IsRangedWeapon then
+            Melee(I);
           Exit;
         end;
-    inherited Move(AX, AY);
-    if ((AX <> 0) or (AY <> 0)) then Look := Pos;
-    if TempSys.IsVar('Poison') then
-    begin
-      V := TempSys.Power('Poison');
-      with TAnimNumber.Create(-V) do Free; 
-      Life.Dec(V);
-      Log.Add(Format(GetLang(70), [V, TempSys.Duration('Poison')]));
-      if (TempSys.Duration('Poison') <= 1) then Log.Add(GetLang(71));
+      inherited Move(AX, AY);
+      if ((AX <> 0) or (AY <> 0)) then
+        Look := Pos;
+      if TempSys.IsVar('Poison') then
+      begin
+        V := TempSys.Power('Poison');
+        with TAnimNumber.Create(-V) do
+          Free;
+        Life.Dec(V);
+        Log.Add(Format(GetLang(70), [V, TempSys.Duration('Poison')]));
+        if (TempSys.Duration('Poison') <= 1) then
+          Log.Add(GetLang(71));
+      end;
+      if TempSys.IsVar('VialOfLife') and not Life.IsMax then
+      begin
+        V := TempSys.Power('VialOfLife');
+        with TAnimNumber.Create(V) do
+          Free;
+        Life.Inc(V);
+      end;
+      if TempSys.IsVar('VialOfMana') and not Mana.IsMax then
+      begin
+        V := TempSys.Power('VialOfMana');
+        with TAnimNumber.Create(V) do
+          Free;
+        Mana.Inc(V);
+      end;
+      Self.DetectTraps;
+      Self.DoTime();
+      Self.TempSys.Move;
+      if PC.Life.IsMin then
+        Log.Add(GetLang(72)); // You die.
+    except
+      on E: Exception do
+        Error.Add('PC.Move', E.Message);
     end;
-    if TempSys.IsVar('VialOfLife') and not Life.IsMax then
-    begin
-      V := TempSys.Power('VialOfLife');
-      with TAnimNumber.Create(V) do Free;
-      Life.Inc(V);
-    end;
-    if TempSys.IsVar('VialOfMana') and not Mana.IsMax then
-    begin
-      V := TempSys.Power('VialOfMana');
-      with TAnimNumber.Create(V) do Free;
-      Mana.Inc(V);
-    end;
-    Self.DetectTraps;  
-    Self.DoTime();
-    Self.TempSys.Move;
-    if PC.Life.IsMin then Log.Add(GetLang(72)); // You die.
-  except
-    on E: Exception do Error.Add('PC.Move', E.Message);
-  end;
 end;
 
 procedure TPC.Melee(I: Integer);
@@ -361,60 +381,66 @@ var
   N: string;
 begin
   with Creatures do
-  try
-    D := GetDamage(PC, Enemy[I].Prop.Protect);
-    if (D > 0) and (Rand(1, Prop.Dexterity + Enemy[I].Prop.Dexterity) <= Prop.Dexterity) then
-    begin
-      N := GetCreatureLang(Enemy[I].Prop.Sprite);
-      SetDamage(Enemy[I], N, D);
-      Enemy[I].AI := aiCombat;
-      TrainSkill();
-      if Enemy[I].Life.IsMin then
+    try
+      D := GetDamage(PC, Enemy[I].Prop.Protect);
+      if (D > 0) and (Rand(1, Prop.Dexterity + Enemy[I].Prop.Dexterity) <=
+        Prop.Dexterity) then
       begin
-        case Enemy[I].Prop.AIType of
-          aiBigSlime:
-          begin
-            for J := 1 to 3 do 
-              Insert(Enemy[I].Pos.X, Enemy[I].Pos.Y, 'SLIME');
-          end;
-          aiSlime:
-          begin
-            for J := 1 to 3 do
-              Insert(Enemy[I].Pos.X, Enemy[I].Pos.Y, 'SMALLSLIME');
-          end;
-        end;
-        if (Rand(0, 9) = 0) then 
-          Items.Add(Enemy[I].Pos.X, Enemy[I].Pos.Y,
-            Map.GetRandItemID);
-        Log.Add(Format(GetLang(73), [N])); // The %s dies.
-        if PC.AddExp(Enemy[I].Prop.Exp) then
-          Log.Add(Format(GetLang(65), [PC.Prop.Level]));
-        with PC do Rating := Rating + Enemy[I].Prop.Exp;
-      end;
-      if (Enemy[I].Prop.AIType = aiGoblin) then
-      begin
-        for D := 0 to High(Enemy) do
-          if (Rand(1, 3) <= 2) then Enemy[D].AI := aiRun;
-        Exit;
-      end;
-    end else begin
-      Log.Add(Format(GetLang(74), [GetCreatureLang(Enemy[I].Prop.Sprite)])); // You miss the %s.
-      case Enemy[I].Prop.AIType of
-        aiSlug:
+        N := GetCreatureLang(Enemy[I].Prop.Sprite);
+        SetDamage(Enemy[I], N, D);
+        Enemy[I].AI := aiCombat;
+        TrainSkill();
+        if Enemy[I].Life.IsMin then
         begin
-          Insert(Enemy[I].Pos.X, Enemy[I].Pos.Y, Enemy[I].Name, 5);
+          case Enemy[I].Prop.AIType of
+            aiBigSlime:
+              begin
+                for J := 1 to 3 do
+                  Insert(Enemy[I].Pos.X, Enemy[I].Pos.Y, 'SLIME');
+              end;
+            aiSlime:
+              begin
+                for J := 1 to 3 do
+                  Insert(Enemy[I].Pos.X, Enemy[I].Pos.Y, 'SMALLSLIME');
+              end;
+          end;
+          if (Rand(0, 9) = 0) then
+            Items.Add(Enemy[I].Pos.X, Enemy[I].Pos.Y, Map.GetRandItemID);
+          Log.Add(Format(GetLang(73), [N])); // The %s dies.
+          if PC.AddExp(Enemy[I].Prop.Exp) then
+            Log.Add(Format(GetLang(65), [PC.Prop.Level]));
+          with PC do
+            Rating := Rating + Enemy[I].Prop.Exp;
+        end;
+        if (Enemy[I].Prop.AIType = aiGoblin) then
+        begin
+          for D := 0 to High(Enemy) do
+            if (Rand(1, 3) <= 2) then
+              Enemy[D].AI := aiRun;
+          Exit;
+        end;
+      end
+      else
+      begin
+        Log.Add(Format(GetLang(74), [GetCreatureLang(Enemy[I].Prop.Sprite)]));
+        // You miss the %s.
+        case Enemy[I].Prop.AIType of
+          aiSlug:
+            begin
+              Insert(Enemy[I].Pos.X, Enemy[I].Pos.Y, Enemy[I].Name, 5);
+            end;
         end;
       end;
-    end;
-    if (Enemy[I].Prop.AIType in [aiGoblin, aiMelee, aiRanged]) then
-      if (Enemy[I].AI <> aiRun) and (Rand(1, 2) = 1)
-        and (Enemy[I].Life.Cur < (Enemy[I].Life.Max div 2))
-        and ((Enemy[I].Pos.X <> Enemy[I].Look.X)
-        and (Enemy[I].Pos.X <> Enemy[I].Look.Y)) then
+      if (Enemy[I].Prop.AIType in [aiGoblin, aiMelee, aiRanged]) then
+        if (Enemy[I].AI <> aiRun) and (Rand(1, 2) = 1) and
+          (Enemy[I].Life.Cur < (Enemy[I].Life.Max div 2)) and
+          ((Enemy[I].Pos.X <> Enemy[I].Look.X) and
+          (Enemy[I].Pos.X <> Enemy[I].Look.Y)) then
           Enemy[I].AI := aiRun;
-  except
-    on E: Exception do Error.Add('PC.Melee', E.Message);
-  end;
+    except
+      on E: Exception do
+        Error.Add('PC.Melee', E.Message);
+    end;
 end;
 
 procedure TPC.Ranged(I: Integer);
@@ -428,51 +454,55 @@ var
     J: Integer;
   begin
     with Creatures.PC do
-    for J := 1 to Inv.Count do
-      if Inv.GetDoll(J) and (Inv.GetID(J) = ProjID) then 
-      begin
-        if (Inv.GetCount(J) = 1) then
+      for J := 1 to Inv.Count do
+        if Inv.GetDoll(J) and (Inv.GetID(J) = ProjID) then
         begin
-          SceneItem.UnEquip(J, False);
-          CursorMode := cmNone;
-          Calc();
-          Redraw;
+          if (Inv.GetCount(J) = 1) then
+          begin
+            SceneItem.UnEquip(J, False);
+            CursorMode := cmNone;
+            Calc();
+            Redraw;
+          end;
+          Exit;
         end;
-        Exit;
-      end;
   end;
-                            
+
 begin
   try
     with Items do
-    with Creatures do
-    if IsRangedWeapon then
-    begin
-      ProjID := GetDollItemID(ArmorSet);
-      C := PC.Inv.GetCount(ProjID);
-      if IsBow() then PC.Prop.Projectile := ptArrow;
-      if IsCrossBow() then PC.Prop.Projectile := ptBolt;
-      if (C > 0) then
-      begin
-        EX := Enemy[I].Pos.X;
-        EY := Enemy[I].Pos.Y;
-        P := TProjectile.Create(Self, Pos.X, Pos.Y, EX, EY);
-        try
-          //if (Rand(1, Prop.Dexterity + Enemy[I].Prop.Dexterity) 
-          //  <= Prop.Dexterity) then 
-          // òî÷íîñòü çàâèñèò îò ðàññòîÿíèÿ
-          Melee(I);
-          if (C = 1) then Rang(ProjID);
-          PC.Inv.Del(ProjID);
-          Wait();
-          Exit;
-        finally
-          P.Free;
+      with Creatures do
+        if IsRangedWeapon then
+        begin
+          ProjID := GetDollItemID(ArmorSet);
+          C := PC.Inv.GetCount(ProjID);
+          if IsBow() then
+            PC.Prop.Projectile := ptArrow;
+          if IsCrossBow() then
+            PC.Prop.Projectile := ptBolt;
+          if (C > 0) then
+          begin
+            EX := Enemy[I].Pos.X;
+            EY := Enemy[I].Pos.Y;
+            P := TProjectile.Create(Self, Pos.X, Pos.Y, EX, EY);
+            try
+              // if (Rand(1, Prop.Dexterity + Enemy[I].Prop.Dexterity)
+              // <= Prop.Dexterity) then
+              // Ñ‚Ð¾Ñ‡Ð½Ð¾ÑÑ‚ÑŒ Ð·Ð°Ð²Ð¸ÑÐ¸Ñ‚ Ð¾Ñ‚ Ñ€Ð°ÑÑÑ‚Ð¾ÑÐ½Ð¸Ñ
+              Melee(I);
+              if (C = 1) then
+                Rang(ProjID);
+              PC.Inv.Del(ProjID);
+              Wait();
+              Exit;
+            finally
+              P.Free;
+            end;
+          end;
         end;
-      end;
-    end;
   except
-    on E: Exception do Error.Add('PC.Ranged', E.Message);
+    on E: Exception do
+      Error.Add('PC.Ranged', E.Message);
   end;
 end;
 
@@ -579,7 +609,8 @@ end;
 
 procedure TPC.DetectTraps;
 begin
-  if (Rand(0, 100) < Skill.GetSkill(skTrap, True)) then DoDetectTraps;
+  if (Rand(0, 100) < Skill.GetSkill(skTrap, True)) then
+    DoDetectTraps;
 end;
 
 procedure TPC.SetInv(const Value: TAdvInv);
@@ -617,33 +648,42 @@ var
   CS: TSubCSet;
 begin
   ID := Trim(Items.GetDollItemID(WeaponSet));
-  if (ID = '') then Exit;
+  if (ID = '') then
+    Exit;
   CS := DungeonItems[Items.ItemIndex(ID)].SubCats;
   ///
-  if (scDagger   in CS) then Skill.Up(skDagger  );
-  if (scAxe      in CS) then Skill.Up(skAxe     );
-  if (scSword    in CS) then Skill.Up(skSword   );
-  if (scMace     in CS) then Skill.Up(skMace    );
-  if (scSpear    in CS) then Skill.Up(skSpear   );
-  if (scBow      in CS) then Skill.Up(skBow     );
-  if (scCrossBow in CS) then Skill.Up(skCrossBow);
-  if (scShield   in CS) then Skill.Up(skShield  );
+  if (scDagger in CS) then
+    Skill.Up(skDagger);
+  if (scAxe in CS) then
+    Skill.Up(skAxe);
+  if (scSword in CS) then
+    Skill.Up(skSword);
+  if (scMace in CS) then
+    Skill.Up(skMace);
+  if (scSpear in CS) then
+    Skill.Up(skSpear);
+  if (scBow in CS) then
+    Skill.Up(skBow);
+  if (scCrossBow in CS) then
+    Skill.Up(skCrossBow);
+  if (scShield in CS) then
+    Skill.Up(skShield);
 
-{
-        '+Daggers and knives':3,
-        '+Swords':3,
-        '+Spears':3,
-        '+Clubs, hammers and maces':3,
-        '+Axes':3,
-        '+Bows':2,
-        '+Crossbows':2,
-        '+Shield use':2
-        'Dodge':1,
-        'Two weapon fighting':2,
-        'Whips':3,
-        'Unarmed fighting':3,
-        'Throwing':2,
-}
+  {
+    '+Daggers and knives':3,
+    '+Swords':3,
+    '+Spears':3,
+    '+Clubs, hammers and maces':3,
+    '+Axes':3,
+    '+Bows':2,
+    '+Crossbows':2,
+    '+Shield use':2
+    'Dodge':1,
+    'Two weapon fighting':2,
+    'Whips':3,
+    'Unarmed fighting':3,
+    'Throwing':2,
+  }
 
 end;
 
@@ -680,7 +720,8 @@ begin
   inherited Calc;
   Inv.MaxCount := GetMaxCount(Prop.Strength);
   Inv.MaxWeight := GetMaxWeight(Prop.Strength);
-  Mana.SetMax(GetMaxMana(Prop.Will) + GetAdvMana(Skill.GetSkill(skMagic, True)));
+  Mana.SetMax(GetMaxMana(Prop.Will) +
+    GetAdvMana(Skill.GetSkill(skMagic, True)));
 end;
 
 procedure TPC.Render;
@@ -693,10 +734,11 @@ begin
       TX := TileSize * RW;
       TY := TileSize * RH + CharHeight;
       Surface.Canvas.Draw(TX, TY, Image);
-//      Surface.Canvas.Draw(TX, TY, Effects.Image[0]);
+      // Surface.Canvas.Draw(TX, TY, Effects.Image[0]);
     end;
   except
-    on E: Exception do Error.Add('PC.Render', E.Message);
+    on E: Exception do
+      Error.Add('PC.Render', E.Message);
   end;
 end;
 
@@ -704,7 +746,8 @@ function TPC.GetRadius: Integer;
 begin
   Prop.Radius := Clamp(Prop.Radius, 0, 9);
   Result := Prop.Radius;
-  if TempSys.IsVar('Blind') then Result := 0;
+  if TempSys.IsVar('Blind') then
+    Result := 0;
 end;
 
 procedure TPC.Defeat;
@@ -712,14 +755,15 @@ var
   S: TSettings;
 begin
   try
-    Life.SetToMin;   
+    Life.SetToMin;
     Mana.SetToMin;
     TakeScreenShot(False);
     Rating := Rating + (Creatures.PC.Turns div 100);
     if (Rating > 0) then
-      Game.Scores.Add(Rating, Name, DateTimeToStr(Now), Prop.Level, Dungeon, Kills, Turns);
+      Game.Scores.Add(Rating, Name, DateTimeToStr(Now), Prop.Level, Dungeon,
+        Kills, Turns);
     DelFile(Name);
-    //Create;  {!!!!!!!!!!!!!!!!!!}
+    // Create;  {!!!!!!!!!!!!!!!!!!}
     Scenes.Scene := SceneRecords;
     S := TSettings.Create;
     try
@@ -728,7 +772,8 @@ begin
       S.Free;
     end;
   except
-    on E: Exception do Error.Add('PC.Defeat', E.Message);
+    on E: Exception do
+      Error.Add('PC.Defeat', E.Message);
   end;
 end;
 

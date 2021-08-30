@@ -7,6 +7,8 @@ uses uCustomMap;
 type
   TGlobalMap = class(TCustomMap)
   private
+    function GetText: string;
+    procedure SetText(const Value: string);
 
   public
     procedure Gen;
@@ -14,6 +16,9 @@ type
     procedure Render; override;
     constructor Create;
     destructor Destroy; override;
+    procedure Save;
+    procedure Load;
+    property Text: string read GetText write SetText;
   end;
 
 implementation
@@ -42,7 +47,27 @@ begin
 
 end;
 
+function TGlobalMap.GetText: string;
+begin
+
+end;
+
+procedure TGlobalMap.Load;
+begin
+
+end;
+
 procedure TGlobalMap.Render;
+begin
+
+end;
+
+procedure TGlobalMap.Save;
+begin
+
+end;
+
+procedure TGlobalMap.SetText(const Value: string);
 begin
 
 end;

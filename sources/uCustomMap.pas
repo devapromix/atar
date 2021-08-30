@@ -1,4 +1,4 @@
-unit uCustomMap;
+﻿unit uCustomMap;
 
 interface
 
@@ -17,14 +17,13 @@ type
     property Height: Integer read GetHeight;
   end;
 
-
 implementation
 
 uses uUtils;
 
 { TCustomMap }
 
-constructor TCustomMap.Create;    
+constructor TCustomMap.Create;
 begin
   FHeight := MapSide;
   FWidth := MapSide;
