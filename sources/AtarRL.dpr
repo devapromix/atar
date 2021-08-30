@@ -150,7 +150,9 @@ uses
   uCreature in 'uCreature.pas',
   uEnemy in 'uEnemy.pas',
   uFormulas in 'uFormulas.pas',
-  uGlobalMap in 'uGlobalMap.pas';
+  uGlobalMap in 'uGlobalMap.pas',
+  uStatistics in 'uStatistics.pas',
+  uSceneStatistics in 'uSceneStatistics.pas';
 
 {$R *.res}
 

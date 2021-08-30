@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899.12.30 00:00:00.000.945,C:\Dev\github-atar-git\sources\Unit1.pas=C:\Dev\github-atar-git\sources\uGlobalMap.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.347,=C:\Dev\github-atar-git\sources\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.945,C:\Dev\github-atar-git\sources\uGlobalMap.pas=C:\Dev\github-atar-git\sources\Unit1.pas</Transaction>
+    <Transaction>2021.08.30 21:32:13.201,=C:\Dev\github-atar-git\sources\Unit1.pas</Transaction>
+    <Transaction>2021.08.30 21:32:27.589,C:\Dev\github-atar-git\sources\uStatistics.pas=C:\Dev\github-atar-git\sources\Unit1.pas</Transaction>
+    <Transaction>2021.08.30 21:33:23.640,=C:\Dev\github-atar-git\sources\Unit1.pas</Transaction>
+    <Transaction>2021.08.30 21:33:48.491,C:\Dev\github-atar-git\sources\uSceneStatistics.pas=C:\Dev\github-atar-git\sources\Unit1.pas</Transaction>
   </Transactions>
 </BorlandProject>

@@ -188,6 +188,8 @@
         <DCCReference Include="uEnemy.pas"/>
         <DCCReference Include="uFormulas.pas"/>
         <DCCReference Include="uGlobalMap.pas"/>
+        <DCCReference Include="uStatistics.pas"/>
+        <DCCReference Include="uSceneStatistics.pas"/>
         <None Include="AtarRL.todo"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>

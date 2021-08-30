@@ -1,4 +1,4 @@
-unit uSceneChar;
+﻿unit uSceneChar;
 
 interface
 
@@ -14,7 +14,7 @@ type
     procedure Add(B: Graphics.TBitmap; S, P: string); overload;
     procedure Add(S: string; P: Integer); overload;
     procedure Add(B: Graphics.TBitmap; S: string; P: Integer); overload;
-//    procedure Calendar;
+    // procedure Calendar;
     procedure RenderSkills;
   public
     procedure Render(); override;
@@ -69,17 +69,17 @@ begin
   Add(S, P);
 end;
 
-{procedure TSceneChar.Calendar;
-begin
+{ procedure TSceneChar.Calendar;
+  begin
   with Creatures.PC do
   with Graph.Surface.Canvas do
   begin
-    Text.DrawOut(60, 10, 'Day: ' + IntToStr(Day));
-    Text.DrawOut(60, 11, 'Week: ' + IntToStr(Week));
-    Text.DrawOut(60, 12, 'Month: ' + IntToStr(Month));
-    Text.DrawOut(60, 13, 'Year: ' + IntToStr(Year));
+  Text.DrawOut(60, 10, 'Day: ' + IntToStr(Day));
+  Text.DrawOut(60, 11, 'Week: ' + IntToStr(Week));
+  Text.DrawOut(60, 12, 'Month: ' + IntToStr(Month));
+  Text.DrawOut(60, 13, 'Year: ' + IntToStr(Year));
   end;
-end;}
+  end; }
 
 constructor TSceneChar.Create;
 begin
@@ -96,13 +96,14 @@ procedure TSceneChar.KeyDown(var Key: Word; Shift: TShiftState);
 begin
   inherited;
   case Key of
-    32: Scenes.Scene := SceneInv;
+    32:
+      Scenes.Scene := SceneInv;
   end;
 end;
 
 procedure TSceneChar.KeyPress(var Key: Char);
 begin
-  inherited;        
+  inherited;
 
 end;
 
@@ -119,18 +120,23 @@ begin
       Add(GetLang(37), Creatures.PC.Name);
       Add(GetLang(180), GetLang(Creatures.PC.Race + 182));
       Add(GetLang(30), Creatures.PC.Prop.Level);
-      Add(Graph.Bars.EXP, GetLang(31), Format('%d/%d', [Creatures.PC.Prop.Exp, Creatures.PC.MaxExp(Creatures.PC.Prop.Level)]));
+      Add(Graph.Bars.EXP, GetLang(31), Format('%d/%d', [Creatures.PC.Prop.EXP,
+        Creatures.PC.MaxExp(Creatures.PC.Prop.Level)]));
       Add();
       Add(GetLang(15), Creatures.PC.Prop.Strength);
       Add(GetLang(16), Creatures.PC.Prop.Dexterity);
       Add(GetLang(17), Creatures.PC.Prop.Will);
       Add(GetLang(18), Creatures.PC.Prop.Speed);
       Add();
-      Add(Graph.Bars.LIFE, GetLang(22), Format('%d/%d', [Creatures.PC.Life.Cur, Creatures.PC.Life.Max]));
-      Add(Graph.Bars.MANA, GetLang(23), Format('%d/%d', [Creatures.PC.Mana.Cur, Creatures.PC.Mana.Max]));
+      Add(Graph.Bars.LIFE, GetLang(22), Format('%d/%d', [Creatures.PC.LIFE.Cur,
+        Creatures.PC.LIFE.Max]));
+      Add(Graph.Bars.MANA, GetLang(23), Format('%d/%d', [Creatures.PC.MANA.Cur,
+        Creatures.PC.MANA.Max]));
       Add();
-      Add(Graph.Bars.DAMAGE, GetLang(32), Format('%d-%d', [Creatures.PC.Prop.MinDamage, Creatures.PC.Prop.MaxDamage]));
-      Add(Graph.Bars.PROTECT, GetLang(33), Creatures.PC.Prop.Protect);
+      Add(Graph.Bars.DAMAGE, GetLang(32),
+        Format('%d-%d', [Creatures.PC.Prop.MinDamage,
+        Creatures.PC.Prop.MaxDamage]));
+      Add(Graph.Bars.PROTECT, GetLang(33), Creatures.PC.Prop.PROTECT);
       Add();
       Add(GetLang(66), Creatures.PC.GetRadius);
       Add(GetLang(34), Creatures.PC.Kills);
@@ -138,17 +144,21 @@ begin
       Add(GetLang(36), Creatures.PC.Rating);
       Add();
       // Location
-      if ParamDebug then S := ' (' + IntToStr(Creatures.PC.Dungeon) + ')' else S := '';
+      if ParamDebug then
+        S := ' (' + IntToStr(Creatures.PC.Dungeon) + ')'
+      else
+        S := '';
       Add(GetLang(110), GetMapLang(Map.Info.ID) + S);
       Add();
       Draw(Graph.Surface.Width - 72, Graph.CharHeight, SceneInv.Hero);
     end;
     Graph.Text.BarOut('space', GetLang(25), False);
     RenderSkills;
-//    Calendar();
+    // Calendar();
     Graph.Render;
   except
-    on E: Exception do Error.Add('SceneChar.Render', E.Message);
+    on E: Exception do
+      Error.Add('SceneChar.Render', E.Message);
   end;
 end;
 
@@ -159,7 +169,8 @@ var
   I: Byte;
 begin
   S4 := ((Graph.Surface.Width div 4) div Graph.CharWidth);
-  X := 2; Y := 6;
+  X := 2;
+  Y := 6;
   for I := 0 to Creatures.PC.Skill.Count do
   begin
     Q := Creatures.PC.Skill.GetSkill(I);
@@ -168,20 +179,23 @@ begin
     Graph.Surface.Canvas.Font.Color := cRdYellow;
     Graph.Surface.Canvas.Brush.Color := cBlack;
     Graph.Text.DrawOut(S4 * X, Y - 1, GetLang(I + 201));
-    Graph.Text.DrawOut(S4 * X + (S4 - (Length(IntToStr(Q.Level)))), Y - 1, IntToStr(Q.Level));
+    Graph.Text.DrawOut(S4 * X + (S4 - (Length(IntToStr(Q.Level)))), Y - 1,
+      IntToStr(Q.Level));
     Graph.Surface.Canvas.Brush.Color := cRdYellow;
-    Graph.Text.DrawOut(S4 * X, Y, Space(Round(Q.Exp * S4 / SkillMaxExp)));   
-    if ParamDebug and (Q.Exp > 0) then
+    Graph.Text.DrawOut(S4 * X, Y, Space(Round(Q.EXP * S4 / SkillMaxExp)));
+    if ParamDebug and (Q.EXP > 0) then
     begin
       Graph.Surface.Canvas.Font.Color := cRdGray;
-      Graph.Text.DrawOut(S4 * X, Y, IntToStr(Q.Exp));
-    end;  
+      Graph.Text.DrawOut(S4 * X, Y, IntToStr(Q.EXP));
+    end;
     Graph.Surface.Canvas.Brush.Color := cBlack;
     // Line
     Graph.Surface.Canvas.Pen.Width := 1;
     Graph.Surface.Canvas.Pen.Color := cBlack;
-    Graph.Surface.Canvas.MoveTo(S4 * 3 * Graph.CharWidth - 1, Y * Graph.CharHeight);
-    Graph.Surface.Canvas.LineTo(S4 * 3 * Graph.CharWidth - 1, (Y * Graph.CharHeight) + Graph.CharHeight);
+    Graph.Surface.Canvas.MoveTo(S4 * 3 * Graph.CharWidth - 1,
+      Y * Graph.CharHeight);
+    Graph.Surface.Canvas.LineTo(S4 * 3 * Graph.CharWidth - 1,
+      (Y * Graph.CharHeight) + Graph.CharHeight);
     //
     Inc(X);
     if (X > 3) then
@@ -196,15 +210,17 @@ function TSceneChar.Space(C: Byte): string;
 var
   I: Byte;
 begin
-  Result := ''; 
-  for I := 1 to C do 
+  Result := '';
+  for I := 1 to C do
     Result := Result + #32;
 end;
 
 initialization
-  SceneChar := TSceneChar.Create;
+
+SceneChar := TSceneChar.Create;
 
 finalization
-  SceneChar.Free;
+
+SceneChar.Free;
 
 end.

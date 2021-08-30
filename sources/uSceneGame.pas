@@ -1,4 +1,4 @@
-unit uSceneGame;
+﻿unit uSceneGame;
 
 interface  
 
@@ -31,7 +31,7 @@ implementation
 uses Windows, Types, SysUtils, uMain, uGraph, uCreatures, uScenes, uUtils,
   uTrap, uBox, uLog, uGame, uItem, uColor, uError, uSceneMenu, uSceneInv,
   uProjectiles, uSceneItem, uDecorator, uSceneChar, uLang, uLight, uLook,
-  uSceneHelp, uSceneLevelUp, uSkill;
+  uSceneHelp, uSceneLevelUp, uSkill, uSceneStatistics;
 
 { TGame }      
 
@@ -389,8 +389,12 @@ begin
         end;
     ord('C'):
         begin
-          SceneInv.RedrawPCIcon;   
+          SceneInv.RedrawPCIcon;
           Scenes.Scene := SceneChar;
+        end;
+    ord('Y'):
+        begin
+          Scenes.Scene := SceneStatistics;
         end;
     // Rest //
     ord('R'):
@@ -492,7 +496,7 @@ begin
         if ParamDebug then GoToNextMap;
       ord('K'):
         if ParamDebug then GoToAltNextMap;
-      ord('Y'):
+      ord('F'):
         if ParamDebug then
           Scenes.Scene := SceneLevelUp;
     end;

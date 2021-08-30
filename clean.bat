@@ -1,4 +1,3 @@
-echo APROMIX Clean Delphi Project
 del *.~*
 del /s *.dcu
 del *.exe
