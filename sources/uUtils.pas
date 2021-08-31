@@ -68,8 +68,8 @@ procedure TransKeys(var Key: word);
 function GetParams: TPoint;
 function GetParamFontSize: Integer;
 function RemoveBack(C: Char; S: string): string;
-function GetStrValue(Key, S: String): String;
-function GetStrKey(Key, S: String): String;
+function GetStrValue(Key, S: string): string;
+function GetStrKey(Key, S: string): string;
 
 implementation
 

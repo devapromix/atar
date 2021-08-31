@@ -111,6 +111,8 @@ begin
         end;
         // Counters
         PC.TempSys.Text := Z.ExtractToText('effects.txt');
+        // Statistics
+        PC.Statistics.Text := Z.ExtractToText('statistics.txt');
         // Log
         Log.Text := Z.ExtractToText('log.txt');
         // World
@@ -186,6 +188,8 @@ begin
           Z.AddFromString(IntToStr(PC.Dungeon) + '.l', Map.FL.Text);
           // Counters
           Z.AddFromString('effects.txt', PC.TempSys.Text);
+          // Statistics
+          Z.AddFromString('statistics.txt', PC.Statistics.Text);
           // Log
           Z.AddFromString('log.txt', Log.Text);
           // World

@@ -1,4 +1,4 @@
-unit uEffect;
+﻿unit uEffect;
 
 interface
 
@@ -9,7 +9,7 @@ type
   private
 
   public
-    Image: array [0..0] of Graphics.TBitmap;
+    Image: array [0 .. 0] of Graphics.TBitmap;
     constructor Create;
     destructor Destroy; override;
   end;
@@ -23,7 +23,7 @@ uses Windows, uError, uGraph;
 constructor TEffects.Create;
 var
   I: Byte;
-  Tileset: Graphics.TBitmap;  
+  Tileset: Graphics.TBitmap;
 begin
   Tileset := Graphics.TBitmap.Create;
   Tileset.Handle := Windows.LoadBitmap(hInstance, 'EFFECTS');
@@ -40,7 +40,8 @@ destructor TEffects.Destroy;
 var
   I: Byte;
 begin
-  for I := 0 to High(Image) do Image[I].Free;
+  for I := 0 to High(Image) do
+    Image[I].Free;
   inherited;
 end;
 

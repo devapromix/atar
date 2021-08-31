@@ -139,7 +139,6 @@ begin
       Add(Graph.Bars.PROTECT, GetLang(33), Creatures.PC.Prop.PROTECT);
       Add();
       Add(GetLang(66), Creatures.PC.GetRadius);
-      Add(GetLang(34), Creatures.PC.Kills);
       Add(GetLang(35), Creatures.PC.Turns);
       Add(GetLang(36), Creatures.PC.Rating);
       Add();

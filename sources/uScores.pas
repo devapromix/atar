@@ -17,7 +17,7 @@ type
     property Line: Integer read FLine write SetLine;
     procedure Clear;
     function Count: Integer;
-    function Add(Score: Integer; Name, DateTime: string; Level, Dungeon, Kills, Turns: Integer): Boolean;
+    function Add(Score: Integer; Name, DateTime: string; Level, Dungeon, Turns: Integer): Boolean;
     function GetValue(T, I: Integer): string;
     procedure Save;
     procedure Load;
@@ -31,7 +31,7 @@ uses SysUtils, uUtils, uZip, uBox, uError, uMain, uLang;
 
 { TScores }
 
-function TScores.Add(Score: Integer; Name, DateTime: string; Level, Dungeon, Kills, Turns: Integer): Boolean;
+function TScores.Add(Score: Integer; Name, DateTime: string; Level, Dungeon, Turns: Integer): Boolean;
 var
   I: Integer;
 begin
@@ -47,8 +47,7 @@ begin
       P[2].Insert(Line, DateTime);
       P[3].Insert(Line, IntToStr(Level));
       P[4].Insert(Line, IntToStr(Dungeon));
-      P[5].Insert(Line, IntToStr(Kills));
-      P[6].Insert(Line, IntToStr(Turns));
+      P[5].Insert(Line, IntToStr(Turns));
       Result := True;
       Save;
       Exit;
@@ -61,8 +60,7 @@ begin
     P[2].Append(DateTime);
     P[3].Append(IntToStr(Level));
     P[4].Append(IntToStr(Dungeon));
-    P[5].Append(IntToStr(Kills));
-    P[6].Append(IntToStr(Turns));
+    P[5].Append(IntToStr(Turns));
     Line := P[0].Count - 1;
     Save;
     Exit;

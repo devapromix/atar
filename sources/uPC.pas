@@ -3,7 +3,7 @@
 interface
 
 uses Classes, uEffect, uCreature, uInv, uSkill, uTempSys, uRandItems,
-  uGlobalMap;
+  uGlobalMap, uStatistics;
 
 type
   TPC = class(TCreature)
@@ -26,6 +26,7 @@ type
     FScrolls: TRandItems;
     FPotions: TRandItems;
     FWorld: TGlobalMap;
+    FStatistics: TStatistics;
     function GetText: string;
     procedure SetInv(const Value: TAdvInv);
     procedure SetSkill(const Value: TSkill);
@@ -69,6 +70,7 @@ type
     procedure Clear;
     constructor Create;
     destructor Destroy; override;
+    property Statistics: TStatistics read FStatistics write FStatistics;
     property Inv: TAdvInv read FInv write SetInv;
     property Skill: TSkill read FSkill write SetSkill;
     property Scrolls: TRandItems read FScrolls write SetScrolls;
@@ -113,8 +115,19 @@ begin
   Prop.Dexterity := 5;
   Prop.Will := 8;
   Prop.Speed := 10;
+  Dungeon := 0;
+  Race := 0;
+  Rating := 0;
+  Turns := 0;
+  LastTurns := 0;
+  Kills := 0;
+  Day := 1;
+  Week := 1;
+  Month := 1;
+  Year := 1;
   Inv.Clear;
   Skill.Clear;
+  Statistics.Clear;
   Calc();
   Fill();
 end;
@@ -127,20 +140,11 @@ begin
   World := TGlobalMap.Create;
   Inv := TAdvInv.Create;
   Skill := TSkill.Create;
-  Dungeon := 0;
-  Race := 0;
-  Rating := 0;
-  Turns := 0;
-  LastTurns := 0;
-  Kills := 0;
-  Day := 1;
-  Week := 1;
-  Month := 1;
-  Year := 1;
-  Clear;
+  Statistics := TStatistics.Create;
   Effects := TEffects.Create;
   Scrolls := TRandItems.Create(RandomScrollsCount);
   Potions := TRandItems.Create(RandomPotionsCount);
+  Clear;
 end;
 
 destructor TPC.Destroy;
@@ -150,6 +154,7 @@ begin
   Scrolls.Free;
   Effects.Free;
   TempSys.Free;
+  Statistics.Free;
   Skill.Free;
   Inv.Free;
   FF.Free;
@@ -258,6 +263,7 @@ procedure TPC.Save;
 begin
   try
     FF.Clear;
+    //
     Add(Name);
     Add(Pos.X);
     Add(Pos.Y);
@@ -265,19 +271,23 @@ begin
     Add(Mana.Cur);
     Add(Dungeon);
     Add(Race);
+    //
     Add(Prop.Strength);
     Add(Prop.Dexterity);
     Add(Prop.Will);
     Add(Prop.Speed);
+    //
     Add(Prop.Level);
     Add(Prop.Exp);
     Add(Prop.MinDamage);
     Add(Prop.MaxDamage);
     Add(Prop.Protect);
+    //
     Add(Rating);
     Add(Turns);
     Add(LastTurns);
     Add(Kills);
+    //
     Add(Day);
     Add(Week);
     Add(Month);
@@ -305,7 +315,7 @@ begin
   try
     Prop.Exp := Prop.Exp + Value;
     Log.Add(Format(GetLang(64), [Value]));
-    Kills := Kills + 1;
+    Self.Statistics.Inc(stKills);
     with Prop do
       while (Exp >= MaxExp) do
       begin
@@ -367,7 +377,7 @@ begin
       Self.DetectTraps;
       Self.DoTime();
       Self.TempSys.Move;
-      if PC.Life.IsMin then
+      if Self.Life.IsMin then
         Log.Add(GetLang(72)); // You die.
     except
       on E: Exception do
@@ -760,9 +770,10 @@ begin
     TakeScreenShot(False);
     Rating := Rating + (Creatures.PC.Turns div 100);
     if (Rating > 0) then
-      Game.Scores.Add(Rating, Name, DateTimeToStr(Now), Prop.Level, Dungeon,
-        Kills, Turns);
+      Game.Scores.Add(Rating, Name, DateTimeToStr(Now), Prop.Level,
+        Dungeon, Turns);
     DelFile(Name);
+    Self.Clear;
     // Create;  {!!!!!!!!!!!!!!!!!!}
     Scenes.Scene := SceneRecords;
     S := TSettings.Create;

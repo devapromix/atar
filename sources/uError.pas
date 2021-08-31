@@ -1,4 +1,4 @@
-unit uError;
+﻿unit uError;
 
 interface
 
@@ -47,9 +47,11 @@ begin
 end;
 
 initialization
-  Error := TError.Create;
+
+Error := TError.Create;
 
 finalization
-  Error.Free;
+
+Error.Free;
 
 end.

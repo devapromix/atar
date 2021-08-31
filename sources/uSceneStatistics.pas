@@ -7,7 +7,7 @@ uses Classes, Graphics, uScene, uScenes, uSceneBaseGame;
 type
   TSceneStatistics = class(TSceneBaseGame)
   private
-    Y: Integer;
+    X, Y: Integer;
     procedure Add; overload;
     procedure Add(S, P: string); overload;
     procedure Add(S: string; P: Integer); overload;
@@ -26,7 +26,7 @@ implementation
 
 { TSceneStatistics }
 
-uses SysUtils, uGraph, uColor, uBox, uError;
+uses SysUtils, uGraph, uColor, uBox, uError, uStatistics, uCreatures, uLang;
 
 procedure TSceneStatistics.Add(S, P: string);
 begin
@@ -75,11 +75,20 @@ end;
 procedure TSceneStatistics.Render;
 begin
   inherited;
+  X := 0;
   Y := 2;
   try
     with Graph.Surface.Canvas do
     begin
       Font.Color := cRdYellow;
+      // PC
+      Add(GetLang(37), Creatures.PC.Name);
+      Add(GetLang(180), GetLang(Creatures.PC.Race + 182));
+      Add(GetLang(35), Creatures.PC.Turns);
+      Add(GetLang(36), Creatures.PC.Rating);
+      // Statistics
+      Add('Tiles Moved+', Creatures.PC.Statistics.Get(stTilesMoved));
+      Add(GetLang(34), Creatures.PC.Statistics.Get(stKills));
     end;
 
     Graph.Render;
