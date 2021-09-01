@@ -638,6 +638,7 @@ begin
     end;
   Graph.Messagebar.Render;
   Map.MiniMap.Render;
+  Creatures.PC.Effects.Render;
   Graph.Render;
 end;
 
