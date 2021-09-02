@@ -6,8 +6,7 @@ uses Windows, Graphics, SysUtils, Types;
 
 const
   BaseTileSize = 32;
-  MapSize = 268;
-  MapSide = MapSize div 2; // 134
+  MapSide = 134;
 
 var
   TileSize: Byte = 32;

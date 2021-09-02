@@ -71,6 +71,7 @@ begin
       AFileName := PC.Name;
       if not FileExists(Path + 'save\' + AFileName + '.sav') then
       begin
+        PC.World.Gen;
         Map.Gen(PC.Dungeon);
         PC.Redraw;
         Res.Free;
