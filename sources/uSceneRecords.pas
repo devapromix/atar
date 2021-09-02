@@ -27,7 +27,7 @@ uses SysUtils, Graphics, uUtils, uGraph, uSceneMenu, uScenes, uColor,
 { TSceneRecords }
 
 const
-  ColCount = 7;
+  ColCount = 6;
 
 constructor TSceneRecords.Create;
 begin
@@ -71,7 +71,7 @@ end;
 
 procedure TSceneRecords.Render;
 const
-  N: array [0..ColCount - 1] of Byte = (36, 37, 140, 30, 39, 34, 35);
+  N: array [0..ColCount - 1] of Byte = (36, 37, 140, 30, 39, 35);
 var
   K: array [0..ColCount - 1] of Word;
   I, J, Y, L, Max: Integer;
