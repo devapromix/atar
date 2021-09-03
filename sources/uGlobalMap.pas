@@ -33,6 +33,8 @@ uses SysUtils, uError;
 const
   MapMinLevel = 0;
   MapMaxLevel = 20;
+  MapsPerLevel = 3;
+  FinalMapLevel = 25;
 
 procedure TGlobalMap.Clear;
 var
@@ -58,17 +60,23 @@ end;
 
 procedure TGlobalMap.Gen;
 var
-  J, X, Y: Integer;
+  I, J, X, Y: Integer;
 begin
   try
-    for J := 1 to MapMaxLevel do
-    begin
-      repeat
-        X := Rand(0, MapSide - 1);
-        Y := Rand(0, MapSide - 1);
-      until (GetLocalMapLevel(X, Y) = J);
-      FMap[X][Y] := J;
-    end;
+    for I := 1 to MapsPerLevel do
+      for J := 1 to MapMaxLevel do
+      begin
+        repeat
+          X := Rand(0, Self.Width - 1);
+          Y := Rand(0, Self.Height - 1);
+        until (GetLocalMapLevel(X, Y) = J);
+        FMap[X][Y] := J;
+        // Final dungeon
+        if (I = MapsPerLevel) and (J = MapMaxLevel) then
+          FMap[X][Y] := FinalMapLevel;
+      end;
+    // Cities
+    FMap[Self.Width div 2][Self.Height div 2] := 0;
   except
     on E: Exception do
       Error.Add('GlobalMap.Gen', E.Message);
@@ -97,6 +105,7 @@ end;
 
 procedure TGlobalMap.Load;
 begin
+  Self.Clear;
 
 end;
 
@@ -122,7 +131,8 @@ end;
 
 procedure TGlobalMap.SetText(const Value: string);
 begin
-
+  FF.Text := Value;
+  Self.Load;
 end;
 
 end.
