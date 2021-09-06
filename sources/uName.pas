@@ -1,4 +1,4 @@
-unit uName;
+﻿unit uName;
 
 interface
 
@@ -29,12 +29,12 @@ begin
     '"e","ei","ea","eri","era","ela","eli","enda","erra","i","ia","ie",' +
     '"ire","ira","ila","ili","ira","igo","o","oa","oi","oe","ore","u","y"';
     S[2].DelimitedText := '"a","and","b","bwyn","baen","bard","c","ctred",' +
-    '"cred","ch","can","d","dan","don","der","dric","dfrid","dus","f","g",' +
+    '"cred","ch","can","d","dan","din","don","der","dric","dfrid","dus","f","g",' +
     '"gord","gan","l","li","lgrin","lin","lith","lath","loth","ld","ldric",' +
     '"ldan","m","mas","mos","mar","mond","n","nydd","nidd","nnon","nwan",' +
     '"nyth","nad","nn","nnor","nd","p","r","ron","rd","s","son","sh","seth",' +
     '"sean","t","th","tha","tlan","trem","tram","v","vudd","w","wan","win",' +
-    '"wid","wyf","wyn","wyr","wys","wyth"';
+    '"wid","wod","wyf","wyn","wyr","wys","wyth","wyz"';
     for I := 0 to 2 do
     begin
       Result := Result + S[I][Random(S[I].Count - 1)];

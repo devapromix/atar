@@ -2,13 +2,14 @@
 
 interface
 
-uses Classes, uCustomMap, uUtils;
+uses Classes, uCustomMap, uTown, uUtils;
 
 type
   TGlobalMap = class(TCustomMap)
   private
     FF: TStringList;
     FMap: array [0 .. MapSide - 1, 0 .. MapSide - 1] of Byte;
+    FTowns: TTowns;
     function GetText: string;
     procedure SetText(const Value: string);
     function GetLocalMapLevel(const X, Y: Integer): Integer;
@@ -21,7 +22,7 @@ type
     procedure Save;
     procedure Load;
     property Text: string read GetText write SetText;
-
+    property Towns: TTowns read FTowns write FTowns;
   end;
 
 implementation
@@ -43,17 +44,20 @@ begin
   for Y := 0 to Self.Height - 1 do
     for X := 0 to Self.Width - 1 do
       FMap[X][Y] := 0;
+  Towns.Clear;
 end;
 
 constructor TGlobalMap.Create;
 begin
   inherited;
-  Self.Clear;
   FF := TStringList.Create;
+  Towns := TTowns.Create;
+  Self.Clear;
 end;
 
 destructor TGlobalMap.Destroy;
 begin
+  Towns.Free;
   FF.Free;
   inherited;
 end;
@@ -75,7 +79,8 @@ begin
         if (I = MapsPerLevel) and (J = MapMaxLevel) then
           FMap[X][Y] := FinalMapLevel;
       end;
-    // Cities
+    // Towns
+    Towns.Gen;
     FMap[Self.Width div 2][Self.Height div 2] := 0;
   except
     on E: Exception do

@@ -152,7 +152,8 @@ uses
   uFormulas in 'uFormulas.pas',
   uGlobalMap in 'uGlobalMap.pas',
   uStatistics in 'uStatistics.pas',
-  uSceneStatistics in 'uSceneStatistics.pas';
+  uSceneStatistics in 'uSceneStatistics.pas',
+  uTown in 'uTown.pas';
 
 {$R *.res}
 
