@@ -104,9 +104,20 @@ begin
 end;
 
 procedure TGlobalMap.Load;
+var
+  X, Y: Integer;
 begin
   Self.Clear;
-
+  try
+    if (FF.Count > 0) then
+      for Y := 0 to Self.Height - 1 do
+        if Y < FF.Count then
+          for X := 0 to Self.Width - 1 do
+            FMap[X][Y] := Ord(FF[Y][X]) - (Ord('a') - 1);
+  except
+    on E: Exception do
+      Error.Add('GlobalMap.Load', E.Message);
+  end;
 end;
 
 procedure TGlobalMap.Render;
@@ -119,13 +130,18 @@ var
   X, Y: Integer;
   S: string;
 begin
-  FF.Clear;
-  for Y := 0 to Self.Height - 1 do
-  begin
-    S := '';
-    for X := 0 to Self.Width - 1 do
-      S := S + Chr((Ord('a') - 1) + FMap[X][Y]);
-    FF.Append(S);
+  try
+    FF.Clear;
+    for Y := 0 to Self.Height - 1 do
+    begin
+      S := '';
+      for X := 0 to Self.Width - 1 do
+        S := S + Chr((Ord('a') - 1) + FMap[X][Y]);
+      FF.Append(S);
+    end;
+  except
+    on E: Exception do
+      Error.Add('GlobalMap.Save', E.Message);
   end;
 end;
 

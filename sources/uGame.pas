@@ -117,7 +117,7 @@ begin
         // Log
         Log.Text := Z.ExtractToText('log.txt');
         // World
-        PC.World.Text := Z.ExtractToText('world.txt');
+        PC.World.Text := Z.ExtractToText('world.p');
         //
         Z.CloseArchive;
       finally
@@ -194,7 +194,7 @@ begin
           // Log
           Z.AddFromString('log.txt', Log.Text);
           // World
-          Z.AddFromString('world.txt', PC.World.Text);
+          Z.AddFromString('world.p', PC.World.Text);
           //
           Z.CloseArchive;
         finally
