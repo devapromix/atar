@@ -178,7 +178,7 @@ procedure TSceneMenu.DrawLogo;
 var
   X, Y, H: Word;
 const
-  Logo: array [0..6] of string =  
+  Logo2: array [0..6] of string =
   ('               #          #        ',
    '    # ####### ##   ###    ###      ',
    '   ##    #   #  #  #  #   #  #  #  ',
@@ -186,6 +186,28 @@ const
    '  ####   #  #    # #  #   #  #  #  ',
    ' #    #  # #       #   #      # #  ',
    '#        #              #       ###');
+
+const
+
+  Logo: array [0..17] of string =
+    (' ______________                                                                                  ',
+    '| ____  . ____ |              ___ ___ ___                               ___                       ',
+    '|/    |. |    \|              \ .\\ .\\. \                              \ .\                      ',
+    '      | .|                    | .||. || .|                              | .|                      ',
+    '      |. |____  ___   ______  |. || .||. | ____ ____   ____ ____  ____  |. |__   ______ ____  ___ ',
+    '      |::|\:::|/:::\ /::::::\ |::||::||::|/::::\\:::\  \:::|\:::|/::::\ |:::::| /::::::\\:::|/:::\',
+    '      |xx| |xx|  \x||xx/  \xx||xx||xx||xx|   \xx\|xx|   |xx| |xx|   \xx\|xx|   |xx/__\xx||xx|  \x|',
+    '      |xx| |xx|     |xx|  |xx||xx||xx||xx|   |xx||xx|   |xx| |xx|   |xx||xx|   |xx|xxxxx||xx|     ',
+    '      |XX| |XX|     |XX\__/XX||XX||XX||XX|   |XX||XX\___|XX| |XX|   |XX||XX\___|XX\_____ |XX|     ',
+    '      |XX| \XX\      \XXXXXX/ \XX\\XX\\XX\   \XX\ \XXXX/|XX\ \XX\   \XX\ \XXXX/ \XXXXXX/ \XX\     ',
+    '      |XX|                                                                                        ',
+    '      |XX|                                                                                        ',
+    '      |XX|                                                                                        ',
+    '     _|XX|                                                                                        ',
+    '     \XXX|                                                                                        ',
+    '      \XX|                                                                                        ',
+    '       \X|                                                                                        ',
+    '        \|                                                                                        ');
 
 begin
   with Graph.Surface.Canvas do
@@ -195,7 +217,7 @@ begin
     for Y := 0 to High(Logo) do
     begin
       Font.Style := [fsBold];
-      Font.Color := DarkColor(cLtRed, Y * 13);
+      Font.Color := DarkColor(cLtRed, Y * 5);
       TextOut(X, (Y * Graph.CharHeight) + ((T div 2) - (H div 2)), Logo[Y]);
     end;
   end;
