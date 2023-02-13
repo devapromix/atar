@@ -1,6 +1,5 @@
 del *.~*
 del /s *.dcu
-del *.exe
 del *.dsk
 del *.obj
 del *.dsm
