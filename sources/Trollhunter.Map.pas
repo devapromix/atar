@@ -14,7 +14,7 @@ uses
   Trollhunter.Map.Generator;
 
 const
-  MapsCount = 9;
+  MapsCount = 10;
   FloorSet = [tlFloor, tlGrass];
 
 type
@@ -34,6 +34,7 @@ type
     NextMap: string;
     AltNextMap: string;
     IsAltMapEnt: Boolean;
+    IsVillageEnt: Boolean;
     IsTraps: Boolean;
     FloorTile: Tiles;
     FloorRes: string;
@@ -43,14 +44,14 @@ type
 const
   MapInfo: array [0 .. MapsCount - 1] of TMapRec = (
 
+{$I Maps/Village.map              }
 {$I Maps/SpiderForest.map         }
 {$I Maps/TheUndergroundPassage.map}
 {$I Maps/ValleyOfBear.map         }
 {$I Maps/StonyField.map           }
-
     // {$I Maps/TwilightForest.map      }
 
-    /// //
+    //
 {$I Maps/BlankMap.map             }
   );
 

@@ -470,6 +470,9 @@ const
 //  ('DARKWOOD',        'The Dark Wood',    'Темный Лес'),
 //  ('BLACKMARSH',      'Black Marsh',      'Черная Топь'),
 
+  // Village
+  ('VILLAGE',         'Village',                 'Деревня'),
+
   // Spider Forest
   ('SPIDERFOREST',    'Spider Forest',           'Лес Пауков'),
   ('SPIDERCAVERN1',   'Spider Cavern Level 1',   'Пещер{а/y} Пауков Уровень 1'),
