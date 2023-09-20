@@ -44,15 +44,14 @@ type
 const
   MapInfo: array [0 .. MapsCount - 1] of TMapRec = (
 
-{$I Maps/Village.map              }
-{$I Maps/SpiderForest.map         }
-{$I Maps/TheUndergroundPassage.map}
-{$I Maps/ValleyOfBear.map         }
-{$I Maps/StonyField.map           }
-    // {$I Maps/TwilightForest.map      }
-
+{$I Maps/Village.inc              }
+{$I Maps/SpiderForest.inc         }
+{$I Maps/TheUndergroundPassage.inc}
+{$I Maps/ValleyOfBear.inc         }
+{$I Maps/StonyField.inc           }
+    // {$I Maps/TwilightForest.inc      }
     //
-{$I Maps/BlankMap.map             }
+{$I Maps/BlankMap.inc             }
   );
 
 type
@@ -109,7 +108,7 @@ var
 implementation
 
 uses
-  Math,
+  Math, dialogs,
   SysUtils,
   Trollhunter.AStar,
   Trollhunter.Creatures,
@@ -234,7 +233,7 @@ procedure TMap.Gen(const ID: Integer);
 var
   T: Tiles;
   DR: TBeaRLibMap;
-  X, Y, I: Word;
+  VilGateX, X, Y, I, L, V: Integer;
 
   procedure GenNewFloorPos();
   begin
@@ -295,6 +294,7 @@ var
   end;
 
 begin
+  Randomize;
   try
     Self.Clear;
     SetLength(DR, Self.Width * Self.Height);
@@ -348,6 +348,28 @@ begin
     begin
       GenNewFloorPos();
       Trollhunter.Creatures.Creatures.PC.SetPosition(X, Y);
+    end;
+    // Add gate
+    if Map.Info.IsVillageEnt then
+    begin
+      VilGateX := Rand(15, Width - 16);
+      for Y := 0 to 7 do
+        for X := 0 to 8 do
+          Map.Cell[Y][VilGateX - 4 + X].Tile := tlFloor;
+      L := Math.RandomRange(5, 10) * 2;
+      for I := 0 to L do
+        Map.Cell[0][VilGateX - (L div 2) + I].Tile := tlWall;
+      V := 0;
+      L := Math.RandomRange(1, 5);
+      for I := 3 to L + 4 do
+      begin
+        V := V + (Math.RandomRange(1, 4) - 2);
+        Map.Cell[I][VilGateX + V].Tile := tlStone;
+      end;
+      for I := -1 to 1 do
+        Map.Cell[1][VilGateX + I].Tile := tlStone;
+      Map.Cell[2][VilGateX].Tile := tlStone;
+      Map.Cell[0][VilGateX].Tile := tlVillageGate;
     end;
     // Add stairs
     if not Map.Info.IsAutoEnt and (Map.Info.PrevMap <> '') then
@@ -774,6 +796,11 @@ begin
               Draw(DX, DY, Res.FOGWALL)
             else
               Draw(DX, DY, Res.WALL);
+          tlVillageGate:
+            if B then
+              Draw(DX, DY, Res.FOGGATE)
+            else
+              Draw(DX, DY, Res.GATE);
           tlOpenDoor:
             if B then
               Draw(DX, DY, Res.FOGODOOR)

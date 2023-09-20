@@ -17,6 +17,7 @@ type
   private
     procedure Go(T: Tiles);
   public
+    procedure GoToVillage;
     procedure GoToPrevMap;
     procedure GoToNextMap;
     procedure GoToAltNextMap;
@@ -86,6 +87,23 @@ begin
         Creatures.PC.SetPosition(X, Y);
         Exit;
       end;
+end;
+
+procedure TSceneGame.GoToVillage;
+begin
+  if Map.Info.IsVillageEnt then
+  begin
+    Graph.Messagebar.Clear;
+    // Log.Add(GetLang(290) + ' ' + GetMapLang(Map.Info.AltNextMap, True) + '.');
+    // Log.Apply;
+    Game.Save;
+    if Map.Info.Village then
+      Game.Load(1)
+    else
+      Game.Load(0);
+    Go(tlVillageGate);
+    Scenes.Render;
+  end;
 end;
 
 procedure TSceneGame.GoToPrevMap;
@@ -425,20 +443,6 @@ begin
             end;
             Scenes.Render;
           end;
-        // Debug //
-        ord('T'):
-          if ParamDebug then
-          begin
-            // Creatures.PC.AddStrength;
-            // Inc(Creatures.PC.Turns);
-            // Items.Grow;
-            // Creatures.PC.TrainSkill(skTrap);
-            // Inc(Creatures.PC.Dungeon);
-            // Game.Load(1);
-
-            // Scenes.Scene := SceneLevelUp;
-            Scenes.Render;
-          end;
         // Detect traps //
         ord('D'):
           begin
@@ -573,6 +577,8 @@ begin
                   // Log.Add('.');
                   Scenes.Render;
                 end;
+              tlVillageGate:
+                GoToVillage;
               tlPrevDungeon:
                 GoToPrevMap;
               tlNextDungeon:
@@ -618,6 +624,9 @@ begin
           Items.Pickup;
         112: // Help
           Scenes.Scene := SceneHelp;
+        ord('V'):
+          if ParamDebug then
+            GoToVillage;
         ord('H'):
           if ParamDebug then
             GoToPrevMap;

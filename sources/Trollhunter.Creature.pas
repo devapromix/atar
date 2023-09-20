@@ -117,7 +117,7 @@ end;
 function TCreature.FreeCell(AX, AY: Integer): Boolean;
 begin
   Result := Map.Cell[AY][AX].Tile in FloorSet + [tlStone] +
-    [tlOpenDoor, tlPrevDungeon .. tlAltNextDungeon,
+    [tlVillageGate, tlOpenDoor, tlPrevDungeon .. tlAltNextDungeon,
     tlEmptyShrine .. tlMegaShrine, tlOpenWoodChest .. tlClosedBarrel];
 end;
 

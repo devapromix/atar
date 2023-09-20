@@ -11,7 +11,7 @@
   DecTypCount  : 0;
   IsAutoEnt    : False;
   PrevMap      : '';
-  NextMap      : 'SPIDERFOREST';
+  NextMap      : '';
   AltNextMap   : '';
   IsAltMapEnt  : False;
   IsVillageEnt : True;

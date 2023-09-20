@@ -20,6 +20,7 @@ type
     WALL, FOGWALL: Graphics.TBitmap;
     FLOOR, FOGFLOOR: Graphics.TBitmap;
     GRASS, FOGGRASS: Graphics.TBitmap;
+    GATE, FOGGATE: Graphics.TBitmap;
     CDOOR, FOGCDOOR: Graphics.TBitmap;
     ODOOR, FOGODOOR: Graphics.TBitmap;
     LOCK, TREASURE, FOG: Graphics.TBitmap;
@@ -199,6 +200,25 @@ begin
   FOGDOWN := Graphics.TBitmap.Create;
   SetTile(DOWN, FOGDOWN, 'DOWN', '', True);
 
+  // Gate
+  GATE := Graphics.TBitmap.Create;
+  GATE.Handle := LoadBitmap(hInstance, 'GATE');
+  ScaleBmp(GATE, TileSize, TileSize);
+  GATE.Transparent := True;
+  T.Assign(WALL);
+  T.Canvas.Draw(0, 0, GATE);
+  GATE.Assign(T);
+  GATE.TransparentColor := GATE.Canvas.Pixels[TileSize div 2, TileSize div 2];
+  GATE.Transparent := True;
+  T.Assign(GATE);
+  GATE.Assign(F);
+  GATE.Canvas.Draw(0, 0, T);
+  FOGGATE := Graphics.TBitmap.Create;
+  FOGGATE.Assign(GATE);
+  FOGGATE.Canvas.Draw(0, 0, FOG);
+  if not ParamLight then
+    Gamma(FOGGATE, LightMin);
+
   // Doors
   CDOOR := Graphics.TBitmap.Create;
   CDOOR.Handle := LoadBitmap(hInstance, 'CDOOR');
@@ -257,6 +277,8 @@ begin
   FOGDOWN.Free;
   WALL.Free;
   FOGWALL.Free;
+  GATE.Free;
+  FOGGATE.Free;
   CDOOR.Free;
   FOGCDOOR.Free;
   ODOOR.Free;

@@ -7,4 +7,6 @@ del *.rsm
 del *.cfg
 del *.rar
 del *.ddp
+del *.drc
+del *.map
 del *.ini
