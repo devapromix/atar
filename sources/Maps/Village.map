@@ -5,7 +5,7 @@
   Creatures    : '';
   Underground  : False;
   Village      : True;
-  GenID        : G_VILLAGE;
+  GenID        : G_DARK_FOREST;
   DecorType    : dtNone;
   DecTypSize   : 0;
   DecTypCount  : 0;
