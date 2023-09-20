@@ -153,7 +153,7 @@ var
 begin
   if IsMove then
     with FList do
-      for I := Count - 1 to 0 do
+      for I := Count - 1 downto 0 do
         if (AName = VarName(I)) then
           Delete(I);
 end;
