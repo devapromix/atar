@@ -59,10 +59,17 @@ begin
   for I := 0 to 1 do
     S[I] := TStringList.Create;
   S[0].DelimitedText :=
-    '"Abs","Angb","Vorg","Adv","Afon","Agr","Ast","As","S","Abn",' +
-    '"Adst","Shind,""Kenosh"';
+    '"Abs","Angb","Vorg","Adv","Afon","Agr","Ast","As","S","Abn","Adst",' +
+    '"Shind","Kenosh","Sam","Semor","Timor","Turm","Ketin","Dun","Kem",' +
+    '"Lum","Lon","Lim","Kid","Til","Bin","Cog","Dez","Erav","Fah","Foz",' +
+    '"Fin","Fern","Jam","Hen","Holm","Kor","Lan","Modr","Nurg","Orm","Ont",' +
+    '"Om","Od","Olm","Org","Omid","Ot","Osirn","Odir","Ohus","Omar","Ovuk",' +
+    '"Pax","Pir","Pard","Rim","Sen","Son","Sim","Sar","Tud","Ur","Vox","Wan",' +
+    '"Wur","Wil","Wex","Wart","Xuum","Xod","Xir","Xef","Xorm","Xaad","Xis",' +
+    '"Xan","Xeen","Yin","Yam","Zer","Zom","Zon","Zak","Zot","Zalm","Zarn"';
   S[1].DelimitedText :=
-    '"and","ant","ar","ard","end","elm","ond","om","or","old","ord","on","ont"';
+    '"and","ant","ar","ard","end","elm","ond","om","or","old","ord","on",' +
+    '"an","ont","ort","urd","emor","im","arun","arum","ang","ern","erl","ir"';
   try
     Name := '';
     for I := 0 to 1 do
