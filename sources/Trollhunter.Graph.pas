@@ -205,6 +205,7 @@ begin
     Surface.Canvas.Font.Size := S.Read('Settings', 'FontSize',
       Clamp(AFontSize, 10, 20));
     TileSize := S.Read('Settings', 'TileSize', 0) * 16 + BaseTileSize;
+    Fullscreen := S.Read('Settings', 'Fullscreen', 'Yes') = 'Yes';
   finally
     S.Free;
   end;

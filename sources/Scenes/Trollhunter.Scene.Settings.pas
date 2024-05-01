@@ -44,7 +44,7 @@ uses
 constructor TSceneSettings.Create;
 begin
   inherited Create(2);
-  Count := 3;
+  Count := 4;
   CursorPos := 0;
 end;
 
@@ -83,6 +83,13 @@ var
           Graph.Default;
           Render;
         end;
+      3:
+        begin
+          Fullscreen := not Fullscreen;
+          //Graph.SetFullscreen(Fullscreen);
+          Graph.Default;
+          Render;
+        end;
     end;
   end;
 
@@ -97,6 +104,7 @@ begin
             S.Write('Settings', 'Language', LangID);
             S.Write('Settings', 'FontSize', Graph.Surface.Canvas.Font.Size);
             S.Write('Settings', 'TileSize', (TileSize - BaseTileSize) div 16);
+            S.Write('Settings', 'Fullscreen', YesOrNo(Fullscreen));
           finally
             S.Free;
           end;
@@ -168,6 +176,7 @@ begin
       SettingsItem(GetLang('Language', 'Язык'), LanguageName);
       SettingsItem(GetLang('Font Size', 'Размер Шрифта'), IntToStr(Font.Size));
       SettingsItem(GetLang('Tile Size', 'Размер Тайла'), IntToStr(TileSize));
+      SettingsItem(GetLang('Full Screen', 'Полный Экран'), YesOrNo(Fullscreen));
     end;
     Graph.Render;
   except

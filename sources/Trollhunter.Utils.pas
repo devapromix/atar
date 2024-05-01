@@ -14,6 +14,7 @@ const
 
 var
   TileSize: Byte = 32;
+  Fullscreen: Boolean = True;
 
 type
   TExplodeResult = array of string;
@@ -73,6 +74,7 @@ function GetParamFontSize: Integer;
 function RemoveBack(C: Char; S: string): string;
 function GetStrValue(Key, S: string): string;
 function GetStrKey(Key, S: string): string;
+function YesOrNo(const AValue: Boolean): string;
 
 implementation
 
@@ -649,6 +651,11 @@ end;
 function GetStrValue(Key, S: String): String;
 begin
   Result := Copy(S, Pos(Key, S) + 1, Length(S));
+end;
+
+function YesOrNo(const AValue: Boolean): string;
+begin
+  if AValue then Result := 'Yes' else Result := 'No';
 end;
 
 initialization
