@@ -14,7 +14,6 @@ const
 
 var
   TileSize: Byte = 32;
-  Fullscreen: Boolean = True;
 
 type
   TExplodeResult = array of string;
@@ -33,6 +32,7 @@ var
 var
   IsGame: Boolean = False;
   ParamTest: Boolean = False;
+  ParamWindow: Boolean = False;
   ParamMove: Boolean = False;
   ParamLight: Boolean = False;
   ParamDebug: Boolean = False;
@@ -582,6 +582,9 @@ begin
         // Move
         'm':
           ParamMove := True;
+        // Window
+        'w':
+          ParamWindow := True;
         // Light
         'l':
           ParamLight := True;

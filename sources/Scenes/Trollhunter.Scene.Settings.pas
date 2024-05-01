@@ -86,7 +86,7 @@ var
       3:
         begin
           Fullscreen := not Fullscreen;
-          //Graph.SetFullscreen(Fullscreen);
+          Graph.SetFullscreen(Fullscreen);
           Graph.Default;
           Render;
         end;

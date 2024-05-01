@@ -6,6 +6,9 @@ uses
   Graphics,
   Trollhunter.Color;
 
+var
+  Fullscreen: Boolean = True;
+
 type
   TMessagebar = class(TObject)
   private
@@ -105,6 +108,7 @@ type
     property Messagebar: TMessagebar read FMessagebar write SetMessagebar;
     constructor Create(AWidth, AHeight, AFontSize: Integer; ACanvas: TCanvas);
     destructor Destroy; override;
+    procedure SetFullscreen(const AFullscreen: Boolean);
   end;
 
   TJPEGBitmap = class(Graphics.TBitmap)
@@ -170,10 +174,22 @@ begin
   begin
     ClientWidth := Surface.Width;
     ClientHeight := Surface.Height;
-    if (Screen.Width = Surface.Width) and (Screen.Height = Surface.Height) then
+    if Fullscreen then
+    begin
+      Left := 0;
+      Top := 0;
+      BorderStyle := bsNone;
+      WindowState := wsMaximized;
+    end
+    else
+    begin
+      BorderStyle := bsSizeable;
+      WindowState := wsNormal;
+    end;
+    {if (Screen.Width = Surface.Width) and (Screen.Height = Surface.Height) then
       BorderStyle := bsNone
     else
-      BorderStyle := bsSizeable;
+      BorderStyle := bsSizeable;}
   end;
   Bars.Free;
   Bars := TBars.Create;
@@ -206,6 +222,8 @@ begin
       Clamp(AFontSize, 10, 20));
     TileSize := S.Read('Settings', 'TileSize', 0) * 16 + BaseTileSize;
     Fullscreen := S.Read('Settings', 'Fullscreen', 'Yes') = 'Yes';
+    if ParamWindow then
+      Fullscreen := False;
   finally
     S.Free;
   end;
@@ -213,6 +231,36 @@ begin
   Surface.Width := AWidth;
   Surface.Height := AHeight;
   Self.Default;
+end;
+
+procedure TGraph.SetFullscreen(const AFullscreen: Boolean);
+begin
+  if AFullscreen then
+  begin
+    Surface.Width := Screen.Width;
+    Surface.Height := Screen.Height;
+    with MainForm do
+    begin
+      Left := 0;
+      Top := 0;
+      ClientWidth := Surface.Width;
+      ClientHeight := Surface.Height;
+      BorderStyle := bsNone;
+      WindowState := wsMaximized;
+    end;
+  end
+  else
+  begin
+    //Surface.Width := Screen.Width;
+    //Surface.Height := Screen.Height;
+    with MainForm do
+    begin
+      ClientWidth := Surface.Width;
+      ClientHeight := Surface.Height;
+      BorderStyle := bsSizeable;
+      WindowState := wsNormal;
+      end
+  end;
 end;
 
 destructor TGraph.Destroy;
