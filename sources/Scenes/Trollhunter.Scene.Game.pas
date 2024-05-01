@@ -21,6 +21,7 @@ type
     procedure GoToPrevMap;
     procedure GoToNextMap;
     procedure GoToAltNextMap;
+    procedure GoToGlobalMap;
     procedure Render(); override;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure KeyPress(var Key: Char); override;
@@ -62,7 +63,8 @@ uses
   Trollhunter.Scene.LevelUp,
   Trollhunter.Skill,
   Trollhunter.Scene.Statistics,
-  Trollhunter.Statistics;
+  Trollhunter.Statistics,
+  Trollhunter.GlobalMap;
 
 { TGame }
 
@@ -156,6 +158,12 @@ begin
     Go(tlPrevDungeon);
     Scenes.Render;
   end;
+end;
+
+procedure TSceneGame.GoToGlobalMap;
+begin
+  IsGlobalMap := not IsGlobalMap;
+  Scenes.Render;
 end;
 
 procedure TSceneGame.Info();
@@ -627,6 +635,9 @@ begin
         ord('V'):
           if ParamDebug then
             GoToVillage;
+        ord('X'):
+          if ParamDebug then
+            GoToGlobalMap;
         ord('H'):
           if ParamDebug then
             GoToPrevMap;
@@ -660,7 +671,9 @@ begin
   Graph.Bars.Render;
   Log.Render;
   Info();
-  Map.Render;
+  if IsGlobalMap then
+  else
+    Map.Render;
   TT := GetTickCount - TT;
   if (MaxTT < TT) then
     MaxTT := TT;
@@ -676,7 +689,9 @@ begin
         Creatures.PC.Look.Y]));
     end;
   Graph.Messagebar.Render;
-  Map.MiniMap.Render;
+  if IsGlobalMap then
+  else
+    Map.MiniMap.Render;
   Creatures.PC.Effects.Render;
   Graph.Render;
 end;

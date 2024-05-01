@@ -8,6 +8,9 @@ uses
   Trollhunter.Town,
   Trollhunter.Utils;
 
+var
+  IsGlobalMap: Boolean = False;
+
 type
   TGlobalMap = class(TCustomMap)
   private
