@@ -658,7 +658,10 @@ end;
 
 function YesOrNo(const AValue: Boolean): string;
 begin
-  if AValue then Result := 'Yes' else Result := 'No';
+  if AValue then
+    Result := GetLang('Yes', 'Да')
+  else
+    Result := GetLang('No', 'Нет');
 end;
 
 initialization
