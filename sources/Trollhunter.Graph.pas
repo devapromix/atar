@@ -8,6 +8,7 @@ uses
 
 var
   Fullscreen: Boolean = True;
+  UserScreenWidth, UserScreenHeight: Integer;
 
 type
   TMessagebar = class(TObject)
@@ -186,10 +187,6 @@ begin
       BorderStyle := bsSizeable;
       WindowState := wsNormal;
     end;
-    {if (Screen.Width = Surface.Width) and (Screen.Height = Surface.Height) then
-      BorderStyle := bsNone
-    else
-      BorderStyle := bsSizeable;}
   end;
   Bars.Free;
   Bars := TBars.Create;
@@ -209,6 +206,8 @@ constructor TGraph.Create(AWidth, AHeight, AFontSize: Integer;
 var
   S: TSettings;
 begin
+  UserScreenWidth := AWidth;
+  UserScreenHeight := AHeight;
   Messagebar := TMessagebar.Create;
   Text := TText.Create;
   Canvas := ACanvas;
@@ -251,16 +250,17 @@ begin
   end
   else
   begin
-    //Surface.Width := Screen.Width;
-    //Surface.Height := Screen.Height;
     with MainForm do
     begin
+      Surface.Width := UserScreenWidth;
+      Surface.Height := UserScreenHeight;
       ClientWidth := Surface.Width;
       ClientHeight := Surface.Height;
       BorderStyle := bsSizeable;
       WindowState := wsNormal;
-      end
+    end
   end;
+  Self.Default;
 end;
 
 destructor TGraph.Destroy;
