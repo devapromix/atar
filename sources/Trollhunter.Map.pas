@@ -233,7 +233,7 @@ procedure TMap.Gen(const ID: Integer);
 var
   T: Tiles;
   DR: TBeaRLibMap;
-  VilGateX, X, Y, I, L, V: Integer;
+  VilGateX, X, Y, I, L, V, C, VX, VY: Integer;
 
   procedure GenNewFloorPos();
   begin
@@ -361,16 +361,29 @@ begin
         Map.Cell[0][VilGateX - (L div 2) + I].Tile := tlWall;
       V := 0;
       L := Math.RandomRange(1, 5);
-      for I := 3 to L + 4 do
+      C := 4;
+      if Map.Info.Village then
+        C := Math.RandomRange(65, 75);
+      for I := 3 to L + C do
       begin
         V := V + (Math.RandomRange(1, 4) - 2);
-        Map.Cell[I][VilGateX + V].Tile := tlStone;
+        VX := VilGateX + V;
+        VY := I;
+        Map.Cell[VY][VX].Tile := tlStone;
       end;
       for I := -1 to 1 do
         Map.Cell[1][VilGateX + I].Tile := tlStone;
       Map.Cell[2][VilGateX].Tile := tlStone;
       Map.Cell[0][VilGateX].Tile := tlVillageGate;
     end;
+    // Add forge
+    if Map.Info.Village then
+    begin
+      for X := VX - 5 to VX + 5 do
+        for Y := VY to VY + 10 do
+          Map.Cell[Y][X].Tile := tlStone;
+    end;
+    //Map.Cell[VY][VX].Tile := tlClosedDoor;
     // Add stairs
     if not Map.Info.IsAutoEnt and (Map.Info.PrevMap <> '') then
     begin

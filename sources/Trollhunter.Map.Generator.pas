@@ -455,11 +455,11 @@ begin
   end;
 end;
 
-procedure AddModOnMap(modtype: Integer);
+procedure AddModOnMap(const ModType: Integer);
 var
   i, J: Integer;
 begin
-  case modtype of
+  case ModType of
     1:
       begin
         for i := 1 to MapX do
@@ -759,13 +759,7 @@ begin
   MapClear(TILE_FLOOR);
   ForestCreate(X, Y, 45);
   for i := 1 to 10 do
-    CreateSomething(10, 15, True);
-  // if typ = 1 then
-  // begin
-  AddModOnMap(1);
-  AddModOnMap(2);
-
-  // end;
+    CreateSomething(6, 12, False);
 end;
 
 procedure TowerCreate(X, Y: Integer);
