@@ -481,11 +481,11 @@ begin
 
 end;
 
-procedure ForestCreate(X, Y: Integer);
+procedure ForestCreate(X, Y, n: Integer);
 var
   i: Integer;
 begin
-  for i := 1 to X * Y div 15 do
+  for i := 1 to X * Y div n do
     ForestPartDraw(Random(X) + 1, Random(Y) + 1);
 end;
 
@@ -752,18 +752,20 @@ begin
     CreateHouse(i, J, i + newx, J + newy);
 end;
 
-procedure VillageCreate(X, Y, typ: Integer);
+procedure VillageCreate(X, Y: Integer);
 var
-  k: Integer;
+  i: Integer;
 begin
-  for k := 1 to 100 do
+  MapClear(TILE_FLOOR);
+  ForestCreate(X, Y, 45);
+  for i := 1 to 10 do
     CreateSomething(10, 15, True);
-  if typ = 1 then
-  begin
-    AddModOnMap(1);
-    AddModOnMap(2);
+  // if typ = 1 then
+  // begin
+  AddModOnMap(1);
+  AddModOnMap(2);
 
-  end;
+  // end;
 end;
 
 procedure TowerCreate(X, Y: Integer);
@@ -812,7 +814,6 @@ begin
       else if buffer[i, J] = TILE_TREE then
         Map[i, J] := TILE_TREE;
   AddModOnMap(1);
-
 end;
 
 procedure CavesCreate(X, Y: Integer);
@@ -1272,7 +1273,7 @@ end;
 procedure DarkForestCreate(X, Y: Integer);
 begin
   MapClear(TILE_FLOOR);
-  ForestCreate(X, Y);
+  ForestCreate(X, Y, 15);
 end;
 
 // #22
@@ -1324,9 +1325,9 @@ begin
     G_MOUNTAIN:
       AntNestCreate(1, 1, X, Y, 2);
     G_FOREST:
-      ForestCreate(X, Y);
+      ForestCreate(X, Y, 30);
     G_VILLAGE:
-      VillageCreate(X, Y, 0);
+      VillageCreate(X, Y);
     G_SWAMP:
       SwampCreate(X, Y);
     G_RIFT:
@@ -1336,7 +1337,7 @@ begin
     G_BROKEN_CITY:
       CityCreate(X, Y, 1);
     G_BROKEN_VILLAGE:
-      VillageCreate(X, Y, 1);
+      VillageCreate(X, Y);
     G_DARK_ROOMS:
       DarkRoomsCreate(X, Y);
     G_DOOM_ROOMS:
@@ -1368,7 +1369,7 @@ begin
             Map[X, i] := TILE_WALL;
           end;
         end;
-      G_FOREST, G_DARK_FOREST:
+      G_FOREST, G_DARK_FOREST, G_VILLAGE:
         begin
           for i := 1 to X do
           begin
