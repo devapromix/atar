@@ -38,7 +38,10 @@ implementation
 
 uses
   SysUtils,
-  Trollhunter.Error;
+  Trollhunter.Error,
+  Trollhunter.Creatures,
+  Trollhunter.Graph,
+  Trollhunter.Resources;
 
 const
   MapMinLevel = 0;
@@ -135,8 +138,24 @@ begin
 end;
 
 procedure TGlobalMap.Render;
+var
+  X, Y, DX, DY: Integer;
 begin
-
+  with Graph.Surface.Canvas do
+    for X := Trollhunter.Creatures.Creatures.PC.Pos.X -
+      Graph.RW to Trollhunter.Creatures.Creatures.PC.Pos.X + Graph.RW do
+      for Y := Trollhunter.Creatures.Creatures.PC.Pos.Y -
+        Graph.RH to Trollhunter.Creatures.Creatures.PC.Pos.Y + Graph.RH do
+      begin
+        if (X < 0) or (Y < 0) or (X > MapSide - 1) or (Y > MapSide - 1) then
+          Continue;
+        DX := (X - (Trollhunter.Creatures.Creatures.PC.Pos.X - Graph.RW))
+          * TileSize;
+        DY := (Y - (Trollhunter.Creatures.Creatures.PC.Pos.Y - Graph.RH)) *
+          TileSize + Graph.CharHeight;
+        Draw(DX, DY, Res.GRASS);
+      end;
+  Trollhunter.Creatures.Creatures.PC.Render;
 end;
 
 procedure TGlobalMap.Save;

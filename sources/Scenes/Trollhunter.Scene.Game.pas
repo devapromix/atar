@@ -672,6 +672,7 @@ begin
   Log.Render;
   Info();
   if IsGlobalMap then
+    Creatures.PC.World.Render
   else
     Map.Render;
   TT := GetTickCount - TT;
@@ -689,9 +690,9 @@ begin
         Creatures.PC.Look.Y]));
     end;
   Graph.Messagebar.Render;
-  if IsGlobalMap then
-  else
-    Map.MiniMap.Render;
+  //if IsGlobalMap then
+  //else
+  Map.MiniMap.Render;
   Creatures.PC.Effects.Render;
   Graph.Render;
 end;
