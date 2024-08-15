@@ -2,7 +2,9 @@
 
 interface
 
-uses SysUtils, Classes;
+uses
+SysUtils,
+Classes;
 
 type
   TError = class(TObject)

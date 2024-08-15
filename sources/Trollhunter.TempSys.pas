@@ -2,7 +2,8 @@ unit Trollhunter.TempSys;
 
 interface
 
-uses Classes;
+uses
+  Classes;
 
 type
   TTempSysItem = record
@@ -38,10 +39,11 @@ type
 
 implementation
 
-uses SysUtils;
+uses
+  SysUtils;
 
 const
-  LS = '%s/%d=%d'; 
+  LS = '%s/%d=%d';
 
 function TempSysItem(APower, ADuration: Word): TTempSysItem;
 begin
@@ -85,7 +87,8 @@ end;
 
 function TTempSys.Power(I: Integer): Integer;
 begin
-  Result :=StrToIntDef(Copy(FList.Names[I], Pos('/', FList.Names[I]) + 1, Length(FList.Names[I])), 0);
+  Result := StrToIntDef(Copy(FList.Names[I], Pos('/', FList.Names[I]) + 1,
+    Length(FList.Names[I])), 0);
 end;
 
 function TTempSys.Power(S: string): Integer;
@@ -105,15 +108,16 @@ procedure TTempSys.Move;
 var
   I, V: Integer;
 begin
-  if IsMove then  
-    with FList do   
+  if IsMove then
+    with FList do
       for I := Count - 1 downto 0 do
       begin
         V := Duration(I);
         System.Dec(V);
         if (V > 0) then
           FList[I] := Format(LS, [VarName(I), Power(I), V])
-            else Delete(I);
+        else
+          Delete(I);
       end;
 end;
 
@@ -132,14 +136,16 @@ begin
       for I := 0 to Count - 1 do
         if (S = VarName(I)) then
         begin
-          Result := StrToIntDef(Copy(FList[I], Pos('=', FList[I]) + 1, Length(FList[I])), 0);
+          Result := StrToIntDef(Copy(FList[I], Pos('=', FList[I]) + 1,
+            Length(FList[I])), 0);
           Exit;
         end;
 end;
 
 procedure TTempSys.SetValue(S: string; AValue: Integer);
 begin
-  if IsVar(S) then FList.Values[S] := IntToStr(AValue);
+  if IsVar(S) then
+    FList.Values[S] := IntToStr(AValue);
 end;
 
 function TTempSys.IsVar(S: string): Boolean;
@@ -162,9 +168,9 @@ procedure TTempSys.Add(AName: string; APower, ADuration: Integer);
 var
   I, V, P: Integer;
 begin
-  if (Trim(AName) = '') or (ADuration <= 0)
-    or (ADuration > 1000) or (APower <= 0)
-    or (APower > 1000) then Exit;
+  if (Trim(AName) = '') or (ADuration <= 0) or (ADuration > 1000) or
+    (APower <= 0) or (APower > 1000) then
+    Exit;
   if IsMove then
     with FList do
       for I := 0 to Count - 1 do
@@ -172,9 +178,11 @@ begin
         if (AName = VarName(I)) then
         begin
           P := Power(I);
-          if (APower > P) then P := APower;
+          if (APower > P) then
+            P := APower;
           V := Duration(I);
-          if (ADuration > V) then V := ADuration;
+          if (ADuration > V) then
+            V := ADuration;
           FList[I] := Format(LS, [VarName(I), P, V]);
           Exit;
         end;

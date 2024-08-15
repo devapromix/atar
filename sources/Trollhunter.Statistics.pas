@@ -2,7 +2,8 @@
 
 interface
 
-uses Classes;
+uses
+  Classes;
 
 type
   TStatisticsEnum = (stTilesMoved, stKills, stSpCast, stFound, stPotDrunk,
@@ -27,7 +28,8 @@ type
 
 implementation
 
-uses SysUtils;
+uses
+  SysUtils;
 
 { TStatistics }
 
