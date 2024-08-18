@@ -82,7 +82,6 @@ procedure TMiniMap.Render;
 var
   J, X, Y: Integer;
 begin
-  Self.Clear;
   if IsGlobalMap then
   begin
     PSet(Creatures.PC.Pos.X, Creatures.PC.Pos.Y, cWhite);

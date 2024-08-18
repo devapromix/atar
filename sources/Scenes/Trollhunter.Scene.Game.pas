@@ -649,7 +649,7 @@ begin
             GoToAltNextMap;
         ord('F'):
           if ParamDebug then
-            Scenes.Scene := SceneLevelUp;
+            Creatures.PC.NewLevel;
       end;
   except
     on E: Exception do
@@ -690,8 +690,8 @@ begin
         Creatures.PC.Look.Y]));
     end;
   Graph.Messagebar.Render;
-  //if IsGlobalMap then
-  //else
+  // if IsGlobalMap then
+  // else
   Map.MiniMap.Render;
   Creatures.PC.Effects.Render;
   Graph.Render;

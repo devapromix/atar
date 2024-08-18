@@ -100,7 +100,7 @@ type
     function GetRadius: Integer;
     procedure Portal;
     function GetSpeed: Integer;
-
+    procedure NewLevel;
   end;
 
 implementation
@@ -339,6 +339,18 @@ begin
   Result := L * ((L * 3) + 30);
 end;
 
+procedure TPC.NewLevel;
+begin
+  with Prop do
+  begin
+    Level := Level + 1;
+    Rating := Rating + (Level * 10);
+    Log.Add(GetLang(60));
+    Log.Add(Format(GetLang(61), [Level]));
+  end;
+  Scenes.Scene := SceneLevelUp;
+end;
+
 function TPC.AddExp(Value: Word): Boolean;
 begin
   Result := False;
@@ -350,11 +362,7 @@ begin
       while (Exp >= MaxExp) do
       begin
         Result := True;
-        Level := Level + 1;
-        Rating := Rating + (Level * 10);
-        Log.Add(GetLang(60));
-        Log.Add(Format(GetLang(61), [Level]));
-        Scenes.Scene := SceneLevelUp;
+        Self.NewLevel();
       end;
   except
     on E: Exception do
