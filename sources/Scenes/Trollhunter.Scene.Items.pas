@@ -144,7 +144,7 @@ begin
             if (CursorPos = Y - 1) then
             begin
               Font.Style := [fsBold];
-              Graph.RenderMenuLine(Y, 0, False, 50, cDkGray);
+              Graph.RenderMenuLine(Y, 0, False, 1, cDkGray);
             end
             else
             begin
