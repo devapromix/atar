@@ -622,7 +622,7 @@ var
   S: string;
 begin
   Result := -1;
-  S := Creatures.PC.Inv.GetID(ID);
+  S := Creatures.PC.Inv.GetIdent(ID);
   if (S = '') then
     Exit;
   Result := ItemIndex(S);
@@ -899,7 +899,7 @@ begin
       if Inv.GetDoll(I) and (DungeonItems[Items.ItemIndex(I)].Category
         in ACatSet) then
       begin
-        Result := Inv.GetID(I);
+        Result := Inv.GetIdent(I);
         Exit;
       end;
 end;

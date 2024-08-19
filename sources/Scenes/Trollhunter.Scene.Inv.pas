@@ -232,7 +232,7 @@ begin
 
         if (DungeonItems[ID].AdvSprite = '') then
           Tileset.Handle := Windows.LoadBitmap(hInstance,
-            PChar(Creatures.PC.Inv.GetID(I)))
+            PChar(Creatures.PC.Inv.GetIdent(I)))
         else
           Tileset.Handle := Windows.LoadBitmap(hInstance,
             PChar(DungeonItems[ID].AdvSprite));

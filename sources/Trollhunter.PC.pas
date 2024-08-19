@@ -212,7 +212,7 @@ begin
           begin
             D := Graphics.TBitmap.Create;
             B := Graphics.TBitmap.Create;
-            B.Handle := Windows.LoadBitmap(hInstance, PChar(Inv.GetID(I)));
+            B.Handle := Windows.LoadBitmap(hInstance, PChar(Inv.GetIdent(I)));
             Graph.BitmapFromTileset(D, B, 1);
             D.Transparent := True;
             Image.Canvas.Draw(0, 0, D);
@@ -503,7 +503,7 @@ var
   begin
     with Creatures.PC do
       for J := 1 to Inv.Count do
-        if Inv.GetDoll(J) and (Inv.GetID(J) = ProjID) then
+        if Inv.GetDoll(J) and (Inv.GetIdent(J) = ProjID) then
         begin
           if (Inv.GetCount(J) = 1) then
           begin

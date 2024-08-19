@@ -6,56 +6,64 @@ uses
   Classes;
 
 type
+  TSlot = 1 .. 26;
+
+type
   TRecInv = record
-    ID: string;
-    Stack, Doll: Boolean;
-    Count, Weight, Tough: Integer;
+    Ident: string;
+    Stack: Boolean;
+    Doll: Boolean;
+    Count: Integer;
+    Weight: Integer;
+    Tough: Integer;
   end;
 
   TInv = class(TObject)
   private
-    FItem: array [1 .. 26] of TRecInv;
+    FItem: array [TSlot] of TRecInv;
     FMaxCount: Integer;
     FMaxWeight: Integer;
-    function IndexOf(ID: string): Integer;
+    function GetSlot(const AIdent: string; var AExitFlag: Boolean): Integer;
     procedure SetMaxCount(Value: Integer);
     procedure SetMaxWeight(Value: Integer);
   public
-    constructor Create(AMaxCount, AMaxWeight: Integer);
+    constructor Create(const AMaxCount, AMaxWeight: Integer);
     destructor Destroy; override;
     property MaxCount: Integer read FMaxCount write SetMaxCount;
     property MaxWeight: Integer read FMaxWeight write SetMaxWeight;
     procedure Clear(AMaxCount, AMaxWeight: Integer); overload;
     procedure Clear; overload;
-    procedure Empty(I: Integer);
-    procedure SetTough(ID, ATough: Integer);
-    function Add(ID: string; ACount, AWeight, ATough: Integer;
+    procedure Clear(const ASlot: Integer); overload;
+    procedure SetTough(const ASlot: TSlot; ATough: Integer);
+    function Add(const AIdent: string; ACount, AWeight, ATough: Integer;
       AStack: Boolean): Boolean;
-    function Del(ID: string; ACount: Integer = 1): Boolean; overload;
-    function Del(I: Integer; ACount: Integer = 1): Boolean; overload;
+    function Del(const AIdent: string; const ACount: Integer = 1)
+      : Boolean; overload;
+    function Del(const ASlot: TSlot; const ACount: Integer = 1)
+      : Boolean; overload;
     function Count: Integer;
     function Weight: Integer;
-    function GetID(I: Integer): string;
-    function GetCount(ID: Integer): Integer; overload;
-    function GetCount(ID: string): Integer; overload;
-    function GetTough(I: Integer): Integer;
+    function GetIdent(const ASlot: Integer): string;
+    function GetCount(const ASlot: Integer): Integer; overload;
+    function GetCount(const AIdent: string): Integer; overload;
+    function GetTough(const ASlot: Integer): Integer;
     function GetDoll(I: Integer): Boolean;
     function GetStack(I: Integer): Boolean;
-    function GetWeight(I: Integer): Integer;
-    function GetItemWeight(I: Integer): Integer;
+    function GetWeight(const ASlot: Integer): Integer;
+    function GetItemWeight(const ASlot: Integer): Integer;
   end;
 
   TAdvInv = class(TInv)
   private
-    FF: TStringList;
+    FStringList: TStringList;
     procedure Save;
     procedure Load;
     function GetText: string;
     procedure SetText(const Value: string);
   public
     property Text: string read GetText write SetText;
-    function Equip(I: Integer): Boolean;
-    function UnEquip(I: Integer): Boolean;
+    function Equip(ASlot: Integer): Boolean;
+    function UnEquip(ASlot: Integer): Boolean;
     constructor Create(AMaxCount, AMaxWeight: Integer); overload;
     constructor Create; overload;
     destructor Destroy; override;
@@ -67,7 +75,7 @@ uses
   SysUtils,
   Trollhunter.Utils;
 
-constructor TInv.Create(AMaxCount, AMaxWeight: Integer);
+constructor TInv.Create(const AMaxCount, AMaxWeight: Integer);
 begin
   Clear(AMaxCount, AMaxWeight);
 end;
@@ -77,57 +85,58 @@ begin
 
 end;
 
-function TInv.GetID(I: Integer): string;
+function TInv.GetIdent(const ASlot: Integer): string;
 begin
-  Result := FItem[I].ID;
+  Result := FItem[ASlot].Ident;
 end;
 
-function TInv.GetCount(ID: Integer): Integer;
+function TInv.GetCount(const ASlot: Integer): Integer;
 begin
-  Result := FItem[ID].Count;
+  Result := FItem[ASlot].Count;
   if (Result < 0) then
     Result := 0;
 end;
 
-function TInv.GetCount(ID: string): Integer;
+function TInv.GetCount(const AIdent: string): Integer;
 var
-  I: Integer;
+  LSlot: TSlot;
+  LExitFlag: Boolean;
 begin
   Result := 0;
-  if (ID = '') then
+  if (AIdent = '') then
     Exit;
-  I := IndexOf(ID);
-  if (I = 0) then
+  LSlot := GetSlot(AIdent, LExitFlag);
+  if LExitFlag then
     Exit;
-  Result := GetCount(I);
+  Result := GetCount(LSlot);
 end;
 
-function TInv.GetWeight(I: Integer): Integer;
+function TInv.GetWeight(const ASlot: Integer): Integer;
 begin
-  Result := FItem[I].Weight * FItem[I].Count;
+  Result := FItem[ASlot].Weight * FItem[ASlot].Count;
   if (Result < 0) then
     Result := 0;
 end;
 
-function TInv.GetItemWeight(I: Integer): Integer;
+function TInv.GetItemWeight(const ASlot: Integer): Integer;
 begin
-  Result := FItem[I].Weight;
+  Result := FItem[ASlot].Weight;
   if (Result < 0) then
     Result := 0;
 end;
 
-function TInv.GetTough(I: Integer): Integer;
+function TInv.GetTough(const ASlot: Integer): Integer;
 begin
-  Result := FItem[I].Tough;
+  Result := FItem[ASlot].Tough;
   if (Result < 0) then
     Result := 0;
 end;
 
-procedure TInv.SetTough(ID, ATough: Integer);
+procedure TInv.SetTough(const ASlot: TSlot; ATough: Integer);
 begin
   if (ATough < 0) then
     ATough := 0;
-  FItem[ID].Tough := ATough;
+  FItem[ASlot].Tough := ATough;
 end;
 
 function TInv.GetDoll(I: Integer): Boolean;
@@ -142,134 +151,136 @@ end;
 
 procedure TInv.Clear(AMaxCount, AMaxWeight: Integer);
 var
-  I: 1 .. 26;
+  LSlot: TSlot;
 begin
   MaxCount := AMaxCount;
   MaxWeight := AMaxWeight;
-  for I := 1 to 26 do
-    Empty(I);
+  for LSlot := 1 to 26 do
+    Clear(LSlot);
 end;
 
 procedure TInv.Clear;
 var
-  I: 1 .. 26;
+  LSlot: TSlot;
 begin
-  for I := 1 to 26 do
-    Empty(I);
+  for LSlot := 1 to 26 do
+    Clear(LSlot);
 end;
 
-procedure TInv.Empty(I: Integer);
+procedure TInv.Clear(const ASlot: Integer);
 begin
-  FItem[I].ID := '';
-  FItem[I].Count := 0;
-  FItem[I].Weight := 0;
-  FItem[I].Tough := 0;
-  FItem[I].Stack := False;
-  FItem[I].Doll := False;
+  FItem[ASlot].Ident := '';
+  FItem[ASlot].Count := 0;
+  FItem[ASlot].Weight := 0;
+  FItem[ASlot].Tough := 0;
+  FItem[ASlot].Stack := False;
+  FItem[ASlot].Doll := False;
 end;
 
-function TInv.IndexOf(ID: string): Integer;
+function TInv.GetSlot(const AIdent: string; var AExitFlag: Boolean): Integer;
 var
-  I: 1 .. 26;
+  LSlot: TSlot;
 begin
-  Result := 0;
-  for I := 1 to 26 do
-    if (FItem[I].ID = ID) then
+  Result := 1;
+  AExitFlag := True;
+  for LSlot := 1 to 26 do
+    if (FItem[LSlot].Ident = AIdent) then
     begin
-      Result := I;
-      Break;
+      Result := LSlot;
+      AExitFlag := False;
+      Exit;
     end;
-  if (Result < 0) then
-    Result := 0;
 end;
 
 function TInv.Count: Integer;
 var
-  I: 1 .. 26;
-  FCount: Integer;
+  LSlot: TSlot;
+  LCount: Integer;
 begin
-  FCount := 0;
-  for I := 1 to 26 do
-    if (FItem[I].ID <> '') then
-      FCount := FCount + 1;
-  Result := FCount;
+  LCount := 0;
+  for LSlot := 1 to 26 do
+    if (FItem[LSlot].Ident <> '') then
+      LCount := LCount + 1;
+  Result := LCount;
   if (Result < 0) then
     Result := 0;
 end;
 
 function TInv.Weight: Integer;
 var
-  I: 1 .. 26;
+  LSlot: TSlot;
   FWeight: Integer;
 begin
   FWeight := 0;
-  for I := 1 to 26 do
-    if (FItem[I].ID <> '') then
-      FWeight := FWeight + (FItem[I].Weight * FItem[I].Count);
+  for LSlot := 1 to 26 do
+    if (FItem[LSlot].Ident <> '') then
+      FWeight := FWeight + (FItem[LSlot].Weight * FItem[LSlot].Count);
   Result := FWeight;
   if (Result < 0) then
     Result := 0;
 end;
 
-function TInv.Add(ID: string; ACount, AWeight, ATough: Integer;
+function TInv.Add(const AIdent: string; ACount, AWeight, ATough: Integer;
   AStack: Boolean): Boolean;
 var
-  I: 1 .. 26;
+  LSlot: TSlot;
+  LExitFlag: Boolean;
 begin
   Result := False;
   if (ACount <= 0) then
     Exit;
-  I := IndexOf(ID);
-  if (I = 0) or not AStack then
+  LSlot := GetSlot(AIdent, LExitFlag);
+  if LExitFlag or not AStack then
   begin
-    I := IndexOf('');
-    if (I = 0) then
+    LSlot := GetSlot('', LExitFlag);
+    if LExitFlag then
       Exit;
   end;
   if (Self.Weight >= MaxWeight) then
     Exit;
-  if (FItem[I].Count = 0) and (Self.Count >= MaxCount) then
+  if (FItem[LSlot].Count = 0) and (Self.Count >= MaxCount) then
     Exit;
-  FItem[I].ID := ID;
-  FItem[I].Weight := AWeight;
-  FItem[I].Stack := AStack;
-  FItem[I].Tough := ATough;
-  FItem[I].Count := FItem[I].Count + ACount;
+  FItem[LSlot].Ident := AIdent;
+  FItem[LSlot].Weight := AWeight;
+  FItem[LSlot].Stack := AStack;
+  FItem[LSlot].Tough := ATough;
+  FItem[LSlot].Count := FItem[LSlot].Count + ACount;
   Result := True;
 end;
 
-function TInv.Del(I, ACount: Integer): Boolean;
+function TInv.Del(const ASlot: TSlot; const ACount: Integer): Boolean;
 var
-  J: 1 .. 26;
+  LSlot: TSlot;
 begin
   Result := False;
-  if (FItem[I].Count = 0) or (FItem[I].Count < ACount) then
+  if (FItem[ASlot].Count = 0) or (FItem[ASlot].Count < ACount) then
     Exit;
 
-  FItem[I].Count := FItem[I].Count - ACount;
-  if (FItem[I].Count = 0) then
-    Empty(I);
+  FItem[ASlot].Count := FItem[ASlot].Count - ACount;
+  if (FItem[ASlot].Count = 0) then
+    Clear(ASlot);
   Result := True;
 
-  for J := I to Count do
+  for LSlot := ASlot to Count do
   begin
-    if (FItem[J].ID = '') then
+    if (FItem[LSlot].Ident = '') then
     begin
-      FItem[J] := FItem[J + 1];
-      Empty(J + 1);
+      FItem[LSlot] := FItem[LSlot + 1];
+      Clear(LSlot + 1);
     end;
   end;
 end;
 
-function TInv.Del(ID: string; ACount: Integer): Boolean;
+function TInv.Del(const AIdent: string; const ACount: Integer): Boolean;
 var
-  I: 1 .. 26;
+  LSlot: TSlot;
+  LExitFlag: Boolean;
 begin
   Result := False;
-  I := IndexOf(ID);
-  if (I = 0) then
+  LSlot := GetSlot(AIdent, LExitFlag);
+  if LExitFlag then
     Exit;
-  Del(I, ACount);
+  Del(LSlot, ACount);
 end;
 
 { TAdvInv }
@@ -277,7 +288,7 @@ end;
 constructor TAdvInv.Create(AMaxCount, AMaxWeight: Integer);
 begin
   inherited Create(AMaxCount, AMaxWeight);
-  FF := TStringList.Create;
+  FStringList := TStringList.Create;
 end;
 
 constructor TAdvInv.Create;
@@ -287,61 +298,62 @@ end;
 
 destructor TAdvInv.Destroy;
 begin
-  FF.Free;
+  FStringList.Free;
   inherited;
 end;
 
 procedure TAdvInv.Load;
 var
-  P, I: Integer;
-  E: TExplodeResult;
+  LSlot: TSlot;
+  LIndex: Integer;
+  LExpString: TExplodeResult;
 begin
-  P := 1;
-  E := nil;
+  LSlot := 1;
+  LExpString := nil;
   Clear(MaxCount, MaxWeight);
-  for I := 0 to FF.Count - 1 do
+  for LIndex := 0 to FStringList.Count - 1 do
   begin
-    E := Explode('/', FF[I]);
-    if (Trim(E[0]) <> '') then
+    LExpString := Explode('/', FStringList[LIndex]);
+    if (Trim(LExpString[0]) <> '') then
     begin
-      FItem[P].ID := E[0];
-      FItem[P].Count := StrToInt(E[1]);
-      FItem[P].Weight := StrToInt(E[2]);
-      FItem[P].Tough := StrToInt(E[3]);
-      FItem[P].Stack := (FItem[P].Count > 1);
-      FItem[P].Doll := ToBoo(E[4]);
+      FItem[LSlot].Ident := LExpString[0];
+      FItem[LSlot].Count := StrToInt(LExpString[1]);
+      FItem[LSlot].Weight := StrToInt(LExpString[2]);
+      FItem[LSlot].Tough := StrToInt(LExpString[3]);
+      FItem[LSlot].Stack := (FItem[LSlot].Count > 1);
+      FItem[LSlot].Doll := ToBoo(LExpString[4]);
     end;
-    Inc(P);
+    Inc(LSlot);
   end;
 end;
 
 procedure TAdvInv.Save;
 var
-  I: 1 .. 26;
+  LSlot: TSlot;
 begin
-  FF.Clear;
-  for I := 1 to 26 do
-    with FItem[I] do
-      FF.Append(Format('%s/%d/%d/%d/%d', [ID, Count, Weight, Tough,
+  FStringList.Clear;
+  for LSlot := 1 to 26 do
+    with FItem[LSlot] do
+      FStringList.Append(Format('%s/%d/%d/%d/%d', [Ident, Count, Weight, Tough,
         ToInt(Doll)]));
 end;
 
-function TAdvInv.Equip(I: Integer): Boolean;
+function TAdvInv.Equip(ASlot: Integer): Boolean;
 begin
   // Result := False;
   // if not FItem[I].Stack and (FItem[I].Count = 1) then
   begin
-    FItem[I].Doll := True;
+    FItem[ASlot].Doll := True;
     Result := True;
   end;
 end;
 
-function TAdvInv.UnEquip(I: Integer): Boolean;
+function TAdvInv.UnEquip(ASlot: Integer): Boolean;
 begin
   Result := False;
-  if FItem[I].Doll { and not FItem[I].Stack and (FItem[I].Count = 1) } then
+  if FItem[ASlot].Doll { and not FItem[I].Stack and (FItem[I].Count = 1) } then
   begin
-    FItem[I].Doll := False;
+    FItem[ASlot].Doll := False;
     Result := True;
   end;
 end;
@@ -367,12 +379,12 @@ end;
 function TAdvInv.GetText: string;
 begin
   Self.Save;
-  Result := FF.Text;
+  Result := FStringList.Text;
 end;
 
 procedure TAdvInv.SetText(const Value: string);
 begin
-  FF.Text := Value;
+  FStringList.Text := Value;
   Self.Load;
 end;
 
