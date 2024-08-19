@@ -201,7 +201,7 @@ type
     function GetDollItemID(ACatSet: TCatSet): string;
     function GetDollItemSubCat(ACatSet: TCatSet): TSubCSet;
     procedure Add(const X, Y: Integer; AName: string); overload;
-    procedure Add(ID: string; ACount: Integer = 1); overload;
+    procedure Add(const AIdent: string; const ACount: Integer = 1); overload;
     procedure AddAndEquip(ID: string; ACount: Integer = 1);
     procedure Render(X, Y, DX, DY: Integer);
     procedure Colors(var Icon: Graphics.TBitmap; ItemIndex: Integer);
@@ -282,7 +282,7 @@ end;
 
 procedure TItems.Add(const X, Y: Integer; AName: string);
 var
-  I, P: Integer;
+  I, LIndex: Integer;
   Tileset: Graphics.TBitmap;
 begin
   Tileset := Graphics.TBitmap.Create;
@@ -290,17 +290,17 @@ begin
     AName := UpperCase(AName);
     if (AName = '') then
       Exit;
-    P := ItemIndex(AName);
-    if (P < 0) or (P > High(DungeonItems)) then
+    LIndex := ItemIndex(AName);
+    if (LIndex < 0) or (LIndex > High(DungeonItems)) then
       Exit;
     I := Length(FItem) + 1;
     SetLength(FItem, I);
     FItem[I - 1] := TBaseItem.Create(X, Y);
     with FItem[I - 1] do
-      with DungeonItems[P] do
+      with DungeonItems[LIndex] do
       begin
         Name := AName;
-        Prop := DungeonItems[P];
+        Prop := DungeonItems[LIndex];
         Count := Rand(MinCount, MaxCount);
         if Prop.IsStack and (Category = dsGold) then
           Count := Map.Level * Count;
@@ -315,7 +315,7 @@ begin
         HeroImage.Assign(Image);
         Graph.BitmapFromTileset(Image, Tileset, 0);
         SmallImage.Assign(Image);
-        Colors(SmallImage, P);
+        Colors(SmallImage, LIndex);
         ScaleBmp(SmallImage, TileSize div 2, TileSize div 2);
         SmallImage.Transparent := True;
       end;
@@ -326,23 +326,23 @@ begin
   end;
 end;
 
-procedure TItems.Add(ID: string; ACount: Integer = 1);
+procedure TItems.Add(const AIdent: string; const ACount: Integer = 1);
 var
-  I: Integer;
+  LIndex: Integer;
 begin
   try
-    ID := UpperCase(ID);
-    if (ID = '') then
+    AIdent := UpperCase(AIdent);
+    if (AIdent = '') then
       Exit;
-    I := ItemIndex(ID);
-    if (I < 0) or (I > High(DungeonItems)) then
+    LIndex := ItemIndex(AIdent);
+    if (LIndex < 0) or (LIndex > High(DungeonItems)) then
       Exit;
     with Creatures.PC do
     begin
-      if (ACount > 1) and not DungeonItems[I].IsStack then
+      if (ACount > 1) and not DungeonItems[LIndex].IsStack then
         ACount := 1;
-      if not Inv.Add(ID, ACount, DungeonItems[I].Weight,
-        DungeonItems[I].MaxTough, DungeonItems[I].IsStack) then
+      if not Inv.Add(AIdent, ACount, DungeonItems[LIndex].Weight,
+        DungeonItems[LIndex].MaxTough, DungeonItems[LIndex].IsStack) then
         Exit;
     end;
   except
@@ -951,20 +951,21 @@ end;
 
 procedure TItems.Identify;
 var
-  I, ID, Tag: Integer;
+  LSlot: TSlot;
+  LIndex, LTag: Integer;
 begin
   try
     with Creatures.PC do
-      for I := 1 to Inv.Count do
+      for LSlot := 1 to Inv.Count do
       begin
-        ID := ItemIndex(I);
-        Tag := DungeonItems[ID].ColorTag;
-        if (Tag > 0) and (DungeonItems[ID].Category = dsPotion) and
-          not Potions.IsDefined(Tag) then
-          Potions.SetDefined(Tag);
-        if (Tag > 0) and (DungeonItems[ID].Category = dsScroll) and
-          not Scrolls.IsDefined(Tag) then
-          Scrolls.SetDefined(Tag);
+        LIndex := ItemIndex(LSlot);
+        LTag := DungeonItems[LIndex].ColorTag;
+        if (LTag > 0) and (DungeonItems[LIndex].Category = dsPotion) and
+          not Potions.IsDefined(LTag) then
+          Potions.SetDefined(LTag);
+        if (LTag > 0) and (DungeonItems[LIndex].Category = dsScroll) and
+          not Scrolls.IsDefined(LTag) then
+          Scrolls.SetDefined(LTag);
       end;
   except
     on E: Exception do
@@ -974,16 +975,16 @@ end;
 
 procedure TItems.RepairAll;
 var
-  I: 1 .. 26;
-  M: Word;
+  LSlot: TSlot;
+  LTough: Word;
 begin
   try
     with Creatures.PC.Inv do
-      for I := 1 to Count do
+      for LSlot := 1 to Count do
       begin
-        M := DungeonItems[ItemIndex(I)].MaxTough;
-        if (GetTough(I) < M) then
-          SetTough(I, M);
+        LTough := DungeonItems[ItemIndex(LSlot)].MaxTough;
+        if (GetTough(LSlot) < LTough) then
+          SetTough(LSlot, LTough);
       end;
   except
     on E: Exception do
