@@ -75,14 +75,14 @@ end;
 
 procedure TGame.Load(I: Integer = -1);
 var
-  AFileName: string;
-  Z: TZip;
+  LFileName: string;
+  LZip: TZip;
 begin
   IsGame := True;
   with Creatures do
     try
-      AFileName := PC.Name;
-      if not FileExists(Path + 'save\' + AFileName + '.sav') then
+      LFileName := PC.Name;
+      if not FileExists(Path + 'save\' + LFileName + '.sav') then
       begin
         PC.World.Gen;
         Map.Gen(PC.Dungeon);
@@ -92,49 +92,49 @@ begin
         Exit;
       end;
       // Open save
-      Z := TZip.Create(MainForm);
+      LZip := TZip.Create(MainForm);
       try
-        Z.Password := PWD;
-        Z.FileName := Path + 'save\' + AFileName + '.sav';
-        Z.OpenArchive;
+        LZip.Password := PWD;
+        LZip.FileName := Path + 'save\' + LFileName + '.sav';
+        LZip.OpenArchive;
         // PC
-        PC.Text := Z.ExtractToText('pc.txt');
+        PC.Text := LZip.ExtractToText('pc.txt');
         // Scrolls Properties
-        PC.Scrolls.Text := Z.ExtractToText('scrolls.txt');
+        PC.Scrolls.Text := LZip.ExtractToText('scrolls.txt');
         // Potions Properties
-        PC.Potions.Text := Z.ExtractToText('potions.txt');
+        PC.Potions.Text := LZip.ExtractToText('potions.txt');
         // PC.Inv
-        PC.Inv.Text := Z.ExtractToText('inv.txt');
+        PC.Inv.Text := LZip.ExtractToText('inv.txt');
         if (I > -1) then
           PC.Dungeon := I;
         // PC.Skill
-        PC.Skill.Text := Z.ExtractToText('skill.txt');
+        PC.Skill.Text := LZip.ExtractToText('skill.txt');
         // Map
-        if not Z.FileExists(IntToStr(PC.Dungeon) + '.m') then
+        if not LZip.FileExists(IntToStr(PC.Dungeon) + '.m') then
         begin
           Map.Gen(PC.Dungeon);
         end
         else
         begin
-          Map.FM.Text := Z.ExtractToText(IntToStr(PC.Dungeon) + '.m');
-          Map.FV.Text := Z.ExtractToText(IntToStr(PC.Dungeon) + '.v');
-          Map.FS.Text := Z.ExtractToText(IntToStr(PC.Dungeon) + '.s');
-          Map.FD.Text := Z.ExtractToText(IntToStr(PC.Dungeon) + '.d');
-          Map.FL.Text := Z.ExtractToText(IntToStr(PC.Dungeon) + '.l');
+          Map.FM.Text := LZip.ExtractToText(IntToStr(PC.Dungeon) + '.m');
+          Map.FV.Text := LZip.ExtractToText(IntToStr(PC.Dungeon) + '.v');
+          Map.FS.Text := LZip.ExtractToText(IntToStr(PC.Dungeon) + '.s');
+          Map.FD.Text := LZip.ExtractToText(IntToStr(PC.Dungeon) + '.d');
+          Map.FL.Text := LZip.ExtractToText(IntToStr(PC.Dungeon) + '.l');
           Map.Load(PC.Dungeon);
         end;
         // Counters
-        PC.TempSys.Text := Z.ExtractToText('effects.txt');
+        PC.TempSys.Text := LZip.ExtractToText('effects.txt');
         // Statistics
-        PC.Statistics.Text := Z.ExtractToText('statistics.txt');
+        PC.Statistics.Text := LZip.ExtractToText('statistics.txt');
         // Log
-        Log.Text := Z.ExtractToText('log.txt');
+        Log.Text := LZip.ExtractToText('log.txt');
         // World
-        PC.World.Text := Z.ExtractToText('world.p');
+        PC.World.Text := LZip.ExtractToText('world.p');
         //
-        Z.CloseArchive;
+        LZip.CloseArchive;
       finally
-        Z.Free;
+        LZip.Free;
       end;
       PC.Redraw;
       Res.Free;
@@ -147,29 +147,29 @@ end;
 
 function TGame.GetPCInfo(AFileName: string): TPCInfo;
 var
-  Z: TZip;
+  LZip: TZip;
 begin
-  Z := TZip.Create(MainForm);
+  LZip := TZip.Create(MainForm);
   try
-    Z.Password := PWD;
-    Z.FileName := AFileName;
-    Z.OpenArchive;
+    LZip.Password := PWD;
+    LZip.FileName := AFileName;
+    LZip.OpenArchive;
     // PC
-    Creatures.PC.Text := Z.ExtractToText('pc.txt');
+    Creatures.PC.Text := LZip.ExtractToText('pc.txt');
     Result.Level := Creatures.PC.Prop.Level;
     Result.Rating := Creatures.PC.Rating;
     Result.Dungeon := Creatures.PC.Dungeon;
-    Z.CloseArchive;
+    LZip.CloseArchive;
   finally
-    Z.Free;
+    LZip.Free;
   end;
 end;
 
 procedure TGame.Save;
 var
-  AFileName: string;
-  S: TSettings;
-  Z: TZip;
+  LFileName: string;
+  LSettings: TSettings;
+  LZip: TZip;
 begin
   if not IsGame then
     Exit;
@@ -177,47 +177,47 @@ begin
     try
       if not PC.Life.IsMin and (PC.Name <> '') then
       begin
-        AFileName := PC.Name;
-        Z := TZip.Create(MainForm);
+        LFileName := PC.Name;
+        LZip := TZip.Create(MainForm);
         try
-          Z.Password := PWD;
-          Z.FileName := Path + 'save\' + AFileName + '.sav';
-          Z.OpenArchive;
+          LZip.Password := PWD;
+          LZip.FileName := Path + 'save\' + LFileName + '.sav';
+          LZip.OpenArchive;
           // PC
-          Z.AddFromString('pc.txt', PC.Text);
+          LZip.AddFromString('pc.txt', PC.Text);
           // Scrolls Properties
-          Z.AddFromString('scrolls.txt', PC.Scrolls.Text);
+          LZip.AddFromString('scrolls.txt', PC.Scrolls.Text);
           // Potions Properties
-          Z.AddFromString('potions.txt', PC.Potions.Text);
+          LZip.AddFromString('potions.txt', PC.Potions.Text);
           // PC.Inv
-          Z.AddFromString('inv.txt', PC.Inv.Text);
+          LZip.AddFromString('inv.txt', PC.Inv.Text);
           // PC.Skill
-          Z.AddFromString('skill.txt', PC.Skill.Text);
+          LZip.AddFromString('skill.txt', PC.Skill.Text);
           // Map
           Map.Save(PC.Dungeon);
-          Z.AddFromString(IntToStr(PC.Dungeon) + '.m', Map.FM.Text);
-          Z.AddFromString(IntToStr(PC.Dungeon) + '.v', Map.FV.Text);
-          Z.AddFromString(IntToStr(PC.Dungeon) + '.s', Map.FS.Text);
-          Z.AddFromString(IntToStr(PC.Dungeon) + '.d', Map.FD.Text);
-          Z.AddFromString(IntToStr(PC.Dungeon) + '.l', Map.FL.Text);
+          LZip.AddFromString(IntToStr(PC.Dungeon) + '.m', Map.FM.Text);
+          LZip.AddFromString(IntToStr(PC.Dungeon) + '.v', Map.FV.Text);
+          LZip.AddFromString(IntToStr(PC.Dungeon) + '.s', Map.FS.Text);
+          LZip.AddFromString(IntToStr(PC.Dungeon) + '.d', Map.FD.Text);
+          LZip.AddFromString(IntToStr(PC.Dungeon) + '.l', Map.FL.Text);
           // Counters
-          Z.AddFromString('effects.txt', PC.TempSys.Text);
+          LZip.AddFromString('effects.txt', PC.TempSys.Text);
           // Statistics
-          Z.AddFromString('statistics.txt', PC.Statistics.Text);
+          LZip.AddFromString('statistics.txt', PC.Statistics.Text);
           // Log
-          Z.AddFromString('log.txt', Log.Text);
+          LZip.AddFromString('log.txt', Log.Text);
           // World
-          Z.AddFromString('world.p', PC.World.Text);
+          LZip.AddFromString('world.p', PC.World.Text);
           //
-          Z.CloseArchive;
+          LZip.CloseArchive;
         finally
-          Z.Free;
+          LZip.Free;
         end;
-        S := TSettings.Create;
+        LSettings := TSettings.Create;
         try
-          S.Write('Settings', 'LastName', PC.Name);
+          LSettings.Write('Settings', 'LastName', PC.Name);
         finally
-          S.Free;
+          LSettings.Free;
         end;
       end;
     except
