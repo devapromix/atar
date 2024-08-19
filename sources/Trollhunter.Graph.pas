@@ -397,8 +397,8 @@ begin
   with Surface.Canvas do
   begin
     Brush.Color := C;
-    FillRect(Rect(CharWidth, P * CharHeight + T, Surface.Width - CharWidth,
-      (P + 1) * CharHeight + T));
+    FillRect(Rect(CharWidth * 45, P * CharHeight + T,
+      Surface.Width - (CharWidth * 45), (P + 1) * CharHeight + T));
     Brush.Color := 0;
     Brush.Style := bsClear;
   end;
