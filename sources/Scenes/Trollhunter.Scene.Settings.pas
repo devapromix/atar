@@ -4,6 +4,7 @@ interface
 
 uses
   Classes,
+  System.StrUtils,
   Trollhunter.Scene,
   Trollhunter.Scene.BaseMenu;
 
@@ -103,7 +104,7 @@ begin
             S.Write('Settings', 'Language', LangID);
             S.Write('Settings', 'FontSize', Graph.Surface.Canvas.Font.Size);
             S.Write('Settings', 'TileSize', (TileSize - BaseTileSize) div 16);
-            S.Write('Settings', 'Fullscreen', YesOrNo(Fullscreen));
+            S.Write('Settings', 'Fullscreen', IfThen(Fullscreen, 'Yes', 'No'));
           finally
             S.Free;
           end;
