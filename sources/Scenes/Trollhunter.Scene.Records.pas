@@ -146,12 +146,12 @@ begin
           Font.Style := [fsBold];
           if (Game.Scores.Line = I) then
           begin
-            Graph.RenderMenu(R + 2, 0, cDkRed);
+            Graph.RenderMenuLine(R + 2, 0, False, 1, cDkRed);
             Font.Color := cDkYellow;
           end
           else
           begin
-            Graph.RenderMenu(R + 2, 0, cDkGray);
+            Graph.RenderMenuLine(R + 2, 0, False, 1, cDkGray);
             Font.Color := cAcColor;
           end;
         end

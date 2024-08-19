@@ -167,7 +167,7 @@ begin
         begin
           Font.Style := [fsBold];
           Font.Color := cAcColor;
-          Graph.RenderMenu(I + 3, 0);
+          Graph.RenderMenuLine(I + 3, 0, False, 1, cDkGray);
         end
         else
         begin

@@ -64,7 +64,7 @@ begin
       begin
         Font.Color := cAcColor;
         Font.Style := [fsBold];
-        Graph.RenderMenu(P + 1, T, cDkGray);
+        Graph.RenderMenuLine(P + 1, T, False, 50, cDkGray);
       end
       else
       begin

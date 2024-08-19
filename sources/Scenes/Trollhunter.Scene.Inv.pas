@@ -222,7 +222,7 @@ begin
         if (CursorPos = I) then
         begin
           Font.Style := [fsBold];
-          Graph.RenderMenu(Y, 0);
+          Graph.RenderMenuLine(Y, 0, True, 8, cDkGray);
         end
         else
         begin

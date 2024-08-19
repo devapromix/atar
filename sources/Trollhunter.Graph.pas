@@ -100,7 +100,8 @@ type
       AColor: Integer);
     function Width: Integer;
     function Height: Integer;
-    procedure RenderMenu(P, T: Integer; C: Integer = cMnColor);
+    procedure RenderMenuLine(P, T: Integer; const IsLeft: Boolean;
+      const AWidth: Byte; Color: Integer);
     procedure Default;
     property Bars: TBars read FBars write SetBars;
     property Text: TText read FText write SetText;
@@ -392,13 +393,20 @@ begin
   T.Free;
 end;
 
-procedure TGraph.RenderMenu(P, T, C: Integer);
+procedure TGraph.RenderMenuLine(P, T: Integer; const IsLeft: Boolean;
+  const AWidth: Byte; Color: Integer);
+var
+  LWidth: Byte;
 begin
   with Surface.Canvas do
   begin
-    Brush.Color := C;
-    FillRect(Rect(CharWidth * 45, P * CharHeight + T,
-      Surface.Width - (CharWidth * 45), (P + 1) * CharHeight + T));
+    if IsLeft then
+      LWidth := 1
+    else
+      LWidth := AWidth;
+    Brush.Color := Color;
+    FillRect(Rect(CharWidth * LWidth, P * CharHeight + T,
+      Surface.Width - (CharWidth * AWidth), (P + 1) * CharHeight + T));
     Brush.Color := 0;
     Brush.Style := bsClear;
   end;

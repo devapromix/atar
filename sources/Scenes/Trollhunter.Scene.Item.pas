@@ -239,7 +239,8 @@ var
       begin
         Font.Color := cAcColor;
         Font.Style := [fsBold];
-        Graph.RenderMenu(FMenuCount + P, Graph.CharHeight);
+        Graph.RenderMenuLine(FMenuCount + P, Graph.CharHeight, False,
+          50, cDkGray);
       end
       else
       begin
