@@ -146,8 +146,10 @@ begin
 end;
 
 procedure TSceneLoad.Render;
+const
+  N: array [0 .. 2] of Byte = (30, 45, 60);
 var
-  C, I, Y: Integer;
+  C, I, Y, LMax, R: Integer;
   S: string;
   P: TPCInfo;
 begin
@@ -156,6 +158,7 @@ begin
     with Graph.Surface.Canvas do
     begin
       C := Count;
+      R := Graph.Width div (Graph.CharWidth * 6);
       for I := 0 to C - 1 do
       begin
         if (I > 25) then
@@ -177,10 +180,10 @@ begin
         P := Game.GetPCInfo(Path + 'save\' + FStringList[I] + '.sav');
         TextOut((Graph.CharWidth * 3) - TextWidth(S), Y, S);
         TextOut(Graph.CharWidth * 3, Y, FStringList[I]);
-        TextOut(Graph.CharWidth * 20, Y, IntToStr(P.Level));
-        TextOut(Graph.CharWidth * 30, Y, IntToStr(P.Rating));
-        TextOut(Graph.CharWidth * 40, Y, GetMapLang(P.Dungeon));
-        TextOut(Graph.CharWidth * 70, Y,
+        TextOut(Graph.CharWidth * R, Y, IntToStr(P.Level));
+        TextOut(Graph.CharWidth * (R * 2), Y, IntToStr(P.Rating));
+        TextOut(Graph.CharWidth * (R * 3), Y, GetMapLang(P.Dungeon));
+        TextOut(Graph.Width - (Graph.CharWidth * 20), Y,
           GetFileDate(Path + 'save\' + FStringList[I] + '.sav'));
       end;
       Font.Style := [];
@@ -189,10 +192,11 @@ begin
         Font.Color := cDkYellow;
         TextOut(Graph.CharWidth, Graph.CharHeight * 2, '#');
         TextOut(Graph.CharWidth * 3, Graph.CharHeight * 2, GetLang(37));
-        TextOut(Graph.CharWidth * 20, Graph.CharHeight * 2, GetLang(30));
-        TextOut(Graph.CharWidth * 30, Graph.CharHeight * 2, GetLang(36));
-        TextOut(Graph.CharWidth * 40, Graph.CharHeight * 2, GetLang(39));
-        TextOut(Graph.CharWidth * 70, Graph.CharHeight * 2, GetLang(140));
+        TextOut(Graph.CharWidth * R, Graph.CharHeight * 2, GetLang(30));
+        TextOut(Graph.CharWidth * (R * 2), Graph.CharHeight * 2, GetLang(36));
+        TextOut(Graph.CharWidth * (R * 3), Graph.CharHeight * 2, GetLang(39));
+        TextOut(Graph.Width - (Graph.CharWidth * 20), Graph.CharHeight * 2,
+          GetLang(140));
       end;
       if (Count = 1) then
         Graph.Text.BarOut('a', GetLang(28), False)
