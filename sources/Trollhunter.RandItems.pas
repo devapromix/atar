@@ -29,7 +29,7 @@ type
   TRandItems = class(TObject)
   private
     FCount: Byte;
-    FF: TStringList;
+    FStringList: TStringList;
     RandItem: TRandItem;
     procedure Gen;
     procedure Save;
@@ -38,13 +38,13 @@ type
     function GenName: string;
     function GetText: string;
     procedure SetText(const Value: string);
-    function IsThisColor(C: Integer): Boolean;
+    function IsThisColor(const AColor: Integer): Boolean;
   public
-    constructor Create(ACount: Byte);
+    constructor Create(const ACount: Byte);
     destructor Destroy; override;
     property Text: string read GetText write SetText;
     property Count: Byte read FCount;
-    function GetColor(Index: Integer): Integer;
+    function GetColor(const AIndex: Integer): Integer;
     function GetColorName(Index: Integer): string;
     function GetName(Index: Integer): string;
     function IsDefined(Index: Integer): Boolean;
@@ -62,10 +62,10 @@ uses
 
 procedure TRandItems.Clear;
 var
-  I: Byte;
+  LIndex: Byte;
 begin
-  for I := 1 to RandItemCount do
-    with RandItem[I] do
+  for LIndex := 1 to RandItemCount do
+    with RandItem[LIndex] do
     begin
       Name := '';
       Color := 0;
@@ -73,26 +73,26 @@ begin
     end;
 end;
 
-constructor TRandItems.Create(ACount: Byte);
+constructor TRandItems.Create(const ACount: Byte);
 begin
-  FF := TStringList.Create;
+  FStringList := TStringList.Create;
   FCount := ACount;
   Self.Gen;
 end;
 
 destructor TRandItems.Destroy;
 begin
-  FreeAndNil(FF);
+  FreeAndNil(FStringList);
   inherited;
 end;
 
-function TRandItems.IsThisColor(C: Integer): Boolean;
+function TRandItems.IsThisColor(const AColor: Integer): Boolean;
 var
-  I: Byte;
+  LIndex: Byte;
 begin
   Result := False;
-  for I := 1 to Count do
-    if (RandItem[I].Color = C) then
+  for LIndex := 1 to Count do
+    if (RandItem[LIndex].Color = AColor) then
     begin
       Result := True;
       Exit;
@@ -101,18 +101,18 @@ end;
 
 procedure TRandItems.Gen;
 var
-  I, C: Integer;
+  LIndex, LColor: Integer;
 begin
   Clear;
-  for I := 1 to Count do
+  for LIndex := 1 to Count do
   begin
     repeat
-      C := AllowColors[Rand(1, RandItemCount)];
-    until not IsThisColor(C);
-    with RandItem[I] do
+      LColor := AllowColors[Rand(1, RandItemCount)];
+    until not IsThisColor(LColor);
+    with RandItem[LIndex] do
     begin
       Name := GenName;
-      Color := C;
+      Color := LColor;
       Defined := 0;
     end;
   end;
@@ -129,9 +129,9 @@ begin
     Result := Result + S[Rand(1, 26)];
 end;
 
-function TRandItems.GetColor(Index: Integer): Integer;
+function TRandItems.GetColor(const AIndex: Integer): Integer;
 begin
-  Result := RandItem[Index].Color;
+  Result := RandItem[AIndex].Color;
 end;
 
 function TRandItems.GetColorName(Index: Integer): string;
@@ -173,7 +173,7 @@ end;
 function TRandItems.GetText: string;
 begin
   Self.Save;
-  Result := FF.Text;
+  Result := FStringList.Text;
 end;
 
 function TRandItems.IsDefined(Index: Integer): Boolean;
@@ -183,34 +183,34 @@ end;
 
 procedure TRandItems.Load;
 var
-  I, P: Integer;
-  E: TExplodeResult;
+  LIndex, LItemIndex: Integer;
+  LExpString: TExplodeResult;
 begin
   Clear;
-  P := 1;
-  E := nil;
-  for I := 0 to FF.Count - 1 do
+  LItemIndex := 1;
+  LExpString := nil;
+  for LIndex := 0 to FStringList.Count - 1 do
   begin
-    E := Explode('/', FF[I]);
-    if (Trim(E[0]) <> '') then
-      with RandItem[P] do
+    LExpString := Explode('/', FStringList[LIndex]);
+    if (Trim(LExpString[0]) <> '') then
+      with RandItem[LItemIndex] do
       begin
-        Name := E[0];
-        Color := StrToInt(E[1]);
-        Defined := StrToInt(E[2]);
+        Name := LExpString[0];
+        Color := StrToInt(LExpString[1]);
+        Defined := StrToInt(LExpString[2]);
       end;
-    Inc(P);
+    Inc(LItemIndex);
   end;
 end;
 
 procedure TRandItems.Save;
 var
-  I: Byte;
+  LIndex: Byte;
 begin
-  FF.Clear;
-  for I := 1 to Count do
-    with RandItem[I] do
-      FF.Append(Format('%s/%d/%d', [Name, Color, Defined]));
+  FStringList.Clear;
+  for LIndex := 1 to Count do
+    with RandItem[LIndex] do
+      FStringList.Append(Format('%s/%d/%d', [Name, Color, Defined]));
 end;
 
 procedure TRandItems.SetDefined(Index: Integer);
@@ -220,7 +220,7 @@ end;
 
 procedure TRandItems.SetText(const Value: string);
 begin
-  FF.Text := Value;
+  FStringList.Text := Value;
   Self.Load;
 end;
 
