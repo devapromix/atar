@@ -328,20 +328,22 @@ end;
 
 procedure TItems.Add(const AIdent: string; const ACount: Integer = 1);
 var
-  LIndex: Integer;
+  LIndex, LCount: Integer;
+  LIdent: string;
 begin
   try
-    AIdent := UpperCase(AIdent);
     if (AIdent = '') then
       Exit;
-    LIndex := ItemIndex(AIdent);
+    LIdent := UpperCase(AIdent);
+    LIndex := ItemIndex(LIdent);
     if (LIndex < 0) or (LIndex > High(DungeonItems)) then
       Exit;
     with Creatures.PC do
     begin
-      if (ACount > 1) and not DungeonItems[LIndex].IsStack then
-        ACount := 1;
-      if not Inv.Add(AIdent, ACount, DungeonItems[LIndex].Weight,
+      LCount := ACount;
+      if (LCount > 1) and not DungeonItems[LIndex].IsStack then
+        LCount := 1;
+      if not Inv.Add(LIdent, LCount, DungeonItems[LIndex].Weight,
         DungeonItems[LIndex].MaxTough, DungeonItems[LIndex].IsStack) then
         Exit;
     end;

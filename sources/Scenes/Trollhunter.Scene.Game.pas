@@ -168,16 +168,16 @@ end;
 
 procedure TSceneGame.Info();
 var
-  T: Tiles;
+  LTile: Tiles;
   F: Boolean;
   I, J, K: Integer;
   S: string;
 begin
   F := False;
-  T := tlMin;
+  LTile := tlMin;
   case CursorMode of
     cmNone:
-      T := Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile;
+      LTile := Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile;
     cmLook, cmShoot:
       begin
         if (Length(Creatures.Enemy) > 0) then
@@ -191,10 +191,10 @@ begin
                 Creatures.Enemy[I].Life.Max]));
               Exit;
             end;
-        T := Map.Cell[Creatures.PC.Look.Y][Creatures.PC.Look.X].Tile;
+        LTile := Map.Cell[Creatures.PC.Look.Y][Creatures.PC.Look.X].Tile;
       end;
   end;
-  case T of
+  case LTile of
     tlLockedDoor:
       Graph.Messagebar.Add(GetLang(58));
     tlClosedDoor:
@@ -238,7 +238,7 @@ begin
           J := 0
         else
           J := 1;
-        case T of
+        case LTile of
           tlOpenWoodChest, tlOpenBestChest:
             begin
               K := 51;
@@ -260,7 +260,7 @@ begin
       end;
   if F then
     Exit;
-  case T of
+  case LTile of
     tlOpenBarrel:
       Graph.Messagebar.Add(GetLang(56));
     tlOpenWoodChest, tlOpenBestChest:

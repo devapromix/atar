@@ -10,8 +10,8 @@ uses
 type
   TSceneLoad = class(TSceneBaseMenu)
   private
-    CursorPos: Integer;
-    SS: TStringList;
+    FCursorPos: Integer;
+    FStringList: TStringList;
     function Count: Byte;
   public
     procedure Render(); override;
@@ -46,7 +46,7 @@ uses
 
 function TSceneLoad.Count: Byte;
 begin
-  Result := SS.Count;
+  Result := FStringList.Count;
   if (Result > 26) then
     Result := 26;
 end;
@@ -54,13 +54,13 @@ end;
 constructor TSceneLoad.Create;
 begin
   inherited Create(1);
-  SS := TStringList.Create;
-  CursorPos := 1;
+  FStringList := TStringList.Create;
+  FCursorPos := 1;
 end;
 
 destructor TSceneLoad.Destroy;
 begin
-  SS.Free;
+  FStringList.Free;
   inherited;
 end;
 
@@ -78,8 +78,8 @@ begin
           C := Count;
           if (C > 0) then
           begin
-            CursorPos := CursorPos + (Key - 39);
-            CursorPos := ClampCycle(CursorPos, 1, C);
+            FCursorPos := FCursorPos + (Key - 39);
+            FCursorPos := ClampCycle(FCursorPos, 1, C);
             Render;
           end;
         end;
@@ -88,7 +88,7 @@ begin
           C := Count;
           if (C > 0) then
           begin
-            K := (ord('A') + CursorPos) - 1;
+            K := (ord('A') + FCursorPos) - 1;
             KeyDown(K, Shift);
           end;
         end;
@@ -99,7 +99,7 @@ begin
           begin
             SceneGame.Free;
             SceneGame := TSceneGame.Create;
-            Creatures.PC.Name := SS[I];
+            Creatures.PC.Name := FStringList[I];
             Game.Load();
             Graph.Messagebar.Clear;
             Graph.Messagebar.Add(Format(GetLang(20), [Creatures.PC.Name,
@@ -126,7 +126,7 @@ var
   S: string;
 begin
   try
-    SS.Clear;
+    FStringList.Clear;
     if (FindFirst(Path + '\save\*.sav', faAnyFile, SR) = 0) then
     begin
       repeat
@@ -134,11 +134,11 @@ begin
         if (S = '') then
           Continue;
         Delete(S, Length(S) - 3, 4);
-        SS.Append(S);
+        FStringList.Append(S);
       until FindNext(SR) <> 0;
       FindClose(SR);
     end;
-    SS.Sort;
+    FStringList.Sort;
   except
     on E: Exception do
       Error.Add('SceneLoad.ReadSaveDir', E.Message);
@@ -162,8 +162,8 @@ begin
           Break;
         Y := (I + 3) * Graph.CharHeight;
         S := Chr(I + 97) + '.';
-        CursorPos := Clamp(CursorPos, 1, C);
-        if (CursorPos = I + 1) then
+        FCursorPos := Clamp(FCursorPos, 1, C);
+        if (FCursorPos = I + 1) then
         begin
           Font.Style := [fsBold];
           Font.Color := cAcColor;
@@ -174,14 +174,14 @@ begin
           Font.Style := [];
           Font.Color := cBgColor;
         end;
-        P := Game.GetPCInfo(Path + 'save\' + SS[I] + '.sav');
+        P := Game.GetPCInfo(Path + 'save\' + FStringList[I] + '.sav');
         TextOut((Graph.CharWidth * 3) - TextWidth(S), Y, S);
-        TextOut(Graph.CharWidth * 3, Y, SS[I]);
+        TextOut(Graph.CharWidth * 3, Y, FStringList[I]);
         TextOut(Graph.CharWidth * 20, Y, IntToStr(P.Level));
         TextOut(Graph.CharWidth * 30, Y, IntToStr(P.Rating));
         TextOut(Graph.CharWidth * 40, Y, GetMapLang(P.Dungeon));
         TextOut(Graph.CharWidth * 70, Y,
-          GetFileDate(Path + 'save\' + SS[I] + '.sav'));
+          GetFileDate(Path + 'save\' + FStringList[I] + '.sav'));
       end;
       Font.Style := [];
       if (Count > 0) then

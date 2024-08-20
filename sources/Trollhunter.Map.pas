@@ -89,7 +89,7 @@ type
     procedure Clear; override;
     procedure Render; override;
     procedure ClearViz;
-    function GetMapIndex(ID: string): Integer;
+    function GetMapIndex(AMapIdent: string): Integer;
     function GetRandItemID: string;
     procedure Save(const ID: Integer);
     procedure Load(const ID: Integer);
@@ -734,15 +734,15 @@ begin
   Result := MapInfo[Trollhunter.Creatures.Creatures.PC.Dungeon];
 end;
 
-function TMap.GetMapIndex(ID: string): Integer;
+function TMap.GetMapIndex(AMapIdent: string): Integer;
 var
-  I: Integer;
+  LMapIndex: Integer;
 begin
   Result := 0;
-  for I := 0 to MapsCount - 1 do
-    if (MapInfo[I].ID = ID) then
+  for LMapIndex := 0 to MapsCount - 1 do
+    if (MapInfo[LMapIndex].ID = AMapIdent) then
     begin
-      Result := I;
+      Result := LMapIndex;
       Exit;
     end;
 end;
