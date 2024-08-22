@@ -111,7 +111,7 @@ begin
     until not IsThisColor(LColor);
     with RandItem[LIndex] do
     begin
-      Name := GenName;
+      Name := UpperCase(GenName.Trim);
       Color := LColor;
       Defined := 0;
     end;
@@ -119,14 +119,26 @@ begin
 end;
 
 function TRandItems.GenName: string;
-const
-  S = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var
-  I: Byte;
+  LStringList: array [0 .. 1] of TStringList;
+  I: Integer;
 begin
+  for I := 0 to 1 do
+    LStringList[I] := TStringList.Create;
+  LStringList[0].DelimitedText :=
+    '"Elivi","Kilim","Kalim","Valin","Elim","Elid","Tolen","Fillis","Romul",' +
+    '"Ened","Eres","Moliz","Revid","Nasum","Teles","Narom","Danif","Tulis",' +
+    '"Tarus","Elazom","Treves","Eliminar","Relic","Firim","Sevi","Runus"';
+  LStringList[1].DelimitedText :=
+    '"sanum","noriz","laar","maar","torum","doris","darum","sarim","nodum",' +
+    '"virum","loran","taar","torin","tiris","nirnum","nirus","dorus","borus",' +
+    '"ronum","sorez","sarum","daris","lorim","nadus","sevirum","zorum","narum"';
   Result := '';
-  for I := 1 to 7 do
-    Result := Result + S[Rand(1, 26)];
+  for I := 0 to 1 do
+  begin
+    Result := Result + LStringList[I][Random(LStringList[I].Count - 1)] + ' ';
+    FreeAndNil(LStringList[I]);
+  end;
 end;
 
 function TRandItems.GetColor(const AIndex: Integer): Integer;
