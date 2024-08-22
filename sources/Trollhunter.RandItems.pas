@@ -39,6 +39,7 @@ type
     function GetText: string;
     procedure SetText(const Value: string);
     function IsThisColor(const AColor: Integer): Boolean;
+    function IsThisName(const AName: string): Boolean;
   public
     constructor Create(const ACount: Byte);
     destructor Destroy; override;
@@ -99,9 +100,23 @@ begin
     end;
 end;
 
+function TRandItems.IsThisName(const AName: string): Boolean;
+var
+  LIndex: Byte;
+begin
+  Result := False;
+  for LIndex := 1 to Count do
+    if (RandItem[LIndex].Name = AName) then
+    begin
+      Result := True;
+      Exit;
+    end;
+end;
+
 procedure TRandItems.Gen;
 var
   LIndex, LColor: Integer;
+  LName: string;
 begin
   Clear;
   for LIndex := 1 to Count do
@@ -109,9 +124,12 @@ begin
     repeat
       LColor := AllowColors[Rand(1, RandItemCount)];
     until not IsThisColor(LColor);
+    repeat
+      LName := UpperCase(GenName.Trim);
+    until not IsThisName(LName);
     with RandItem[LIndex] do
     begin
-      Name := UpperCase(GenName.Trim);
+      Name := LName;
       Color := LColor;
       Defined := 0;
     end;
