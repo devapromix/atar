@@ -177,7 +177,7 @@ end;
 
 procedure TSceneMenu.Render;
 var
-  I, N: Byte;
+  I, N: Integer;
 begin
   inherited;
   try

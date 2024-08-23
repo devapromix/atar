@@ -87,9 +87,8 @@ const
   N: array [0 .. ColCount - 1] of Byte = (36, 37, 140, 30, 39, 35);
 var
   K: array [0 .. ColCount - 1] of Word;
-  I, J, Y, L, Max: Integer;
+  I, J, Y, L, Max, R: Integer;
   S: string;
-  R: Byte;
 begin
   inherited;
   try

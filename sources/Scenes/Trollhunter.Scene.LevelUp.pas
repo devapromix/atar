@@ -134,7 +134,7 @@ end;
 
 procedure TSceneLevelUp.Render;
 var
-  I: Byte;
+  I: Integer;
 begin
   inherited;
   try

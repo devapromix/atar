@@ -133,7 +133,7 @@ end;
 procedure TSceneSettings.SettingsItem(A, B: string);
 var
   S, L: string;
-  I, D: Byte;
+  I, D: Integer;
 begin
   try
     with Graph.Surface.Canvas do

@@ -27,7 +27,7 @@ type
     procedure Timer1Timer(Sender: TObject);
   private
     { Private declarations }
-    Procedure WindowMessage(Var Msg: TMessage); message WM_SYSCOMMAND;
+    Procedure WindowMessage(var Msg: TMessage); message WM_SYSCOMMAND;
     Procedure MouseClick(var Msg: TMessage); message WM_USER + 1;
   public
     { Public declarations }

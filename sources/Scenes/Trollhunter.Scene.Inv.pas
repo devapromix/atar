@@ -168,7 +168,7 @@ procedure TSceneInv.RenderUseIcon;
 var
   B, R: string;
 
-  procedure DrawIcon(G: string; Y: Byte);
+  procedure DrawIcon(G: string; Y: Integer);
   var
     I: Integer;
     Tileset: Graphics.TBitmap;
@@ -203,7 +203,7 @@ end;
 procedure TSceneInv.Render;
 var
   S: string;
-  I, ID, C, Y: Integer;
+  I, ID, C, Y, W: Integer;
   Tileset: Graphics.TBitmap;
 begin
   inherited;
@@ -222,7 +222,8 @@ begin
         if (CursorPos = I) then
         begin
           Font.Style := [fsBold];
-          Graph.RenderMenuLine(Y, 0, True, 8, cDkGray);
+          W :=((Graph.Width div Graph.CharWidth) - 10);
+          Graph.RenderMenuLine(Y, 0, True, W, cDkGray);
         end
         else
         begin

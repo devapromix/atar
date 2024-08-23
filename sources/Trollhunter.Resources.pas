@@ -54,7 +54,7 @@ var
   F: Graphics.TBitmap;
   I: Tiles;
 
-  procedure ChestBitmap(A: PChar; B: Byte);
+  procedure ChestBitmap(A: PChar; B: Integer);
   begin
     T.Handle := LoadBitmap(hInstance, A);
     Graph.BitmapFromTileset(CHEST[I].IMG, T, B);

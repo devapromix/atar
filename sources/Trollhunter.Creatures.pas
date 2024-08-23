@@ -35,7 +35,7 @@ type
     procedure Summon();
     procedure Teleport(ToEnemy: Boolean);
     function CreatureIndex(ID: string): Integer;
-    procedure Insert(AX, AY: Integer; CreatureID: string; Chance: Byte = 1);
+    procedure Insert(AX, AY: Integer; CreatureID: string; Chance: Integer = 1);
     function GetDamage(ACreature: TCreature; AProtect: Integer): Integer;
     property PC: TPC read FPC write SetPC;
     property Enemy: TEnemies read FEnemy write SetEnemy;
@@ -183,7 +183,7 @@ begin
 end;
 
 procedure TCreatures.Insert(AX, AY: Integer; CreatureID: string;
-  Chance: Byte = 1);
+  Chance: Integer = 1);
 var
   X, Y, Z: Integer;
 begin

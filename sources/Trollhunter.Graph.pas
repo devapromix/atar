@@ -101,7 +101,7 @@ type
     function Width: Integer;
     function Height: Integer;
     procedure RenderMenuLine(P, T: Integer; const IsLeft: Boolean;
-      const AWidth: Byte; Color: Integer);
+      const AWidth: Integer; Color: Integer);
     procedure Default;
     property Bars: TBars read FBars write SetBars;
     property Text: TText read FText write SetText;
@@ -394,19 +394,28 @@ begin
 end;
 
 procedure TGraph.RenderMenuLine(P, T: Integer; const IsLeft: Boolean;
-  const AWidth: Byte; Color: Integer);
+  const AWidth: Integer; Color: Integer);
 var
-  LWidth: Byte;
+  LWidth, LH, HT: Integer;
 begin
   with Surface.Canvas do
   begin
-    if IsLeft then
-      LWidth := 1
-    else
-      LWidth := AWidth;
+    LWidth := AWidth;
     Brush.Color := Color;
-    FillRect(Rect(CharWidth * LWidth, P * CharHeight + T,
-      Surface.Width - (CharWidth * AWidth), (P + 1) * CharHeight + T));
+    LH := (Self.Width div 2);
+    HT := CharWidth * (AWidth div 2);
+    if IsLeft then
+      FillRect(Rect(CharWidth, P * CharHeight + T, CharWidth * (AWidth + 1),
+        (P + 1) * CharHeight + T))
+    else
+    begin
+      if LWidth = 1 then
+        FillRect(Rect(CharWidth * LWidth, P * CharHeight + T,
+          Surface.Width - (CharWidth * AWidth), (P + 1) * CharHeight + T))
+      else
+        FillRect(Rect(LH - HT, P * CharHeight + T, LH + HT,
+          (P + 1) * CharHeight + T));
+    end;
     Brush.Color := 0;
     Brush.Style := bsClear;
   end;
