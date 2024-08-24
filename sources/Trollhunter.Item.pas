@@ -211,7 +211,7 @@ type
     function CellItemsCount(X, Y: Integer): Integer;
     function ItemIndex(ID: string): Integer; overload;
     function ItemIndex(ID: Integer): Integer; overload;
-    function GetDollText(I, V: Integer): string;
+    function GetDollText(AItemIndex, AItemIdent: Integer): string;
     procedure RepairAll;
     procedure MakeCraftDoc;
     procedure MakeAlchemyDoc;
@@ -1003,33 +1003,31 @@ begin
   SceneItem.Equip(Creatures.PC.Inv.Count, False);
 end;
 
-function TItems.GetDollText(I, V: Integer): string;
+function TItems.GetDollText(AItemIndex, AItemIdent: Integer): string;
 var
-  S: string;
+  LStr: string;
 begin
   Result := '';
-  case DungeonItems[V].Category of
+  case DungeonItems[AItemIdent].Category of
     dsLHand:
-      S := GetLang('on left hand', 'в левой руке');
+      LStr := GetLang('on left hand', 'в левой руке');
     dsRHand:
-      S := GetLang('on right hand', 'в правой руке');
+      LStr := GetLang('on right hand', 'в правой руке');
     dsBody:
-      S := GetLang('on body', 'на торсе');
+      LStr := GetLang('on body', 'на торсе');
     dsHead:
-      S := GetLang('on head', 'на голове');
+      LStr := GetLang('on head', 'на голове');
     dsFoot:
-      S := GetLang('on feet', 'на ногах');
+      LStr := GetLang('on feet', 'на ногах');
     dsRing:
-      S := GetLang('on finger', 'на пальце');
+      LStr := GetLang('on finger', 'на пальце');
     dsAmulet:
-      S := GetLang('on neck', 'на шее');
+      LStr := GetLang('on neck', 'на шее');
   else
-    S := '';
+    LStr := '';
   end;
-  if Creatures.PC.Inv.GetDoll(I) then
-    Result := S;
-  if (Result <> '') then
-    Result := ' - ' + Result;
+  if Creatures.PC.Inv.GetDoll(AItemIndex) then
+    Result := ' - ' + LStr;
 end;
 
 initialization
