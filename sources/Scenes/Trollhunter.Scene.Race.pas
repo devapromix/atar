@@ -170,11 +170,11 @@ begin
     // Items.Add('SCROLLB', 5);
     // Items.Add('SCROLLC', 5);
     // Items.Add('SCROLLD', 5);
-    Items.Add('SCROLLE', 5);
+    Items.Add('SCROLLE', 3);
     // Items.Add('SCROLLF', 5);
     // Items.Add('SCROLLG', 5);
     // Items.Add('SCROLLH', 5);
-    Items.Add('SCROLLI', 5);
+    Items.Add('SCROLLI', 3);
 
     // Items.Add('TAMARILIS', 12);
     Items.Add('KEY', 7);

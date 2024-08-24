@@ -498,7 +498,7 @@ const
   
 function GetLang(ID: Word): string; overload;
 function GetLang(Eng, Rus: string): string; overload;
-function GetItemLang(ID: string): string;
+function GetItemLang(const AItemIdent: string): string;
 function GetCreatureLang(ID: string): string;
 function GetMapLang(ID: string; G: Boolean = False): string; overload;
 function GetMapLang(ID: Byte; G: Boolean = False): string; overload;
@@ -577,37 +577,37 @@ begin
   Result := GetMsg(Result, G);
 end;
 
-function GetItemLang(ID: string): string;
+function GetItemLang(const AItemIdent: string): string;
 var
-  I, T, Idx: Integer;
+  I, T, LItemIndex: Integer;
   P: string;
 begin
   Result := '';
   //
-  Idx := Items.ItemIndex(ID);
+  LItemIndex := Items.ItemIndex(AItemIdent);
   // Scrolls and Potions
-  T := DungeonItems[Idx].ColorTag;
+  T := DungeonItems[LItemIndex].ColorTag;
   with Creatures.PC do
   begin
-    if (T > 0) and (DungeonItems[Idx].Category = dsPotion) and not Potions.IsDefined(T) then
+    if (T > 0) and (DungeonItems[LItemIndex].Category = dsPotion) and not Potions.IsDefined(T) then
     begin
-      Result := '#r' + Potions.GetColorName(T) + #32 + GetLang(222) + '$';
+      Result := '#r' + Potions.GetColorName(T) + ' ' + GetLang(222) + '$';
       Exit;
     end;
-    if (T > 0) and (DungeonItems[Idx].Category = dsScroll) and not Scrolls.IsDefined(T) then
+    if (T > 0) and (DungeonItems[LItemIndex].Category = dsScroll) and not Scrolls.IsDefined(T) then
     begin
-      Result := '#r' + GetLang(221) + '$' + #32 + '"#b' + Scrolls.GetName(T) + '$"';
+      Result := '#r' + GetLang(221) + ' ' + '"' + Scrolls.GetName(T) + '"';
       Exit;
     end;
   end;
   // Items
-  case DungeonItems[Idx].Category of
+  case DungeonItems[LItemIndex].Category of
     dsPotion: P := '#g';
     dsScroll: P := '#b';
     else      P := '#w';
   end;
   for I := 0 to ItemsCount - 1 do
-    if (ItemName[I][0] = ID) then
+    if (ItemName[I][0] = AItemIdent) then
       Result := P + ItemName[I][LangID + 1] + '$';
   //
 //  Result := Result + #32 + '''' + DungeonItems[Items.ItemIndex(ID)].Sprite + '''';

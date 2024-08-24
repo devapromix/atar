@@ -1023,8 +1023,6 @@ begin
       LStr := GetLang('on finger', 'на пальце');
     dsAmulet:
       LStr := GetLang('on neck', 'на шее');
-  else
-    LStr := '';
   end;
   if Creatures.PC.Inv.GetDoll(AItemIndex) then
     Result := ' - ' + LStr;
