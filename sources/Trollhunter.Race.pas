@@ -26,6 +26,7 @@ type
 type
   TRaceRec = record
     NameLangID: Word;
+    Descr: Word;
     Strength: Integer;
     Dexterity: Integer;
     Will: Integer;
@@ -39,6 +40,7 @@ const
   Race: array [0..RacesCount - 1] of TRaceRec = (
   ( // Human
   NameLangID: 182;
+  Descr     : 342;
   Strength  : 0;
   Dexterity : 0;
   Will      : 0;
@@ -49,6 +51,7 @@ const
   ),
   ( // Halfling
   NameLangID: 183;
+  Descr     : 343;
   Strength  : -3;
   Dexterity : 4;
   Will      : -2;
@@ -59,6 +62,7 @@ const
   ),
   ( // Gnome
   NameLangID: 184;
+  Descr     : 344;
   Strength  : 1;
   Dexterity : 1;
   Will      : 0;
@@ -69,6 +73,7 @@ const
   ),
   ( // Gray Dwarf
   NameLangID: 185;
+  Descr     : 345;
   Strength  : 2;
   Dexterity : 0;
   Will      : 0;
@@ -79,6 +84,7 @@ const
   ),
   ( // Orc
   NameLangID: 186;
+  Descr     : 346;
   Strength  : 6;
   Dexterity : -2;
   Will      : -2;
@@ -89,8 +95,9 @@ const
   ),
   ( // High Elf
   NameLangID: 187;
+  Descr     : 347;
   Strength  : -4;
-  Dexterity : 0;  
+  Dexterity : 0;
   Will      : 4;
   Speed     : 0;
   RHWeapon  : (ID: 'SHORTSWORD';    Count: 1);
@@ -99,6 +106,7 @@ const
   ),
   ( // Night Elf
   NameLangID: 188;
+  Descr     : 348;
   Strength  : 1;
   Dexterity : 2;
   Will      : -2;
@@ -109,6 +117,7 @@ const
   ),
   ( // Dark Elf
   NameLangID: 189;
+  Descr     : 349;
   Strength  : -3;
   Dexterity : 1;
   Will      : 1;
@@ -119,6 +128,7 @@ const
   ),
   ( // Deep Dwarf
   NameLangID: 190;
+  Descr     : 350;
   Strength  : 1;
   Dexterity : 1;
   Will      : 0;
@@ -129,6 +139,7 @@ const
   ),
   ( // Cave Dwarf
   NameLangID: 191;
+  Descr     : 351;
   Strength  : -1;
   Dexterity : 4;
   Will      : -2;
@@ -138,7 +149,7 @@ const
   Skills    : ((Skill: skMace; Level: 15), (Skill: skTrap; Level: 5));
   )
   );
-  
+
 implementation
 
 end.

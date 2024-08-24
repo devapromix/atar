@@ -195,11 +195,12 @@ end;
 procedure TSceneRace.Render;
 var
   T, C, I, J, Y, H, L, K, P, R, V, U: Integer;
-  F, S, D, M, Q: string;
+  F, S, D, M, Q, LDescr: string;
   A: ShortInt;
 begin
   inherited;
   try
+    P := CursorPos - 1;
     T := ((Graph.Surface.Width div 5) div Graph.CharWidth);
     with Graph.Surface.Canvas do
     begin
@@ -215,7 +216,7 @@ begin
         begin
           Font.Style := [fsBold];
           Font.Color := cAcColor;
-          Graph.RenderMenuLine(I + 3, 0, True, 14, cDkGray);
+          Graph.RenderMenuLine(I + 3, 0, True, 20, cDkGray);
         end
         else
         begin
@@ -224,6 +225,9 @@ begin
         end;
         TextOut((Graph.CharWidth * 3) - TextWidth(S), Y, S);
         TextOut(Graph.CharWidth * 3, Y, GetLang(Race[I].NameLangID));
+        Font.Style := [];
+        Graph.Text.DrawAll(T, 3, Round(T * 2.5),
+          GetLang(Race[CursorPos - 1].Descr));
       end;
       Font.Style := [];
       if (Count > 0) then
@@ -231,7 +235,7 @@ begin
         Font.Color := cDkYellow;
         Graph.Text.DrawOut(1, 2, '#');
         Graph.Text.DrawOut(3, 2, GetLang(180));
-        Graph.Text.DrawOut(T, 2, GetLang(320));
+        Graph.Text.TextCenter(2, GetLang(320));
       end;
       H := C + 5;
       Font.Style := [fsBold];
@@ -256,7 +260,6 @@ begin
         Font.Color := cBgColor;
         Graph.Text.DrawOut(L, H + I, S);
         A := 0;
-        P := CursorPos - 1;
         case I of
           1:
             A := Race[P].Strength;

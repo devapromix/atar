@@ -8,7 +8,7 @@ uses
   Trollhunter.Map;
 
 const
-  Lang: array [0..339 + 1, 0..1] of string = (
+  Lang: array [0..359 + 1, 0..1] of string = (
 
   ('Start new game', 'Начало новой игры'), // 000
   ('Load previous game', 'Загрузить игру'),
@@ -341,6 +341,26 @@ const
   ('', ''),
   ('', ''),
   ('', ''), // 330
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''), // 340
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('Orcs are huge, muscular creatures with dark green skin. Their large fangs and pointed ears give them a wild and formidable appearance. In battle, orcs act with '+'maddened fury, their blows tearing apart opponents. Living in strict tribes, orcs adhere to a code of strength and honor, where every battle is an opportunity to prove their power and dominance.', 'Орки – это огромные, мускулистые существа с темно-зеленой кожей. Их большие клыки и острые уши придают им дикий и грозный вид. В бою орки действуют с яростной яростью, их удары разрывают противников.'+' Живя в суровых племенах, орки соблюдают кодекс силы и чести, где каждый бой является возможностью доказать свою мощь и доминирование.'),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''), // 350
   ('', ''),
   ('', ''),
   ('', ''),

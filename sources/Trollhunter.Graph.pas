@@ -35,6 +35,7 @@ type
     function ClearText(const S: string): string;
     procedure DrawText(const X, Y: Integer; const S: string);
     procedure DrawOut(const X, Y: Integer; const S: string);
+    procedure DrawAll(const X, Y, W: Integer; S: string);
     procedure TitleOut(const S: string; P: Integer = 0);
     procedure TextCenter(const PY: Integer; const StrID: string);
     constructor Create;
@@ -598,6 +599,26 @@ destructor TText.Destroy;
 begin
 
   inherited;
+end;
+
+procedure TText.DrawAll(const X, Y, W: Integer; S: string);
+var
+  LLines: TArray<string>;
+  I, C: Integer;
+begin
+  C := 1;
+  for I := 1 to Length(S) do
+  begin
+    C := C + 1;
+    if (C > W) and (S[I] = ' ') then
+    begin
+      S[I] := '/';
+      C := 1;
+    end;
+  end;
+  LLines := S.Split(['/']);
+  for I := 0 to Length(LLines) - 1 do
+    TextCenter(Y + I, LLines[I]);
 end;
 
 procedure TText.DrawOut(const X, Y: Integer; const S: string);
