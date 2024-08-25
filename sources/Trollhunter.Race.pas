@@ -52,9 +52,9 @@ const
   ( // Halfling
   NameLangID: 183;
   Descr     : 343;
-  Strength  : -3;
+  Strength  : -4;
   Dexterity : 4;
-  Will      : -2;
+  Will      : -1;
   Speed     : 1;
   RHWeapon  : (ID: 'SHORTSWORD';    Count: 1);
   LHWeapon  : (ID: '';              Count: 0);

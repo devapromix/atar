@@ -194,13 +194,13 @@ end;
 
 procedure TSceneRace.Render;
 var
-  T, C, I, J, Y, H, L, K, P, R, V, U: Integer;
+  T, C, I, J, Y, H, L, K, LRaceIndex, R, V, U: Integer;
   F, S, D, M, Q, LDescr: string;
   A: ShortInt;
 begin
   inherited;
   try
-    P := CursorPos - 1;
+    LRaceIndex := CursorPos - 1;
     T := ((Graph.Surface.Width div 5) div Graph.CharWidth);
     with Graph.Surface.Canvas do
     begin
@@ -223,11 +223,24 @@ begin
           Font.Style := [];
           Font.Color := cBgColor;
         end;
+        //
+        LDescr := GetLang(Race[CursorPos - 1].Descr);
+        if Race[LRaceIndex].Strength >= 4 then
+          LDescr := LDescr + ' ' + GetLang(324)
+        else if Race[LRaceIndex].Strength > 1 then
+          LDescr := LDescr + ' ' + GetLang(321)
+        else if Race[LRaceIndex].Strength <= -4 then
+          LDescr := LDescr + ' ' + GetLang(325)
+        else if Race[LRaceIndex].Strength < -1 then
+          LDescr := LDescr + ' ' + GetLang(322)
+        else
+          LDescr := LDescr + ' ' + GetLang(323);
+        //
         TextOut((Graph.CharWidth * 3) - TextWidth(S), Y, S);
         TextOut(Graph.CharWidth * 3, Y, GetLang(Race[I].NameLangID));
         Font.Style := [];
-        Graph.Text.DrawAll(T, 3, Round(T * 2.5),
-          GetLang(Race[CursorPos - 1].Descr));
+        Font.Color := cAcColor;
+        Graph.Text.DrawAll(T, 3, Round(T * 2.5), LDescr);
       end;
       Font.Style := [];
       if (Count > 0) then
@@ -262,13 +275,13 @@ begin
         A := 0;
         case I of
           1:
-            A := Race[P].Strength;
+            A := Race[LRaceIndex].Strength;
           2:
-            A := Race[P].Dexterity;
+            A := Race[LRaceIndex].Dexterity;
           3:
-            A := Race[P].Will;
+            A := Race[LRaceIndex].Will;
           4:
-            A := Race[P].Speed;
+            A := Race[LRaceIndex].Speed;
         end;
         if (A > 0) then
         begin
