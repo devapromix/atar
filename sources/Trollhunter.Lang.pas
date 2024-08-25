@@ -8,7 +8,7 @@ uses
   Trollhunter.Map;
 
 const
-  Lang: array [0..359 + 1, 0..1] of string = (
+  Lang: array [0..399 + 1, 0..1] of string = (
 
   ('Start new game', 'Начало новой игры'), // 000
   ('Load previous game', 'Загрузить игру'),
@@ -329,23 +329,23 @@ const
   ('', ''),
   ('', ''),
   ('', ''),
-  ('', ''), //
+  ('', ''),
   ('Descriptions', 'Описание'), // 320
   ('They have great physical strength.', 'Они обладают большой физической силой.'),
   ('They do not have great physical strength.', 'Они не обладают большой физической силой.'),
   ('They are strong enough.', 'Они достаточно сильны.'),
   ('They are extremely strong.', 'Они очень сильны.'),
   ('They are physically weak.', 'Они физически слабы.'),
-  ('', ''),
-  ('', ''),
-  ('', ''),
-  ('', ''),
-  ('', ''), // 330
-  ('', ''),
-  ('', ''),
-  ('', ''),
-  ('', ''),
-  ('', ''),
+  ('They have very great dexterity.', 'У них очень большая ловкость.'),
+  ('Their dexterity is also within the norm.', 'Их ловкость также в пределах нормы.'),
+  ('Their agility is below average.', 'Их ловкость ниже среднего.'),
+  ('They are extremely agile.', 'Они очень ловки.'),
+  ('They are clumsy..', 'Они неповоротливы.'), // 330
+  ('They have great intelligence.', 'Они обладают большым интеллектом.'),
+  ('They do not have great intelligence.', 'Они не обладают большым интеллектом.'),
+  ('They are quite smart.', 'Они достаточно умны.'),
+  ('They have superior intelligence.', 'Они обладают превосходным интеллектом.'),
+  ('They have weak intelligence.', 'У них слабый интеллект.'),
   ('', ''),
   ('', ''),
   ('', ''),
@@ -353,14 +353,54 @@ const
   ('', ''), // 340
   ('', ''),
   ('Humans are versatile creatures with a variety of physical characteristics. They have an average height and a physical structure adapted to different conditions.', 'Люди — универсальные существа с разнообразными физическими характеристиками. Они имеют средний рост и физическую структуру, адаптированную к различным условиям.'),
-  ('', ''),
-  ('', ''),
-  ('', ''),
+  ('Halflings are a small, friendly and resourceful people. Their height usually does not exceed a meter. Halflings have round faces, bright eyes, and are always friendly. Their hair is often curly or wavy, with mostly brown hues.', 'Халфлинги — это маленький, дружелюбный и находчивый народ. Их рост обычно не превышает метра. У них круглые лица, яркие глаза, и они всегда дружелюбны. Их волосы часто вьющиеся или волнистые, в основном каштанового оттенка.'),
+  ('A forest gnome is a small, hardy people closely connected to nature. They have skin in shades of bark or moss, which allows them to blend in with the forest. Wood gnomes possess natural magic and use the forest for protection.', 'Лесной гном — это маленький, выносливый народец, тесно связанный с природой. У них кожа в оттенках коры или мха, что позволяет им сливаться с лесом. Лесные гномы обладают природной магией и используют лес для защиты.'),
+  ('The gray dwarf is a grim and hardy race that dwells in the deepest caves. They have pale gray skin that helps them blend in with the stone walls. Their eyes are dark adapted, often reddish or pale in color.', 'Серый гном — мрачная и выносливая раса, обитающая в самых глубоких пещерах. У них бледно-серая кожа, которая помогает им сливаться с каменными стенами. Их глаза адаптированы к темноте, часто красноватые или бледные.'),
   ('Orcs are huge, muscular creatures with dark green skin. Their large fangs and pointed ears give them a wild and formidable appearance.', 'Орки — огромные, мускулистые существа с темно-зеленой кожей. Их большие клыки и заостренные уши придают им дикий и грозный вид.'),
+  ('A high elf is a noble and refined race known for their wisdom and mastery of magic. They are tall, slender, and have light skin. The eyes of high elves shine, reflecting their deep knowledge of the magic.', 'Высший эльф — благородная и утонченная раса, известная своей мудростью и мастерством магии. Они высокие, стройные и имеют светлую кожу. Глаза высших эльфов сияют, отражая их глубокие познания в магии.'),
+  ('Night elves are a mysterious and hardy race with golden skin that allows them to blend into their surroundings in the eternal autumn forests. Their eyes glow in the dark, helping them see at night.', 'Ночные эльфы — таинственная и выносливая раса с золотистой кожей, которая позволяет им сливаться с окружающей средой в вечных осенних лесах. Их глаза светятся в темноте, помогая им видеть ночью.'),
+  ('Dark elves are a race that lives in deep dungeons and shadow realms. They have pale skin. Their eyes have a reddish or purple tint, which allows them to see in almost complete darkness.', 'Темные эльфы — раса, живущая в глубоких подземельях и теневых мирах. У них бледная кожа. Их глаза имеют красноватый или фиолетовый оттенок, что позволяет им видеть почти в полной темноте.'),
+  ('Deep dwarves are short, stout, light-skinned creatures adapted to life in deep caves. They are excellent at mountain crafts and survive in harsh underground conditions.', 'Глубинные гномы — невысокие, крепкие, светлокожие существа, приспособленные к жизни в глубоких пещерах. Они отлично справляются с горными ремеслами и выживают в суровых подземных условиях.'), // 350
+  ('A cave dwarf is a race that lives in dark caves in the mountains. Their skin is brown. These dwarves have learned to survive in the difficult conditions of the mountains.  Their underground dwellings consist of complex well protected tunnels and chambers.', 'Пещерный гном — раса, живущая в темных пещерах в горах. Их кожа коричневого цвета. Эти гномы научились выживать в сложных условиях гор. Их подземные жилища состоят из сложных, хорошо защищенных туннелей и камер.'),
   ('', ''),
   ('', ''),
   ('', ''),
-  ('', ''), // 350
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('Their flexibility and adaptability allow them to successfully survive in any environment using a wide range of combat skills and magic.', 'Их гибкость и приспособляемость позволяют им успешно выживать в любых условиях, используя широкий спектр боевых навыков и магии.'), // 360
+  ('Halflings do not possess powerful magic or physical strength, but their skill in evading danger, agility, and agility make them important allies in any adventure.', 'Они не обладают мощной магией или физической силой, но их умение избегать опасностей, ловкость и проворство делают их важными союзниками в любом приключении.'),
+  ('They live in hidden dwellings and expertly navigate in forest thickets. Distrustful of strangers, but kind and defend their homes with all cunning and tenacity.', 'Они живут в скрытых жилищах и искусно ориентируются в лесных чащах. Недоверчивы к чужакам, но добры и защищают свои жилища со всей хитростью и упорством.'),
+  ('Gray dwarves are known for their skill in smithing, especially in the creation of magical weapons and armor. They are hermits, distrustful of others, but extremely devoted to their communities.', 'Серые дворфы известны своим мастерством в кузнечном деле, особенно в создании магического оружия и доспехов. Они отшельники, недоверчивые к другим, но чрезвычайно преданные своим общинам.'),
+  ('Living in strict tribes, orcs adhere to a code of strength and honor, where every battle is an opportunity to prove their power and dominance.', 'Живя строгими племенами, орки придерживаются кодекса силы и чести, где каждая битва — это возможность доказать свою силу и господство.'),
+  ('High elves live in forests. They have a sharp mind, skillfully use magic. High elves are proud, sometimes aloof, but always strive for perfection in everything they do.', 'Высшие эльфы живут в лесах. Они обладают острым умом, умело используют магию. Высшие эльфы горды, иногда отчуждены, но всегда стремятся к совершенству во всем, что они делают.'),
+  ('They live in harmony with nature. Night elves have little to no magic, but their physical strength and stealth skills make them effective in combat and survival. They rarely come into contact with other races.', 'Они живут в гармонии с природой. У ночных эльфов мало или совсем нет магии, но их физическая сила и навыки скрытности делают их эффективными в бою и выживании. Они редко вступают в контакт с другими расами.'),
+  ('Their underground cities are often complex labyrinths protected by powerful charms and traps. Although their culture and society can be brutal, dark elves are fiercely loyal to their communities and loyal to their allies.', 'Их подземные города часто представляют собой сложные лабиринты, защищенные мощными чарами и ловушками. Хотя их культура и общество могут быть жестокими, темные эльфы яростно преданы своим общинам и преданы своим союзникам.'),
+  ('They live in closed communities, value traditions and crafts.', 'Они живут замкнутыми общинами, ценят традиции и ремесла.'),
+  ('Despite lacking significant magical power, cave dwarves make up for it with their practical skills and technical excellence. They can be distrustful of strangers, but are loyal allies and have a strong sense of community.', 'Несмотря на отсутствие значительной магической силы, пещерные гномы компенсируют это практическими навыками и техническим совершенством. Они могут быть недоверчивы к незнакомцам, но являются верными союзниками и обладают сильным чувством общности.'),
+  ('', ''), // 370
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''), // 380
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''),
+  ('', ''), // 390
   ('', ''),
   ('', ''),
   ('', ''),

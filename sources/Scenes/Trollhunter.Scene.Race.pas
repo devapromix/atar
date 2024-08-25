@@ -213,8 +213,29 @@ begin
   else
     Result := Result + ' ' + GetLang(323);
   // Dexterity
+  if Race[ARaceIndex].Dexterity >= L2 then
+    Result := Result + ' ' + GetLang(329)
+  else if Race[ARaceIndex].Dexterity > L1 then
+    Result := Result + ' ' + GetLang(326)
+  else if Race[ARaceIndex].Dexterity <= -L2 then
+    Result := Result + ' ' + GetLang(330)
+  else if Race[ARaceIndex].Dexterity < -L1 then
+    Result := Result + ' ' + GetLang(327)
+  else
+    Result := Result + ' ' + GetLang(328);
   // Intelligence
+  if Race[ARaceIndex].Intelligence >= L2 then
+    Result := Result + ' ' + GetLang(334)
+  else if Race[ARaceIndex].Intelligence > L1 then
+    Result := Result + ' ' + GetLang(331)
+  else if Race[ARaceIndex].Intelligence <= -L2 then
+    Result := Result + ' ' + GetLang(335)
+  else if Race[ARaceIndex].Intelligence < -L1 then
+    Result := Result + ' ' + GetLang(332)
+  else
+    Result := Result + ' ' + GetLang(333);
   // End race description
+  Result := Result + ' ' + GetLang(Race[ARaceIndex].EndDescr);
 end;
 
 procedure TSceneRace.Render;

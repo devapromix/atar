@@ -27,6 +27,7 @@ type
   TRaceRec = record
     NameLangID: Word;
     BeginDescr: Word;
+    EndDescr: Word;
     Strength: Integer;
     Dexterity: Integer;
     Intelligence: Integer;
@@ -40,7 +41,8 @@ const
   Race: array [0..RacesCount - 1] of TRaceRec = (
   ( // Human
   NameLangID: 182;
-  BeginDescr     : 342;
+  BeginDescr: 342;
+  EndDescr  : 360;
   Strength  : 0;
   Dexterity : 0;
   Intelligence      : 0;
@@ -51,7 +53,8 @@ const
   ),
   ( // Halfling
   NameLangID: 183;
-  BeginDescr     : 343;
+  BeginDescr: 343;
+  EndDescr  : 361;
   Strength  : -4;
   Dexterity : 4;
   Intelligence      : -1;
@@ -62,7 +65,8 @@ const
   ),
   ( // Gnome
   NameLangID: 184;
-  BeginDescr     : 344;
+  BeginDescr: 344;
+  EndDescr  : 362;
   Strength  : 1;
   Dexterity : 1;
   Intelligence      : 0;
@@ -73,7 +77,8 @@ const
   ),
   ( // Gray Dwarf
   NameLangID: 185;
-  BeginDescr     : 345;
+  BeginDescr: 345;
+  EndDescr  : 363;
   Strength  : 2;
   Dexterity : 0;
   Intelligence      : 0;
@@ -84,7 +89,8 @@ const
   ),
   ( // Orc
   NameLangID: 186;
-  BeginDescr     : 346;
+  BeginDescr: 346;
+  EndDescr  : 364;
   Strength  : 6;
   Dexterity : -2;
   Intelligence      : -2;
@@ -95,7 +101,8 @@ const
   ),
   ( // High Elf
   NameLangID: 187;
-  BeginDescr     : 347;
+  BeginDescr: 347;
+  EndDescr  : 365;
   Strength  : -4;
   Dexterity : 0;
   Intelligence      : 4;
@@ -106,7 +113,8 @@ const
   ),
   ( // Night Elf
   NameLangID: 188;
-  BeginDescr     : 348;
+  BeginDescr: 348;
+  EndDescr  : 366;
   Strength  : 1;
   Dexterity : 2;
   Intelligence      : -2;
@@ -117,7 +125,8 @@ const
   ),
   ( // Dark Elf
   NameLangID: 189;
-  BeginDescr     : 349;
+  BeginDescr: 349;
+  EndDescr  : 367;
   Strength  : -3;
   Dexterity : 2;
   Intelligence      : 0;
@@ -128,7 +137,8 @@ const
   ),
   ( // Deep Dwarf
   NameLangID: 190;
-  BeginDescr     : 350;
+  BeginDescr: 350;
+  EndDescr  : 368;
   Strength  : 1;
   Dexterity : 1;
   Intelligence      : 0;
@@ -139,7 +149,8 @@ const
   ),
   ( // Cave Dwarf
   NameLangID: 191;
-  BeginDescr     : 351;
+  BeginDescr: 351;
+  EndDescr  : 369;
   Strength  : -1;
   Dexterity : 4;
   Intelligence      : -2;
