@@ -14,6 +14,7 @@ type
     CursorPos: Integer;
     function Count: Byte;
     function GetAtrValue(A: Byte): Integer;
+    function GetRaceDescription(ARaceIndex: Integer): string;
   public
     procedure MakePC(I: Byte = 0);
     procedure Render(); override;
@@ -182,7 +183,8 @@ begin
     Creatures.PC.Prop.Strength := Creatures.PC.Prop.Strength + Race[I].Strength;
     Creatures.PC.Prop.Dexterity := Creatures.PC.Prop.Dexterity +
       Race[I].Dexterity;
-    Creatures.PC.Prop.Intelligence := Creatures.PC.Prop.Intelligence + Race[I].Intelligence;
+    Creatures.PC.Prop.Intelligence := Creatures.PC.Prop.Intelligence +
+      Race[I].Intelligence;
     Creatures.PC.Prop.Speed := Creatures.PC.Prop.Speed + Race[I].Speed;
     Creatures.PC.Calc;
     Creatures.PC.Fill;
@@ -192,10 +194,33 @@ begin
   end;
 end;
 
+function TSceneRace.GetRaceDescription(ARaceIndex: Integer): string;
+const
+  L1 = 1;
+  L2 = 4;
+begin
+  // Begin race description
+  Result := GetLang(Race[ARaceIndex].BeginDescr);
+  // Strength
+  if Race[ARaceIndex].Strength >= L2 then
+    Result := Result + ' ' + GetLang(324)
+  else if Race[ARaceIndex].Strength > L1 then
+    Result := Result + ' ' + GetLang(321)
+  else if Race[ARaceIndex].Strength <= -L2 then
+    Result := Result + ' ' + GetLang(325)
+  else if Race[ARaceIndex].Strength < -L1 then
+    Result := Result + ' ' + GetLang(322)
+  else
+    Result := Result + ' ' + GetLang(323);
+  // Dexterity
+  // Intelligence
+  // End race description
+end;
+
 procedure TSceneRace.Render;
 var
   T, C, I, J, Y, H, L, K, LRaceIndex, R, V, U: Integer;
-  F, S, D, M, Q, LDescr: string;
+  F, S, D, M, Q: string;
   A: ShortInt;
 begin
   inherited;
@@ -223,24 +248,12 @@ begin
           Font.Style := [];
           Font.Color := cBgColor;
         end;
-        //
-        LDescr := GetLang(Race[CursorPos - 1].Descr);
-        if Race[LRaceIndex].Strength >= 4 then
-          LDescr := LDescr + ' ' + GetLang(324)
-        else if Race[LRaceIndex].Strength > 1 then
-          LDescr := LDescr + ' ' + GetLang(321)
-        else if Race[LRaceIndex].Strength <= -4 then
-          LDescr := LDescr + ' ' + GetLang(325)
-        else if Race[LRaceIndex].Strength < -1 then
-          LDescr := LDescr + ' ' + GetLang(322)
-        else
-          LDescr := LDescr + ' ' + GetLang(323);
-        //
         TextOut((Graph.CharWidth * 3) - TextWidth(S), Y, S);
         TextOut(Graph.CharWidth * 3, Y, GetLang(Race[I].NameLangID));
         Font.Style := [];
         Font.Color := cAcColor;
-        Graph.Text.DrawAll(T, 3, Round(T * 2.5), LDescr);
+        Graph.Text.DrawAll(T, 3, Round(T * 2.5),
+          GetRaceDescription(LRaceIndex));
       end;
       Font.Style := [];
       if (Count > 0) then
@@ -361,7 +374,7 @@ begin
       else if (Count > 1) then
         Graph.Text.BarOut('a-' + Chr(96 + Count), GetLang(181), False);
       //
-      Creatures.PC.Race := CursorPos - 1;
+      Creatures.PC.Race := LRaceIndex;
       SceneInv.RedrawPCIcon;
       Draw((L * Graph.CharWidth) - 72, (H + 1) * Graph.CharHeight,
         SceneInv.Hero);
