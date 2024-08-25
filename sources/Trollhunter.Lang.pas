@@ -27,7 +27,7 @@ const
   ('', ''),
   ('Strength', 'Сила'),
   ('Dexterity', 'Ловкость'),
-  ('Will', 'Воля'),
+  ('Intelligence', 'Интеллект'),
   ('Speed', 'Скорость'),
   ('', ''),
   ('Hello #g%s$, welcome to #r%s$! Be careful!', 'Здравствуй #g%s$, добро пожаловать в #r%s$! Будь осторожен!'), // 020
@@ -453,7 +453,7 @@ const
   ('POTIOND',         'Full Rejuvenation Potion',     'Эликсир Полного Восстановления'),
   ('POTIONE',         'Strength Potion',              'Эликсир Силы'),
   ('POTIONF',         'Dexterity Potion',             'Эликсир Ловкости'),
-  ('POTIONG',         'Will Potion',                  'Эликсир Воли'),
+  ('POTIONG',         'Intelligence Potion',          'Эликсир Интеллекта'),
   ('POTIONH',         'Speed Potion',                 'Эликсир Проворности'),
   // Bag of Stones
   //

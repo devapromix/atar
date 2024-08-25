@@ -29,7 +29,7 @@ type
     Descr: Word;
     Strength: Integer;
     Dexterity: Integer;
-    Will: Integer;
+    Intelligence: Integer;
     Speed: Integer;
     RHWeapon: TItemProp;
     LHWeapon: TItemProp;
@@ -43,7 +43,7 @@ const
   Descr     : 342;
   Strength  : 0;
   Dexterity : 0;
-  Will      : 0;
+  Intelligence      : 0;
   Speed     : 0;
   RHWeapon  : (ID: 'SHORTSWORD';    Count: 1);
   LHWeapon  : (ID: 'SMALLSHIELD';   Count: 1);
@@ -54,7 +54,7 @@ const
   Descr     : 343;
   Strength  : -4;
   Dexterity : 4;
-  Will      : -1;
+  Intelligence      : -1;
   Speed     : 1;
   RHWeapon  : (ID: 'SHORTSWORD';    Count: 1);
   LHWeapon  : (ID: '';              Count: 0);
@@ -65,7 +65,7 @@ const
   Descr     : 344;
   Strength  : 1;
   Dexterity : 1;
-  Will      : 0;
+  Intelligence      : 0;
   Speed     : -2;
   RHWeapon  : (ID: 'HATCHET';       Count: 1);
   LHWeapon  : (ID: 'SMALLSHIELD';   Count: 1);
@@ -76,7 +76,7 @@ const
   Descr     : 345;
   Strength  : 2;
   Dexterity : 0;
-  Will      : 0;
+  Intelligence      : 0;
   Speed     : -2;
   RHWeapon  : (ID: 'HATCHET';       Count: 1);
   LHWeapon  : (ID: 'SMALLSHIELD';   Count: 1);
@@ -87,7 +87,7 @@ const
   Descr     : 346;
   Strength  : 6;
   Dexterity : -2;
-  Will      : -2;
+  Intelligence      : -2;
   Speed     : -2;
   RHWeapon  : (ID: 'STONEHAMMER';   Count: 1);
   LHWeapon  : (ID: '';              Count: 0);
@@ -98,7 +98,7 @@ const
   Descr     : 347;
   Strength  : -4;
   Dexterity : 0;
-  Will      : 4;
+  Intelligence      : 4;
   Speed     : 0;
   RHWeapon  : (ID: 'SHORTSWORD';    Count: 1);
   LHWeapon  : (ID: '';              Count: 0);
@@ -109,7 +109,7 @@ const
   Descr     : 348;
   Strength  : 1;
   Dexterity : 2;
-  Will      : -2;
+  Intelligence      : -2;
   Speed     : -1;
   RHWeapon  : (ID: 'HUNTBOW';       Count: 1);
   LHWeapon  : (ID: 'ARROW';         Count: 75);
@@ -119,8 +119,8 @@ const
   NameLangID: 189;
   Descr     : 349;
   Strength  : -3;
-  Dexterity : 1;
-  Will      : 1;
+  Dexterity : 2;
+  Intelligence      : 0;
   Speed     : 1;
   RHWeapon  : (ID: 'LIGHTCROSSBOW'; Count: 1);
   LHWeapon  : (ID: 'BOLT';          Count: 75);
@@ -131,7 +131,7 @@ const
   Descr     : 350;
   Strength  : 1;
   Dexterity : 1;
-  Will      : 0;
+  Intelligence      : 0;
   Speed     : -2;
   RHWeapon  : (ID: 'HATCHET';       Count: 1);
   LHWeapon  : (ID: 'SMALLSHIELD';   Count: 1);
@@ -142,7 +142,7 @@ const
   Descr     : 351;
   Strength  : -1;
   Dexterity : 4;
-  Will      : -2;
+  Intelligence      : -2;
   Speed     : -1;
   RHWeapon  : (ID: 'STONEHAMMER';       Count: 1);
   LHWeapon  : (ID: '';   Count: 0);

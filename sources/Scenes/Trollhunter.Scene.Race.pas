@@ -76,7 +76,7 @@ begin
     2:
       Result := Creatures.PC.Prop.Dexterity;
     3:
-      Result := Creatures.PC.Prop.Will;
+      Result := Creatures.PC.Prop.Intelligence;
     4:
       Result := Creatures.PC.Prop.Speed;
   end;
@@ -182,7 +182,7 @@ begin
     Creatures.PC.Prop.Strength := Creatures.PC.Prop.Strength + Race[I].Strength;
     Creatures.PC.Prop.Dexterity := Creatures.PC.Prop.Dexterity +
       Race[I].Dexterity;
-    Creatures.PC.Prop.Will := Creatures.PC.Prop.Will + Race[I].Will;
+    Creatures.PC.Prop.Intelligence := Creatures.PC.Prop.Intelligence + Race[I].Intelligence;
     Creatures.PC.Prop.Speed := Creatures.PC.Prop.Speed + Race[I].Speed;
     Creatures.PC.Calc;
     Creatures.PC.Fill;
@@ -279,7 +279,7 @@ begin
           2:
             A := Race[LRaceIndex].Dexterity;
           3:
-            A := Race[LRaceIndex].Will;
+            A := Race[LRaceIndex].Intelligence;
           4:
             A := Race[LRaceIndex].Speed;
         end;

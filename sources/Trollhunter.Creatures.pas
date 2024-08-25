@@ -344,12 +344,12 @@ begin
           if (A > 0) then
           begin
             Inc(Level, A);
-            if (Strength >= Dexterity) and (Strength >= Will) then
+            if (Strength >= Dexterity) and (Strength >= Intelligence) then
               Inc(Strength, A);
-            if (Dexterity >= Strength) and (Dexterity >= Will) then
+            if (Dexterity >= Strength) and (Dexterity >= Intelligence) then
               Inc(Dexterity, A);
-            if (Will >= Strength) and (Will >= Dexterity) then
-              Inc(Will, A);
+            if (Intelligence >= Strength) and (Intelligence >= Dexterity) then
+              Inc(Intelligence, A);
             Inc(MaxDamage, Strength div 2);
             Inc(Protect, Strength div 10);
             Inc(Radius, Dexterity div 5);

@@ -297,7 +297,7 @@ var
           Add(Format('%s +1.', [GetLang(15)]));
         if (scDexterity in SubCats) then
           Add(Format('%s +1.', [GetLang(16)]));
-        if (scWill in SubCats) then
+        if (scIntelligence in SubCats) then
           Add(Format('%s +1.', [GetLang(17)]));
         if (scSpeed in SubCats) then
           Add(Format('%s +1.', [GetLang(18)]));
@@ -352,8 +352,8 @@ var
         Add(Format('%s %d', [GetLang(15), DungeonItems[I].BonusStrength]));
       if (DungeonItems[I].BonusDexterity > 0) then
         Add(Format('%s %d', [GetLang(16), DungeonItems[I].BonusDexterity]));
-      if (DungeonItems[I].BonusWill > 0) then
-        Add(Format('%s %d', [GetLang(17), DungeonItems[I].BonusWill]));
+      if (DungeonItems[I].BonusIntelligence > 0) then
+        Add(Format('%s %d', [GetLang(17), DungeonItems[I].BonusIntelligence]));
       if (DungeonItems[I].BonusSpeed > 0) then
         Add(Format('%s %d', [GetLang(18), DungeonItems[I].BonusSpeed]));
       if (DungeonItems[I].BonusLife > 0) then

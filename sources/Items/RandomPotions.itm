@@ -106,7 +106,7 @@
   MinCount   : 1;
   MaxCount   : 1;
   Category   : dsPotion;
-  SubCats    : [scWill];
+  SubCats    : [scIntelligence];
   ColorTag   : 7;
   Color      : clNone;
   ),

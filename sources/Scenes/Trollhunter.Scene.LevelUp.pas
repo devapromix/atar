@@ -56,7 +56,7 @@ begin
         1:
           S := S + #32 + IntToStr(Creatures.PC.Prop.Dexterity);
         2:
-          S := S + #32 + IntToStr(Creatures.PC.Prop.Will);
+          S := S + #32 + IntToStr(Creatures.PC.Prop.Intelligence);
         3:
           S := S + #32 + IntToStr(Creatures.PC.Prop.Speed);
       end;
@@ -111,7 +111,7 @@ begin
             1:
               AddDexterity;
             2:
-              AddWill;
+              AddIntelligence;
             3:
               AddSpeed;
           end;

@@ -24,8 +24,8 @@ type
 
 type
   TSubCats = (scNone, scKey, scFill, scDispel, scAntidote, scTeleport, scPortal,
-    scSummon, scIdentify, scWizardEye, scStrength, scDexterity, scWill, scSpeed,
-    scRepair, scRepair3, scRepair6, scRepair9, scRepair12, scRepair15,
+    scSummon, scIdentify, scWizardEye, scStrength, scDexterity, scIntelligence,
+    scSpeed, scRepair, scRepair3, scRepair6, scRepair9, scRepair12, scRepair15,
     scRepair25, scRepairAll, scLife, scLife25, scLife50, scLife75, scLife100,
     scLife200, scMana, scMana25, scMana50, scMana75, scMana100, scMana200,
     scDagger, scAxe, scSword, scMace, scSpear, scShield, scBow, scCrossBow);
@@ -81,13 +81,13 @@ type
     Color: Integer;
     BonusStrength: Integer;
     BonusDexterity: Integer;
-    BonusWill: Integer;
+    BonusIntelligence: Integer;
     BonusSpeed: Integer;
     BonusLife: Integer;
     BonusMana: Integer;
     NeedStrength: Integer;
     NeedDexterity: Integer;
-    NeedWill: Integer;
+    NeedIntelligence: Integer;
     NeedSpeed: Integer;
     NeedMagic: Integer;
   end;
@@ -512,8 +512,8 @@ begin
             AddStrength;
           if (scDexterity in SubCats) then
             AddDexterity;
-          if (scWill in SubCats) then
-            AddWill;
+          if (scIntelligence in SubCats) then
+            AddIntelligence;
           if (scSpeed in SubCats) then
             AddSpeed;
           // Misc

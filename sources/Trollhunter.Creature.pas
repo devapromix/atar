@@ -33,7 +33,7 @@ type
     Projectile: TCreatureProjectileType;
     Strength: Integer;
     Dexterity: Integer;
-    Will: Integer;
+    Intelligence: Integer;
     Speed: Integer;
     Poison: TTempSysItem;
     Blind: TTempSysItem;
@@ -111,7 +111,7 @@ procedure TCreature.Calc;
 begin
   AP.SetMax(GetMaxAP(Prop.Speed));
   Life.SetMax(GetMaxLife(Prop.Strength));
-  Mana.SetMax(GetMaxMana(Prop.Will));
+  Mana.SetMax(GetMaxMana(Prop.Intelligence));
 end;
 
 function TCreature.FreeCell(AX, AY: Integer): Boolean;

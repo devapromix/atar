@@ -63,7 +63,7 @@ type
     procedure DoTime();
     procedure AddStrength;
     procedure AddDexterity;
-    procedure AddWill;
+    procedure AddIntelligence;
     procedure AddSpeed;
     procedure DetectTraps;
     procedure DoDetectTraps;
@@ -143,7 +143,7 @@ begin
   Prop.Distance := 7;
   Prop.Strength := 15;
   Prop.Dexterity := 5;
-  Prop.Will := 8;
+  Prop.Intelligence := 8;
   Prop.Speed := 10;
   Dungeon := 0;
   Race := 0;
@@ -256,7 +256,7 @@ begin
     Race := Get;
     Prop.Strength := Get;
     Prop.Dexterity := Get;
-    Prop.Will := Get;
+    Prop.Intelligence := Get;
     Prop.Speed := Get;
     Prop.Level := Get;
     Prop.Exp := Get;
@@ -304,7 +304,7 @@ begin
     //
     Add(Prop.Strength);
     Add(Prop.Dexterity);
-    Add(Prop.Will);
+    Add(Prop.Intelligence);
     Add(Prop.Speed);
     //
     Add(Prop.Level);
@@ -756,10 +756,10 @@ begin
   Calc;
 end;
 
-procedure TPC.AddWill;
+procedure TPC.AddIntelligence;
 begin
-  Inc(Prop.Will);
-  Log.Add(Format('%s +1 (%d).', [GetLang(17), Prop.Will]));
+  Inc(Prop.Intelligence);
+  Log.Add(Format('%s +1 (%d).', [GetLang(17), Prop.Intelligence]));
   Calc;
 end;
 
@@ -769,7 +769,7 @@ begin
   AP.SetMax(GetMaxAP(GetSpeed));
   Inv.MaxCount := GetMaxCount(Prop.Strength);
   Inv.MaxWeight := GetMaxWeight(Prop.Strength);
-  Mana.SetMax(GetMaxMana(Prop.Will) +
+  Mana.SetMax(GetMaxMana(Prop.Intelligence) +
     GetAdvMana(Skill.GetSkill(skMagic, True)));
 end;
 
