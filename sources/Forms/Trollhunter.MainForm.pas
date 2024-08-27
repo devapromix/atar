@@ -31,7 +31,7 @@ type
     Procedure MouseClick(var Msg: TMessage); message WM_USER + 1;
   public
     { Public declarations }
-    procedure ActionIcon(n: Integer; Icon: TIcon);
+    procedure ActionIcon(N: Integer; Icon: TIcon);
     Procedure OnMinimizeProc(Sender: TObject);
   end;
 
@@ -83,13 +83,13 @@ begin
   Game.Save;
 end;
 
-procedure TMainForm.ActionIcon(n: Integer; Icon: TIcon);
+procedure TMainForm.ActionIcon(N: Integer; Icon: TIcon);
 var
-  Nim: TNotifyIconData;
+  LNim: TNotifyIconData;
 begin
-  with Nim do
+  with LNim do
   begin
-    cbSize := System.SizeOf(Nim);
+    cbSize := System.SizeOf(LNim);
     Wnd := MainForm.Handle;
     uID := 1;
     uFlags := NIF_ICON or NIF_MESSAGE or NIF_TIP;
@@ -97,21 +97,21 @@ begin
     uCallbackMessage := WM_USER + 1;
     szTip := 'Trollhunter';
   end;
-  case n of
+  case N of
     1:
-      Shell_NotifyIcon(Nim_Add, @Nim);
+      Shell_NotifyIcon(Nim_Add, @LNim);
     2:
-      Shell_NotifyIcon(Nim_Delete, @Nim);
+      Shell_NotifyIcon(Nim_Delete, @LNim);
     3:
-      Shell_NotifyIcon(Nim_Modify, @Nim);
+      Shell_NotifyIcon(Nim_Modify, @LNim);
   end;
 end;
 
 procedure TMainForm.MouseClick(var Msg: TMessage);
 var
-  P: TPoint;
+  LPoint: TPoint;
 begin
-  GetCursorPos(P);
+  GetCursorPos(LPoint);
   case Msg.LParam of
     WM_RBUTTONUP:
       begin
