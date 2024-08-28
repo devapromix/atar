@@ -70,16 +70,17 @@ uses
 
 function TCreatures.EmptyCell(X, Y: Integer): Boolean;
 var
-  J: Integer;
+  LIndex: Integer;
 begin
   Result := False;
   if (X = Creatures.PC.Pos.X) and (Y = Creatures.PC.Pos.Y) then
     Exit;
   if not Creatures.PC.FreeCell(X, Y) then
     Exit;
-  for J := 0 to High(Creatures.Enemy) do
-    if not Creatures.Enemy[J].Life.IsMin and (X = Creatures.Enemy[J].Pos.X) and
-      (Y = Creatures.Enemy[J].Pos.Y) then
+  for LIndex := 0 to High(Creatures.Enemy) do
+    if not Creatures.Enemy[LIndex].Life.IsMin and
+      (X = Creatures.Enemy[LIndex].Pos.X) and (Y = Creatures.Enemy[LIndex].Pos.Y)
+    then
       Exit;
   Result := True;
 end;
@@ -215,11 +216,11 @@ end;
 
 destructor TCreatures.Destroy;
 var
-  I: Word;
+  LIndex: Integer;
 begin
   if (Length(Enemy) > 0) then
-    for I := 0 to Length(Enemy) - 1 do
-      Enemy[I].Free;
+    for LIndex := 0 to Length(Enemy) - 1 do
+      Enemy[LIndex].Free;
   FPC.Free;
   LBAR.Free;
   LIFEBAR.Free;
@@ -235,15 +236,15 @@ end;
 
 procedure TCreatures.Move;
 var
-  I, J: Integer;
+  LIndex, LAP: Integer;
 begin
   try
     if (Length(Enemy) > 0) then
-      for J := 0 to PC.AP.Max do
-        for I := 0 to High(Enemy) do
-          if not Enemy[I].Life.IsMin and not PC.Life.IsMin then
+      for LAP := 0 to PC.AP.Max do
+        for LIndex := 0 to High(Enemy) do
+          if not Enemy[LIndex].Life.IsMin and not PC.Life.IsMin then
           begin
-            with Enemy[I] do
+            with Enemy[LIndex] do
               if AP.IsMin then
               begin
                 Process;
@@ -260,7 +261,7 @@ end;
 
 procedure TCreatures.Render(X, Y, DX, DY: Integer; IsSpot: Boolean);
 var
-  I: Integer;
+  LIndex: Integer;
 begin
   try
     with Graph.Surface.Canvas do
@@ -268,28 +269,28 @@ begin
       begin
         if IsSpot then
         begin
-          for I := 0 to High(Creatures.Enemy) do
-            if (X = Creatures.Enemy[I].Pos.X) and (Y = Creatures.Enemy[I].Pos.Y)
-            then
-              if Creatures.Enemy[I].Life.IsMin then
-                Draw(DX, DY, Creatures.Enemy[I].Spot);
+          for LIndex := 0 to High(Creatures.Enemy) do
+            if (X = Creatures.Enemy[LIndex].Pos.X) and
+              (Y = Creatures.Enemy[LIndex].Pos.Y) then
+              if Creatures.Enemy[LIndex].Life.IsMin then
+                Draw(DX, DY, Creatures.Enemy[LIndex].Spot);
         end
         else
-          for I := 0 to High(Creatures.Enemy) do
-            if (X = Creatures.Enemy[I].Pos.X) and (Y = Creatures.Enemy[I].Pos.Y)
-            then
-              if not Creatures.Enemy[I].Life.IsMin then
+          for LIndex := 0 to High(Creatures.Enemy) do
+            if (X = Creatures.Enemy[LIndex].Pos.X) and
+              (Y = Creatures.Enemy[LIndex].Pos.Y) then
+              if not Creatures.Enemy[LIndex].Life.IsMin then
               begin
-                Draw(DX, DY, Creatures.Enemy[I].Image);
+                Draw(DX, DY, Creatures.Enemy[LIndex].Image);
                 LBAR.Assign(LIFEBAR);
-                LBAR.Width := BarWidth(Creatures.Enemy[I].Life.Cur,
-                  Creatures.Enemy[I].Life.Max, 30);
+                LBAR.Width := BarWidth(Creatures.Enemy[LIndex].Life.Cur,
+                  Creatures.Enemy[LIndex].Life.Max, 30);
                 Draw(DX + 1, DY, LBAR);
-                if not Creatures.Enemy[I].Mana.IsMin then
+                if not Creatures.Enemy[LIndex].Mana.IsMin then
                 begin
                   MBAR.Assign(MANABAR);
-                  MBAR.Width := BarWidth(Creatures.Enemy[I].Mana.Cur,
-                    Creatures.Enemy[I].Mana.Max, 30);
+                  MBAR.Width := BarWidth(Creatures.Enemy[LIndex].Mana.Cur,
+                    Creatures.Enemy[LIndex].Mana.Max, 30);
                   Draw(DX + 1, DY + 2, MBAR);
                 end;
               end;
