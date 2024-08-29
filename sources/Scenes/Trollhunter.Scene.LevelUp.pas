@@ -9,7 +9,10 @@ uses
 type
   TSceneLevelUp = class(TScene)
   private
-    Count, T, CursorPos, P: Integer;
+    FCount: Integer;
+    FWidth: Integer;
+    FCursorPos: Integer;
+    FP: Integer;
     procedure AtrItem(I: Integer; S: string);
   public
     procedure Render(); override;
@@ -41,8 +44,8 @@ uses
 
 constructor TSceneLevelUp.Create;
 begin
-  CursorPos := 0;
-  Count := 4;
+  FCursorPos := 0;
+  FCount := 4;
 end;
 
 procedure TSceneLevelUp.AtrItem(I: Integer; S: string);
@@ -60,11 +63,11 @@ begin
         3:
           S := S + #32 + IntToStr(Creatures.PC.Prop.Speed);
       end;
-      if (CursorPos = P) then
+      if (FCursorPos = FP) then
       begin
         Font.Color := cAcColor;
         Font.Style := [fsBold];
-        Graph.RenderMenuLine(P + 1, T, False, 50, cDkGray);
+        Graph.RenderMenuLine(FP + 1, FWidth, False, 50, cDkGray);
       end
       else
       begin
@@ -72,13 +75,13 @@ begin
         Font.Style := [];
       end;
       TextOut((Graph.Width div 2) - (TextWidth(S) div 2),
-        (P * Graph.CharHeight) + T + Graph.CharHeight, S);
+        (FP * Graph.CharHeight) + FWidth + Graph.CharHeight, S);
       Font.Color := cLtBlue;
-      if (P = CursorPos) then
+      if (FP = FCursorPos) then
         TextOut((Graph.Width div 2) - (TextWidth(S) div 2) +
-          ((Length(S) + 1) * Graph.CharWidth), (P * Graph.CharHeight) + T +
-          Graph.CharHeight, '+ 1');
-      Inc(P);
+          ((Length(S) + 1) * Graph.CharWidth), (FP * Graph.CharHeight) + FWidth
+          + Graph.CharHeight, '+ 1');
+      Inc(FP);
     end;
   except
     on E: Exception do
@@ -98,14 +101,14 @@ begin
     case Key of
       38, 40:
         begin
-          CursorPos := CursorPos + (Key - 39);
-          CursorPos := ClampCycle(CursorPos, 0, Count - 1);
+          FCursorPos := FCursorPos + (Key - 39);
+          FCursorPos := ClampCycle(FCursorPos, 0, FCount - 1);
           Render;
         end;
       13:
         with Creatures.PC do
         begin
-          case CursorPos of
+          case FCursorPos of
             0:
               AddStrength;
             1:
@@ -134,23 +137,23 @@ end;
 
 procedure TSceneLevelUp.Render;
 var
-  I: Integer;
+  LIndex: Integer;
 begin
   inherited;
   try
-    P := 0;
+    FP := 0;
     Graph.Clear(0);
-    T := (Graph.Height div 2) - (Count * Graph.CharHeight div 2);
+    FWidth := (Graph.Height div 2) - (FCount * Graph.CharHeight div 2);
     with Graph.Surface.Canvas do
     begin
-      for I := 0 to Count - 1 do
-        AtrItem(I, GetLang(I + 15));
-      T := T div Graph.CharHeight;
+      for LIndex := 0 to FCount - 1 do
+        AtrItem(LIndex, GetLang(LIndex + 15));
+      FWidth := FWidth div Graph.CharHeight;
       Font.Style := [];
       Font.Color := cBgColor;
-      Graph.Text.TextCenter(T - 3, GetLang(60));
-      Graph.Text.TextCenter(T - 2, GetLang(62));
-      Graph.Text.TextCenter(T - 1, GetLang(63));
+      Graph.Text.TextCenter(FWidth - 3, GetLang(60));
+      Graph.Text.TextCenter(FWidth - 2, GetLang(62));
+      Graph.Text.TextCenter(FWidth - 1, GetLang(63));
       Font.Style := [];
     end;
     Graph.Render;
