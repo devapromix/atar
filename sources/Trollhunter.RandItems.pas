@@ -139,10 +139,10 @@ end;
 function TRandItems.GenName: string;
 var
   LStringList: array [0 .. 1] of TStringList;
-  I: Integer;
+  LIndex: Integer;
 begin
-  for I := 0 to 1 do
-    LStringList[I] := TStringList.Create;
+  for LIndex := 0 to 1 do
+    LStringList[LIndex] := TStringList.Create;
   LStringList[0].DelimitedText :=
     '"Elivi","Kilim","Kalim","Valin","Elim","Elid","Tolen","Fillis","Romul",' +
     '"Ened","Eres","Moliz","Revid","Nasum","Teles","Narom","Danif","Tulis",' +
@@ -152,10 +152,11 @@ begin
     '"virum","loran","taar","torin","tiris","nirnum","nirus","dorus","borus",' +
     '"ronum","sorez","sarum","daris","lorim","nadus","sevirum","zorum","narum"';
   Result := '';
-  for I := 0 to 1 do
+  for LIndex := 0 to 1 do
   begin
-    Result := Result + LStringList[I][Random(LStringList[I].Count - 1)] + ' ';
-    FreeAndNil(LStringList[I]);
+    Result := Result + LStringList[LIndex]
+      [Random(LStringList[LIndex].Count - 1)] + ' ';
+    FreeAndNil(LStringList[LIndex]);
   end;
 end;
 

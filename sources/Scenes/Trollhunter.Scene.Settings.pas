@@ -176,7 +176,7 @@ begin
       SettingsItem(GetLang('Language', 'Язык'), LanguageName);
       SettingsItem(GetLang('Font Size', 'Размер Шрифта'), IntToStr(Font.Size));
       SettingsItem(GetLang('Tile Size', 'Размер Тайла'), IntToStr(TileSize));
-      SettingsItem(GetLang('Full Screen', 'Полный Экран'), YesOrNo(Fullscreen));
+      SettingsItem(GetLang('Full Screen', 'Полный Экран'), GetYesOrNoLang(Fullscreen));
     end;
     Graph.Render;
   except

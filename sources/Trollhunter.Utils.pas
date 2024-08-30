@@ -26,8 +26,6 @@ var
 
 var
   Path: string = '';
-  Q: TExplodeResult;
-  GameVersion: string = '';
 
 var
   IsGame: Boolean = False;
@@ -48,8 +46,8 @@ function AddMultiLineText(aText: string; Canv: TCanvas; aRect: TRect): Integer;
 procedure ScaleBmp(var ABitmap: Graphics.TBitmap; CX, CY: Integer);
 function LastPos(const SubStr, Source: string;
   const IgnoreCase: Boolean = True): Integer;
-function StrRight(S: string; i: Integer): string;
-function StrLeft(S: string; i: Integer): string;
+function StrRight(S: string; I: Integer): string;
+function StrLeft(S: string; I: Integer): string;
 function Explode(const Separator: Char; Source: string)
   : TExplodeResult; overload;
 function Explode(const Count: Integer; Source: string): TExplodeResult;
@@ -74,7 +72,6 @@ function GetParamFontSize: Integer;
 function RemoveBack(C: Char; S: string): string;
 function GetStrValue(Key, S: string): string;
 function GetStrKey(Key, S: string): string;
-function YesOrNo(const AValue: Boolean): string;
 
 implementation
 
@@ -90,6 +87,10 @@ uses
   Trollhunter.Creatures,
   Trollhunter.AStar,
   Trollhunter.Error;
+
+var
+  LExplodeResult: TExplodeResult;
+  LGameVersion: string = '';
 
 function IsRealMapCell(X, Y: Integer): Boolean;
 begin
@@ -121,11 +122,11 @@ end;
 
 function GetFileDate(TheFileName: string): string;
 var
-  FHandle: Integer;
+  LHandle: Integer;
 begin
-  FHandle := FileOpen(TheFileName, 0);
-  Result := DateTimeToStr(FileDateToDateTime(FileGetDate(FHandle)));
-  FileClose(FHandle);
+  LHandle := FileOpen(TheFileName, 0);
+  Result := DateTimeToStr(FileDateToDateTime(FileGetDate(LHandle)));
+  FileClose(LHandle);
 end;
 
 function RemoveBack(C: Char; S: string): string;
@@ -200,7 +201,7 @@ end;
 
 function AddMultiLineText(aText: string; Canv: TCanvas; aRect: TRect): Integer;
 var
-  i, C, Res: word;
+  I, C, Res: word;
   SL: TStringList;
   S: string;
   TH: Integer;
@@ -234,12 +235,12 @@ begin
   S := '';
   TH := Canv.TextHeight('1') - 10;
   C := SL.Count - 1;
-  for i := 0 to C do
+  for I := 0 to C do
   begin
-    if Addline(S, SL[i]) then // if string fits then inscribe it
+    if Addline(S, SL[I]) then // if string fits then inscribe it
       S := ''; // and Clear it //
-    S := S + SL[i] + ' '; // and Add a word
-    if (i = C) and (S <> '') then // if needed Add last string
+    S := S + SL[I] + ' '; // and Add a word
+    if (I = C) and (S <> '') then // if needed Add last string
     begin
       AddRow(S);
       Inc(Res);
@@ -312,27 +313,27 @@ end;
 
 function Explode(const Separator: Char; Source: string): TExplodeResult;
 var
-  i: Integer;
+  I: Integer;
   S: string;
 begin
   Result := nil;
   S := Source;
   SetLength(Result, 0);
-  i := 0;
+  I := 0;
   while Pos(Separator, S) > 0 do
   begin
     SetLength(Result, Length(Result) + 1);
-    Result[i] := Copy(S, 1, Pos(Separator, S) - 1);
-    Inc(i);
+    Result[I] := Copy(S, 1, Pos(Separator, S) - 1);
+    Inc(I);
     S := Copy(S, Pos(Separator, S) + Length(Separator), Length(S));
   end;
   SetLength(Result, Length(Result) + 1);
-  Result[i] := Copy(S, 1, Length(S));
+  Result[I] := Copy(S, 1, Length(S));
 end;
 
 function BarWidth(CX, MX, GS: Integer): Integer;
 var
-  i: Integer;
+  I: Integer;
 begin
   if (CX = MX) and (CX = 0) then
   begin
@@ -341,12 +342,12 @@ begin
   end;
   if (MX <= 0) then
     MX := 1;
-  i := (CX * GS) div MX;
-  if i <= 0 then
-    i := 0;
+  I := (CX * GS) div MX;
+  if I <= 0 then
+    I := 0;
   if (CX >= MX) then
-    i := GS;
-  Result := i;
+    I := GS;
+  Result := I;
 end;
 
 function Percent(N, P: Integer): Integer;
@@ -379,14 +380,14 @@ end;
 
 function LineDist(x1, y1, x2, y2: Integer): Boolean;
 var
-  i, L, AX, AY: Integer;
+  I, L, AX, AY: Integer;
   LR: Real;
 begin
   Result := False;
   L := Math.Max(Abs(x1 - x2), Abs(y1 - y2));
-  for i := 1 to L - 1 do
+  for I := 1 to L - 1 do
   begin
-    LR := i / L;
+    LR := I / L;
     AX := x1 + Round((x2 - x1) * LR);
     AY := y1 + Round((y2 - y1) * LR);
     if not Creatures.PC.FreeCell(AX, AY) then
@@ -450,12 +451,12 @@ begin
   Result := (X >= A) and (X <= B);
 end;
 
-function StrRight(S: string; i: Integer): string;
+function StrRight(S: string; I: Integer): string;
 var
   L: Integer;
 begin
   L := Length(S);
-  Result := Copy(S, L - i + 1, L);
+  Result := Copy(S, L - I + 1, L);
 end;
 
 function FileVersion(AFileName: string): string;
@@ -511,9 +512,9 @@ begin
   end;
 end;
 
-function StrLeft(S: string; i: Integer): string;
+function StrLeft(S: string; I: Integer): string;
 begin
-  Result := Copy(S, 1, i);
+  Result := Copy(S, 1, I);
 end;
 
 function DelFile(const AName: string): Boolean;
@@ -542,13 +543,13 @@ end;
 function GetParamFontSize: Integer;
 var
   S: string;
-  i: Integer;
+  I: Integer;
 begin
   Result := 11;
   if (ParamCount > 0) then
-    for i := 1 to ParamCount do
+    for I := 1 to ParamCount do
     begin
-      S := Trim(ParamStr(i));
+      S := Trim(ParamStr(I));
       case S[2] of
         // Font size
         's':
@@ -563,15 +564,15 @@ end;
 function GetParams: TPoint;
 var
   S: string;
-  i: Integer;
+  I: Integer;
   L: TStringList;
 begin
   Result.X := Screen.Width;
   Result.Y := Screen.Height;
   if (ParamCount > 0) then
-    for i := 1 to ParamCount do
+    for I := 1 to ParamCount do
     begin
-      S := Trim(ParamStr(i));
+      S := Trim(ParamStr(I));
       case S[2] of
         // Debug
         'd':
@@ -612,7 +613,7 @@ end;
 
 procedure OpenChest(const F: Boolean);
 var
-  i, J: Byte;
+  I, J: Byte;
 begin
   J := 0;
   case Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile of
@@ -637,7 +638,7 @@ begin
         J := 5;
       end;
   end;
-  for i := 0 to J do
+  for I := 0 to J do
   begin
     Trollhunter.Item.Items.Add(Creatures.PC.Pos.X, Creatures.PC.Pos.Y,
       Map.GetRandItemID);
@@ -656,24 +657,17 @@ begin
   Result := Copy(S, Pos(Key, S) + 1, Length(S));
 end;
 
-function YesOrNo(const AValue: Boolean): string;
-begin
-  if AValue then
-    Result := GetLang('Yes', 'Да')
-  else
-    Result := GetLang('No', 'Нет');
-end;
-
 initialization
 
 Randomize;
 Path := ExtractFilePath(ParamStr(0));
 MakeDir('save');
-Q := Explode('.', FileVersion(ParamStr(0)));
-GameVersion := Q[0] + '.' + Q[1] + '.' + Q[2];
-if (StrToInt(Q[3]) in [1 .. 26]) then
-  GameVersion := GameVersion + Chr(96 + StrToInt(Q[3]))
-else if (StrToInt(Q[3]) > 0) then
-  GameVersion := GameVersion + '.' + Q[3];
+LExplodeResult := Explode('.', FileVersion(ParamStr(0)));
+LGameVersion := LExplodeResult[0] + '.' + LExplodeResult[1] + '.' +
+  LExplodeResult[2];
+if (StrToInt(LExplodeResult[3]) in [1 .. 26]) then
+  LGameVersion := LGameVersion + Chr(96 + StrToInt(LExplodeResult[3]))
+else if (StrToInt(LExplodeResult[3]) > 0) then
+  LGameVersion := LGameVersion + '.' + LExplodeResult[3];
 
 end.
