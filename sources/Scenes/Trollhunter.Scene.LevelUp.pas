@@ -4,10 +4,11 @@ interface
 
 uses
   Classes,
-  Trollhunter.Scene;
+  Trollhunter.Scene,
+  Trollhunter.Scene.BaseMenu;
 
 type
-  TSceneLevelUp = class(TScene)
+  TSceneLevelUp = class(TSceneBaseMenu)
   private
     FCount: Integer;
     FWidth: Integer;

@@ -57,7 +57,7 @@ end;
 
 procedure TSceneSettings.KeyDown(var Key: Word; Shift: TShiftState);
 var
-  S: TSettings;
+  LSettings: TSettings;
 
   procedure Use(I: Integer);
   begin
@@ -99,14 +99,17 @@ begin
     case Key of
       27, 123:
         begin
-          S := TSettings.Create;
+          LSettings := TSettings.Create;
           try
-            S.Write('Settings', 'Language', LangID);
-            S.Write('Settings', 'FontSize', Graph.Surface.Canvas.Font.Size);
-            S.Write('Settings', 'TileSize', (TileSize - BaseTileSize) div 16);
-            S.Write('Settings', 'Fullscreen', IfThen(Fullscreen, 'Yes', 'No'));
+            LSettings.Write('Settings', 'Language', LangID);
+            LSettings.Write('Settings', 'FontSize',
+              Graph.Surface.Canvas.Font.Size);
+            LSettings.Write('Settings', 'TileSize',
+              (TileSize - BaseTileSize) div 16);
+            LSettings.Write('Settings', 'Fullscreen',
+              IfThen(Fullscreen, 'Yes', 'No'));
           finally
-            S.Free;
+            LSettings.Free;
           end;
         end;
       38, 40:
@@ -176,7 +179,8 @@ begin
       SettingsItem(GetLang('Language', 'Язык'), LanguageName);
       SettingsItem(GetLang('Font Size', 'Размер Шрифта'), IntToStr(Font.Size));
       SettingsItem(GetLang('Tile Size', 'Размер Тайла'), IntToStr(TileSize));
-      SettingsItem(GetLang('Full Screen', 'Полный Экран'), GetYesOrNoLang(Fullscreen));
+      SettingsItem(GetLang('Full Screen', 'Полный Экран'),
+        GetYesOrNoLang(Fullscreen));
     end;
     Graph.Render;
   except
