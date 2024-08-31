@@ -164,9 +164,12 @@ begin
       FWidth := FWidth div Graph.CharHeight;
       Font.Style := [];
       Font.Color := cBgColor;
-      Graph.Text.TextCenter(FWidth - 3, GetLang(60));
-      Graph.Text.TextCenter(FWidth - 2, GetLang(62));
-      Graph.Text.TextCenter(FWidth - 1, GetLang(63));
+      if PossibleImproveAttribute then
+      begin
+        Graph.Text.TextCenter(FWidth - 3, GetLang(60));
+        Graph.Text.TextCenter(FWidth - 2, GetLang(62));
+        Graph.Text.TextCenter(FWidth - 1, GetLang(63));
+      end;
       Font.Style := [];
     end;
     Graph.Render;

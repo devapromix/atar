@@ -410,6 +410,7 @@ begin
     end
     else
       case Key of
+        // Shoot //
         13:
           case CursorMode of
             cmShoot:
@@ -496,6 +497,12 @@ begin
           begin
 
           end;
+        // New Level //
+        ord('F'):
+          if ParamDebug then
+            Creatures.PC.NewLevel
+          else
+            Scenes.Scene := SceneLevelUp;
         // Move //
         ord('W'), 12, 101, 53:
           Creatures.PC.Wait;
@@ -647,9 +654,6 @@ begin
         ord('K'):
           if ParamDebug then
             GoToAltNextMap;
-        ord('F'):
-          if ParamDebug then
-            Creatures.PC.NewLevel;
       end;
   except
     on E: Exception do
