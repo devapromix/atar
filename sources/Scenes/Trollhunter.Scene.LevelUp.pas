@@ -5,16 +5,17 @@ interface
 uses
   Classes,
   Trollhunter.Scene,
-  Trollhunter.Scene.BaseMenu;
+  Trollhunter.Scene.BaseGame;
 
 type
-  TSceneLevelUp = class(TSceneBaseMenu)
+  TSceneLevelUp = class(TSceneBaseGame)
   private
     FCount: Integer;
     FWidth: Integer;
     FCursorPos: Integer;
-    FP: Integer;
+    FSelCursorPos: Integer;
     procedure AtrItem(I: Integer; S: string);
+    function PossibleImproveAttribute: Boolean;
   public
     procedure Render(); override;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
@@ -31,6 +32,7 @@ implementation
 uses
   Graphics,
   SysUtils,
+  System.StrUtils,
   Trollhunter.Graph,
   Trollhunter.Creatures,
   Trollhunter.Scenes,
@@ -43,14 +45,23 @@ uses
 
 { TSceneLevelUp }
 
+function TSceneLevelUp.PossibleImproveAttribute: Boolean;
+begin
+  Result := False;
+end;
+
 constructor TSceneLevelUp.Create;
 begin
+  inherited Create(4);
   FCursorPos := 0;
   FCount := 4;
 end;
 
 procedure TSceneLevelUp.AtrItem(I: Integer; S: string);
+var
+  LStr: string;
 begin
+  LStr := IfThen(PossibleImproveAttribute, '+ 1');
   try
     with Graph.Surface.Canvas do
     begin
@@ -64,11 +75,11 @@ begin
         3:
           S := S + #32 + IntToStr(Creatures.PC.Prop.Speed);
       end;
-      if (FCursorPos = FP) then
+      if (FCursorPos = FSelCursorPos) then
       begin
         Font.Color := cAcColor;
         Font.Style := [fsBold];
-        Graph.RenderMenuLine(FP + 1, FWidth, False, 50, cDkGray);
+        Graph.RenderMenuLine(FSelCursorPos + 1, FWidth, False, 50, cDkGray);
       end
       else
       begin
@@ -76,13 +87,13 @@ begin
         Font.Style := [];
       end;
       TextOut((Graph.Width div 2) - (TextWidth(S) div 2),
-        (FP * Graph.CharHeight) + FWidth + Graph.CharHeight, S);
+        (FSelCursorPos * Graph.CharHeight) + FWidth + Graph.CharHeight, S);
       Font.Color := cLtBlue;
-      if (FP = FCursorPos) then
+      if (FSelCursorPos = FCursorPos) then
         TextOut((Graph.Width div 2) - (TextWidth(S) div 2) +
-          ((Length(S) + 1) * Graph.CharWidth), (FP * Graph.CharHeight) + FWidth
-          + Graph.CharHeight, '+ 1');
-      Inc(FP);
+          ((Length(S) + 1) * Graph.CharWidth),
+          (FSelCursorPos * Graph.CharHeight) + FWidth + Graph.CharHeight, LStr);
+      Inc(FSelCursorPos);
     end;
   except
     on E: Exception do
@@ -98,6 +109,7 @@ end;
 
 procedure TSceneLevelUp.KeyDown(var Key: Word; Shift: TShiftState);
 begin
+  inherited;
   try
     case Key of
       38, 40:
@@ -107,22 +119,23 @@ begin
           Render;
         end;
       13:
-        with Creatures.PC do
-        begin
-          case FCursorPos of
-            0:
-              AddStrength;
-            1:
-              AddDexterity;
-            2:
-              AddIntelligence;
-            3:
-              AddSpeed;
+        if PossibleImproveAttribute then
+          with Creatures.PC do
+          begin
+            case FCursorPos of
+              0:
+                AddStrength;
+              1:
+                AddDexterity;
+              2:
+                AddIntelligence;
+              3:
+                AddSpeed;
+            end;
+            Calc;
+            Log.Apply;
+            Scenes.Scene := SceneGame;
           end;
-          Calc;
-          Log.Apply;
-          Scenes.Scene := SceneGame;
-        end;
     end;
   except
     on E: Exception do
@@ -142,8 +155,7 @@ var
 begin
   inherited;
   try
-    FP := 0;
-    Graph.Clear(0);
+    FSelCursorPos := 0;
     FWidth := (Graph.Height div 2) - (FCount * Graph.CharHeight div 2);
     with Graph.Surface.Canvas do
     begin
