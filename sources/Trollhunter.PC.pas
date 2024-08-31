@@ -35,6 +35,7 @@ type
     FPotions: TRandItems;
     FWorld: TGlobalMap;
     FStatistics: TStatistics;
+    FAtrPoint: Integer;
     function GetText: string;
     procedure SetInv(const Value: TAdvInv);
     procedure SetSkill(const Value: TSkill);
@@ -53,6 +54,7 @@ type
     procedure SetEffects(const Value: TEffects);
     procedure SetScrolls(const Value: TRandItems);
     procedure SetPotions(const Value: TRandItems);
+    procedure SetAtrPoint(const Value: Integer);
   public
     procedure Calc;
     procedure Save;
@@ -85,6 +87,7 @@ type
     property Potions: TRandItems read FPotions write SetPotions;
     property World: TGlobalMap read FWorld write FWorld;
     property TempSys: TTempSys read FTempSys write SetTempSys;
+    property AtrPoint: Integer read FAtrPoint write SetAtrPoint;
     property Race: Integer read FRace write SetRace;
     property Dungeon: Integer read FDungeon write SetDungeon;
     property LastTurns: Integer read FLastTurns write SetLastTurns;
@@ -263,6 +266,7 @@ begin
     Prop.MinDamage := Get;
     Prop.MaxDamage := Get;
     Prop.Protect := Get;
+    AtrPoint := Get;
     Rating := Get;
     Turns := Get;
     LastTurns := Get;
@@ -313,6 +317,8 @@ begin
     Add(Prop.MaxDamage);
     Add(Prop.Protect);
     //
+    Add(AtrPoint);
+    //
     Add(Rating);
     Add(Turns);
     Add(LastTurns);
@@ -344,6 +350,7 @@ begin
   with Prop do
   begin
     Level := Level + 1;
+    AtrPoint := AtrPoint + 1;
     Rating := Rating + (Level * 10);
     Log.Add(GetLang(60));
     Log.Add(Format(GetLang(61), [Level]));
@@ -583,6 +590,11 @@ end;
 procedure TPC.SetTurns(const Value: Integer);
 begin
   FTurns := Value;
+end;
+
+procedure TPC.SetAtrPoint(const Value: Integer);
+begin
+  FAtrPoint := Value;
 end;
 
 procedure TPC.SetDay(const Value: Integer);

@@ -47,7 +47,7 @@ uses
 
 function TSceneLevelUp.PossibleImproveAttribute: Boolean;
 begin
-  Result := False;
+  Result := Creatures.PC.AtrPoint > 0;
 end;
 
 constructor TSceneLevelUp.Create;
@@ -124,13 +124,29 @@ begin
           begin
             case FCursorPos of
               0:
-                AddStrength;
+                if Creatures.PC.AtrPoint > 0 then
+                begin
+                  Creatures.PC.AtrPoint := Creatures.PC.AtrPoint - 1;
+                  AddStrength;
+                end;
               1:
-                AddDexterity;
+                if Creatures.PC.AtrPoint > 0 then
+                begin
+                  Creatures.PC.AtrPoint := Creatures.PC.AtrPoint - 1;
+                  AddDexterity;
+                end;
               2:
-                AddIntelligence;
+                if Creatures.PC.AtrPoint > 0 then
+                begin
+                  Creatures.PC.AtrPoint := Creatures.PC.AtrPoint - 1;
+                  AddIntelligence;
+                end;
               3:
-                AddSpeed;
+                if Creatures.PC.AtrPoint > 0 then
+                begin
+                  Creatures.PC.AtrPoint := Creatures.PC.AtrPoint - 1;
+                  AddSpeed;
+                end;
             end;
             Calc;
             Log.Apply;
