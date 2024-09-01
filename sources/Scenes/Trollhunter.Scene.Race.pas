@@ -132,10 +132,10 @@ var
 begin
   try
     Creatures.PC.Clear;
-    // Equipments
-    for J := 0 to Races.RaceList[I].Equipments.Count - 1 do
+    // Equipment
+    for J := 0 to Races.RaceList[I].Equipment.Count - 1 do
     begin
-      Items.AddAndEquip(Races.RaceList[I].Equipments[J], 1);
+      Items.AddAndEquip(Races.RaceList[I].Equipment[J], 1);
     end;
     // Skills
     for J := 0 to Races.RaceList[I].Skills.Count - 1 do
