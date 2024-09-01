@@ -17,7 +17,6 @@ type
   TGame = class(TObject)
   private
     FScores: TScores;
-    FJSONResources: TJSONResources;
     procedure SetScores(const Value: TScores);
   public
     procedure New;
@@ -27,8 +26,6 @@ type
     constructor Create;
     destructor Destroy; override;
     property Scores: TScores read FScores write SetScores;
-    property JSONResources: TJSONResources read FJSONResources
-      write FJSONResources;
   end;
 
 var
@@ -57,14 +54,10 @@ begin
   FScores := TScores.Create(26);
   if FileExists(Path + 'save\Scores.rec') then
     FScores.Load;
-  FJSONResources := TJSONResources.Create;
-  if FileExists(Path + 'resources.res') then
-    FJSONResources.Load;
 end;
 
 destructor TGame.Destroy;
 begin
-  FreeAndNil(FJSONResources);
   FreeAndNil(FScores);
   inherited;
 end;

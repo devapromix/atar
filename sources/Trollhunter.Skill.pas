@@ -69,7 +69,8 @@ type
     function GetSkill(SkillID: TSkillEnum; IsLevel: Boolean): Integer; overload;
     function GetSkill(SkillID: TSkillEnum): TSkillItem; overload;
     function GetSkill(SkillID: Byte): TSkillItem; overload;
-    procedure Add(SkillID: TSkillEnum; ALevel: Byte);
+    procedure Add(SkillID: TSkillEnum; ALevel: Byte); overload;
+    procedure Add(ASkill: string; ALevel: Byte); overload;
     constructor Create;
     destructor Destroy; override;
   end;
@@ -87,6 +88,17 @@ uses
 procedure TSkill.Add(SkillID: TSkillEnum; ALevel: Byte);
 begin
   FSkill[Ord(SkillID)].Level := ALevel;
+end;
+
+procedure TSkill.Add(ASkill: string; ALevel: Byte);
+var
+  LSkill: TSkillEnum;
+begin
+  if ASkill = 'SWORDS' then
+    LSkill := skSword;
+  if ASkill = 'SHIELDS' then
+    LSkill := skShield;
+  Add(LSkill, ALevel);
 end;
 
 procedure TSkill.Clear;

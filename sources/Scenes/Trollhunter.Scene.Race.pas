@@ -128,19 +128,20 @@ end;
 
 procedure TSceneRace.MakePC(I: Byte);
 var
-  J: Byte;
+  J: Integer;
 begin
   try
     Creatures.PC.Clear;
-    { with Race[I] do
-      begin
-      with RHWeapon do
-      Items.AddAndEquip(ID, Count);
-      with LHWeapon do
-      Items.AddAndEquip(ID, Count);
-      for J := 0 to High(TRaceSkills) do
-      Creatures.PC.Skill.Add(Skills[J].Skill, Skills[J].Level);
-      end; }
+    // Equipments
+    for J := 0 to Races.RaceList[I].Equipments.Count - 1 do
+    begin
+      Items.AddAndEquip(Races.RaceList[I].Equipments[J], 1);
+    end;
+    // Skills
+    for J := 0 to Races.RaceList[I].Skills.Count - 1 do
+    begin
+      Creatures.PC.Skill.Add(Races.RaceList[I].Skills[J], 10);
+    end;
 
     // Items.Add('SMITH');
     // Items.Add('MINIOILPOTION', 3);
@@ -345,14 +346,21 @@ begin
         M := M + '-';
       Graph.Text.DrawOut(T * 2, H, M);
       Font.Style := [];
-      for J := 0 to SkillsCount do
+
+      Font.Color := cDkYellow;
+      for J := 0 to Races.RaceList[LRaceIndex].Skills.Count - 1 do
+      begin
+        Graph.Text.DrawOut(T * 2, H + J + 1,
+          Races.RaceList[LRaceIndex].Skills[J]);
+      end;
+      { for J := 0 to SkillsCount do
         if (Creatures.PC.Skill.GetSkill(J).Level > 0) then
         begin
-          Inc(R);
-          Font.Color := cDkYellow;
-          Graph.Text.DrawOut(T * 2, H + R, GetLang(J + 201) + ': ' +
-            IntToStr(Creatures.PC.Skill.GetSkill(J).Level));
-        end;
+        Inc(R);
+        Font.Color := cDkYellow;
+        Graph.Text.DrawOut(T * 2, H + R, GetLang(J + 201) + ': ' +
+        IntToStr(Creatures.PC.Skill.GetSkill(J).Level));
+        end; }
 
       R := 0;
       Font.Style := [fsBold];

@@ -33,13 +33,6 @@ type
     destructor Destroy; override;
   end;
 
-  TJSONResources = class(TObject)
-  public
-    constructor Create;
-    destructor Destroy; override;
-    procedure Load();
-  end;
-
 var
   Res: TResources;
 
@@ -47,9 +40,6 @@ implementation
 
 uses
   System.SysUtils,
-  System.Classes,
-  System.JSON,
-  Vcl.Dialogs,
   Trollhunter.Utils,
   Trollhunter.Graph,
   Trollhunter.Color,
@@ -57,9 +47,6 @@ uses
   Trollhunter.Map,
   Trollhunter.MainForm,
   Trollhunter.Decorator,
-  Trollhunter.Zip,
-  Trollhunter.Error,
-  Trollhunter.Race,
   Trollhunter.Game;
 
 { TResources }
@@ -317,71 +304,6 @@ begin
   inherited;
 end;
 
-{ TJSONResources }
-
-constructor TJSONResources.Create;
-begin
-
-end;
-
-destructor TJSONResources.Destroy;
-begin
-
-  inherited;
-end;
-
-procedure TJSONResources.Load;
-var
-  I: Integer;
-  LZip: TZip;
-  LStringList: TStringList;
-  LJSONObject: TJSONObject;
-  LJSONArray: TJSONArray;
-  LRace: TRace;
-begin
-  try
-    if not FileExists(Path + 'resources.res') then
-      Exit;
-    LStringList := TStringList.Create;
-    try
-      LZip := TZip.Create(MainForm);
-      try
-        LStringList.Text := LZip.ExtractTextFromFile(Path + 'resources.res',
-          'races.json');
-        LJSONArray := TJSONObject.ParseJSONValue(LStringList.Text)
-          as TJSONArray;
-        try
-          for I := 0 to LJSONArray.Count - 1 do
-          begin
-            LJSONObject := LJSONArray.Items[I] as TJSONObject;
-            LRace := TRace.Create;
-            LRace.Sprite := LJSONObject.GetValue('sprite').Value;
-            LRace.Name := LJSONObject.GetValue('name').Value.ToInteger;
-            LRace.BeginDescr := LJSONObject.GetValue('begin_descr').Value.ToInteger;
-            LRace.EndDescr := LJSONObject.GetValue('end_descr').Value.ToInteger;
-            LRace.Strength := LJSONObject.GetValue('strength').Value.ToInteger;
-            LRace.Dexterity := LJSONObject.GetValue('dexterity').Value.ToInteger;
-            LRace.Intelligence := LJSONObject.GetValue('intelligence').Value.ToInteger;
-            LRace.Perception := LJSONObject.GetValue('perception').Value.ToInteger;
-            LRace.Speed := LJSONObject.GetValue('speed').Value.ToInteger;
-            Races.RaceList.Add(LRace);
-          end;
-        finally
-          FreeAndNil(LJSONArray);
-        end;
-      finally
-        FreeAndNil(LZip);
-      end;
-
-    finally
-      FreeAndNil(LStringList);
-    end;
-  except
-    on E: Exception do
-      Error.Add('Resources.Load', E.Message);
-  end;
-end;
-
 initialization
 
 finalization
@@ -389,3 +311,5 @@ finalization
 Res.Free;
 
 end.
+
+
