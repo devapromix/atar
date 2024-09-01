@@ -46,7 +46,8 @@ uses
   Trollhunter.Settings,
   Trollhunter.Item,
   Trollhunter.Creature,
-  Trollhunter.Map;
+  Trollhunter.Map,
+  Trollhunter.Race;
 
 { TSceneMenu }
 
@@ -73,8 +74,9 @@ begin
     if ParamDebug and (S <> '') then
     begin
       Surface.Canvas.Font.Color := cRdGray;
-      Text.TextCenter(T - 3, Format('[Items: %d, Enemies: %d, Maps: %d]',
-        [ItemsCount, CreaturesCount, MapsCount]));
+      Text.TextCenter(T - 3,
+        Format('[Races: %d, Items: %d, Enemies: %d, Maps: %d]',
+        [Races.RaceList.Count, ItemsCount, CreaturesCount, MapsCount]));
       Text.TextCenter(T - 4, '[' + S + ']');
     end;
   end;

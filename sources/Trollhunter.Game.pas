@@ -3,7 +3,9 @@
 interface
 
 uses
-  Trollhunter.Scores;
+  Trollhunter.Race,
+  Trollhunter.Scores,
+  Trollhunter.Resources;
 
 type
   TPCInfo = record
@@ -15,6 +17,7 @@ type
   TGame = class(TObject)
   private
     FScores: TScores;
+    FJSONResources: TJSONResources;
     procedure SetScores(const Value: TScores);
   public
     procedure New;
@@ -24,6 +27,8 @@ type
     constructor Create;
     destructor Destroy; override;
     property Scores: TScores read FScores write SetScores;
+    property JSONResources: TJSONResources read FJSONResources
+      write FJSONResources;
   end;
 
 var
@@ -32,7 +37,7 @@ var
 implementation
 
 uses
-  SysUtils,
+  System.SysUtils,
   Trollhunter.MainForm,
   Trollhunter.Map,
   Trollhunter.Utils,
@@ -43,21 +48,24 @@ uses
   Trollhunter.Error,
   Trollhunter.TempSys,
   Trollhunter.Item,
-  Trollhunter.Settings,
-  Trollhunter.Resources;
+  Trollhunter.Settings;
 
 { TGame }
 
 constructor TGame.Create;
 begin
-  Scores := TScores.Create(26);
+  FScores := TScores.Create(26);
   if FileExists(Path + 'save\Scores.rec') then
-    Scores.Load;
+    FScores.Load;
+  FJSONResources := TJSONResources.Create;
+  if FileExists(Path + 'resources.res') then
+    FJSONResources.Load;
 end;
 
 destructor TGame.Destroy;
 begin
-  Scores.Free;
+  FreeAndNil(FJSONResources);
+  FreeAndNil(FScores);
   inherited;
 end;
 

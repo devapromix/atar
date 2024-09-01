@@ -12,7 +12,6 @@ type
   TSceneRace = class(TSceneBaseMenu)
   private
     CursorPos: Integer;
-    function Count: Byte;
     function GetAtrValue(A: Byte): Integer;
     function GetRaceDescription(ARaceIndex: Integer): string;
   public
@@ -49,13 +48,6 @@ uses
 
 { TSceneRace }
 
-function TSceneRace.Count: Byte;
-begin
-  Result := RacesCount;
-  if (Result > 26) then
-    Result := 26;
-end;
-
 constructor TSceneRace.Create;
 begin
   inherited Create(4);
@@ -85,28 +77,25 @@ end;
 
 procedure TSceneRace.KeyDown(var Key: Word; Shift: TShiftState);
 var
-  I: Byte;
+  LRaceIndex: Byte;
   K: Word;
-  C: Integer;
 begin
   inherited;
   try
     case Key of
       38, 40:
         begin
-          C := Count;
-          if (C > 0) then
+          if (Races.RaceList.Count > 0) then
           begin
             CursorPos := CursorPos + (Key - 39);
-            CursorPos := ClampCycle(CursorPos, 1, C);
+            CursorPos := ClampCycle(CursorPos, 1, Races.RaceList.Count);
             MakePC(CursorPos - 1);
             Render;
           end;
         end;
       13:
         begin
-          C := Count;
-          if (C > 0) then
+          if (Races.RaceList.Count > 0) then
           begin
             K := (ord('A') + CursorPos) - 1;
             KeyDown(K, Shift);
@@ -114,10 +103,10 @@ begin
         end;
       ord('A') .. ord('Z'):
         begin
-          I := Key - (ord('A'));
-          if (I < Count) then
+          LRaceIndex := Key - (ord('A'));
+          if (LRaceIndex < Races.RaceList.Count) then
           begin
-            Creatures.PC.Race := I;
+            Creatures.PC.Race := LRaceIndex;
             Graph.Messagebar.Add(Format(GetLang(20), [Creatures.PC.Name,
               MainForm.Caption]));
             Creatures.PC.Redraw;
@@ -143,15 +132,15 @@ var
 begin
   try
     Creatures.PC.Clear;
-    with Race[I] do
-    begin
+    { with Race[I] do
+      begin
       with RHWeapon do
-        Items.AddAndEquip(ID, Count);
+      Items.AddAndEquip(ID, Count);
       with LHWeapon do
-        Items.AddAndEquip(ID, Count);
+      Items.AddAndEquip(ID, Count);
       for J := 0 to High(TRaceSkills) do
-        Creatures.PC.Skill.Add(Skills[J].Skill, Skills[J].Level);
-    end;
+      Creatures.PC.Skill.Add(Skills[J].Skill, Skills[J].Level);
+      end; }
 
     // Items.Add('SMITH');
     // Items.Add('MINIOILPOTION', 3);
@@ -180,12 +169,14 @@ begin
     // Items.Add('TAMARILIS', 12);
     Items.Add('KEY', 7);
 
-    Creatures.PC.Prop.Strength := Creatures.PC.Prop.Strength + Race[I].Strength;
-    Creatures.PC.Prop.Dexterity := Creatures.PC.Prop.Dexterity +
-      Race[I].Dexterity;
+    Creatures.PC.Prop.Strength := Creatures.PC.Prop.Strength + Races.RaceList
+      [I].Strength;
+    Creatures.PC.Prop.Dexterity := Creatures.PC.Prop.Dexterity + Races.RaceList
+      [I].Dexterity;
     Creatures.PC.Prop.Intelligence := Creatures.PC.Prop.Intelligence +
-      Race[I].Intelligence;
-    Creatures.PC.Prop.Speed := Creatures.PC.Prop.Speed + Race[I].Speed;
+      Races.RaceList[I].Intelligence;
+    Creatures.PC.Prop.Speed := Creatures.PC.Prop.Speed + Races.RaceList
+      [I].Speed;
     Creatures.PC.Calc;
     Creatures.PC.Fill;
   except
@@ -200,47 +191,47 @@ const
   L2 = 4;
 begin
   // Begin race description
-  Result := GetLang(Race[ARaceIndex].BeginDescr);
+  Result := GetLang(Races.RaceList[ARaceIndex].BeginDescr);
   // Strength
-  if Race[ARaceIndex].Strength >= L2 then
+  if Races.RaceList[ARaceIndex].Strength >= L2 then
     Result := Result + ' ' + GetLang(324)
-  else if Race[ARaceIndex].Strength > L1 then
+  else if Races.RaceList[ARaceIndex].Strength > L1 then
     Result := Result + ' ' + GetLang(321)
-  else if Race[ARaceIndex].Strength <= -L2 then
+  else if Races.RaceList[ARaceIndex].Strength <= -L2 then
     Result := Result + ' ' + GetLang(325)
-  else if Race[ARaceIndex].Strength < -L1 then
+  else if Races.RaceList[ARaceIndex].Strength < -L1 then
     Result := Result + ' ' + GetLang(322)
   else
     Result := Result + ' ' + GetLang(323);
   // Dexterity
-  if Race[ARaceIndex].Dexterity >= L2 then
+  if Races.RaceList[ARaceIndex].Dexterity >= L2 then
     Result := Result + ' ' + GetLang(329)
-  else if Race[ARaceIndex].Dexterity > L1 then
+  else if Races.RaceList[ARaceIndex].Dexterity > L1 then
     Result := Result + ' ' + GetLang(326)
-  else if Race[ARaceIndex].Dexterity <= -L2 then
+  else if Races.RaceList[ARaceIndex].Dexterity <= -L2 then
     Result := Result + ' ' + GetLang(330)
-  else if Race[ARaceIndex].Dexterity < -L1 then
+  else if Races.RaceList[ARaceIndex].Dexterity < -L1 then
     Result := Result + ' ' + GetLang(327)
   else
     Result := Result + ' ' + GetLang(328);
   // Intelligence
-  if Race[ARaceIndex].Intelligence >= L2 then
+  if Races.RaceList[ARaceIndex].Intelligence >= L2 then
     Result := Result + ' ' + GetLang(334)
-  else if Race[ARaceIndex].Intelligence > L1 then
+  else if Races.RaceList[ARaceIndex].Intelligence > L1 then
     Result := Result + ' ' + GetLang(331)
-  else if Race[ARaceIndex].Intelligence <= -L2 then
+  else if Races.RaceList[ARaceIndex].Intelligence <= -L2 then
     Result := Result + ' ' + GetLang(335)
-  else if Race[ARaceIndex].Intelligence < -L1 then
+  else if Races.RaceList[ARaceIndex].Intelligence < -L1 then
     Result := Result + ' ' + GetLang(332)
   else
     Result := Result + ' ' + GetLang(333);
   // End race description
-  Result := Result + ' ' + GetLang(Race[ARaceIndex].EndDescr);
+  Result := Result + ' ' + GetLang(Races.RaceList[ARaceIndex].EndDescr);
 end;
 
 procedure TSceneRace.Render;
 var
-  T, C, I, J, Y, H, L, K, LRaceIndex, R, V, U: Integer;
+  T, I, J, Y, H, L, K, LRaceIndex, R, V, U: Integer;
   F, S, D, M, Q: string;
   A: ShortInt;
 begin
@@ -250,14 +241,13 @@ begin
     T := ((Graph.Surface.Width div 5) div Graph.CharWidth);
     with Graph.Surface.Canvas do
     begin
-      C := Count;
-      for I := 0 to C - 1 do
+      for I := 0 to Races.RaceList.Count - 1 do
       begin
         if (I > 25) then
           Break;
         Y := (I + 3) * Graph.CharHeight;
         S := Chr(I + 97) + '.';
-        CursorPos := Clamp(CursorPos, 1, C);
+        CursorPos := Clamp(CursorPos, 1, Races.RaceList.Count);
         if (CursorPos = I + 1) then
         begin
           Font.Style := [fsBold];
@@ -270,21 +260,21 @@ begin
           Font.Color := cBgColor;
         end;
         TextOut((Graph.CharWidth * 3) - TextWidth(S), Y, S);
-        TextOut(Graph.CharWidth * 3, Y, GetLang(Race[I].NameLangID));
+        TextOut(Graph.CharWidth * 3, Y, GetLang(Races.RaceList[I].Name));
         Font.Style := [];
         Font.Color := cAcColor;
         Graph.Text.DrawAll(T, 3, Round(T * 2.5),
           GetRaceDescription(LRaceIndex));
       end;
       Font.Style := [];
-      if (Count > 0) then
+      if (Races.RaceList.Count > 0) then
       begin
         Font.Color := cDkYellow;
         Graph.Text.DrawOut(1, 2, '#');
         Graph.Text.DrawOut(3, 2, GetLang(180));
         Graph.Text.TextCenter(2, GetLang(320));
       end;
-      H := C + 5;
+      H := Races.RaceList.Count + 5;
       Font.Style := [fsBold];
       Q := Creatures.PC.Name + ':';
       Graph.Text.DrawOut(T, H - 1, Q);
@@ -309,13 +299,13 @@ begin
         A := 0;
         case I of
           1:
-            A := Race[LRaceIndex].Strength;
+            A := Races.RaceList[LRaceIndex].Strength;
           2:
-            A := Race[LRaceIndex].Dexterity;
+            A := Races.RaceList[LRaceIndex].Dexterity;
           3:
-            A := Race[LRaceIndex].Intelligence;
+            A := Races.RaceList[LRaceIndex].Intelligence;
           4:
-            A := Race[LRaceIndex].Speed;
+            A := Races.RaceList[LRaceIndex].Speed;
         end;
         if (A > 0) then
         begin
@@ -390,10 +380,11 @@ begin
           F + Items.GetDollText(J, V));
       end;
       //
-      if (Count = 1) then
+      if (Races.RaceList.Count = 1) then
         Graph.Text.BarOut('a', GetLang(181), False)
-      else if (Count > 1) then
-        Graph.Text.BarOut('a-' + Chr(96 + Count), GetLang(181), False);
+      else if (Races.RaceList.Count > 1) then
+        Graph.Text.BarOut('a-' + Chr(96 + Races.RaceList.Count),
+          GetLang(181), False);
       //
       Creatures.PC.Race := LRaceIndex;
       SceneInv.RedrawPCIcon;

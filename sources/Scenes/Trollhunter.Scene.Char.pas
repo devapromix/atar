@@ -144,6 +144,8 @@ begin
       Add(GetLang(17), Creatures.PC.Prop.Intelligence);
       Add(GetLang(18), Creatures.PC.GetSpeed);
       Add();
+      Add(GetLang(18), Creatures.PC.AtrPoint);
+      Add();
       Add(Graph.Bars.LIFE, GetLang(22), Format('%d/%d', [Creatures.PC.LIFE.Cur,
         Creatures.PC.LIFE.Max]));
       Add(Graph.Bars.MANA, GetLang(23), Format('%d/%d', [Creatures.PC.MANA.Cur,
