@@ -367,7 +367,7 @@ var
           Creatures.PC.Mana.Cur, Creatures.PC.Mana.Max]));
       if (DungeonItems[I].NeedMagic > 0) then
         Add(Format('%s %d (%d)', [GetLang(280), DungeonItems[I].NeedMagic,
-          Creatures.PC.Skill.GetSkill(skMagic, True)]));
+          Skills.GetSkill('MAGIC').Level]));
       //
       Font.Color := cSkyBlue;
       if (DungeonItems[I].Weight > 0) then

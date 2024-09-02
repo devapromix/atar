@@ -3,77 +3,53 @@
 interface
 
 uses
-  Classes;
-
-type
-  TSkillEnum = (skDagger, skAxe, skSword, skMace, skSpear, skBow,
-    skCrossBow, skShield,
-
-    //
-    skTrap, skMagic);
-
-const
-  SkillsCount = Ord(High(TSkillEnum));
-
-type
-  TSkillRec = record
-    Exp: Byte;
-  end;
-
-const
-  SkillParam: array [0 .. SkillsCount] of TSkillRec = (
-    //
-    (Exp: 3;), // Daggers and knives
-    (Exp: 3;), //
-    (Exp: 3;), //
-    (Exp: 3;), //
-    (Exp: 3;), //
-    (Exp: 3;), //
-    (Exp: 3;), //
-    (Exp: 3;), //
-
-    (Exp: 7;), // Traps
-    (Exp: 2;) // Magic
-    );
-
-type
-  TSkillItem = record
-    Level: Integer;
-    Exp: Integer;
-  end;
-
-const
-  SkillMaxValue = 50;
-  SkillMaxExp = 100;
-
-type
-  TSkillArr = array [0 .. SkillsCount] of TSkillItem;
+  System.Classes,
+  System.Generics.Collections;
 
 type
   TSkill = class(TObject)
+  const
+    MaxValue = 50;
+    MaxExp = 100;
   private
-    FSkill: TSkillArr;
+    FLevel: Integer;
+    FName: Integer;
+    FIdent: string;
+    FExp: Integer;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure Up(const ASkillIdent: string);
+    property Ident: string read FIdent write FIdent;
+    property Name: Integer read FName write FName;
+    property Level: Integer read FLevel write FLevel;
+    property Exp: Integer read FExp write FExp;
+  end;
+
+type
+  TSkills = class(TObject)
+  private
     FF: TStringList;
+    FSkillList: TObjectList<TSkill>;
     procedure Save;
     procedure Load;
-    procedure SetSkill(const Value: TSkillArr);
     function GetText: string;
     procedure SetText(const Value: string);
   public
     procedure Clear;
     property Text: string read GetText write SetText;
-    procedure Up(SkillID: TSkillEnum); overload;
-    procedure Up(SkillID: Byte); overload;
-    function Count: Byte;
-    property Skill: TSkillArr read FSkill write SetSkill;
-    function GetSkill(SkillID: TSkillEnum; IsLevel: Boolean): Integer; overload;
-    function GetSkill(SkillID: TSkillEnum): TSkillItem; overload;
-    function GetSkill(SkillID: Byte): TSkillItem; overload;
-    procedure Add(SkillID: TSkillEnum; ALevel: Byte); overload;
-    procedure Add(ASkill: string; ALevel: Byte); overload;
+    procedure Up(const ASkillIdent: string); overload;
+    procedure Up(const ASkillIndex: Integer); overload;
     constructor Create;
     destructor Destroy; override;
+    property SkillList: TObjectList<TSkill> read FSkillList write FSkillList;
+    procedure LoadFromResources;
+    procedure AddLevel(const ASkillIdent: string; const ALevel: Integer);
+    function GetSkill(const ASkillIdent: string): TSkill;
   end;
+
+var
+  Skills: TSkills;
 
 implementation
 
@@ -85,75 +61,74 @@ uses
 
 { TSkill }
 
-procedure TSkill.Add(SkillID: TSkillEnum; ALevel: Byte);
-begin
-  FSkill[Ord(SkillID)].Level := ALevel;
-end;
-
-procedure TSkill.Add(ASkill: string; ALevel: Byte);
-var
-  LSkill: TSkillEnum;
-begin
-  if ASkill = 'SWORDS' then
-    LSkill := skSword;
-  if ASkill = 'SHIELDS' then
-    LSkill := skShield;
-  Add(LSkill, ALevel);
-end;
-
-procedure TSkill.Clear;
-var
-  I: Byte;
-begin
-  for I := 0 to SkillsCount do
-  begin
-    FSkill[I].Level := 0;
-    FSkill[I].Exp := 0;
-  end;
-end;
-
-function TSkill.Count: Byte;
-begin
-  Result := SkillsCount;
-end;
-
 constructor TSkill.Create;
 begin
-  FF := TStringList.Create;
-  Self.Clear;
+
 end;
 
 destructor TSkill.Destroy;
 begin
-  FF.Free;
+
   inherited;
 end;
 
-function TSkill.GetSkill(SkillID: TSkillEnum): TSkillItem;
+procedure TSkill.Up(const ASkillIdent: string);
 begin
-  Result := FSkill[Ord(SkillID)];
+
 end;
 
-function TSkill.GetSkill(SkillID: Byte): TSkillItem;
+{ TSkills }
+
+constructor TSkills.Create;
 begin
-  Result := FSkill[SkillID];
+  FF := TStringList.Create;
+  FSkillList := TObjectList<TSkill>.Create;
+  Self.Clear;
 end;
 
-function TSkill.GetSkill(SkillID: TSkillEnum; IsLevel: Boolean): Integer;
+destructor TSkills.Destroy;
 begin
-  if IsLevel then
-    Result := FSkill[Ord(SkillID)].Level
-  else
-    Result := FSkill[Ord(SkillID)].Exp;
+  FF.Free;
+  FreeAndNil(FSkillList);
+  inherited;
 end;
 
-function TSkill.GetText: string;
+procedure TSkills.Clear;
+var
+  I: Integer;
+begin
+  for I := 0 to FSkillList.Count - 1 do
+  begin
+    FSkillList[I].Level := 0;
+    FSkillList[I].Exp := 0;
+  end;
+end;
+
+procedure TSkills.AddLevel(const ASkillIdent: string; const ALevel: Integer);
+var
+  I: Integer;
+begin
+  for I := 0 to FSkillList.Count - 1 do
+    if FSkillList[I].Ident = ASkillIdent then
+      FSkillList[I].Level := FSkillList[I].Level + ALevel;
+end;
+
+function TSkills.GetSkill(const ASkillIdent: string): TSkill;
+var
+  I: Integer;
+begin
+  for I := 0 to FSkillList.Count - 1 do
+    if FSkillList[I].Ident = ASkillIdent then
+      Result := FSkillList[I];
+end;
+
+function TSkills.GetText: string;
 begin
   Self.Save;
   Result := FF.Text;
 end;
 
-procedure TSkill.Load;
+procedure TSkills.Load;
 var
   P, I: Integer;
   E: TExplodeResult;
@@ -165,55 +140,69 @@ begin
     E := Explode('/', FF[I]);
     if (Trim(E[0]) <> '') then
     begin
-      FSkill[P].Level := StrToInt(E[0]);
-      FSkill[P].Exp := StrToInt(E[1]);
+      FSkillList[P].Level := StrToInt(E[0]);
+      FSkillList[P].Exp := StrToInt(E[1]);
     end;
     Inc(P);
   end;
 end;
 
-procedure TSkill.Save;
+procedure TSkills.Save;
 var
   I: Byte;
 begin
   FF.Clear;
-  for I := 0 to SkillsCount do
-    FF.Append(Format('%d/%d', [FSkill[I].Level, FSkill[I].Exp]));
+  for I := 0 to Skills.FSkillList.Count - 1 do
+    FF.Append(Format('%d/%d', [FSkillList[I].Level, FSkillList[I].Exp]));
 end;
 
-procedure TSkill.SetSkill(const Value: TSkillArr);
-begin
-  FSkill := Value;
-end;
-
-procedure TSkill.SetText(const Value: string);
+procedure TSkills.SetText(const Value: string);
 begin
   FF.Text := Value;
   Self.Load;
 end;
 
-procedure TSkill.Up(SkillID: Byte);
+procedure TSkills.Up(const ASkillIndex: Integer);
 begin
-  if (FSkill[SkillID].Level < SkillMaxValue) then
+  if (FSkillList[ASkillIndex].Level < TSkill.MaxValue) then
   begin
-    Inc(FSkill[SkillID].Exp, SkillParam[SkillID].Exp);
-    if (FSkill[SkillID].Exp >= SkillMaxExp) then
+    FSkillList[ASkillIndex].Exp := FSkillList[ASkillIndex].Exp + 5;
+    if (FSkillList[ASkillIndex].Exp >= TSkill.MaxExp) then
     begin
-      Dec(FSkill[SkillID].Exp, SkillMaxExp);
-      Inc(FSkill[SkillID].Level);
-      if (FSkill[SkillID].Level > SkillMaxValue) then
+      FSkillList[ASkillIndex].Exp := FSkillList[ASkillIndex].Exp -
+        TSkill.MaxExp;
+      FSkillList[ASkillIndex].Level := FSkillList[ASkillIndex].Level + 1;
+      if (FSkillList[ASkillIndex].Level > TSkill.MaxValue) then
       begin
-        FSkill[SkillID].Level := SkillMaxValue;
+        FSkillList[ASkillIndex].Level := TSkill.MaxValue;
       end;
-      Log.Add(Format('%s +1 (%d).', [GetLang(SkillID + 201),
-        FSkill[SkillID].Level]));
+      Log.Add(Format('%s +1 (%d).', [GetLang(ASkillIndex + 201),
+        FSkillList[ASkillIndex].Level]));
     end;
   end;
 end;
 
-procedure TSkill.Up(SkillID: TSkillEnum);
+procedure TSkills.Up(const ASkillIdent: string);
+var
+  I: Integer;
 begin
-  Self.Up(Ord(SkillID));
+  for I := 0 to FSkillList.Count - 1 do
+    if FSkillList[I].Ident = ASkillIdent then
+      Self.Up(I);
 end;
+
+procedure TSkills.LoadFromResources;
+begin
+
+end;
+
+initialization
+
+Skills := TSkills.Create;
+Skills.LoadFromResources;
+
+finalization
+
+FreeAndNil(Skills);
 
 end.

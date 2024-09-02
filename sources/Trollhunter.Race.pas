@@ -4,13 +4,12 @@ interface
 
 uses
   System.Classes,
-  System.Generics.Collections,
-  Trollhunter.Skill;
+  System.Generics.Collections;
 
 type
   TRace = class(TObject)
   private
-    FSprite: string;
+    FIdent: string;
     FNameID: Integer;
     FEndDescr: Integer;
     FBeginDescr: Integer;
@@ -24,7 +23,7 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    property Sprite: string read FSprite write FSprite;
+    property Ident: string read FIdent write FIdent;
     property Name: Integer read FNameID write FNameID;
     property BeginDescr: Integer read FBeginDescr write FBeginDescr;
     property EndDescr: Integer read FEndDescr write FEndDescr;
@@ -44,7 +43,7 @@ type
     constructor Create;
     destructor Destroy; override;
     property RaceList: TObjectList<TRace> read FRaceList write FRaceList;
-    procedure Load;
+    procedure LoadFromResources;
   end;
 
 var
@@ -89,7 +88,7 @@ begin
   inherited;
 end;
 
-procedure TRaces.Load;
+procedure TRaces.LoadFromResources;
 var
   I, J, K: Integer;
   LZip: TZip;
@@ -113,7 +112,7 @@ begin
           begin
             LJSONObject := LRaces.Items[I] as TJSONObject;
             LRace := TRace.Create;
-            LRace.Sprite := LJSONObject.GetValue('sprite').Value;
+            LRace.Ident := LJSONObject.GetValue('ident').Value;
             LRace.Name := LJSONObject.GetValue('name').Value.ToInteger;
             LRace.BeginDescr := LJSONObject.GetValue('begin_descr')
               .Value.ToInteger;
@@ -160,7 +159,7 @@ end;
 initialization
 
 Races := TRaces.Create;
-Races.Load;
+Races.LoadFromResources;
 
 finalization
 

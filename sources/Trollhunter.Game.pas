@@ -45,7 +45,8 @@ uses
   Trollhunter.Error,
   Trollhunter.TempSys,
   Trollhunter.Item,
-  Trollhunter.Settings;
+  Trollhunter.Settings,
+  Trollhunter.Skill;
 
 { TGame }
 
@@ -104,12 +105,12 @@ begin
         PC.Scrolls.Text := LZip.ExtractToText('scrolls.txt');
         // Potions Properties
         PC.Potions.Text := LZip.ExtractToText('potions.txt');
-        // PC.Inv
+        // Inventory
         PC.Inv.Text := LZip.ExtractToText('inv.txt');
         if (I > -1) then
           PC.Dungeon := I;
-        // PC.Skill
-        PC.Skill.Text := LZip.ExtractToText('skill.txt');
+        // Skills
+        Skills.Text := LZip.ExtractToText('skill.txt');
         // Map
         if not LZip.FileExists(IntToStr(PC.Dungeon) + '.m') then
         begin
@@ -193,7 +194,7 @@ begin
           // PC.Inv
           LZip.AddFromString('inv.txt', PC.Inv.Text);
           // PC.Skill
-          LZip.AddFromString('skill.txt', PC.Skill.Text);
+          LZip.AddFromString('skill.txt', Skills.Text);
           // Map
           Map.Save(PC.Dungeon);
           LZip.AddFromString(IntToStr(PC.Dungeon) + '.m', Map.FM.Text);

@@ -17,7 +17,6 @@ type
   TPC = class(TCreature)
   private
     FInv: TAdvInv;
-    FSkill: TSkill;
     FTempSys: TTempSys;
     FRace: Integer;
     FDungeon: Integer;
@@ -38,7 +37,6 @@ type
     FAtrPoint: Integer;
     function GetText: string;
     procedure SetInv(const Value: TAdvInv);
-    procedure SetSkill(const Value: TSkill);
     procedure SetTempSys(const Value: TTempSys);
     procedure SetRace(const Value: Integer);
     procedure SetDungeon(const Value: Integer);
@@ -69,20 +67,18 @@ type
     procedure AddSpeed;
     procedure DetectTraps;
     procedure DoDetectTraps;
-    procedure TrainSkill; overload;
-    procedure TrainSkill(ID: TSkillEnum); overload;
     procedure Melee(I: Integer);
     procedure Ranged(I: Integer);
     function MaxExp(ALevel: Integer = 0): Integer;
     function AddExp(Value: Word): Boolean;
     procedure Move(AX, AY: Integer);
     procedure Wait;
+    procedure TrainSkill;
     procedure Clear;
     constructor Create;
     destructor Destroy; override;
     property Statistics: TStatistics read FStatistics write FStatistics;
     property Inv: TAdvInv read FInv write SetInv;
-    property Skill: TSkill read FSkill write SetSkill;
     property Scrolls: TRandItems read FScrolls write SetScrolls;
     property Potions: TRandItems read FPotions write SetPotions;
     property World: TGlobalMap read FWorld write FWorld;
@@ -159,7 +155,7 @@ begin
   Month := 1;
   Year := 1;
   Inv.Clear;
-  Skill.Clear;
+  Skills.Clear;
   Statistics.Clear;
   Calc();
   Fill();
@@ -172,7 +168,6 @@ begin
   TempSys := TTempSys.Create;
   World := TGlobalMap.Create;
   Inv := TAdvInv.Create;
-  Skill := TSkill.Create;
   Statistics := TStatistics.Create;
   Effects := TEffects.Create;
   Scrolls := TRandItems.Create(RandomScrollsCount);
@@ -188,7 +183,6 @@ begin
   Effects.Free;
   TempSys.Free;
   Statistics.Free;
-  Skill.Free;
   Inv.Free;
   FF.Free;
   inherited;
@@ -663,29 +657,19 @@ begin
       begin
         Map.Cell[AY][AX].Decor := dTrapDet;
         Log.Add(GetLang(109));
-        TrainSkill(skTrap);
+        Skills.Up('TRAPS');
       end;
 end;
 
 procedure TPC.DetectTraps;
 begin
-  if (Rand(0, 100) < Skill.GetSkill(skTrap, True)) then
+  if (Rand(0, 100) < Skills.GetSkill('TRAPS').Level) then
     DoDetectTraps;
 end;
 
 procedure TPC.SetInv(const Value: TAdvInv);
 begin
   FInv := Value;
-end;
-
-procedure TPC.SetSkill(const Value: TSkill);
-begin
-  FSkill := Value;
-end;
-
-procedure TPC.TrainSkill(ID: TSkillEnum);
-begin
-  Skill.Up(ID);
 end;
 
 procedure TPC.Wait;
@@ -713,31 +697,23 @@ begin
   CS := DungeonItems[Items.ItemIndex(ID)].SubCats;
   ///
   if (scDagger in CS) then
-    Skill.Up(skDagger);
+    Skills.Up('DAGGERS');
   if (scAxe in CS) then
-    Skill.Up(skAxe);
+    Skills.Up('AXES');
   if (scSword in CS) then
-    Skill.Up(skSword);
+    Skills.Up('SWORDS');
   if (scMace in CS) then
-    Skill.Up(skMace);
+    Skills.Up('MACES');
   if (scSpear in CS) then
-    Skill.Up(skSpear);
+    Skills.Up('SPEARS');
   if (scBow in CS) then
-    Skill.Up(skBow);
+    Skills.Up('BOWS');
   if (scCrossBow in CS) then
-    Skill.Up(skCrossBow);
+    Skills.Up('CROSSBOWS');
   if (scShield in CS) then
-    Skill.Up(skShield);
+    Skills.Up('SHIELDS');
 
   {
-    '+Daggers and knives':3,
-    '+Swords':3,
-    '+Spears':3,
-    '+Clubs, hammers and maces':3,
-    '+Axes':3,
-    '+Bows':2,
-    '+Crossbows':2,
-    '+Shield use':2
     'Dodge':1,
     'Two weapon fighting':2,
     'Whips':3,
@@ -782,7 +758,7 @@ begin
   Inv.MaxCount := GetMaxCount(Prop.Strength);
   Inv.MaxWeight := GetMaxWeight(Prop.Strength);
   Mana.SetMax(GetMaxMana(Prop.Intelligence) +
-    GetAdvMana(Skill.GetSkill(skMagic, True)));
+    GetAdvMana(Skills.GetSkill('MAGIC').Level));
 end;
 
 procedure TPC.Render;

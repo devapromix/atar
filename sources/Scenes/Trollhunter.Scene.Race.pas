@@ -140,7 +140,7 @@ begin
     // Skills
     for J := 0 to Races.RaceList[I].Skills.Count - 1 do
     begin
-      Creatures.PC.Skill.Add(Races.RaceList[I].Skills[J], 10);
+      Skills.AddLevel(Races.RaceList[I].Skills[J], 10);
     end;
 
     // Items.Add('SMITH');

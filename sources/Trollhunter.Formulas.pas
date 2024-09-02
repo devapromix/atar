@@ -19,7 +19,7 @@ uses
 // Сила заклинания "Глаз Чародея". Pадиус.
 function GetWizardEyePower: Integer;
 begin
-  Result := Creatures.PC.Skill.GetSkill(skMagic, True) + 5;
+  Result := Skills.GetSkill('MAGIC').Level + 5;
 end;
 
 // Доп. мана от навыка магия.

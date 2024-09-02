@@ -182,28 +182,28 @@ end;
 procedure TSceneChar.RenderSkills;
 var
   S4, X, Y: Word;
-  Q: TSkillItem;
-  I: Byte;
+  LSkill: TSkill;
+  I: Integer;
 begin
   S4 := ((Graph.Surface.Width div 4) div Graph.CharWidth);
   X := 2;
   Y := 6;
-  for I := 0 to Creatures.PC.Skill.Count do
+  for I := 0 to Skills.SkillList.Count - 1 do
   begin
-    Q := Creatures.PC.Skill.GetSkill(I);
+    LSkill := Skills.SkillList[I];
     Graph.Surface.Canvas.Brush.Color := cDkGray;
     Graph.Text.DrawOut(S4 * X, Y, Space(S4));
     Graph.Surface.Canvas.Font.Color := cRdYellow;
     Graph.Surface.Canvas.Brush.Color := cBlack;
     Graph.Text.DrawOut(S4 * X, Y - 1, GetLang(I + 201));
-    Graph.Text.DrawOut(S4 * X + (S4 - (Length(IntToStr(Q.Level)))), Y - 1,
-      IntToStr(Q.Level));
+    Graph.Text.DrawOut(S4 * X + (S4 - (Length(IntToStr(LSkill.Level)))), Y - 1,
+      IntToStr(LSkill.Level));
     Graph.Surface.Canvas.Brush.Color := cRdYellow;
-    Graph.Text.DrawOut(S4 * X, Y, Space(Round(Q.EXP * S4 / SkillMaxExp)));
-    if ParamDebug and (Q.EXP > 0) then
+    Graph.Text.DrawOut(S4 * X, Y, Space(Round(LSkill.EXP * S4 / TSkill.MaxExp)));
+    if ParamDebug and (LSkill.EXP > 0) then
     begin
       Graph.Surface.Canvas.Font.Color := cRdGray;
-      Graph.Text.DrawOut(S4 * X, Y, IntToStr(Q.EXP));
+      Graph.Text.DrawOut(S4 * X, Y, IntToStr(LSkill.EXP));
     end;
     Graph.Surface.Canvas.Brush.Color := cBlack;
     // Line
