@@ -54,10 +54,16 @@ var
 implementation
 
 uses
-  SysUtils,
+  System.SysUtils,
+  System.JSON,
+  Neon.Core.Persistence,
+  Neon.Core.Persistence.JSON,
   Trollhunter.Utils,
   Trollhunter.Log,
-  Trollhunter.Lang;
+  Trollhunter.Lang,
+  Trollhunter.Error,
+  Trollhunter.MainForm,
+  Trollhunter.Zip;
 
 { TSkill }
 
@@ -192,8 +198,46 @@ begin
 end;
 
 procedure TSkills.LoadFromResources;
+var
+  LStringList: TStringList;
+  LZip: TZip;
+  LSkill: TSkill;
+  LJSONObject: TJSONObject;
+  LSkills: TJSONArray;
+  I: Integer;
 begin
-
+  try
+    if not FileExists(Path + 'resources.res') then
+      Exit;
+    LStringList := TStringList.Create;
+    try
+      LZip := TZip.Create(MainForm);
+      try
+        LStringList.Text := LZip.ExtractTextFromFile(Path + 'resources.res',
+          'skills.json');
+        LSkills := TJSONObject.ParseJSONValue(LStringList.Text) as TJSONArray;
+        try
+          for I := 0 to LSkills.Count - 1 do
+          begin
+            LJSONObject := LSkills.Items[I] as TJSONObject;
+            LSkill := TSkill.Create;
+            LSkill.Ident := LJSONObject.GetValue('ident').Value;
+            LSkill.Name := LJSONObject.GetValue('name').Value.ToInteger;
+            Skills.SkillList.Add(LSkill);
+          end;
+        finally
+          FreeAndNil(LSkills);
+        end;
+      finally
+        FreeAndNil(LZip);
+      end;
+    finally
+      FreeAndNil(LStringList);
+    end;
+  except
+    on E: Exception do
+      Error.Add('Skills.LoadFromResources', E.Message);
+  end;
 end;
 
 initialization

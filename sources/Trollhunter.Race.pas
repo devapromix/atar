@@ -152,7 +152,7 @@ begin
     end;
   except
     on E: Exception do
-      Error.Add('Race.Load', E.Message);
+      Error.Add('Race.LoadFromResources', E.Message);
   end;
 end;
 
