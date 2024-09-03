@@ -192,7 +192,7 @@ begin
         N := I
       else
         N := 9;
-      MenuItem(GetLang(N));
+      MenuItem(Language.GetLang(N));
     end;
     IsGame := False;
     DrawLogo();

@@ -66,7 +66,7 @@ end;
 
 procedure TTrap.Miss;
 begin
-  Log.Add(GetLang(78));
+  Log.Add(Language.GetLang(78));
 end;
 
 procedure TTrap.Damage(ADamage: Integer);
@@ -76,7 +76,7 @@ begin
   with TAnimNumber.Create(-ADamage) do
     Free;
   Creatures.PC.Life.Dec(ADamage);
-  Log.Add(Format(GetLang(77), [ADamage]));
+  Log.Add(Format(Language.GetLang(77), [ADamage]));
 end;
 
 end.

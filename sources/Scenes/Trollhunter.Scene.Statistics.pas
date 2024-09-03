@@ -94,13 +94,13 @@ begin
     begin
       Font.Color := cRdYellow;
       // PC
-      Add(GetLang(37), Creatures.PC.Name);
-      Add(GetLang(180), GetLang(Creatures.PC.Race + 182));
-      Add(GetLang(35), Creatures.PC.Turns);
-      Add(GetLang(36), Creatures.PC.Rating);
+      Add(Language.GetLang(37), Creatures.PC.Name);
+      Add(Language.GetLang(180), Language.GetLang(Creatures.PC.Race + 182));
+      Add(Language.GetLang(35), Creatures.PC.Turns);
+      Add(Language.GetLang(36), Creatures.PC.Rating);
       // Statistics
       Add('Tiles Moved+', Creatures.PC.Statistics.Get(stTilesMoved));
-      Add(GetLang(34), Creatures.PC.Statistics.Get(stKills));
+      Add(Language.GetLang(34), Creatures.PC.Statistics.Get(stKills));
     end;
 
     Graph.Render;

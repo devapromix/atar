@@ -49,7 +49,8 @@ begin
       '[' + K + ']');
     Font.Style := [];
     Font.Color := cBgColor;
-    TextOut((Graph.CharWidth * 6) + (W * X), Y * Graph.CharHeight, GetLang(L));
+    TextOut((Graph.CharWidth * 6) + (W * X), Y * Graph.CharHeight,
+      Language.GetLang(L));
     Inc(X);
     if (X > 2) then
     begin

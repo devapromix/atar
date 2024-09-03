@@ -116,7 +116,8 @@ begin
   if (Map.Info.PrevMap <> '') then
   begin
     Graph.Messagebar.Clear;
-    Log.Add(GetLang(290) + ' ' + GetMapLang(Map.Info.PrevMap, True) + '.');
+    Log.Add(Language.GetLang(290) + ' ' + Language.GetLang
+      (Map.Info.PrevMap) + '.');
     Log.Apply;
     Game.Save;
     B := Map.Info.IsAltMapEnt;
@@ -137,7 +138,8 @@ begin
   if (Map.Info.NextMap <> '') then
   begin
     Graph.Messagebar.Clear;
-    Log.Add(GetLang(290) + ' ' + GetMapLang(Map.Info.NextMap, True) + '.');
+    Log.Add(Language.GetLang(290) + ' ' + Language.GetLang
+      (Map.Info.NextMap) + '.');
     Log.Apply;
     Game.Save;
     Game.Load(Map.GetMapIndex(Map.Info.NextMap));
@@ -151,7 +153,8 @@ begin
   if (Map.Info.AltNextMap <> '') then
   begin
     Graph.Messagebar.Clear;
-    Log.Add(GetLang(290) + ' ' + GetMapLang(Map.Info.AltNextMap, True) + '.');
+    Log.Add(Language.GetLang(290) + ' ' + Language.GetLang
+      (Map.Info.AltNextMap) + '.');
     Log.Apply;
     Game.Save;
     Game.Load(Map.GetMapIndex(Map.Info.AltNextMap));
@@ -196,32 +199,34 @@ begin
   end;
   case LTile of
     tlLockedDoor:
-      Graph.Messagebar.Add(GetLang(58));
+      Graph.Messagebar.Add(Language.GetLang(58));
     tlClosedDoor:
-      Graph.Messagebar.Add(GetLang(59));
+      Graph.Messagebar.Add(Language.GetLang(59));
     tlPrevDungeon:
-      Graph.Messagebar.Add(Format(GetLang(83), [GetMapLang(Map.Info.PrevMap)]));
+      Graph.Messagebar.Add(Format(Language.GetLang(83),
+        [Language.GetLang(Map.Info.PrevMap)]));
     tlNextDungeon:
-      Graph.Messagebar.Add(Format(GetLang(84), [GetMapLang(Map.Info.NextMap)]));
+      Graph.Messagebar.Add(Format(Language.GetLang(84),
+        [Language.GetLang(Map.Info.NextMap)]));
     tlAltNextDungeon:
-      Graph.Messagebar.Add(Format(GetLang(84),
-        [GetMapLang(Map.Info.AltNextMap)]));
+      Graph.Messagebar.Add(Format(Language.GetLang(84),
+        [Language.GetLang(Map.Info.AltNextMap)]));
     tlEmptyShrine:
-      Graph.Messagebar.Add(GetLang(85));
+      Graph.Messagebar.Add(Language.GetLang(85));
     tlLifeShrine:
-      Graph.Messagebar.Add(GetLang(86));
+      Graph.Messagebar.Add(Language.GetLang(86));
     tlManaShrine:
-      Graph.Messagebar.Add(GetLang(86));
+      Graph.Messagebar.Add(Language.GetLang(86));
     tlMegaShrine:
-      Graph.Messagebar.Add(GetLang(86));
+      Graph.Messagebar.Add(Language.GetLang(86));
     tlClosedBarrel:
-      Graph.Messagebar.Add(GetLang(57));
+      Graph.Messagebar.Add(Language.GetLang(57));
     tlClosedWoodChest:
-      Graph.Messagebar.Add(GetLang(87));
+      Graph.Messagebar.Add(Language.GetLang(87));
     tlLockedWoodChest:
-      Graph.Messagebar.Add(GetLang(88));
+      Graph.Messagebar.Add(Language.GetLang(88));
     tlLockedBestChest:
-      Graph.Messagebar.Add(GetLang(88));
+      Graph.Messagebar.Add(Language.GetLang(88));
   end;
   // Item
   if (Length(Items.Item) > 0) then
@@ -255,16 +260,16 @@ begin
             F := True;
           end;
         end;
-        Graph.Messagebar.Add(Format(GetLang(K + J), [S]));
+        Graph.Messagebar.Add(Format(Language.GetLang(K + J), [S]));
         Break;
       end;
   if F then
     Exit;
   case LTile of
     tlOpenBarrel:
-      Graph.Messagebar.Add(GetLang(56));
+      Graph.Messagebar.Add(Language.GetLang(56));
     tlOpenWoodChest, tlOpenBestChest:
-      Graph.Messagebar.Add(GetLang(47));
+      Graph.Messagebar.Add(Language.GetLang(47));
   end;
 end;
 
@@ -277,7 +282,7 @@ var
   begin
     Map.Cell[Creatures.PC.Pos.Y + AY][Creatures.PC.Pos.X + AX].Tile :=
       tlOpenDoor;
-    Log.Add(GetLang(46));
+    Log.Add(Language.GetLang(46));
   end;
 
   procedure DoMove();
@@ -334,12 +339,12 @@ var
             begin
               if (Creatures.PC.Inv.GetCount('KEY') > 0) then
               begin
-                Log.Add(GetLang(44));
+                Log.Add(Language.GetLang(44));
                 Creatures.PC.Inv.Del('KEY');
                 OpenDoor(X, Y);
               end
               else
-                Log.Add(GetLang(10));
+                Log.Add(Language.GetLang(10));
             end;
           // Hidden door
           tlHiddenDoor:
@@ -356,7 +361,7 @@ var
               end;
               Map.Cell[Creatures.PC.Pos.Y + Y][Creatures.PC.Pos.X + X]
                 .Tile := T;
-              Log.Add(GetLang(43));
+              Log.Add(Language.GetLang(43));
             end;
         end;
     Creatures.Move;
@@ -626,7 +631,7 @@ begin
                       OpenChest(True);
                     end
                     else
-                      Log.Add(GetLang(10));
+                      Log.Add(Language.GetLang(10));
                     Log.Apply;
                     Scenes.Render;
                   end;

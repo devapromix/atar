@@ -619,20 +619,20 @@ begin
   case Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile of
     tlClosedBarrel:
       begin
-        Log.Add(GetLang(55));
+        Log.Add(Language.GetLang(55));
         Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile := tlOpenBarrel;
         J := 2;
       end;
     tlClosedWoodChest, tlLockedWoodChest:
       begin
-        Log.Add(GetLang(45));
+        Log.Add(Language.GetLang(45));
         Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile :=
           tlOpenWoodChest;
         J := 3;
       end;
     tlLockedBestChest:
       begin
-        Log.Add(GetLang(45));
+        Log.Add(Language.GetLang(45));
         Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile :=
           tlOpenBestChest;
         J := 5;

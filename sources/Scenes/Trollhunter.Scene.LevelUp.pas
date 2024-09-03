@@ -176,15 +176,15 @@ begin
     with Graph.Surface.Canvas do
     begin
       for LIndex := 0 to FCount - 1 do
-        AtrItem(LIndex, GetLang(LIndex + 15));
+        AtrItem(LIndex, Language.GetLang(LIndex + 15));
       FWidth := FWidth div Graph.CharHeight;
       Font.Style := [];
       Font.Color := cBgColor;
       if PossibleImproveAttribute then
       begin
-        Graph.Text.TextCenter(FWidth - 3, GetLang(60));
-        Graph.Text.TextCenter(FWidth - 2, GetLang(62));
-        Graph.Text.TextCenter(FWidth - 1, GetLang(63));
+        Graph.Text.TextCenter(FWidth - 3, Language.GetLang(60));
+        Graph.Text.TextCenter(FWidth - 2, Language.GetLang(62));
+        Graph.Text.TextCenter(FWidth - 1, Language.GetLang(63));
       end;
       Font.Style := [];
     end;

@@ -64,7 +64,7 @@ var
     case CursorPos of
       0:
         begin
-          ChangeLanguage;
+          Language.ChangeLanguage;
           Render;
         end;
       1:

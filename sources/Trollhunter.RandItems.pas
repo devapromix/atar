@@ -170,29 +170,29 @@ begin
   Result := '';
   case GetColor(Index) of
     cGolden:
-      Result := GetLang(250);
+      Result := Language.GetLang(250);
     cIndigo:
-      Result := GetLang(251);
+      Result := Language.GetLang(251);
     cJade:
-      Result := GetLang(252);
+      Result := Language.GetLang(252);
     cAzure:
-      Result := GetLang(253);
+      Result := Language.GetLang(253);
     cLight:
-      Result := GetLang(254);
+      Result := Language.GetLang(254);
     cDark:
-      Result := GetLang(255);
+      Result := Language.GetLang(255);
     cGray:
-      Result := GetLang(256);
+      Result := Language.GetLang(256);
     cBrown:
-      Result := GetLang(257);
+      Result := Language.GetLang(257);
     cFxBlack:
-      Result := GetLang(258);
+      Result := Language.GetLang(258);
     cFxWhite:
-      Result := GetLang(259);
+      Result := Language.GetLang(259);
     cSkyBlue:
-      Result := GetLang(260);
+      Result := Language.GetLang(260);
     cLtYellow:
-      Result := GetLang(261);
+      Result := Language.GetLang(261);
   end;
 end;
 

@@ -57,8 +57,8 @@ procedure TSceneBaseGame.Render;
 begin
   inherited;
   Graph.Clear(0);
-  Graph.Text.TitleOut(GetLang(FID));
-  Graph.Text.BarOut('esc', GetLang(27), True);
+  Graph.Text.TitleOut(Language.GetLang(FID));
+  Graph.Text.BarOut('esc', Language.GetLang(27), True);
 end;
 
 end.

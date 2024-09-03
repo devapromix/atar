@@ -98,7 +98,7 @@ begin
       Creatures.PC.Calc;
 
       if IsShowLog then
-        Log.Add(Format(GetLang(96), [GetItemLang(DungeonItems[V].Sprite)]));
+        Log.Add(Format(Language.GetLang(96), [GetItemLang(DungeonItems[V].Sprite)]));
       // You equip a %s.
       Scenes.Render;
     end;
@@ -121,7 +121,7 @@ begin
       Creatures.PC.Calc;
 
       if IsShowLog then
-        Log.Add(Format(GetLang(97),
+        Log.Add(Format(Language.GetLang(97),
           [GetItemLang(DungeonItems[KeyIDToInvItemID(I)].Sprite)]));
       // You unequip a %s.
       Scenes.Render;
@@ -268,115 +268,115 @@ var
       begin
         // Life
         if (scLife in SubCats) then
-          Add(GetLang(223));
+          Add(Language.GetLang(223));
         if (scLife25 in SubCats) then
-          Add(Format(GetLang(81), [25]));
+          Add(Format(Language.GetLang(81), [25]));
         if (scLife50 in SubCats) then
-          Add(Format(GetLang(81), [50]));
+          Add(Format(Language.GetLang(81), [50]));
         if (scLife75 in SubCats) then
-          Add(Format(GetLang(81), [75]));
+          Add(Format(Language.GetLang(81), [75]));
         if (scLife100 in SubCats) then
-          Add(Format(GetLang(81), [100]));
+          Add(Format(Language.GetLang(81), [100]));
         if (scLife200 in SubCats) then
-          Add(Format(GetLang(81), [200]));
+          Add(Format(Language.GetLang(81), [200]));
         // Mana
         if (scMana in SubCats) then
-          Add(GetLang(224));
+          Add(Language.GetLang(224));
         if (scMana25 in SubCats) then
-          Add(Format(GetLang(82), [25]));
+          Add(Format(Language.GetLang(82), [25]));
         if (scMana50 in SubCats) then
-          Add(Format(GetLang(82), [50]));
+          Add(Format(Language.GetLang(82), [50]));
         if (scMana75 in SubCats) then
-          Add(Format(GetLang(82), [75]));
+          Add(Format(Language.GetLang(82), [75]));
         if (scMana100 in SubCats) then
-          Add(Format(GetLang(82), [100]));
+          Add(Format(Language.GetLang(82), [100]));
         if (scMana200 in SubCats) then
-          Add(Format(GetLang(82), [200]));
+          Add(Format(Language.GetLang(82), [200]));
         // Atr
         if (scStrength in SubCats) then
-          Add(Format('%s +1.', [GetLang(15)]));
+          Add(Format('%s +1.', [Language.GetLang(15)]));
         if (scDexterity in SubCats) then
-          Add(Format('%s +1.', [GetLang(16)]));
+          Add(Format('%s +1.', [Language.GetLang(16)]));
         if (scIntelligence in SubCats) then
-          Add(Format('%s +1.', [GetLang(17)]));
+          Add(Format('%s +1.', [Language.GetLang(17)]));
         if (scSpeed in SubCats) then
-          Add(Format('%s +1.', [GetLang(18)]));
+          Add(Format('%s +1.', [Language.GetLang(18)]));
         // Misc
         if (scFill in SubCats) then
-          Add(GetLang(80));
+          Add(Language.GetLang(80));
         if (scAntidote in SubCats) then
-          Add(GetLang(79));
+          Add(Language.GetLang(79));
         if (scKey in SubCats) then
-          Add(GetLang(112));
+          Add(Language.GetLang(112));
         if (scTeleport in SubCats) then
-          Add(GetLang(272));
+          Add(Language.GetLang(272));
         if (scSummon in SubCats) then
-          Add(GetLang(273));
+          Add(Language.GetLang(273));
         if (scIdentify in SubCats) then
-          Add(GetLang(274));
+          Add(Language.GetLang(274));
         if (scPortal in SubCats) then
-          Add(GetLang(275));
+          Add(Language.GetLang(275));
         if (scWizardEye in SubCats) then
-          Add(Format('%s %d.', [GetLang(115),
+          Add(Format('%s %d.', [Language.GetLang(115),
             Creatures.PC.TempSys.Power('WizardEye')]));
         if (scDispel in SubCats) then
-          Add(GetLang(230));
+          Add(Language.GetLang(230));
         // Repair
         if (scRepair in SubCats) then
-          Add(GetLang(270));
+          Add(Language.GetLang(270));
         if (scRepairAll in SubCats) then
-          Add(GetLang(271));
+          Add(Language.GetLang(271));
         if (scRepair3 in SubCats) then
-          Add(Format('%s 3.', [GetLang(89)]));
+          Add(Format('%s 3.', [Language.GetLang(89)]));
         if (scRepair6 in SubCats) then
-          Add(Format('%s 6.', [GetLang(89)]));
+          Add(Format('%s 6.', [Language.GetLang(89)]));
         if (scRepair9 in SubCats) then
-          Add(Format('%s 9.', [GetLang(89)]));
+          Add(Format('%s 9.', [Language.GetLang(89)]));
         if (scRepair12 in SubCats) then
-          Add(Format('%s 12.', [GetLang(89)]));
+          Add(Format('%s 12.', [Language.GetLang(89)]));
         if (scRepair15 in SubCats) then
-          Add(Format('%s 15.', [GetLang(89)]));
+          Add(Format('%s 15.', [Language.GetLang(89)]));
         if (scRepair25 in SubCats) then
-          Add(Format('%s 25.', [GetLang(89)]));
+          Add(Format('%s 25.', [Language.GetLang(89)]));
       end;
       //
       Font.Color := cSkyBlue;
       if (DungeonItems[I].MaxDamage > 0) then
-        Add(Format('%s %d-%d', [GetLang(32), DungeonItems[I].MinDamage,
+        Add(Format('%s %d-%d', [Language.GetLang(32), DungeonItems[I].MinDamage,
           DungeonItems[I].MaxDamage]));
       if (DungeonItems[I].Protect > 0) then
-        Add(Format('%s %d', [GetLang(33), DungeonItems[I].Protect]));
+        Add(Format('%s %d', [Language.GetLang(33), DungeonItems[I].Protect]));
       // Bonuses
       Font.Color := cSkyBlue;
       if (DungeonItems[I].BonusStrength > 0) then
-        Add(Format('%s %d', [GetLang(15), DungeonItems[I].BonusStrength]));
+        Add(Format('%s %d', [Language.GetLang(15), DungeonItems[I].BonusStrength]));
       if (DungeonItems[I].BonusDexterity > 0) then
-        Add(Format('%s %d', [GetLang(16), DungeonItems[I].BonusDexterity]));
+        Add(Format('%s %d', [Language.GetLang(16), DungeonItems[I].BonusDexterity]));
       if (DungeonItems[I].BonusIntelligence > 0) then
-        Add(Format('%s %d', [GetLang(17), DungeonItems[I].BonusIntelligence]));
+        Add(Format('%s %d', [Language.GetLang(17), DungeonItems[I].BonusIntelligence]));
       if (DungeonItems[I].BonusSpeed > 0) then
-        Add(Format('%s %d', [GetLang(18), DungeonItems[I].BonusSpeed]));
+        Add(Format('%s %d', [Language.GetLang(18), DungeonItems[I].BonusSpeed]));
       if (DungeonItems[I].BonusLife > 0) then
-        Add(Format('%s %d', [GetLang(22), DungeonItems[I].BonusLife]));
+        Add(Format('%s %d', [Language.GetLang(22), DungeonItems[I].BonusLife]));
       if (DungeonItems[I].BonusMana > 0) then
-        Add(Format('%s %d', [GetLang(23), DungeonItems[I].BonusMana]));
+        Add(Format('%s %d', [Language.GetLang(23), DungeonItems[I].BonusMana]));
       //
       Font.Color := cWhiteGre;
       if (DungeonItems[I].ManaCost > 0) then
-        Add(Format('%s -%d (%d/%d)', [GetLang(23), DungeonItems[I].ManaCost,
+        Add(Format('%s -%d (%d/%d)', [Language.GetLang(23), DungeonItems[I].ManaCost,
           Creatures.PC.Mana.Cur, Creatures.PC.Mana.Max]));
       if (DungeonItems[I].NeedMagic > 0) then
-        Add(Format('%s %d (%d)', [GetLang(280), DungeonItems[I].NeedMagic,
+        Add(Format('%s %d (%d)', [Language.GetLang(280), DungeonItems[I].NeedMagic,
           Skills.GetSkill('MAGIC').Level]));
       //
       Font.Color := cSkyBlue;
       if (DungeonItems[I].Weight > 0) then
-        Add(GetLang(42) + Items.GetWeight(I));
+        Add(Language.GetLang(42) + Items.GetWeight(I));
       if (DungeonItems[I].MaxTough > 0) then
       begin
         if (Creatures.PC.Inv.GetTough(ItemIndex) <= 0) then
           Font.Color := cRdRed;
-        Add(Format('%s %d/%d', [GetLang(40),
+        Add(Format('%s %d/%d', [Language.GetLang(40),
           Creatures.PC.Inv.GetTough(ItemIndex), DungeonItems[I].MaxTough]));
       end;
     end;
@@ -415,26 +415,26 @@ begin
             Creatures.PC.Scrolls.IsDefined(T) then
             RenderItemInfo(I)
           else
-            Add(GetLang(23));
+            Add(Language.GetLang(23));
           if (DungeonItems[I].Category = dsPotion) and
             Creatures.PC.Potions.IsDefined(T) then
             RenderItemInfo(I)
           else
-            Add(GetLang(23));
+            Add(Language.GetLang(23));
         end;
       end;
-      Text.BarOut('esc', GetLang(49), True);
+      Text.BarOut('esc', Language.GetLang(49), True);
       if (DungeonItems[I].Category in EquipSet) then
-        AddCommand('W', GetLang(95));
+        AddCommand('W', Language.GetLang(95));
       if (DungeonItems[I].Category in UseSet) then
-        AddCommand('U', GetLang(98));
+        AddCommand('U', Language.GetLang(98));
       if (DungeonItems[I].Category in PotionSet) then
-        AddCommand('Q', GetLang(93));
+        AddCommand('Q', Language.GetLang(93));
       if (DungeonItems[I].Category in ScrollSet) then
-        AddCommand('R', GetLang(99));
+        AddCommand('R', Language.GetLang(99));
       if (DungeonItems[I].Category in DropSet) and
         not Creatures.PC.Inv.GetDoll(ItemIndex) then
-        AddCommand('D', GetLang(90));
+        AddCommand('D', Language.GetLang(90));
       Render;
       Tileset.Free;
     except
@@ -463,7 +463,7 @@ begin
     begin
       if (C = 1) then
       begin
-        Log.Add(Format(GetLang(91), [GetItemLang(DungeonItems[J].Sprite)]));
+        Log.Add(Format(Language.GetLang(91), [GetItemLang(DungeonItems[J].Sprite)]));
         Items.Add(Creatures.PC.Pos.X, Creatures.PC.Pos.Y,
           DungeonItems[J].Sprite);
         with Items.Item[High(Items.Item)] do
@@ -474,7 +474,7 @@ begin
       end
       else
       begin
-        Log.Add(Format(GetLang(92), [GetItemLang(DungeonItems[J].Sprite), C]));
+        Log.Add(Format(Language.GetLang(92), [GetItemLang(DungeonItems[J].Sprite), C]));
         Items.Add(Creatures.PC.Pos.X, Creatures.PC.Pos.Y,
           DungeonItems[J].Sprite);
         Items.Item[High(Items.Item)].Count := C;
@@ -510,11 +510,11 @@ begin
       if Inv.Del(I, 1) then
       begin
         T := DungeonItems[J].ColorTag;
-        Log.Add(Format(GetLang(94), [GetItemLang(DungeonItems[J].Sprite)]));
+        Log.Add(Format(Language.GetLang(94), [GetItemLang(DungeonItems[J].Sprite)]));
         if (T > 0) and not Creatures.PC.Potions.IsDefined(T) then
         begin
           Creatures.PC.Potions.SetDefined(T);
-          Log.Add(GetLang(225) + ' ' +
+          Log.Add(Language.GetLang(225) + ' ' +
             AnsiLowerCase(GetItemLang(DungeonItems[J].Sprite)) + '.');
         end;
         Items.UseItem(J, PotionSet);
@@ -538,11 +538,11 @@ begin
         if Inv.Del(I, 1) then
         begin
           T := DungeonItems[J].ColorTag;
-          Log.Add(Format(GetLang(100), [GetItemLang(DungeonItems[J].Sprite)]));
+          Log.Add(Format(Language.GetLang(100), [GetItemLang(DungeonItems[J].Sprite)]));
           if (T > 0) and not Creatures.PC.Scrolls.IsDefined(T) then
           begin
             Creatures.PC.Scrolls.SetDefined(T);
-            Log.Add(GetLang(220) + ' ' +
+            Log.Add(Language.GetLang(220) + ' ' +
               AnsiLowerCase(GetItemLang(DungeonItems[J].Sprite)) + '.');
           end;
           Mana.Dec(DungeonItems[J].ManaCost);
@@ -551,7 +551,7 @@ begin
       end
       else
       begin
-        Log.Add(GetLang(67));
+        Log.Add(Language.GetLang(67));
       end;
     end;
   except

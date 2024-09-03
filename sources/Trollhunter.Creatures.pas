@@ -124,20 +124,20 @@ begin
     begin
       // The %s hits you %d.
       Items.Damage(ArmorSet, 7);
-      Log.Add(Format(GetLang(68), [EnemyName, ADamage]));
+      Log.Add(Format(Language.GetLang(68), [EnemyName, ADamage]));
     end
     else
     begin
       if IsTrap then
       begin
         // The trap hits the %s %d.
-        Log.Add(Format(GetLang(104), [EnemyName, ADamage]));
+        Log.Add(Format(Language.GetLang(104), [EnemyName, ADamage]));
       end
       else
       begin
         // You hit the %s %d.
         Items.Damage(WeaponSet, 5);
-        Log.Add(Format(GetLang(69), [EnemyName, ADamage]));
+        Log.Add(Format(Language.GetLang(69), [EnemyName, ADamage]));
       end;
     end;
 
@@ -160,19 +160,19 @@ begin
     if (ACreature = Creatures.PC) then
     begin
       // The %s hits your mana %d.
-      Log.Add(Format(GetLang(107), [EnemyName, ADamage]));
+      Log.Add(Format(Language.GetLang(107), [EnemyName, ADamage]));
     end
     else
     begin
       if IsTrap then
       begin
         // The trap hits the %s %d.
-        Log.Add(Format(GetLang(106), [EnemyName, ADamage]));
+        Log.Add(Format(Language.GetLang(106), [EnemyName, ADamage]));
       end
       else
       begin
         // You hit the %s %d.
-        Log.Add(Format(GetLang(108), [EnemyName, ADamage]));
+        Log.Add(Format(Language.GetLang(108), [EnemyName, ADamage]));
       end;
     end;
 

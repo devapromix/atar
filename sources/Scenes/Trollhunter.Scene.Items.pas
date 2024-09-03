@@ -172,11 +172,12 @@ begin
           end;
       Items.RenderPCInvStat(Y);
       if (C = 1) then
-        Graph.Text.BarOut('enter, a', GetLang(26), False)
+        Graph.Text.BarOut('enter, a', Language.GetLang(26), False)
       else if (C > 1) then
-        Graph.Text.BarOut('enter, a-' + Chr(96 + C), GetLang(26), False);
-      Graph.Text.BarOut('backspace', GetLang(25), False);
-      Graph.Text.BarOut('space', GetLang(50), False);
+        Graph.Text.BarOut('enter, a-' + Chr(96 + C),
+          Language.GetLang(26), False);
+      Graph.Text.BarOut('backspace', Language.GetLang(25), False);
+      Graph.Text.BarOut('space', Language.GetLang(50), False);
     end;
     Graph.Render;
     Tileset.Free;

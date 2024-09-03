@@ -182,7 +182,7 @@ begin
       begin
         FSkillList[ASkillIndex].Level := TSkill.MaxValue;
       end;
-      Log.Add(Format('%s +1 (%d).', [GetLang(ASkillIndex + 201),
+      Log.Add(Format('%s +1 (%d).', [Language.GetLang(ASkillIndex + 201),
         FSkillList[ASkillIndex].Level]));
     end;
   end;

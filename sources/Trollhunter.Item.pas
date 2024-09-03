@@ -679,7 +679,7 @@ var
 
   procedure RenderText();
   begin
-    Log.Add(Format(GetLang(12), [S]));
+    Log.Add(Format(Language.GetLang(12), [S]));
     Log.Apply;
     Scenes.Render;
   end;
@@ -690,7 +690,7 @@ var
   begin
     if not IsAddToInv(I) then
     begin
-      Log.Add(GetLang(11));
+      Log.Add(Language.GetLang(11));
       Log.Apply;
       Scenes.Render;
       Exit;
@@ -797,8 +797,8 @@ begin
     Font.Color := cRdYellow;
     with Creatures.PC.Inv do
       Trollhunter.Graph.Graph.Text.TextCenter(Y,
-        Format('%s: %d/%d | %s: %d/%ds', [GetLang(41), Count, MaxCount,
-        GetLang(42), Weight, MaxWeight]));
+        Format('%s: %d/%d | %s: %d/%ds', [Language.GetLang(41), Count, MaxCount,
+        Language.GetLang(42), Weight, MaxWeight]));
   end;
 end;
 
@@ -1010,19 +1010,19 @@ begin
   Result := '';
   case DungeonItems[AItemIdent].Category of
     dsLHand:
-      LStr := GetLang('on left hand', 'в левой руке');
+      LStr := Language.GetLang(231);
     dsRHand:
-      LStr := GetLang('on right hand', 'в правой руке');
+      LStr := Language.GetLang(232);
     dsBody:
-      LStr := GetLang('on body', 'на торсе');
+      LStr := Language.GetLang(233);
     dsHead:
-      LStr := GetLang('on head', 'на голове');
+      LStr := Language.GetLang(234);
     dsFoot:
-      LStr := GetLang('on feet', 'на ногах');
+      LStr := Language.GetLang(235);
     dsRing:
-      LStr := GetLang('on finger', 'на пальце');
+      LStr := Language.GetLang(236);
     dsAmulet:
-      LStr := GetLang('on neck', 'на шее');
+      LStr := Language.GetLang(237);
   end;
   if Creatures.PC.Inv.GetDoll(AItemIndex) then
     Result := ' - ' + LStr;

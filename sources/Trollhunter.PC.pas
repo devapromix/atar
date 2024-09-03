@@ -346,8 +346,8 @@ begin
     Level := Level + 1;
     AtrPoint := AtrPoint + 1;
     Rating := Rating + (Level * 10);
-    Log.Add(GetLang(60));
-    Log.Add(Format(GetLang(61), [Level]));
+    Log.Add(Language.GetLang(60));
+    Log.Add(Format(Language.GetLang(61), [Level]));
   end;
   Scenes.Scene := SceneLevelUp;
 end;
@@ -357,7 +357,7 @@ begin
   Result := False;
   try
     Prop.Exp := Prop.Exp + Value;
-    Log.Add(Format(GetLang(64), [Value]));
+    Log.Add(Format(Language.GetLang(64), [Value]));
     Self.Statistics.Inc(stKills);
     with Prop do
       while (Exp >= MaxExp) do
@@ -395,9 +395,9 @@ begin
         with TAnimNumber.Create(-V) do
           Free;
         Life.Dec(V);
-        Log.Add(Format(GetLang(70), [V, TempSys.Duration('Poison')]));
+        Log.Add(Format(Language.GetLang(70), [V, TempSys.Duration('Poison')]));
         if (TempSys.Duration('Poison') <= 1) then
-          Log.Add(GetLang(71));
+          Log.Add(Language.GetLang(71));
       end;
       if TempSys.IsVar('VialOfLife') and not Life.IsMax then
       begin
@@ -417,7 +417,7 @@ begin
       Self.DoTime();
       Self.TempSys.Move;
       if Self.Life.IsMin then
-        Log.Add(GetLang(72)); // You die.
+        Log.Add(Language.GetLang(72)); // You die.
     except
       on E: Exception do
         Error.Add('PC.Move', E.Message);
@@ -455,9 +455,9 @@ begin
           end;
           if (Rand(0, 9) = 0) then
             Items.Add(Enemy[I].Pos.X, Enemy[I].Pos.Y, Map.GetRandItemID);
-          Log.Add(Format(GetLang(73), [N])); // The %s dies.
+          Log.Add(Format(Language.GetLang(73), [N])); // The %s dies.
           if PC.AddExp(Enemy[I].Prop.Exp) then
-            Log.Add(Format(GetLang(65), [PC.Prop.Level]));
+            Log.Add(Format(Language.GetLang(65), [PC.Prop.Level]));
           with PC do
             Rating := Rating + Enemy[I].Prop.Exp;
         end;
@@ -471,7 +471,8 @@ begin
       end
       else
       begin
-        Log.Add(Format(GetLang(74), [GetCreatureLang(Enemy[I].Prop.Sprite)]));
+        Log.Add(Format(Language.GetLang(74),
+          [GetCreatureLang(Enemy[I].Prop.Sprite)]));
         // You miss the %s.
         case Enemy[I].Prop.AIType of
           aiSlug:
@@ -656,7 +657,7 @@ begin
       if (Map.Cell[AY][AX].Decor = dTrap) then
       begin
         Map.Cell[AY][AX].Decor := dTrapDet;
-        Log.Add(GetLang(109));
+        Log.Add(Language.GetLang(109));
         Skills.Up('TRAPS');
       end;
 end;
@@ -726,28 +727,28 @@ end;
 procedure TPC.AddDexterity;
 begin
   Inc(Prop.Dexterity);
-  Log.Add(Format('%s +1 (%d).', [GetLang(16), Prop.Dexterity]));
+  Log.Add(Format('%s +1 (%d).', [Language.GetLang(16), Prop.Dexterity]));
   Calc;
 end;
 
 procedure TPC.AddSpeed;
 begin
   Inc(Prop.Speed);
-  Log.Add(Format('%s +1 (%d).', [GetLang(18), Prop.Speed]));
+  Log.Add(Format('%s +1 (%d).', [Language.GetLang(18), Prop.Speed]));
   Calc;
 end;
 
 procedure TPC.AddStrength;
 begin
   Inc(Prop.Strength);
-  Log.Add(Format('%s +1 (%d).', [GetLang(15), Prop.Strength]));
+  Log.Add(Format('%s +1 (%d).', [Language.GetLang(15), Prop.Strength]));
   Calc;
 end;
 
 procedure TPC.AddIntelligence;
 begin
   Inc(Prop.Intelligence);
-  Log.Add(Format('%s +1 (%d).', [GetLang(17), Prop.Intelligence]));
+  Log.Add(Format('%s +1 (%d).', [Language.GetLang(17), Prop.Intelligence]));
   Calc;
 end;
 

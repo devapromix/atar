@@ -57,8 +57,8 @@ procedure TSceneBaseMenu.Render;
 begin
   inherited;
   Graph.Clear(0);
-  Graph.Text.TitleOut(GetLang(FID));
-  Graph.Text.BarOut('esc', GetLang(29), True);
+  Graph.Text.TitleOut(Language.GetLang(FID));
+  Graph.Text.BarOut('esc', Language.GetLang(29), True);
 end;
 
 end.

@@ -92,8 +92,8 @@ begin
               if FileExists(Path + 'save\' + Creatures.PC.Name + '.sav') then
               begin
                 Game.Load();
-                Graph.Messagebar.Add(Format(GetLang(20), [Creatures.PC.Name,
-                  MainForm.Caption]));
+                Graph.Messagebar.Add(Format(Language.GetLang(20),
+                  [Creatures.PC.Name, MainForm.Caption]));
                 Scenes.Scene := SceneGame;
               end
               else
@@ -138,9 +138,9 @@ begin
     begin
       N := 'space';
       Font.Color := cBgColor;
-      S := GetLang(38) + #32 + Creatures.PC.Name + '_';
+      S := Language.GetLang(38) + #32 + Creatures.PC.Name + '_';
       W := TextWidth(S);
-      S := GetLang(38);
+      S := Language.GetLang(38);
       Font.Style := [];
       H := TextWidth(S);
       TextOut((Graph.Width div 2) - (W div 2), (Graph.Height div 2) -
@@ -156,9 +156,10 @@ begin
       if FileExists(Path + 'save\' + Creatures.PC.Name + '.sav') then
       begin
         P := Game.GetPCInfo(Path + 'save\' + Creatures.PC.Name + '.sav');
-        S := GetLang(30) + ': ' + IntToStr(P.Level) + ' | ' + GetLang(36) + ': '
-          + IntToStr(P.Rating) + ' | ' + GetLang(140) + ': ' +
-          GetFileDate(Path + 'save\' + Creatures.PC.Name + '.sav');
+        S := Language.GetLang(30) + ': ' + IntToStr(P.Level) + ' | ' +
+          Language.GetLang(36) + ': ' + IntToStr(P.Rating) + ' | ' +
+          Language.GetLang(140) + ': ' + GetFileDate(Path + 'save\' + Creatures.PC.Name
+          + '.sav');
         Font.Color := cBgColor;
         Graph.Text.TextCenter(((Graph.Height div 2) div Graph.CharHeight) + 2,
           AnsiLowerCase(S));

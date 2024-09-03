@@ -133,43 +133,44 @@ begin
     with Graph.Surface.Canvas do
     begin
       Font.Color := cRdYellow;
-      Add(GetLang(37), Creatures.PC.Name);
-      Add(GetLang(180), GetLang(Creatures.PC.Race + 182));
-      Add(GetLang(30), Creatures.PC.Prop.Level);
-      Add(Graph.Bars.EXP, GetLang(31), Format('%d/%d', [Creatures.PC.Prop.EXP,
+      Add(Language.GetLang(37), Creatures.PC.Name);
+      Add(Language.GetLang(180), Language.GetLang(Creatures.PC.Race + 182));
+      Add(Language.GetLang(30), Creatures.PC.Prop.Level);
+      Add(Graph.Bars.EXP, Language.GetLang(31),
+        Format('%d/%d', [Creatures.PC.Prop.EXP,
         Creatures.PC.MaxExp(Creatures.PC.Prop.Level)]));
       Add();
-      Add(GetLang(15), Creatures.PC.Prop.Strength);
-      Add(GetLang(16), Creatures.PC.Prop.Dexterity);
-      Add(GetLang(17), Creatures.PC.Prop.Intelligence);
-      Add(GetLang(18), Creatures.PC.GetSpeed);
+      Add(Language.GetLang(15), Creatures.PC.Prop.Strength);
+      Add(Language.GetLang(16), Creatures.PC.Prop.Dexterity);
+      Add(Language.GetLang(17), Creatures.PC.Prop.Intelligence);
+      Add(Language.GetLang(18), Creatures.PC.GetSpeed);
       Add();
-      Add(GetLang(18), Creatures.PC.AtrPoint);
+      Add(Language.GetLang(18), Creatures.PC.AtrPoint);
       Add();
-      Add(Graph.Bars.LIFE, GetLang(22), Format('%d/%d', [Creatures.PC.LIFE.Cur,
-        Creatures.PC.LIFE.Max]));
-      Add(Graph.Bars.MANA, GetLang(23), Format('%d/%d', [Creatures.PC.MANA.Cur,
-        Creatures.PC.MANA.Max]));
+      Add(Graph.Bars.LIFE, Language.GetLang(22),
+        Format('%d/%d', [Creatures.PC.LIFE.Cur, Creatures.PC.LIFE.Max]));
+      Add(Graph.Bars.MANA, Language.GetLang(23),
+        Format('%d/%d', [Creatures.PC.MANA.Cur, Creatures.PC.MANA.Max]));
       Add();
-      Add(Graph.Bars.DAMAGE, GetLang(32),
+      Add(Graph.Bars.DAMAGE, Language.GetLang(32),
         Format('%d-%d', [Creatures.PC.Prop.MinDamage,
         Creatures.PC.Prop.MaxDamage]));
-      Add(Graph.Bars.PROTECT, GetLang(33), Creatures.PC.Prop.PROTECT);
+      Add(Graph.Bars.PROTECT, Language.GetLang(33), Creatures.PC.Prop.PROTECT);
       Add();
-      Add(GetLang(66), Creatures.PC.GetRadius);
-      Add(GetLang(35), Creatures.PC.Turns);
-      Add(GetLang(36), Creatures.PC.Rating);
+      Add(Language.GetLang(66), Creatures.PC.GetRadius);
+      Add(Language.GetLang(35), Creatures.PC.Turns);
+      Add(Language.GetLang(36), Creatures.PC.Rating);
       Add();
       // Location
       if ParamDebug then
         S := ' (' + IntToStr(Creatures.PC.Dungeon) + ')'
       else
         S := '';
-      Add(GetLang(110), GetMapLang(Map.Info.ID) + S);
+      Add(Language.GetLang(110), Language.GetLang(Map.Info.ID) + S);
       Add();
       Draw(Graph.Surface.Width - 72, Graph.CharHeight, SceneInv.Hero);
     end;
-    Graph.Text.BarOut('space', GetLang(25), False);
+    Graph.Text.BarOut('space', Language.GetLang(25), False);
     RenderSkills;
     // Calendar();
     Graph.Render;
@@ -195,11 +196,12 @@ begin
     Graph.Text.DrawOut(S4 * X, Y, Space(S4));
     Graph.Surface.Canvas.Font.Color := cRdYellow;
     Graph.Surface.Canvas.Brush.Color := cBlack;
-    Graph.Text.DrawOut(S4 * X, Y - 1, GetLang(I + 201));
+    Graph.Text.DrawOut(S4 * X, Y - 1, Language.GetLang(I + 201));
     Graph.Text.DrawOut(S4 * X + (S4 - (Length(IntToStr(LSkill.Level)))), Y - 1,
       IntToStr(LSkill.Level));
     Graph.Surface.Canvas.Brush.Color := cRdYellow;
-    Graph.Text.DrawOut(S4 * X, Y, Space(Round(LSkill.EXP * S4 / TSkill.MaxExp)));
+    Graph.Text.DrawOut(S4 * X, Y,
+      Space(Round(LSkill.EXP * S4 / TSkill.MaxExp)));
     if ParamDebug and (LSkill.EXP > 0) then
     begin
       Graph.Surface.Canvas.Font.Color := cRdGray;

@@ -511,7 +511,7 @@ begin
       end;
       Font.Color := T[0];
       Font.Style := [];
-      N := GetMapLang(Map.Info.ID);
+      N := Language.GetLang(Map.Info.ID);
       if (N <> '') then
         TextOut(Graph.Width - TextWidth(N), Graph.CharHeight, N);
     end;
@@ -559,7 +559,7 @@ end;
 
 procedure TText.BarOut(const KeyID: string; LID: Word; IsNewBar: Boolean);
 begin
-  Self.BarOut(KeyID, GetLang(LID), IsNewBar);
+  Self.BarOut(KeyID, Language.GetLang(LID), IsNewBar);
 end;
 
 function TText.ClearText(const S: string): string;

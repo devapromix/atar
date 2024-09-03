@@ -101,7 +101,7 @@ begin
       // Col Width
       for J := 0 to High(K) do
       begin
-        K[J] := (Length(GetLang(N[J])) + 1) * Graph.CharWidth;
+        K[J] := (Length(Language.GetLang(N[J])) + 1) * Graph.CharWidth;
         for I := 0 to Max do
         begin
           if (I >= Game.Scores.MaxCount) or (I >= Game.Scores.Count) then
@@ -129,11 +129,11 @@ begin
         L := Graph.CharWidth * 4;
         for J := 1 to High(K) do
         begin
-          TextOut(L, Graph.CharHeight * 2, GetLang(N[J]));
+          TextOut(L, Graph.CharHeight * 2, Language.GetLang(N[J]));
           Inc(L, K[J]);
         end;
         TextOut(Graph.Width - (K[0] + Graph.CharWidth), Graph.CharHeight * 2,
-          GetLang(N[0]));
+          Language.GetLang(N[0]));
       end;
       // Col Value
       for I := 0 to Max do

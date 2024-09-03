@@ -107,8 +107,8 @@ begin
           if (LRaceIndex < Races.RaceList.Count) then
           begin
             Creatures.PC.Race := LRaceIndex;
-            Graph.Messagebar.Add(Format(GetLang(20), [Creatures.PC.Name,
-              MainForm.Caption]));
+            Graph.Messagebar.Add(Format(Language.GetLang(20),
+              [Creatures.PC.Name, MainForm.Caption]));
             Creatures.PC.Redraw;
             Scenes.Scene := SceneGame;
           end;
@@ -192,42 +192,43 @@ const
   L2 = 4;
 begin
   // Begin race description
-  Result := GetLang(Races.RaceList[ARaceIndex].BeginDescr);
+  Result := Language.GetLang(Races.RaceList[ARaceIndex].BeginDescr);
   // Strength
   if Races.RaceList[ARaceIndex].Strength >= L2 then
-    Result := Result + ' ' + GetLang(324)
+    Result := Result + ' ' + Language.GetLang(324)
   else if Races.RaceList[ARaceIndex].Strength > L1 then
-    Result := Result + ' ' + GetLang(321)
+    Result := Result + ' ' + Language.GetLang(321)
   else if Races.RaceList[ARaceIndex].Strength <= -L2 then
-    Result := Result + ' ' + GetLang(325)
+    Result := Result + ' ' + Language.GetLang(325)
   else if Races.RaceList[ARaceIndex].Strength < -L1 then
-    Result := Result + ' ' + GetLang(322)
+    Result := Result + ' ' + Language.GetLang(322)
   else
-    Result := Result + ' ' + GetLang(323);
+    Result := Result + ' ' + Language.GetLang(323);
   // Dexterity
   if Races.RaceList[ARaceIndex].Dexterity >= L2 then
-    Result := Result + ' ' + GetLang(329)
+    Result := Result + ' ' + Language.GetLang(329)
   else if Races.RaceList[ARaceIndex].Dexterity > L1 then
-    Result := Result + ' ' + GetLang(326)
+    Result := Result + ' ' + Language.GetLang(326)
   else if Races.RaceList[ARaceIndex].Dexterity <= -L2 then
-    Result := Result + ' ' + GetLang(330)
+    Result := Result + ' ' + Language.GetLang(330)
   else if Races.RaceList[ARaceIndex].Dexterity < -L1 then
-    Result := Result + ' ' + GetLang(327)
+    Result := Result + ' ' + Language.GetLang(327)
   else
-    Result := Result + ' ' + GetLang(328);
+    Result := Result + ' ' + Language.GetLang(328);
   // Intelligence
   if Races.RaceList[ARaceIndex].Intelligence >= L2 then
-    Result := Result + ' ' + GetLang(334)
+    Result := Result + ' ' + Language.GetLang(334)
   else if Races.RaceList[ARaceIndex].Intelligence > L1 then
-    Result := Result + ' ' + GetLang(331)
+    Result := Result + ' ' + Language.GetLang(331)
   else if Races.RaceList[ARaceIndex].Intelligence <= -L2 then
-    Result := Result + ' ' + GetLang(335)
+    Result := Result + ' ' + Language.GetLang(335)
   else if Races.RaceList[ARaceIndex].Intelligence < -L1 then
-    Result := Result + ' ' + GetLang(332)
+    Result := Result + ' ' + Language.GetLang(332)
   else
-    Result := Result + ' ' + GetLang(333);
+    Result := Result + ' ' + Language.GetLang(333);
   // End race description
-  Result := Result + ' ' + GetLang(Races.RaceList[ARaceIndex].EndDescr);
+  Result := Result + ' ' + Language.GetLang
+    (Races.RaceList[ARaceIndex].EndDescr);
 end;
 
 procedure TSceneRace.Render;
@@ -235,6 +236,7 @@ var
   T, I, J, Y, H, L, K, LRaceIndex, R, V, U: Integer;
   F, S, D, M, Q: string;
   A: ShortInt;
+  LSkillIdent: string;
 begin
   inherited;
   try
@@ -261,7 +263,8 @@ begin
           Font.Color := cBgColor;
         end;
         TextOut((Graph.CharWidth * 3) - TextWidth(S), Y, S);
-        TextOut(Graph.CharWidth * 3, Y, GetLang(Races.RaceList[I].Name));
+        TextOut(Graph.CharWidth * 3, Y,
+          Language.GetLang(Races.RaceList[I].Name));
         Font.Style := [];
         Font.Color := cAcColor;
         Graph.Text.DrawAll(T, 3, Round(T * 2.5),
@@ -272,8 +275,8 @@ begin
       begin
         Font.Color := cDkYellow;
         Graph.Text.DrawOut(1, 2, '#');
-        Graph.Text.DrawOut(3, 2, GetLang(180));
-        Graph.Text.TextCenter(2, GetLang(320));
+        Graph.Text.DrawOut(3, 2, Language.GetLang(180));
+        Graph.Text.TextCenter(2, Language.GetLang(320));
       end;
       H := Races.RaceList.Count + 5;
       Font.Style := [fsBold];
@@ -294,7 +297,7 @@ begin
       for I := 1 to 4 do
       begin
         D := '';
-        S := GetLang(I + 14) + ': ' + IntToStr(GetAtrValue(I));
+        S := Language.GetLang(I + 14) + ': ' + IntToStr(GetAtrValue(I));
         Font.Color := cBgColor;
         Graph.Text.DrawOut(L, H + I, S);
         A := 0;
@@ -325,21 +328,21 @@ begin
       //
       Font.Color := cRdRed;;
       Graph.Text.DrawOut(T, H + U + 1, Format('%s: %d/%d',
-        [GetLang(22), Creatures.PC.Life.Max, Creatures.PC.Life.Max]));
+        [Language.GetLang(22), Creatures.PC.Life.Max, Creatures.PC.Life.Max]));
       Font.Color := cRdBlue;
       Graph.Text.DrawOut(T, H + U + 2, Format('%s: %d/%d',
-        [GetLang(23), Creatures.PC.Mana.Max, Creatures.PC.Mana.Max]));
+        [Language.GetLang(23), Creatures.PC.Mana.Max, Creatures.PC.Mana.Max]));
       Font.Color := cDkYellow;
       Graph.Text.DrawOut(T, H + U + 3, Format('%s: %d-%d',
-        [GetLang(32), Creatures.PC.Prop.MinDamage,
+        [Language.GetLang(32), Creatures.PC.Prop.MinDamage,
         Creatures.PC.Prop.MaxDamage]));
       Font.Color := cDkYellow;
-      Graph.Text.DrawOut(T, H + U + 4,
-        Format('%s: %d', [GetLang(33), Creatures.PC.Prop.Protect]));
+      Graph.Text.DrawOut(T, H + U + 4, Format('%s: %d', [Language.GetLang(33),
+        Creatures.PC.Prop.Protect]));
 
       R := 0;
       Font.Style := [fsBold];
-      Q := GetLang(200) + ':';
+      Q := Language.GetLang(200) + ':';
       Graph.Text.DrawOut(T * 2, H - 1, Q);
       M := '';
       for I := 1 to Length(Q) do
@@ -350,21 +353,14 @@ begin
       Font.Color := cDkYellow;
       for J := 0 to Races.RaceList[LRaceIndex].Skills.Count - 1 do
       begin
+        LSkillIdent := Races.RaceList[LRaceIndex].Skills[J];
         Graph.Text.DrawOut(T * 2, H + J + 1,
-          Races.RaceList[LRaceIndex].Skills[J]);
+          Language.GetLang(Skills.GetSkill(LSkillIdent).Name) + ': ' +
+          IntToStr(Skills.GetSkill(LSkillIdent).Level));
       end;
-      { for J := 0 to SkillsCount do
-        if (Creatures.PC.Skill.GetSkill(J).Level > 0) then
-        begin
-        Inc(R);
-        Font.Color := cDkYellow;
-        Graph.Text.DrawOut(T * 2, H + R, GetLang(J + 201) + ': ' +
-        IntToStr(Creatures.PC.Skill.GetSkill(J).Level));
-        end; }
-
       R := 0;
       Font.Style := [fsBold];
-      Q := GetLang(25) + ':';
+      Q := Language.GetLang(25) + ':';
       Graph.Text.DrawOut(T * 3, H - 1, Q);
       M := '';
       for I := 1 to Length(Q) do
@@ -389,10 +385,10 @@ begin
       end;
       //
       if (Races.RaceList.Count = 1) then
-        Graph.Text.BarOut('a', GetLang(181), False)
+        Graph.Text.BarOut('a', Language.GetLang(181), False)
       else if (Races.RaceList.Count > 1) then
         Graph.Text.BarOut('a-' + Chr(96 + Races.RaceList.Count),
-          GetLang(181), False);
+          Language.GetLang(181), False);
       //
       Creatures.PC.Race := LRaceIndex;
       SceneInv.RedrawPCIcon;

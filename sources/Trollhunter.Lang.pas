@@ -3,6 +3,7 @@
 interface
 
 uses
+  System.Classes,
   Trollhunter.Item,
   Trollhunter.Creature,
   Trollhunter.Map;
@@ -124,7 +125,7 @@ const
     ('Daggers and knives', 'Кинжалы и Ножи'), ('Axes', 'Топоры'),
     ('Swords', 'Мечи'), ('Maces and Mauls', 'Булавы и Молоты'),
     ('Spears', 'Копья'), ('Bows', 'Луки'), ('Crossbows', 'Арбалеты'),
-    ('Shield use', 'Щиты'), ('Detect traps', 'Обнaружить ловушки'),
+    ('Shield use', 'Щиты'), ('Detect traps', 'Обнaружение ловушек'),
     ('Magic', 'Магия'), // 210
     ('', ''), ('', ''), ('', ''), ('', ''), ('', ''), ('', ''), ('', ''),
     ('', ''), ('', ''), ('You define a scroll:', 'Ты определил свиток:'), // 220
@@ -136,8 +137,10 @@ const
     'Ты определил зелье:'), // 225
     ('', ''), ('', ''), ('', ''), ('', ''), ('Removing all effects.',
     'Снятие всех эффектов.'), // 230
-    ('', ''), ('', ''), ('', ''), ('', ''), ('', ''), ('', ''), ('', ''),
-    ('', ''), ('', ''), ('Not Identified!', 'Не Определен!'), // 240
+    ('on left hand', 'в левой руке'), ('on right hand', 'в правой руке'),
+    ('on body', 'на торсе'), ('on head', 'на голове'), ('on feet', 'на ногах'),
+    ('on finger', 'на пальце'), ('on neck', 'на шее'), ('', ''), ('', ''),
+    ('Not Identified!', 'Не Определен!'), // 240
     ('', ''), ('', ''), ('', ''), ('', ''), ('', ''), ('', ''), ('', ''),
     ('', ''), ('', ''), ('Golden', 'Золотой'), // 250
     ('Indigo', 'Фиолетовый'), ('Jade', 'Зеленый'), ('Azure', 'Синий'),
@@ -153,7 +156,8 @@ const
     ('Identify all items in inventory.',
     'Идентифицирует все предметы в инвентаре.'),
     ('Open portal.', 'Открывает портал.'), ('', ''), ('', ''), ('', ''),
-    ('', ''), ('Need Skill "Magic"', 'Нужен Навык "Магия"'), // 280
+    ('', ''), ('You need to master magic!', 'Вам нужно овладеть магией!'),
+    // 280
     ('', ''), ('', ''), ('', ''), ('', ''), ('', ''), ('', ''), ('', ''),
     ('', ''), ('', ''), ('Entering The', 'Ты входишь в'), // 290
     ('', ''), ('', ''), ('', ''), ('', ''), ('', ''), ('', ''), ('', ''),
@@ -330,61 +334,58 @@ const
     //
     ('#', '#', '#'));
 
-const
-  MapName: array [0 .. MapsCount, 0 .. 2] of string = (
-
-    // ('DARKWOOD',        'The Dark Wood',    'Темный Лес'),
-    // ('BLACKMARSH',      'Black Marsh',      'Черная Топь'),
-
-    // Village
-    ('VILLAGE', 'Village', 'Деревня'),
-
-    // Spider Forest
-    ('SPIDERFOREST', 'Spider Forest', 'Лес Пауков'),
-    ('SPIDERCAVERN1', 'Spider Cavern Level 1', 'Пещер{а/y} Пауков Уровень 1'),
-    ('SPIDERCAVERN2', 'Spider Cavern Level 2', 'Пещер{а/y} Пауков Уровень 2'),
-
-    // The Underground Passage
-    ('THEUNDERGROUNDP', 'The Underground Passage', 'Подземный Проход'),
-
-    // Valley of Bear
-    ('VALLEYOFBEAR', 'Valley of Bear', 'Долин{а/y} Медведей'),
-    ('INTERNALPIT1', 'Internal Pit Level 1', 'Ям{а/y} Уровень 1'),
-    ('INTERNALPIT2', 'Internal Pit Level 2', 'Ям{а/y} Уровень 2'),
-
-    // Stony Field
-    ('STONYFIELD', 'Stony Field', 'Каменное Поле'),
-
-    // Twilight Forest
-    // ('TWILIGHTFOREST',  'Twilight Forest',         'Сумеречный Лес'),
-
-    //
-    ('#', '#', '#'), ('#', '#', '#'));
-
-function GetLang(ID: Word): string; overload;
+  // function GetLang(ID: Word): string; overload;
 function GetLang(Eng, Rus: string): string; overload;
 function GetItemLang(const AItemIdent: string): string;
 function GetCreatureLang(ID: string): string;
-function GetMapLang(ID: string; G: Boolean = False): string; overload;
-function GetMapLang(ID: Byte; G: Boolean = False): string; overload;
 function LanguageName: string;
 function GetYesOrNoLang(const AValue: Boolean): string;
-procedure ChangeLanguage;
+
+type
+  TLanguageString = class(TObject)
+  private
+    FId: TStringList;
+    FEn: TStringList;
+    FRu: TStringList;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure Clear;
+    procedure Add(const AId, AEn, ARu: string);
+    property ID: TStringList read FId write FId;
+    property En: TStringList read FEn write FEn;
+    property Ru: TStringList read FRu write FRu;
+  end;
+
+type
+  TLanguage = class(TObject)
+  private
+    FCurrentLanguageIndex: Byte;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure LoadFromResources;
+    function GetLang(const AIdent: string): string; overload;
+    function GetLang(const AIdent: Integer): string; overload;
+    procedure ChangeLanguage;
+  end;
 
 var
   LangID: Byte = 0;
+  Language: TLanguage;
 
 implementation
 
 uses
-  SysUtils,
+  System.SysUtils,
+  System.JSON,
+  Trollhunter.Zip,
   Trollhunter.Utils,
-  Trollhunter.Creatures;
+  Trollhunter.Error,
+  Trollhunter.Creatures, Trollhunter.MainForm;
 
-function GetLang(ID: Word): string;
-begin
-  Result := Lang[ID][LangID];
-end;
+var
+  LanguageString: TLanguageString;
 
 function GetLang(Eng, Rus: string): string;
 begin
@@ -441,17 +442,11 @@ var
 begin
   Result := '';
   for I := 0 to MapsCount - 1 do
-    if (MapName[I][0] = ID) then
-      Result := MapName[I][LangID + 1];
-  Result := GetMsg(Result, G);
-end;
-
-function GetMapLang(ID: Byte; G: Boolean = False): string;
-begin
-  if (ID > MapsCount - 1) then
-    ID := MapsCount - 1;
-  Result := MapName[ID][LangID + 1];
-  Result := GetMsg(Result, G);
+    { if (MapName[I][0] = ID) then
+      begin
+      Result := GetMapLang(ID, G);
+      Exit;
+      end; }
 end;
 
 function GetItemLang(const AItemIdent: string): string;
@@ -469,13 +464,15 @@ begin
     if (T > 0) and (DungeonItems[LItemIndex].Category = dsPotion) and
       not Potions.IsDefined(T) then
     begin
-      Result := '#r' + Potions.GetColorName(T) + ' ' + GetLang(222) + '$';
+      Result := '#r' + Potions.GetColorName(T) + ' ' +
+        Language.GetLang(222) + '$';
       Exit;
     end;
     if (T > 0) and (DungeonItems[LItemIndex].Category = dsScroll) and
       not Scrolls.IsDefined(T) then
     begin
-      Result := '#r' + GetLang(221) + ' ' + '"' + Scrolls.GetName(T) + '"';
+      Result := '#r' + Language.GetLang(221) + ' ' + '"' +
+        Scrolls.GetName(T) + '"';
       Exit;
     end;
   end;
@@ -515,14 +512,6 @@ begin
   end;
 end;
 
-procedure ChangeLanguage;
-begin
-  if (LangID = 0) then
-    LangID := 1
-  else
-    LangID := 0;
-end;
-
 function GetYesOrNoLang(const AValue: Boolean): string;
 begin
   if AValue then
@@ -530,5 +519,186 @@ begin
   else
     Result := GetLang('No', 'Нет');
 end;
+
+{ TLanguageString }
+
+procedure TLanguageString.Add(const AId, AEn, ARu: string);
+begin
+  FId.Add(AId);
+  FEn.Add(AEn);
+  FRu.Add(ARu);
+end;
+
+procedure TLanguageString.Clear;
+begin
+  FId.Clear;
+  FEn.Clear;
+  FRu.Clear;
+end;
+
+constructor TLanguageString.Create;
+begin
+  FId := TStringList.Create;
+  FEn := TStringList.Create;
+  FRu := TStringList.Create;
+end;
+
+destructor TLanguageString.Destroy;
+begin
+  FreeAndNil(FId);
+  FreeAndNil(FEn);
+  FreeAndNil(FRu);
+  inherited;
+end;
+
+{ TLanguage }
+
+procedure TLanguage.ChangeLanguage;
+begin
+  if (FCurrentLanguageIndex = 0) then
+    FCurrentLanguageIndex := 1
+  else
+    FCurrentLanguageIndex := 0;
+end;
+
+constructor TLanguage.Create;
+begin
+  LanguageString := TLanguageString.Create;
+  FCurrentLanguageIndex := 0;
+end;
+
+destructor TLanguage.Destroy;
+begin
+  FreeAndNil(LanguageString);
+  inherited;
+end;
+
+function TLanguage.GetLang(const AIdent: Integer): string;
+begin
+  Result := GetLang(AIdent.ToString);
+end;
+
+function TLanguage.GetLang(const AIdent: string): string;
+var
+  I: Integer;
+begin
+  Result := '';
+  I := LanguageString.FId.IndexOf(AIdent);
+  if I < 0 then
+    Exit;
+  if (FCurrentLanguageIndex = 0) then
+    Result := LanguageString.En[I]
+  else
+    Result := LanguageString.Ru[I];
+end;
+
+procedure TLanguage.LoadFromResources;
+var
+  LStringList: TStringList;
+  LJSONObject: TJSONObject;
+  LJSONArray: TJSONArray;
+  LZip: TZip;
+  I: Integer;
+  ID, En, Ru: string;
+begin
+  try
+    if not FileExists(Path + 'resources.res') then
+      Exit;
+    LStringList := TStringList.Create;
+    try
+      LZip := TZip.Create(MainForm);
+      try
+        LanguageString.Clear;
+        // Languages
+        LStringList.Text := LZip.ExtractTextFromFile(Path + 'resources.res',
+          'languages.json');
+        LJSONArray := TJSONObject.ParseJSONValue(LStringList.Text)
+          as TJSONArray;
+        try
+          for I := 0 to LJSONArray.Count - 1 do
+          begin
+            LJSONObject := LJSONArray.Items[I] as TJSONObject;
+            ID := LJSONObject.GetValue('id').Value;
+            En := LJSONObject.GetValue('en').Value;
+            Ru := LJSONObject.GetValue('ru').Value;
+            LanguageString.Add(ID, En, Ru);
+          end;
+        finally
+          FreeAndNil(LJSONArray);
+        end;
+        // Maps
+        LStringList.Text := LZip.ExtractTextFromFile(Path + 'resources.res',
+          'languages.maps.json');
+        LJSONArray := TJSONObject.ParseJSONValue(LStringList.Text)
+          as TJSONArray;
+        try
+          for I := 0 to LJSONArray.Count - 1 do
+          begin
+            LJSONObject := LJSONArray.Items[I] as TJSONObject;
+            ID := LJSONObject.GetValue('id').Value;
+            En := LJSONObject.GetValue('en').Value;
+            Ru := LJSONObject.GetValue('ru').Value;
+            LanguageString.Add(ID, En, Ru);
+          end;
+        finally
+          FreeAndNil(LJSONArray);
+        end;
+      finally
+        FreeAndNil(LZip);
+      end;
+    finally
+      FreeAndNil(LStringList);
+    end;
+  except
+    on E: Exception do
+      Error.Add('Lang.LoadFromResources', E.Message);
+  end;
+end;
+
+procedure SaveLang;
+var
+  SL: TStringList;
+  I: Integer;
+  S: string;
+begin
+  S := ',';
+  SL := TStringList.Create;
+  try
+    SL.Append('[');
+    for I := 0 to 999 do
+    begin
+      SL.Append('	{');
+      SL.Append('		"id": "' + IntToStr(I) + '",');
+      if I > 399 then
+      begin
+        SL.Append('		"en": "",');
+        SL.Append('		"ru": "",');
+      end
+      else
+      begin
+        SL.Append('		"en": "' + Lang[I][0] + '",');
+        SL.Append('		"ru": "' + Lang[I][1] + '",');
+      end;
+      SL.Append('		"uk": ""');
+      if I = 999 then
+        S := '';
+      SL.Append('	}' + S);
+    end;
+    SL.Append(']');
+    SL.SaveToFile(Path + 'languages.json');
+  finally
+    SL.Free;
+  end;
+end;
+
+initialization
+
+Language := TLanguage.Create;
+Language.LoadFromResources;
+SaveLang;
+
+finalization
+
+FreeAndNil(Language);
 
 end.

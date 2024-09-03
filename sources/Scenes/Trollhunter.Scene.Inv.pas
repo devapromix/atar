@@ -222,7 +222,7 @@ begin
         if (CursorPos = I) then
         begin
           Font.Style := [fsBold];
-          W :=((Graph.Width div Graph.CharWidth) - 10);
+          W := ((Graph.Width div Graph.CharWidth) - 10);
           Graph.RenderMenuLine(Y, 0, True, W, cDkGray);
         end
         else
@@ -262,12 +262,13 @@ begin
       end;
       Items.RenderPCInvStat(Y);
       if (C = 1) then
-        Graph.Text.BarOut('enter, a', GetLang(24), False)
+        Graph.Text.BarOut('enter, a', Language.GetLang(24), False)
       else if (C > 1) then
-        Graph.Text.BarOut('enter, a-' + Chr(96 + C), GetLang(24), False);
-      Graph.Text.BarOut('space', GetLang(8), False);
+        Graph.Text.BarOut('enter, a-' + Chr(96 + C),
+          Language.GetLang(24), False);
+      Graph.Text.BarOut('space', Language.GetLang(8), False);
       if (Items.CellItemsCount(Creatures.PC.Pos.X, Creatures.PC.Pos.Y) > 0) then
-        Graph.Text.BarOut('backspace', GetLang(111), False);
+        Graph.Text.BarOut('backspace', Language.GetLang(111), False);
       Draw(Graph.Surface.Width - 72, Graph.CharHeight, Hero);
       if (ItemUseID <> '') then
         RenderUseIcon;

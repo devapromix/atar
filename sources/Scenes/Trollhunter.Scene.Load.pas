@@ -102,8 +102,8 @@ begin
             Creatures.PC.Name := FStringList[I];
             Game.Load();
             Graph.Messagebar.Clear;
-            Graph.Messagebar.Add(Format(GetLang(20), [Creatures.PC.Name,
-              MainForm.Caption]));
+            Graph.Messagebar.Add(Format(Language.GetLang(20),
+              [Creatures.PC.Name, MainForm.Caption]));
             Scenes.Scene := SceneGame;
           end;
         end;
@@ -182,7 +182,7 @@ begin
         TextOut(Graph.CharWidth * 3, Y, FStringList[I]);
         TextOut(Graph.CharWidth * R, Y, IntToStr(P.Level));
         TextOut(Graph.CharWidth * (R * 2), Y, IntToStr(P.Rating));
-        TextOut(Graph.CharWidth * (R * 3), Y, GetMapLang(P.Dungeon));
+        // TextOut(Graph.CharWidth * (R * 3), Y, Language.GetStr(P.Dungeon));
         TextOut(Graph.Width - (Graph.CharWidth * 20), Y,
           GetFileDate(Path + 'save\' + FStringList[I] + '.sav'));
       end;
@@ -191,17 +191,21 @@ begin
       begin
         Font.Color := cDkYellow;
         TextOut(Graph.CharWidth, Graph.CharHeight * 2, '#');
-        TextOut(Graph.CharWidth * 3, Graph.CharHeight * 2, GetLang(37));
-        TextOut(Graph.CharWidth * R, Graph.CharHeight * 2, GetLang(30));
-        TextOut(Graph.CharWidth * (R * 2), Graph.CharHeight * 2, GetLang(36));
-        TextOut(Graph.CharWidth * (R * 3), Graph.CharHeight * 2, GetLang(39));
+        TextOut(Graph.CharWidth * 3, Graph.CharHeight * 2,
+          Language.GetLang(37));
+        TextOut(Graph.CharWidth * R, Graph.CharHeight * 2,
+          Language.GetLang(30));
+        TextOut(Graph.CharWidth * (R * 2), Graph.CharHeight * 2,
+          Language.GetLang(36));
+        TextOut(Graph.CharWidth * (R * 3), Graph.CharHeight * 2,
+          Language.GetLang(39));
         TextOut(Graph.Width - (Graph.CharWidth * 20), Graph.CharHeight * 2,
-          GetLang(140));
+          Language.GetLang(140));
       end;
       if (Count = 1) then
-        Graph.Text.BarOut('a', GetLang(28), False)
+        Graph.Text.BarOut('a', Language.GetLang(28), False)
       else if (Count > 1) then
-        Graph.Text.BarOut('a-' + Chr(96 + Count), GetLang(28), False)
+        Graph.Text.BarOut('a-' + Chr(96 + Count), Language.GetLang(28), False)
     end;
     Graph.Render;
   except

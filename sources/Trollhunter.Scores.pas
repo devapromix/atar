@@ -117,8 +117,8 @@ end;
 function TScores.GetValue(T, I: Integer): string;
 begin
   Result := P[T][I];
-  if (T = 4) then
-    Result := GetMapLang(StrToInt(P[T][I]));
+  //if (T = 4) then
+  //  Result := Language.GetStr(StrToInt(P[T][I]));
 end;
 
 procedure TScores.Load;

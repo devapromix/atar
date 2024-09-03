@@ -131,7 +131,7 @@ procedure TCreature.Move(AX, AY: Integer; B: Boolean = True);
     try
       D := Rand(1, 3);
       if (Self = Creatures.PC) then
-        S := GetLang(103)
+        S := Language.GetLang(103)
       else
         S := GetCreatureLang(Prop.Sprite);
       Creatures.SetDamage(Self, S, D, True);
@@ -146,7 +146,8 @@ procedure TCreature.Move(AX, AY: Integer; B: Boolean = True);
     with Creatures.PC.TempSys do
       try
         Add('Poison', Map.Level, Rand(Map.Level * 2, Map.Level * 4));
-        Log.Add(Format(GetLang(105), [Power('Poison'), Duration('Poison')]));
+        Log.Add(Format(Language.GetLang(105), [Power('Poison'),
+          Duration('Poison')]));
       except
         on E: Exception do
           Error.Add('Creature.Move.TrapPoison', E.Message);
@@ -158,7 +159,8 @@ procedure TCreature.Move(AX, AY: Integer; B: Boolean = True);
     with Creatures.PC.TempSys do
       try
         Add('Webbed', Map.Level, Rand(Map.Level * 3, Map.Level * 5));
-        Log.Add(Format(GetLang(113), [Power('Webbed'), Duration('Webbed')]));
+        Log.Add(Format(Language.GetLang(113), [Power('Webbed'),
+          Duration('Webbed')]));
       except
         on E: Exception do
           Error.Add('Creature.Move.TrapWeb', E.Message);
@@ -177,7 +179,7 @@ procedure TCreature.Move(AX, AY: Integer; B: Boolean = True);
         if (Mana.Cur < D) then
           D := Mana.Cur;
         if (Self = Creatures.PC) then
-          S := GetLang(103)
+          S := Language.GetLang(103)
         else
           S := GetCreatureLang(Prop.Sprite);
         if (D < 1) then
