@@ -379,6 +379,7 @@ implementation
 uses
   System.SysUtils,
   System.JSON,
+  Vcl.Dialogs,
   Trollhunter.Zip,
   Trollhunter.Utils,
   Trollhunter.Error,
@@ -610,7 +611,7 @@ begin
       try
         LanguageString.Clear;
         // Languages
-        LStringList.Text := LZip.ExtractTextFromFile(Path + 'resources.res',
+        LStringList.Text := LZip.ExtractTextFromFileUTF8(Path + 'resources.res',
           'languages.json');
         LJSONArray := TJSONObject.ParseJSONValue(LStringList.Text)
           as TJSONArray;
@@ -627,7 +628,7 @@ begin
           FreeAndNil(LJSONArray);
         end;
         // Maps
-        LStringList.Text := LZip.ExtractTextFromFile(Path + 'resources.res',
+        LStringList.Text := LZip.ExtractTextFromFileUTF8(Path + 'resources.res',
           'languages.maps.json');
         LJSONArray := TJSONObject.ParseJSONValue(LStringList.Text)
           as TJSONArray;
@@ -663,6 +664,7 @@ var
 begin
   S := ',';
   SL := TStringList.Create;
+  SL.WriteBOM := False;
   try
     SL.Append('[');
     for I := 0 to 999 do
@@ -685,7 +687,7 @@ begin
       SL.Append('	}' + S);
     end;
     SL.Append(']');
-    SL.SaveToFile(Path + 'languages.json');
+    SL.SaveToFile(Path + 'languages.json', TEncoding.UTF8);
   finally
     SL.Free;
   end;

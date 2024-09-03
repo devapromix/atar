@@ -2,17 +2,19 @@ unit Trollhunter.Zip;
 
 interface
 
-uses 
-  SysUtils, 
+uses
+  SysUtils,
   ZipForge;
 
 const
-  PWD = '4444';      
+  PWD = '4444';
 
 type
   TZip = class(TZipForge)
     function ExtractToText(const AFileName: string): string;
     function ExtractTextFromFile(const ArchiveFileName,
+      AFileName: string): string;
+    function ExtractTextFromFileUTF8(const ArchiveFileName,
       AFileName: string): string;
     function FileExists(const AFileName: string): boolean;
   end;
@@ -23,15 +25,21 @@ function TZip.ExtractTextFromFile(const ArchiveFileName,
   AFileName: string): string;
 begin
   Result := '';
-  Password := PWD;    
+  Password := PWD;
   FileName := ArchiveFileName;
   OpenArchive;
   try
     if FileExists(AFileName) then
       Result := ExtractToText(AFileName);
   finally
-    CloseArchive;    
+    CloseArchive;
   end;
+end;
+
+function TZip.ExtractTextFromFileUTF8(const ArchiveFileName,
+  AFileName: string): string;
+begin
+  Result := UTF8ToString(ExtractTextFromFile(ArchiveFileName, AFileName));
 end;
 
 function TZip.ExtractToText(const AFileName: string): string;
@@ -45,13 +53,13 @@ var
 begin
   Result := False;
   if (FindFirst('*.*', ArchiveItem, faAnyFile - faDirectory)) then
-  repeat
-    if (Trim(ArchiveItem.FileName) = Trim(AFileName)) then
-    begin
-      Result := True;
-      Exit;
-    end;
-  until (not FindNext(ArchiveItem));
+    repeat
+      if (Trim(ArchiveItem.FileName) = Trim(AFileName)) then
+      begin
+        Result := True;
+        Exit;
+      end;
+    until (not FindNext(ArchiveItem));
 end;
 
 end.
