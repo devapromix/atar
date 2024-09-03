@@ -96,8 +96,9 @@ begin
   if Map.Info.IsVillageEnt then
   begin
     Graph.Messagebar.Clear;
-    // Log.Add(GetLang(290) + ' ' + GetMapLang(Map.Info.AltNextMap, True) + '.');
-    // Log.Apply;
+    Log.Add(Language.GetLang(290) + ' ' + Language.GetLang
+      (Map.Info.AltNextMap) + '.');
+    Log.Apply;
     Game.Save;
     if Map.Info.Village then
       Game.Load(1)

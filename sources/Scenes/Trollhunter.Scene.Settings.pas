@@ -101,7 +101,8 @@ begin
         begin
           LSettings := TSettings.Create;
           try
-            LSettings.Write('Settings', 'Language', LangID);
+            LSettings.Write('Settings', 'Language',
+              Language.CurrentLanguageIndex);
             LSettings.Write('Settings', 'FontSize',
               Graph.Surface.Canvas.Font.Size);
             LSettings.Write('Settings', 'TileSize',
@@ -176,11 +177,11 @@ begin
     with Graph.Surface.Canvas do
     begin
       T := (Graph.Height div 2) - ((Count - 1) * Graph.CharHeight div 2);
-      SettingsItem(GetLang('Language', 'Язык'), LanguageName);
-      SettingsItem(GetLang('Font Size', 'Размер Шрифта'), IntToStr(Font.Size));
-      SettingsItem(GetLang('Tile Size', 'Размер Тайла'), IntToStr(TileSize));
-      SettingsItem(GetLang('Full Screen', 'Полный Экран'),
-        GetYesOrNoLang(Fullscreen));
+      SettingsItem(Language.GetLang(130), Language.LanguageName);
+      SettingsItem(Language.GetLang(131), IntToStr(Font.Size));
+      SettingsItem(Language.GetLang(132), IntToStr(TileSize));
+      SettingsItem(Language.GetLang(133),
+        IfThen(Fullscreen, Language.GetLang(13), Language.GetLang(14)));
     end;
     Graph.Render;
   except

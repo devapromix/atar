@@ -19,7 +19,7 @@ const
     ('Character', 'Персонаж'), ('Escape to reality', 'Выход в реальность'),
     ('You need a key.', 'Тебе нужен ключ.'), // 010
     ('You are carrying a too much!', 'Ты перегружен!'),
-    ('You pick up a %s.', 'Ты поднял %s.'), ('', ''), ('', ''),
+    ('You pick up a %s.', 'Ты поднял %s.'), ('Yes', 'Да'), ('No', 'Нет'),
     ('Strength', 'Сила'), ('Dexterity', 'Ловкость'),
     ('Intelligence', 'Интеллект'), ('Speed', 'Скорость'), ('', ''),
     ('Hello #g%s$, welcome to #r%s$! Be careful!',
@@ -104,9 +104,11 @@ const
     ('Look', 'Осмотреть'), ('Shoot', 'Стрелять'), ('Wait', 'Ждать'),
     ('Rest', 'Отдохнуть'), ('Help', 'Справка'),
     ('Take screenshot', 'Сделать скриншот'), ('', ''), ('', ''), ('', ''),
-    ('', ''), // 130
-    ('', ''), ('', ''), ('', ''), ('', ''), ('', ''), ('', ''), ('', ''),
-    ('', ''), ('', ''), ('Date/Time', 'Дата/Время'), // 140
+    ('Language', 'Язык'), // 130
+    ('Font Size', 'Размер Шрифта'), ('Tile Size', 'Размер Тайла'),
+    ('Full Screen', 'Полный Экран'), ('', ''), ('', ''),
+    // 135
+    ('', ''), ('', ''), ('', ''), ('', ''), ('Date/Time', 'Дата/Время'), // 140
     ('', ''), ('', ''), ('', ''), ('', ''), ('', ''), ('', ''), ('', ''),
     ('You are blinded.', 'Ты ослеплен.'), ('', ''), ('', ''), // 150
     ('', ''), ('', ''), ('', ''), ('', ''), ('', ''), ('', ''), ('', ''),
@@ -334,12 +336,8 @@ const
     //
     ('#', '#', '#'));
 
-  // function GetLang(ID: Word): string; overload;
-function GetLang(Eng, Rus: string): string; overload;
 function GetItemLang(const AItemIdent: string): string;
 function GetCreatureLang(ID: string): string;
-function LanguageName: string;
-function GetYesOrNoLang(const AValue: Boolean): string;
 
 type
   TLanguageString = class(TObject)
@@ -365,13 +363,15 @@ type
     constructor Create;
     destructor Destroy; override;
     procedure LoadFromResources;
+    property CurrentLanguageIndex: Byte read FCurrentLanguageIndex
+      write FCurrentLanguageIndex;
     function GetLang(const AIdent: string): string; overload;
     function GetLang(const AIdent: Integer): string; overload;
     procedure ChangeLanguage;
+    function LanguageName: string;
   end;
 
 var
-  LangID: Byte = 0;
   Language: TLanguage;
 
 implementation
@@ -387,68 +387,6 @@ uses
 
 var
   LanguageString: TLanguageString;
-
-function GetLang(Eng, Rus: string): string;
-begin
-  if (LangID = 0) then
-    Result := Eng
-  else
-    Result := Rus;
-end;
-
-function GetMsg(AString: string; Gender: Boolean): string;
-var
-  I: Integer;
-  SX, RX, S1, S2: string;
-  RF: Byte;
-begin
-  SX := '';
-  RX := '';
-  RF := 0;
-  for I := 1 to Length(AString) do
-  begin
-    case AString[I] of
-      '{':
-        begin
-          RF := 1;
-          Continue;
-        end;
-      '}':
-        RF := 2;
-    end;
-    case RF of
-      0:
-        RX := RX + AString[I];
-      1:
-        SX := SX + AString[I];
-      2:
-        begin
-          S1 := GetStrKey('/', SX);
-          S2 := GetStrValue('/', SX);
-          SX := '';
-          RF := 0;
-          if Gender then
-            RX := RX + S2
-          else
-            RX := RX + S1;
-        end;
-    end;
-  end;
-  Result := RX;
-end;
-
-function GetMapLang(ID: string; G: Boolean = False): string;
-var
-  I: Byte;
-begin
-  Result := '';
-  for I := 0 to MapsCount - 1 do
-    { if (MapName[I][0] = ID) then
-      begin
-      Result := GetMapLang(ID, G);
-      Exit;
-      end; }
-end;
 
 function GetItemLang(const AItemIdent: string): string;
 var
@@ -488,7 +426,7 @@ begin
   end;
   for I := 0 to ItemsCount - 1 do
     if (ItemName[I][0] = AItemIdent) then
-      Result := P + ItemName[I][LangID + 1] + '$';
+      Result := P + ItemName[I][Language.CurrentLanguageIndex + 1] + '$';
   //
   // Result := Result + #32 + '''' + DungeonItems[Items.ItemIndex(ID)].Sprite + '''';
 end;
@@ -500,25 +438,7 @@ begin
   Result := '';
   for I := 0 to CreaturesCount - 1 do
     if (CreatureName[I][0] = ID) then
-      Result := CreatureName[I][LangID + 1];
-end;
-
-function LanguageName: string;
-begin
-  case LangID of
-    1:
-      Result := 'Russian';
-  else
-    Result := 'English';
-  end;
-end;
-
-function GetYesOrNoLang(const AValue: Boolean): string;
-begin
-  if AValue then
-    Result := GetLang('Yes', 'Да')
-  else
-    Result := GetLang('No', 'Нет');
+      Result := CreatureName[I][Language.CurrentLanguageIndex + 1];
 end;
 
 { TLanguageString }
@@ -591,6 +511,18 @@ begin
     Result := LanguageString.En[I]
   else
     Result := LanguageString.Ru[I];
+end;
+
+function TLanguage.LanguageName: string;
+begin
+  case FCurrentLanguageIndex of
+    0:
+      Result := 'English';
+    1:
+      Result := 'Russian';
+    2:
+      Result := 'Ukrainian';
+  end;
 end;
 
 procedure TLanguage.LoadFromResources;

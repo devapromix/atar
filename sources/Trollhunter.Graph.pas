@@ -218,7 +218,7 @@ begin
   Surface.Canvas.Font.Name := 'Courier New';
   S := TSettings.Create;
   try
-    LangID := S.Read('Settings', 'Language', 0);
+    Language.CurrentLanguageIndex := S.Read('Settings', 'Language', 0);
     Surface.Canvas.Font.Size := S.Read('Settings', 'FontSize',
       Clamp(AFontSize, 10, 20));
     TileSize := S.Read('Settings', 'TileSize', 0) * 16 + BaseTileSize;
