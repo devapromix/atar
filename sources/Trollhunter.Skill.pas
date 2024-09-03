@@ -240,10 +240,31 @@ begin
   end;
 end;
 
+procedure Serialize;
+var
+  LStringList: TStringList;
+  LJSON: TJSONValue;
+begin
+  LStringList := TStringList.Create;
+  LStringList.WriteBOM := False;
+  try
+    LJSON := TNeon.ObjectToJSON(Skills);
+    try
+      LStringList.Text := TNeon.Print(LJSON, True);
+      LStringList.SaveToFile(Path + 'skills.json', TEncoding.UTF8);
+    finally
+      LJSON.Free;
+    end;
+  finally
+    LStringList.Free;
+  end;
+end;
+
 initialization
 
 Skills := TSkills.Create;
 Skills.LoadFromResources;
+//Serialize;
 
 finalization
 
