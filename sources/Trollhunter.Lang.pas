@@ -625,11 +625,41 @@ begin
   end;
 end;
 
+procedure SaveCrLang;
+var
+  SL: TStringList;
+  I: Integer;
+  S: string;
+begin
+  S := ',';
+  SL := TStringList.Create;
+  SL.WriteBOM := False;
+  try
+    SL.Append('[');
+    for I := 0 to CreaturesCount - 1 do
+    begin
+      SL.Append('	{');
+      SL.Append('		"id": "' + CreatureName[I][0] + '",');
+      SL.Append('		"en": "' + CreatureName[I][1] + '",');
+      SL.Append('		"ru": "' + CreatureName[I][2] + '",');
+      SL.Append('		"uk": ""');
+      if I = CreaturesCount - 1 then
+        S := '';
+      SL.Append('	}' + S);
+    end;
+    SL.Append(']');
+    SL.SaveToFile(Path + 'languages.creatures.json', TEncoding.UTF8);
+  finally
+    SL.Free;
+  end;
+end;
+
 initialization
 
 Language := TLanguage.Create;
 Language.LoadFromResources;
 SaveLang;
+SaveCrLang;
 
 finalization
 
