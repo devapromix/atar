@@ -133,7 +133,7 @@ procedure TCreature.Move(AX, AY: Integer; B: Boolean = True);
       if (Self = Creatures.PC) then
         S := Language.GetLang(103)
       else
-        S := GetCreatureLang(Prop.Sprite);
+        S := Language.GetLang(Prop.Sprite);
       Creatures.SetDamage(Self, S, D, True);
     except
       on E: Exception do
@@ -181,7 +181,7 @@ procedure TCreature.Move(AX, AY: Integer; B: Boolean = True);
         if (Self = Creatures.PC) then
           S := Language.GetLang(103)
         else
-          S := GetCreatureLang(Prop.Sprite);
+          S := Language.GetLang(Prop.Sprite);
         if (D < 1) then
           D := Rand(1, 3);
         Creatures.SetManaDamage(Self, S, D, True);

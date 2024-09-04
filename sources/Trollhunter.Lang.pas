@@ -337,7 +337,6 @@ const
     ('#', '#', '#'));
 
 function GetItemLang(const AItemIdent: string): string;
-function GetCreatureLang(ID: string): string;
 
 type
   TLanguageString = class(TObject)
@@ -429,16 +428,6 @@ begin
       Result := P + ItemName[I][Language.CurrentLanguageIndex + 1] + '$';
   //
   // Result := Result + #32 + '''' + DungeonItems[Items.ItemIndex(ID)].Sprite + '''';
-end;
-
-function GetCreatureLang(ID: string): string;
-var
-  I: Byte;
-begin
-  Result := '';
-  for I := 0 to CreaturesCount - 1 do
-    if (CreatureName[I][0] = ID) then
-      Result := CreatureName[I][Language.CurrentLanguageIndex + 1];
 end;
 
 { TLanguageString }

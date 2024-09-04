@@ -435,7 +435,7 @@ begin
       if (D > 0) and (Rand(1, Prop.Dexterity + Enemy[I].Prop.Dexterity) <=
         Prop.Dexterity) then
       begin
-        N := GetCreatureLang(Enemy[I].Prop.Sprite);
+        N := Language.GetLang(Enemy[I].Prop.Sprite);
         SetDamage(Enemy[I], N, D);
         Enemy[I].AI := aiCombat;
         TrainSkill();
@@ -472,7 +472,7 @@ begin
       else
       begin
         Log.Add(Format(Language.GetLang(74),
-          [GetCreatureLang(Enemy[I].Prop.Sprite)]));
+          [Language.GetLang(Enemy[I].Prop.Sprite)]));
         // You miss the %s.
         case Enemy[I].Prop.AIType of
           aiSlug:

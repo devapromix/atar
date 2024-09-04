@@ -42,7 +42,7 @@ begin
     if (Rand(1, 3) = 1) then
     begin
       Add('Poison', Prop.Poison.Power, Prop.Poison.Duration);
-      Log.Add(Format(Language.GetLang(75), [GetCreatureLang(Prop.Sprite),
+      Log.Add(Format(Language.GetLang(75), [Language.GetLang(Prop.Sprite),
         Power('Poison'), Duration('Poison')]));
     end;
 end;
@@ -72,13 +72,13 @@ begin
     if (D > 0) and (Rand(1, Prop.Dexterity + Creatures.PC.Prop.Dexterity) <=
       Prop.Dexterity) then
     begin
-      Creatures.SetDamage(Creatures.PC, GetCreatureLang(Prop.Sprite), D);
+      Creatures.SetDamage(Creatures.PC, Language.GetLang(Prop.Sprite), D);
       Self.SetEffects();
       if Creatures.PC.Life.IsMin then
         Log.Add(Language.GetLang(72));
     end
     else
-      Log.Add(Format(Language.GetLang(76), [GetCreatureLang(Prop.Sprite)]));
+      Log.Add(Format(Language.GetLang(76), [Language.GetLang(Prop.Sprite)]));
     // The %s misses you!
   except
     on E: Exception do
@@ -120,14 +120,14 @@ begin
       if (D > 0) and (Rand(1, Prop.Dexterity + Creatures.PC.Prop.Dexterity) <=
         Prop.Dexterity) then
       begin
-        Creatures.SetDamage(Creatures.PC, GetCreatureLang(Prop.Sprite), D);
+        Creatures.SetDamage(Creatures.PC, Language.GetLang(Prop.Sprite), D);
         Self.SetEffects();
         if Creatures.PC.Life.IsMin then
           Log.Add(Language.GetLang(72));
         // The %s misses you!
       end
       else
-        Log.Add(Format(Language.GetLang(76), [GetCreatureLang(Prop.Sprite)]));
+        Log.Add(Format(Language.GetLang(76), [Language.GetLang(Prop.Sprite)]));
     finally
       P.Free;
     end;

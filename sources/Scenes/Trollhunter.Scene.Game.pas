@@ -190,7 +190,7 @@ begin
               (Creatures.PC.Look.Y = Creatures.Enemy[I].Pos.Y) then
             begin
               Graph.Messagebar.Add
-                ('#r' + GetCreatureLang(Creatures.Enemy[I].Name) +
+                ('#r' + Language.GetLang(Creatures.Enemy[I].Name) +
                 Format(' (%d/%d).$', [Creatures.Enemy[I].Life.Cur,
                 Creatures.Enemy[I].Life.Max]));
               Exit;
