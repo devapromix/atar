@@ -254,7 +254,7 @@ begin
         if ((DungeonItems[ID].MaxTough > 0) and
           (Creatures.PC.Inv.GetTough(I) <= 0)) then
           Font.Color := cRed;
-        Graph.Text.DrawText(5, Y, Trim(GetItemLang(DungeonItems[ID].Sprite) +
+        Graph.Text.DrawText(5, Y, Trim(Language.GetItemLang(DungeonItems[ID].Sprite) +
           Items.GetItemProp(Creatures.PC.Inv.GetCount(I),
           Creatures.PC.Inv.GetTough(I), I, ID) + Items.GetWeight(ID) +
           Items.GetDollText(I, ID)));

@@ -34,7 +34,6 @@ var
   ParamMove: Boolean = False;
   ParamLight: Boolean = False;
   ParamDebug: Boolean = False;
-  ParamCraftDoc: Boolean = False;
 
 function IsRealMapCell(X, Y: Integer): Boolean;
 function IsValidCell(X, Y: Integer): Boolean;
@@ -589,9 +588,6 @@ begin
         // Light
         'l':
           ParamLight := True;
-        // Alchemy doc
-        'a':
-          ParamCraftDoc := True;
         // Res
         'r':
           begin

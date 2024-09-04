@@ -213,8 +213,6 @@ type
     function ItemIndex(ID: Integer): Integer; overload;
     function GetDollText(AItemIndex, AItemIdent: Integer): string;
     procedure RepairAll;
-    procedure MakeCraftDoc;
-    procedure MakeAlchemyDoc;
     procedure Key;
     procedure Grow;
     procedure Identify;
@@ -630,41 +628,6 @@ begin
   Result := ItemIndex(S);
 end;
 
-procedure TItems.MakeAlchemyDoc;
-var
-  I: Integer;
-  L: TStringList;
-begin
-  L := TStringList.Create;
-  try
-    try
-      L.Append('<html>');
-      L.Append('<head><title>Alchemy</title></head>');
-      L.Append('<body><h2 align="center">Alchemy</h2>');
-      L.Append('<table align="center" width="90%">');
-      for I := 0 to High(CraftItems) do
-      begin
-        L.Append(Format('<tr><td>%s</td><td>%s</td><td>%s</td></tr>',
-          [GetItemLang(CraftItems[I].A), GetItemLang(CraftItems[I].B),
-          GetItemLang(CraftItems[I].C)]));
-      end;
-      L.Append('</table></html>');
-    finally
-      MakeDir('docs');
-      L.SaveToFile('docs\alchemy.html');
-      L.Free;
-    end;
-  except
-    on E: Exception do
-      Error.Add('Items.MakeCraftDoc', E.Message);
-  end;
-end;
-
-procedure TItems.MakeCraftDoc;
-begin
-
-end;
-
 procedure TItems.Pickup(Index: Integer = 0);
 var
   I, H: Integer;
@@ -696,7 +659,7 @@ var
       Exit;
     end;
     Graph.Messagebar.Clear;
-    S := GetItemLang(Items.Item[I].Prop.Sprite);
+    S := Language.GetItemLang(Items.Item[I].Prop.Sprite);
     if (Items.Item[I].Count > 1) then
       S := S + ' (' + IntToStr(Items.Item[I].Count) + ')';
     if (Length(Items.Item) > 1) then

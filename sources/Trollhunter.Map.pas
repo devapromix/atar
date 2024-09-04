@@ -14,7 +14,7 @@ uses
   Trollhunter.Map.Generator;
 
 const
-  MapsCount = 10;
+  MapsCount = 31;
   FloorSet = [tlFloor, tlGrass];
 
 type
@@ -49,7 +49,13 @@ const
 {$I Maps/TheUndergroundPassage.inc}
 {$I Maps/ValleyOfBear.inc         }
 {$I Maps/StonyField.inc           }
-    // {$I Maps/TwilightForest.inc      }
+{$I Maps/TwilightForest.inc       }
+{$I Maps/ForestMarsh.inc          }
+{$I Maps/BlackMarsh.inc           }
+{$I Maps/Badlands.inc             }
+{$I Maps/Graveyards.inc           }
+{$I Maps/PlainOfBones.inc         }
+{$I Maps/BloodyFields.inc         }
     //
 {$I Maps/BlankMap.inc             }
   );

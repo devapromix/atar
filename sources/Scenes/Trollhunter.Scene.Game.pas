@@ -236,7 +236,7 @@ begin
         (Creatures.PC.Pos.Y = Items.Item[I].Pos.Y) then
       begin
         Graph.Messagebar.Clear;
-        S := GetItemLang(Items.Item[I].Prop.Sprite);
+        S := Language.GetItemLang(Items.Item[I].Prop.Sprite);
         if (Items.Item[I].Prop.IsStack) and (Items.Item[I].Count > 1) then
           S := S + Format('$ (#r%dx$)', [Items.Item[I].Count]);
         if (Items.CellItemsCount(Creatures.PC.Pos.X, Creatures.PC.Pos.Y) > 1)

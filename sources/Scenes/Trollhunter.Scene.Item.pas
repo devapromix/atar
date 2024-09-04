@@ -98,7 +98,8 @@ begin
       Creatures.PC.Calc;
 
       if IsShowLog then
-        Log.Add(Format(Language.GetLang(96), [GetItemLang(DungeonItems[V].Sprite)]));
+        Log.Add(Format(Language.GetLang(96),
+          [Language.GetItemLang(DungeonItems[V].Sprite)]));
       // You equip a %s.
       Scenes.Render;
     end;
@@ -122,7 +123,7 @@ begin
 
       if IsShowLog then
         Log.Add(Format(Language.GetLang(97),
-          [GetItemLang(DungeonItems[KeyIDToInvItemID(I)].Sprite)]));
+          [Language.GetItemLang(DungeonItems[KeyIDToInvItemID(I)].Sprite)]));
       // You unequip a %s.
       Scenes.Render;
     end;
@@ -349,13 +350,17 @@ var
       // Bonuses
       Font.Color := cSkyBlue;
       if (DungeonItems[I].BonusStrength > 0) then
-        Add(Format('%s %d', [Language.GetLang(15), DungeonItems[I].BonusStrength]));
+        Add(Format('%s %d', [Language.GetLang(15),
+          DungeonItems[I].BonusStrength]));
       if (DungeonItems[I].BonusDexterity > 0) then
-        Add(Format('%s %d', [Language.GetLang(16), DungeonItems[I].BonusDexterity]));
+        Add(Format('%s %d', [Language.GetLang(16),
+          DungeonItems[I].BonusDexterity]));
       if (DungeonItems[I].BonusIntelligence > 0) then
-        Add(Format('%s %d', [Language.GetLang(17), DungeonItems[I].BonusIntelligence]));
+        Add(Format('%s %d', [Language.GetLang(17),
+          DungeonItems[I].BonusIntelligence]));
       if (DungeonItems[I].BonusSpeed > 0) then
-        Add(Format('%s %d', [Language.GetLang(18), DungeonItems[I].BonusSpeed]));
+        Add(Format('%s %d', [Language.GetLang(18),
+          DungeonItems[I].BonusSpeed]));
       if (DungeonItems[I].BonusLife > 0) then
         Add(Format('%s %d', [Language.GetLang(22), DungeonItems[I].BonusLife]));
       if (DungeonItems[I].BonusMana > 0) then
@@ -363,11 +368,12 @@ var
       //
       Font.Color := cWhiteGre;
       if (DungeonItems[I].ManaCost > 0) then
-        Add(Format('%s -%d (%d/%d)', [Language.GetLang(23), DungeonItems[I].ManaCost,
-          Creatures.PC.Mana.Cur, Creatures.PC.Mana.Max]));
+        Add(Format('%s -%d (%d/%d)', [Language.GetLang(23),
+          DungeonItems[I].ManaCost, Creatures.PC.Mana.Cur,
+          Creatures.PC.Mana.Max]));
       if (DungeonItems[I].NeedMagic > 0) then
-        Add(Format('%s %d (%d)', [Language.GetLang(280), DungeonItems[I].NeedMagic,
-          Skills.GetSkill('MAGIC').Level]));
+        Add(Format('%s %d (%d)', [Language.GetLang(280),
+          DungeonItems[I].NeedMagic, Skills.GetSkill('MAGIC').Level]));
       //
       Font.Color := cSkyBlue;
       if (DungeonItems[I].Weight > 0) then
@@ -404,7 +410,7 @@ begin
       with Surface.Canvas do
       begin
         Draw((Surface.Width div 2) - 32, ((P - 2) * CharHeight) - 64, Icon);
-        Text.TitleOut(GetItemLang(DungeonItems[I].Sprite), P - 1);
+        Text.TitleOut(Language.GetItemLang(DungeonItems[I].Sprite), P - 1);
         Inc(P, 2);
         T := DungeonItems[I].ColorTag;
         if (T = 0) then
@@ -463,7 +469,8 @@ begin
     begin
       if (C = 1) then
       begin
-        Log.Add(Format(Language.GetLang(91), [GetItemLang(DungeonItems[J].Sprite)]));
+        Log.Add(Format(Language.GetLang(91),
+          [Language.GetItemLang(DungeonItems[J].Sprite)]));
         Items.Add(Creatures.PC.Pos.X, Creatures.PC.Pos.Y,
           DungeonItems[J].Sprite);
         with Items.Item[High(Items.Item)] do
@@ -474,7 +481,8 @@ begin
       end
       else
       begin
-        Log.Add(Format(Language.GetLang(92), [GetItemLang(DungeonItems[J].Sprite), C]));
+        Log.Add(Format(Language.GetLang(92),
+          [Language.GetItemLang(DungeonItems[J].Sprite), C]));
         Items.Add(Creatures.PC.Pos.X, Creatures.PC.Pos.Y,
           DungeonItems[J].Sprite);
         Items.Item[High(Items.Item)].Count := C;
@@ -510,12 +518,13 @@ begin
       if Inv.Del(I, 1) then
       begin
         T := DungeonItems[J].ColorTag;
-        Log.Add(Format(Language.GetLang(94), [GetItemLang(DungeonItems[J].Sprite)]));
+        Log.Add(Format(Language.GetLang(94),
+          [Language.GetItemLang(DungeonItems[J].Sprite)]));
         if (T > 0) and not Creatures.PC.Potions.IsDefined(T) then
         begin
           Creatures.PC.Potions.SetDefined(T);
           Log.Add(Language.GetLang(225) + ' ' +
-            AnsiLowerCase(GetItemLang(DungeonItems[J].Sprite)) + '.');
+            AnsiLowerCase(Language.GetItemLang(DungeonItems[J].Sprite)) + '.');
         end;
         Items.UseItem(J, PotionSet);
       end;
@@ -538,12 +547,13 @@ begin
         if Inv.Del(I, 1) then
         begin
           T := DungeonItems[J].ColorTag;
-          Log.Add(Format(Language.GetLang(100), [GetItemLang(DungeonItems[J].Sprite)]));
+          Log.Add(Format(Language.GetLang(100),
+            [Language.GetItemLang(DungeonItems[J].Sprite)]));
           if (T > 0) and not Creatures.PC.Scrolls.IsDefined(T) then
           begin
             Creatures.PC.Scrolls.SetDefined(T);
             Log.Add(Language.GetLang(220) + ' ' +
-              AnsiLowerCase(GetItemLang(DungeonItems[J].Sprite)) + '.');
+              AnsiLowerCase(Language.GetItemLang(DungeonItems[J].Sprite)) + '.');
           end;
           Mana.Dec(DungeonItems[J].ManaCost);
           Items.UseItem(J, ScrollSet);

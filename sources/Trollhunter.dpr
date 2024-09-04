@@ -85,8 +85,6 @@ begin
   Application.Initialize;
   Application.Title := 'Trollhunter';
   Application.CreateForm(TMainForm, MainForm);
-  if ParamCraftDoc then
-    Items.MakeCraftDoc;
   Application.Run;
 
 end.

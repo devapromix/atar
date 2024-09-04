@@ -1,6 +1,6 @@
   (
-  ID           : 'SPIDERFOREST';
-  Level        : 1;
+  ID           : 'FORESTMARSH';
+  Level        : 6;
   Items        : PotionLevel1;
   Creatures    : 'BIGSPIDER,REDSPIDER';
   Underground  : False;
@@ -10,9 +10,9 @@
   DecTypSize   : 10;
   DecTypCount  : 50;
   IsAutoEnt    : False;    
-  PrevMap      : '';
-  NextMap      : 'THEUNDERGROUNDP'; 
-  AltNextMap   : 'SPIDERCAVERN';
+  PrevMap      : 'TWILIGHTFOREST';
+  NextMap      : 'BLACKMARSH';
+  AltNextMap   : 'SWAMPYPIT';
   IsAltMapEnt  : False;
   IsVillageEnt : True;
   IsTraps      : False;
@@ -22,8 +22,8 @@
   ),
 
   (
-  ID           : 'SPIDERCAVERN';
-  Level        : 2;
+  ID           : 'SWAMPYPIT';
+  Level        : 7;
   Items        : PotionLevel1 + WeaponLevel1 + AmmuntLevel1;
   Creatures    : 'CAVESPIDER,REDSPIDER,';
   Underground  : True;
@@ -33,30 +33,7 @@
   DecTypSize   : 30;
   DecTypCount  : 90;
   IsAutoEnt    : False;
-  PrevMap      : 'SPIDERFOREST';
-  NextMap      : 'SPIDERNEST';
-  AltNextMap   : '';
-  IsAltMapEnt  : True;
-  IsVillageEnt : False;
-  IsTraps      : True;
-  FloorTile    : tlFloor;
-  FloorRes     : 'FLOOR2';
-  WallRes      : 'WALL2';
-  ),
-
-  (
-  ID           : 'SPIDERNEST';
-  Level        : 3;
-  Items        : PotionLevel1 + WeaponLevel1 + AmmuntLevel1 + RarityLevel1;
-  Creatures    : 'CAVESPIDER,REDSPIDER,BAT,';
-  Underground  : True;
-  Village      : False;
-  GenID        : G_CAVES;
-  DecorType    : dtWeb;
-  DecTypSize   : 50;
-  DecTypCount  : 150;
-  IsAutoEnt    : False;
-  PrevMap      : 'SPIDERCAVERN';
+  PrevMap      : 'FORESTMARSH';
   NextMap      : '';
   AltNextMap   : '';
   IsAltMapEnt  : True;
@@ -66,5 +43,7 @@
   FloorRes     : 'FLOOR2';
   WallRes      : 'WALL2';
   ),
+
+  
 
 

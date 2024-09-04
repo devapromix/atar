@@ -12,7 +12,7 @@
   IsAutoEnt    : False;
   PrevMap      : 'THEUNDERGROUNDP';
   NextMap      : 'STONYFIELD';
-  AltNextMap   : 'INTERNALPIT1';
+  AltNextMap   : 'INTERNALPIT';
   IsAltMapEnt  : False;
   IsVillageEnt : False;
   IsTraps      : True;
@@ -22,7 +22,7 @@
   ),
 
   (
-  ID           : 'INTERNALPIT1';
+  ID           : 'INTERNALPIT';
   Level        : 4;
   Items        : PotionLevel1 + WeaponLevel1 + AmmuntLevel1;
   Creatures    : 'DARKGOBLIN,CAVEGOBLIN,CAVEBAT,DARKEYE,';
@@ -31,11 +31,11 @@
   GenID        : G_CAVES;
   DecorType    : dtBone;
   DecTypSize   : 20;
-  DecTypCount  : 60;
+  DecTypCount  : 50;
   IsAutoEnt    : False;
   PrevMap      : 'VALLEYOFBEAR';
-  NextMap      : '';
-  AltNextMap   : 'INTERNALPIT2';
+  NextMap      : 'CAVEOFDARKNESS';
+  AltNextMap   : '';
   IsAltMapEnt  : True;
   IsVillageEnt : False;
   IsTraps      : True;
@@ -45,7 +45,7 @@
   ),
 
   (
-  ID           : 'INTERNALPIT2';
+  ID           : 'CAVEOFDARKNESS';
   Level        : 5;
   Items        : PotionLevel1 + WeaponLevel1 + AmmuntLevel1 + AmmuntLevel2 + RarityLevel1 + ScrollLevel1;
   Creatures    : 'DARKGOBLIN,CAVEGOBLIN,CAVEBAT,DARKEYE,DARKEYE,TUORG,';
@@ -56,7 +56,7 @@
   DecTypSize   : 35;
   DecTypCount  : 105;
   IsAutoEnt    : False;
-  PrevMap      : 'INTERNALPIT1';
+  PrevMap      : 'INTERNALPIT';
   NextMap      : '';
   AltNextMap   : '';
   IsAltMapEnt  : True;

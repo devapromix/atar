@@ -380,7 +380,7 @@ begin
           F := ' (' + IntToStr(Creatures.PC.Inv.GetCount(J)) + 'x)'
         else
           F := '';
-        Graph.Text.DrawText(T * 3, H + R, GetItemLang(DungeonItems[V].Sprite) +
+        Graph.Text.DrawText(T * 3, H + R, Language.GetItemLang(DungeonItems[V].Sprite) +
           F + Items.GetDollText(J, V));
       end;
       //
