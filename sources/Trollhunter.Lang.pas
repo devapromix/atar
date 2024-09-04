@@ -389,28 +389,28 @@ var
 
 function GetItemLang(const AItemIdent: string): string;
 var
-  I, T, LItemIndex: Integer;
+  I, LColorTag, LItemIndex: Integer;
   P: string;
 begin
   Result := '';
   //
   LItemIndex := Items.ItemIndex(AItemIdent);
   // Scrolls and Potions
-  T := DungeonItems[LItemIndex].ColorTag;
+  LColorTag := DungeonItems[LItemIndex].ColorTag;
   with Creatures.PC do
   begin
-    if (T > 0) and (DungeonItems[LItemIndex].Category = dsPotion) and
-      not Potions.IsDefined(T) then
+    if (LColorTag > 0) and (DungeonItems[LItemIndex].Category = dsPotion) and
+      not Potions.IsDefined(LColorTag) then
     begin
-      Result := '#r' + Potions.GetColorName(T) + ' ' +
+      Result := '#r' + Potions.GetColorName(LColorTag) + ' ' +
         Language.GetLang(222) + '$';
       Exit;
     end;
-    if (T > 0) and (DungeonItems[LItemIndex].Category = dsScroll) and
-      not Scrolls.IsDefined(T) then
+    if (LColorTag > 0) and (DungeonItems[LItemIndex].Category = dsScroll) and
+      not Scrolls.IsDefined(LColorTag) then
     begin
       Result := '#r' + Language.GetLang(221) + ' ' + '"' +
-        Scrolls.GetName(T) + '"';
+        Scrolls.GetName(LColorTag) + '"';
       Exit;
     end;
   end;
@@ -426,8 +426,6 @@ begin
   for I := 0 to ItemsCount - 1 do
     if (ItemName[I][0] = AItemIdent) then
       Result := P + ItemName[I][Language.CurrentLanguageIndex + 1] + '$';
-  //
-  // Result := Result + #32 + '''' + DungeonItems[Items.ItemIndex(ID)].Sprite + '''';
 end;
 
 { TLanguageString }
@@ -515,62 +513,57 @@ begin
 end;
 
 procedure TLanguage.LoadFromResources;
-var
-  LStringList: TStringList;
-  LJSONObject: TJSONObject;
-  LJSONArray: TJSONArray;
-  LZip: TZip;
-  I: Integer;
-  ID, En, Ru: string;
+
+  procedure LoadFromFile(const AFileName: string);
+  var
+    LStringList: TStringList;
+    LJSONObject: TJSONObject;
+    LJSONArray: TJSONArray;
+    LZip: TZip;
+    I: Integer;
+    ID, En, Ru: string;
+  begin
+    try
+      LStringList := TStringList.Create;
+      try
+        LZip := TZip.Create(MainForm);
+        try
+          LStringList.Text := LZip.ExtractTextFromFileUTF8
+            (Path + 'resources.res', AFileName);
+          LJSONArray := TJSONObject.ParseJSONValue(LStringList.Text)
+            as TJSONArray;
+          try
+            for I := 0 to LJSONArray.Count - 1 do
+            begin
+              LJSONObject := LJSONArray.Items[I] as TJSONObject;
+              ID := LJSONObject.GetValue('id').Value;
+              En := LJSONObject.GetValue('en').Value;
+              Ru := LJSONObject.GetValue('ru').Value;
+              LanguageString.Add(ID, En, Ru);
+            end;
+          finally
+            FreeAndNil(LJSONArray);
+          end;
+        finally
+          FreeAndNil(LZip);
+        end;
+      finally
+        FreeAndNil(LStringList);
+      end;
+    except
+      on E: Exception do
+        Error.Add('Lang.LoadFromFile', E.Message);
+    end;
+  end;
+
 begin
   try
     if not FileExists(Path + 'resources.res') then
       Exit;
-    LStringList := TStringList.Create;
-    try
-      LZip := TZip.Create(MainForm);
-      try
-        LanguageString.Clear;
-        // Languages
-        LStringList.Text := LZip.ExtractTextFromFileUTF8(Path + 'resources.res',
-          'languages.json');
-        LJSONArray := TJSONObject.ParseJSONValue(LStringList.Text)
-          as TJSONArray;
-        try
-          for I := 0 to LJSONArray.Count - 1 do
-          begin
-            LJSONObject := LJSONArray.Items[I] as TJSONObject;
-            ID := LJSONObject.GetValue('id').Value;
-            En := LJSONObject.GetValue('en').Value;
-            Ru := LJSONObject.GetValue('ru').Value;
-            LanguageString.Add(ID, En, Ru);
-          end;
-        finally
-          FreeAndNil(LJSONArray);
-        end;
-        // Maps
-        LStringList.Text := LZip.ExtractTextFromFileUTF8(Path + 'resources.res',
-          'languages.maps.json');
-        LJSONArray := TJSONObject.ParseJSONValue(LStringList.Text)
-          as TJSONArray;
-        try
-          for I := 0 to LJSONArray.Count - 1 do
-          begin
-            LJSONObject := LJSONArray.Items[I] as TJSONObject;
-            ID := LJSONObject.GetValue('id').Value;
-            En := LJSONObject.GetValue('en').Value;
-            Ru := LJSONObject.GetValue('ru').Value;
-            LanguageString.Add(ID, En, Ru);
-          end;
-        finally
-          FreeAndNil(LJSONArray);
-        end;
-      finally
-        FreeAndNil(LZip);
-      end;
-    finally
-      FreeAndNil(LStringList);
-    end;
+    LanguageString.Clear;
+    LoadFromFile('languages.json');
+    LoadFromFile('languages.maps.json');
+    LoadFromFile('languages.creatures.json');
   except
     on E: Exception do
       Error.Add('Lang.LoadFromResources', E.Message);
