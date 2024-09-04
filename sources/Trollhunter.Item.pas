@@ -12,7 +12,7 @@ uses
   Trollhunter.RandItems;
 
 const
-  ItemsCount = 76;
+  ItemsCount = 75;
 
 const
   RandomScrollsCount = 9;

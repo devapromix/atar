@@ -243,71 +243,69 @@ const
     ('#', '#'));
 
 const
-  MapName: array [0..MapsCount, 0..2] of string = (
+  MapName: array [0 .. MapsCount, 0 .. 2] of string = (
 
-  // Village
-  ('VILLAGE',         'Village',                 'Деревня'),
+    // Village
+    ('VILLAGE', 'Village', 'Деревня'),
 
-  // Spider Forest
-  ('SPIDERFOREST',    'Spider Forest',           'Лес Пауков'),
-  ('SPIDERCAVERN',    'Spider Cavern',           'Пещера Пауков'),
-  ('SPIDERNEST',      'Spider Nest',             'Гнездо Пауков'),
+    // Spider Forest
+    ('SPIDERFOREST', 'Spider Forest', 'Лес Пауков'),
+    ('SPIDERCAVERN', 'Spider Cavern', 'Пещера Пауков'),
+    ('SPIDERNEST', 'Spider Nest', 'Гнездо Пауков'),
 
-  // The Underground Passage
-  ('THEUNDERGROUNDP', 'The Underground Passage', 'Подземный Проход'),
+    // The Underground Passage
+    ('THEUNDERGROUNDP', 'The Underground Passage', 'Подземный Проход'),
 
-  // Valley of Bear
-  ('VALLEYOFBEAR',    'Valley of Bear',          'Долина Медведей'),
-  ('INTERNALPIT',     'Internal Pit',            'Яма'),
-  ('CAVEOFDARKNESS',  'Cave of Darkness',        'Пещера Тьмы'),
+    // Valley of Bear
+    ('VALLEYOFBEAR', 'Valley of Bear', 'Долина Медведей'),
+    ('INTERNALPIT', 'Internal Pit', 'Яма'),
+    ('CAVEOFDARKNESS', 'Cave of Darkness', 'Пещера Тьмы'),
 
-  // Stony Field
-  ('STONYFIELD',      'Stony Field',             'Каменное Поле'),
-  ('BATCAVE',         'Bat Cave',                'Пещера Летучих Мышей'),
+    // Stony Field
+    ('STONYFIELD', 'Stony Field', 'Каменное Поле'),
+    ('BATCAVE', 'Bat Cave', 'Пещера Летучих Мышей'),
 
-  // Twilight Forest
-  ('TWILIGHTFOREST',  'Twilight Forest',         'Сумеречный Лес'),
-  ('DENOFTHIEVES',    'Den of Thieves',          'Логово Воров'),
+    // Twilight Forest
+    ('TWILIGHTFOREST', 'Twilight Forest', 'Сумеречный Лес'),
+    ('DENOFTHIEVES', 'Den of Thieves', 'Логово Воров'),
 
-  // Forest Marsh
-  ('FORESTMARSH',     'Forest Marsh',            'Лесное Болото'),
-  ('SWAMPYPIT',       'Swampy Pit',              'Болотная яма'),
+    // Forest Marsh
+    ('FORESTMARSH', 'Forest Marsh', 'Лесное Болото'),
+    ('SWAMPYPIT', 'Swampy Pit', 'Болотная яма'),
 
-  // Black Marsh
-  ('BLACKMARSH',      'Black Marsh',             'Черная Топь'),
-  ('BLACKCAVE',       'Black Cave',              'Черная Пещера'),
-  ('BLACKCAVEPIT',    'Black Cave Pit',          'Яма Черной Пещеры'),
+    // Black Marsh
+    ('BLACKMARSH', 'Black Marsh', 'Черная Топь'), ('BLACKCAVE', 'Black Cave',
+    'Черная Пещера'), ('BLACKCAVEPIT', 'Black Cave Pit', 'Яма Черной Пещеры'),
 
-  // Badlands
-  ('BADLANDS',        'Badlands',                'Бесплодные Земли'),
-  ('FARCAVE',         'Far Cave',                'Дальняя Пещера'),
-  ('FORGOTTENCAVE',   'Forgotten Cave',          'Забытая Пещера'),
+    // Badlands
+    ('BADLANDS', 'Badlands', 'Бесплодные Земли'),
+    ('FARCAVE', 'Far Cave', 'Дальняя Пещера'),
+    ('FORGOTTENCAVE', 'Forgotten Cave', 'Забытая Пещера'),
 
-  // Graveyards
-  ('GRAVEYARDS',      'Graveyards',              'Могильники'),
-  ('HALLOFTHEDEAD',   'Hall of the Dead',        'Зал Мертвих'),
+    // Graveyards
+    ('GRAVEYARDS', 'Graveyards', 'Могильники'),
+    ('HALLOFTHEDEAD', 'Hall of the Dead', 'Зал Мертвих'),
 
-  // Plain of Bones
-  ('PLAINOFBONES',    'Plain of Bones',          'Равнина Костей'),
-  ('MOONCAVE',        'Moon Cave',               'Лунная Пещера'),
-  ('GROTTOOFCLAWS',   'Grotto of Claws',         'Грот Когтей'),
+    // Plain of Bones
+    ('PLAINOFBONES', 'Plain of Bones', 'Равнина Костей'),
+    ('MOONCAVE', 'Moon Cave', 'Лунная Пещера'),
+    ('GROTTOOFCLAWS', 'Grotto of Claws', 'Грот Когтей'),
 
-  // Bloody Fields
-  ('BLOODYFIELDS',    'Bloody Fields',           'Кровавые Поля'),
-  ('PASSAGEOFTHEDEAD','Passage of the Dead',     'Проход Мертвых'),
-  ('CITADELOFCHAOS',  'Citadel of Chaos',        'Цитадель Хаоса'),
-  ('STONEWORMLAIR',   'Stoneworm Lair',          'Логово Каменного Червя'),
-  ('ASYLUMOFDEATH',   'Asylum of Death',         'Убежище Смерти'),
+    // Bloody Fields
+    ('BLOODYFIELDS', 'Bloody Fields', 'Кровавые Поля'),
+    ('PASSAGEOFTHEDEAD', 'Passage of the Dead', 'Проход Мертвых'),
+    ('CITADELOFCHAOS', 'Citadel of Chaos', 'Цитадель Хаоса'),
+    ('STONEWORMLAIR', 'Stoneworm Lair', 'Логово Каменного Червя'),
+    ('ASYLUMOFDEATH', 'Asylum of Death', 'Убежище Смерти'),
 
-  //
-  ('#', '#', '#'),
-  ('#', '#', '#'));
+    //
+    ('#', '#', '#'), ('#', '#', '#'));
 
 const
   ItemName: array [0 .. ItemsCount, 0 .. 2] of string = (
 
     ('GOLDCOINS', 'Gold Coin', 'Золото'), ('KEY', 'Key', 'Ключ'),
-    ('ORE', 'Ore', 'Руда'), ('MINIPOTION', 'Empty Bottle', 'Пустой Флакон'),
+    ('MINIPOTION', 'Empty Bottle', 'Пустой Флакон'),
     ('MINILIFEPOTION', 'Minor Healing Potion', 'Малый Эликсир Здоровья'),
     ('MINIMANAPOTION', 'Minor Mana Potion', 'Малый Эликсир Маны'),
     ('MINIMEGAPOTION', 'Minor Rejuvenation Potion',
@@ -442,7 +440,8 @@ uses
   Trollhunter.Zip,
   Trollhunter.Utils,
   Trollhunter.Error,
-  Trollhunter.Creatures, Trollhunter.MainForm;
+  Trollhunter.Creatures,
+  Trollhunter.MainForm;
 
 var
   LanguageString: TLanguageString;
