@@ -3,7 +3,7 @@
 uses
   Windows,
   Forms,
-  Trollhunter.MainForm in 'Forms\Trollhunter.MainForm.pas' {MainForm} ,
+  Trollhunter.MainForm in 'Forms\Trollhunter.MainForm.pas' {MainForm},
   Trollhunter.Scenes in 'Scenes\Trollhunter.Scenes.pas',
   Trollhunter.Scene in 'Scenes\Trollhunter.Scene.pas',
   Trollhunter.Scene.BaseMenu in 'Scenes\Trollhunter.Scene.BaseMenu.pas',
@@ -68,7 +68,8 @@ uses
   Trollhunter.GlobalMap in 'Trollhunter.GlobalMap.pas',
   Trollhunter.Statistics in 'Trollhunter.Statistics.pas',
   Trollhunter.Zip in 'Trollhunter.Zip.pas',
-  Trollhunter.Town in 'Trollhunter.Town.pas';
+  Trollhunter.Town in 'Trollhunter.Town.pas',
+  Trollhunter.Map.Pattern in 'Trollhunter.Map.Pattern.pas';
 
 {$R *.res}
 

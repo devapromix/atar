@@ -71,7 +71,7 @@ function GetParamFontSize: Integer;
 function RemoveBack(C: Char; S: string): string;
 function GetStrValue(Key, S: string): string;
 function GetStrKey(Key, S: string): string;
-function YesOrNo(const AValue: Boolean): string;
+function TrueOrFalse(const AValue: Boolean): string;
 
 implementation
 
@@ -655,9 +655,9 @@ begin
   Result := Copy(S, Pos(Key, S) + 1, Length(S));
 end;
 
-function YesOrNo(const AValue: Boolean): string;
+function TrueOrFalse(const AValue: Boolean): string;
 begin
-  Result := IfThen(AValue, 'Yes', 'No');
+  Result := IfThen(AValue, 'true', 'false');
 end;
 
 initialization
