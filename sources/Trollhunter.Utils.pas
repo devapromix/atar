@@ -71,12 +71,14 @@ function GetParamFontSize: Integer;
 function RemoveBack(C: Char; S: string): string;
 function GetStrValue(Key, S: string): string;
 function GetStrKey(Key, S: string): string;
+function YesOrNo(const AValue: Boolean): string;
 
 implementation
 
 uses
   Math,
   Forms,
+  StrUtils,
   Classes,
   Trollhunter.Item,
   Trollhunter.Lang,
@@ -651,6 +653,11 @@ end;
 function GetStrValue(Key, S: String): String;
 begin
   Result := Copy(S, Pos(Key, S) + 1, Length(S));
+end;
+
+function YesOrNo(const AValue: Boolean): string;
+begin
+  Result := IfThen(AValue, 'Yes', 'No');
 end;
 
 initialization

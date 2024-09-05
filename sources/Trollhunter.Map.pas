@@ -389,7 +389,7 @@ begin
         for Y := VY to VY + 10 do
           Map.Cell[Y][X].Tile := tlStone;
     end;
-    //Map.Cell[VY][VX].Tile := tlClosedDoor;
+    // Map.Cell[VY][VX].Tile := tlClosedDoor;
     // Add stairs
     if not Map.Info.IsAutoEnt and (Map.Info.PrevMap <> '') then
     begin
@@ -923,9 +923,56 @@ begin
   end;
 end;
 
+procedure SaveMaps;
+var
+  SL: TStringList;
+  I: Integer;
+  S: string;
+begin
+  S := ',';
+  SL := TStringList.Create;
+  SL.WriteBOM := False;
+  try
+    SL.Append('[');
+    for I := 0 to MapsCount - 2 do
+    begin
+      SL.Append('	{');
+      SL.Append('		"id": "' + MapInfo[I].ID + '",');
+      SL.Append('		"level": ' + MapInfo[I].Level.ToString + ',');
+      SL.Append('		"items": "",');
+      SL.Append('		"creatures": "' + MapInfo[I].Creatures + '",');
+      SL.Append('		"underground": "' + YesOrNo(MapInfo[I].Underground) + '",');
+      SL.Append('		"village": "' + YesOrNo(MapInfo[I].Village) + '",');
+      SL.Append('		"genid": ' + MapInfo[I].GenID.ToString + ',');
+      // SL.Append('		"decortype": ' + MapInfo[I].DecorType.ToString + ',');
+      SL.Append('		"dectypsize": ' + MapInfo[I].DecTypSize.ToString + ',');
+      SL.Append('		"dectypcount": ' + MapInfo[I].DecTypCount.ToString + ',');
+      SL.Append('		"isautoent": "' + YesOrNo(MapInfo[I].IsAutoEnt) + '",');
+      SL.Append('		"prevmap": "' + MapInfo[I].PrevMap + '",');
+      SL.Append('		"nextmap": "' + MapInfo[I].NextMap + '",');
+      SL.Append('		"altnextmap": "' + MapInfo[I].AltNextMap + '",');
+      SL.Append('		"isaltmapent": "' + YesOrNo(MapInfo[I].IsAltMapEnt) + '",');
+      SL.Append('		"isvillageent": "'+YesOrNo(MapInfo[I].IsVillageEnt) + '",');
+      SL.Append('		"istraps": "'+YesOrNo(MapInfo[I].IsTraps) + '",');
+      // SL.Append('		"floortile": ' + MapInfo[I].FloorTile.ToString + ',');
+      SL.Append('		"floorres": "' + MapInfo[I].FloorRes + '",');
+      SL.Append('		"wallres": "' + MapInfo[I].WallRes + '"');
+
+      if I >= MapsCount - 2 then
+        S := '';
+      SL.Append('	}' + S);
+    end;
+    SL.Append(']');
+    SL.SaveToFile(Path + 'maps.json', TEncoding.UTF8);
+  finally
+    SL.Free;
+  end;
+end;
+
 initialization
 
 Map := TMap.Create;
+SaveMaps;
 
 finalization
 
