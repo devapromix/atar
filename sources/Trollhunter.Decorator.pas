@@ -6,8 +6,6 @@ uses
   Graphics;
 
 type
-  TDecorType = (dtNone, dtBlood, dtBone, dtStone, dtWeb, dtSlime, dtTrap);
-
   TDecorSurf = (dsNone, dsFloor, dsWall, dsBoth);
 
   TDecoratorRec = record
@@ -93,14 +91,11 @@ type
     constructor Create;
     destructor Destroy; override;
     function IsDecorSurf(I, X, Y: Integer): Boolean;
-    procedure Insert(DT: TDecorType; X, Y: Integer);
+    procedure Insert(const ADecorType: string; X, Y: Integer);
     procedure Render(X, Y, DX, DY: Integer);
     procedure AddID(ID, X, Y: Integer);
     procedure Add(X, Y, Z: Integer);
   end;
-
-function StrToDecorType(S: string): TDecorType;
-function DecorTypeToStr(DT: TDecorType): string;
 
 var
   Decorators: TDecorators;
@@ -210,80 +205,41 @@ begin
   end;
 end;
 
-procedure TDecorators.Insert(DT: TDecorType; X, Y: Integer);
+procedure TDecorators.Insert(const ADecorType: string; X, Y: Integer);
 var
   ID: Byte;
 begin
-  case DT of
-    dtBlood:
-      begin
-        AddID(Rand(0, 19), X, Y);
-      end;
-    dtBone:
-      begin
-        ID := Rand(43, 77);
-        case ID of
-          43, 45, 51, 57, 62, 63, 73 .. 77:
-            AddID(ID, X, Y);
-        end;
-      end;
-    dtTrap:
-      begin
-        AddID(Rand(dTrapMin, dTrapMax), X, Y);
-      end;
-    dtWeb:
-      begin
-        AddID(dWeb, X, Y);
-      end;
-    dtSlime:
-      begin
-        AddID(Rand(dSlimeMin, dSlimeMax), X, Y);
-      end;
-    dtStone:
-      begin
-        ID := Rand(4, 8);
-        ID := ID * 10;
-        ID := ID + Rand(0, 1) + 8;
-        AddID(ID, X, Y);
-      end;
+  if ADecorType = 'BLOOD' then
+
+  begin
+    AddID(Rand(0, 19), X, Y);
   end;
-end;
-
-function StrToDecorType(S: string): TDecorType;
-begin
-  Result := dtNone;
-  if (S = 'dtNone') or (S = '') then
-    Exit;
-  if (S = 'dtBlood') then
-    Result := dtBlood;
-  if (S = 'dtStone') then
-    Result := dtStone;
-  if (S = 'dtSlime') then
-    Result := dtSlime;
-  if (S = 'dtBone') then
-    Result := dtBone;
-  if (S = 'dtTrap') then
-    Result := dtTrap;
-  if (S = 'dtWeb') then
-    Result := dtWeb;
-end;
-
-function DecorTypeToStr(DT: TDecorType): string;
-begin
-  Result := 'dtNone';
-  case DT of
-    dtBlood:
-      Result := 'dtBlood';
-    dtStone:
-      Result := 'dtStone';
-    dtSlime:
-      Result := 'dtSlime';
-    dtBone:
-      Result := 'dtBone';
-    dtTrap:
-      Result := 'dtTrap';
-    dtWeb:
-      Result := 'dtWeb';
+  if ADecorType = 'BONE' then
+  begin
+    ID := Rand(43, 77);
+    case ID of
+      43, 45, 51, 57, 62, 63, 73 .. 77:
+        AddID(ID, X, Y);
+    end;
+  end;
+  if ADecorType = 'TRAP' then
+  begin
+    AddID(Rand(dTrapMin, dTrapMax), X, Y);
+  end;
+  if ADecorType = 'WEB' then
+  begin
+    AddID(dWeb, X, Y);
+  end;
+  if ADecorType = 'SLIME' then
+  begin
+    AddID(Rand(dSlimeMin, dSlimeMax), X, Y);
+  end;
+  if ADecorType = 'STONE' then
+  begin
+    ID := Rand(4, 8);
+    ID := ID * 10;
+    ID := ID + Rand(0, 1) + 8;
+    AddID(ID, X, Y);
   end;
 end;
 

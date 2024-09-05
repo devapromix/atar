@@ -22,7 +22,7 @@ type
   TCreatureRec = record
     Sprite: string;
     AIType: TAIType;
-    Decor: TDecorType;
+    Decor: string;
     Level: Integer;
     Exp: Integer;
     MinDamage: Integer;
@@ -91,7 +91,7 @@ begin
   AI := aiNone;
   Spot := Graphics.TBitmap.Create;
   Spot.Transparent := True;
-  Prop.Decor := dtNone;
+  Prop.Decor := '';
   Prop.Protect := 0;
   Prop.Radius := 5;
   Prop.Distance := 0;

@@ -6,7 +6,7 @@
   Underground  : False;  
   Village      : False;
   GenID        : G_STONY_FIELD;
-  DecorType    : dtStone;
+  DecorType    : 'STONE';
   DecTypSize   : 50;
   DecTypCount  : 150;
   IsAutoEnt    : False;
@@ -29,7 +29,7 @@
   Underground  : True;
   Village      : False;
   GenID        : G_CAVES;
-  DecorType    : dtBone;
+  DecorType    : 'BONE';
   DecTypSize   : 45;
   DecTypCount  : 125;
   IsAutoEnt    : False;

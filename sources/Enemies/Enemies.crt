@@ -1,7 +1,7 @@
   (
   Sprite     : 'BIGSPIDER';
   AIType     : aiMelee;
-  Decor      : dtWeb;
+  Decor      : 'WEB';
   Level      : 1;
   Exp        : 2;
   MinDamage  : 2;
@@ -21,7 +21,7 @@
   (
   Sprite     : 'REDSPIDER'; 
   AIType     : aiRanged;
-  Decor      : dtWeb;
+  Decor      : 'WEB';
   Level      : 1;
   Exp        : 2;
   MinDamage  : 1;
@@ -41,7 +41,7 @@
   (
   Sprite     : 'CAVESPIDER';
   AIType     : aiBerserk;
-  Decor      : dtWeb;
+  Decor      : 'WEB';
   Level      : 1;
   Exp        : 2;
   MinDamage  : 2;
@@ -61,7 +61,7 @@
   (
   Sprite     : 'GOBLIN';
   AIType     : aiGoblin;
-  Decor      : dtBlood;
+  Decor      : 'BLOOD';
   Level      : 1;
   Exp        : 2;
   MinDamage  : 2;
@@ -81,7 +81,7 @@
   (
   Sprite     : 'DARKGOBLIN';
   AIType     : aiGoblin;
-  Decor      : dtBlood;
+  Decor      : 'BLOOD';
   Level      : 1;
   Exp        : 2;
   MinDamage  : 2;
@@ -101,7 +101,7 @@
   (
   Sprite     : 'CAVEGOBLIN';
   AIType     : aiGoblin;
-  Decor      : dtBlood;
+  Decor      : 'BLOOD';
   Level      : 1;
   Exp        : 2;
   MinDamage  : 2;
@@ -121,7 +121,7 @@
   (
   Sprite     : 'SLUG';
   AIType     : aiSlug;
-  Decor      : dtSlime;
+  Decor      : 'SLIME';
   Level      : 1;
   Exp        : 1;
   MinDamage  : 1;
@@ -141,7 +141,7 @@
   (
   Sprite     : 'BIGSLIME';
   AIType     : aiBigSlime;
-  Decor      : dtSlime;
+  Decor      : 'SLIME';
   Level      : 1;
   Exp        : 3;
   MinDamage  : 1;
@@ -161,7 +161,7 @@
   (
   Sprite     : 'SLIME';
   AIType     : aiSlime;
-  Decor      : dtSlime;
+  Decor      : 'SLIME';
   Level      : 1;
   Exp        : 2;
   MinDamage  : 1;
@@ -181,7 +181,7 @@
   (
   Sprite     : 'SMALLSLIME';
   AIType     : aiBerserk;
-  Decor      : dtSlime;
+  Decor      : 'SLIME';
   Level      : 1;
   Exp        : 1;
   MinDamage  : 1;
@@ -201,7 +201,7 @@
   (
   Sprite     : 'BAT';
   AIType     : aiMelee;
-  Decor      : dtBlood;
+  Decor      : 'BLOOD';
   Level      : 1;
   Exp        : 2;
   MinDamage  : 1;
@@ -221,7 +221,7 @@
   (
   Sprite     : 'BLUEBAT';
   AIType     : aiMelee;
-  Decor      : dtBlood;
+  Decor      : 'BLOOD';
   Level      : 1;
   Exp        : 2;
   MinDamage  : 1;
@@ -241,7 +241,7 @@
   (
   Sprite     : 'CAVEBAT';
   AIType     : aiBerserk;
-  Decor      : dtBlood;
+  Decor      : 'BLOOD';
   Level      : 2;
   Exp        : 3;
   MinDamage  : 2;
@@ -261,7 +261,7 @@
   (
   Sprite     : 'SKELETON';
   AIType     : aiBerserk;
-  Decor      : dtBone;
+  Decor      : 'BONE';
   Level      : 2;
   Exp        : 4;
   MinDamage  : 2;
@@ -281,7 +281,7 @@
   (
   Sprite     : 'SKELETONMAGE';
   AIType     : aiRanged;
-  Decor      : dtBone;
+  Decor      : 'BONE';
   Level      : 2;
   Exp        : 4;
   MinDamage  : 1;
@@ -301,7 +301,7 @@
   (
   Sprite     : 'MAGAN';
   AIType     : aiRanged;
-  Decor      : dtBlood;
+  Decor      : 'BLOOD';
   Level      : 2;
   Exp        : 3;
   MinDamage  : 1;
@@ -321,7 +321,7 @@
   (
   Sprite     : 'DARKEYE';
   AIType     : aiRanged;
-  Decor      : dtBlood;
+  Decor      : 'BLOOD';
   Level      : 2;
   Exp        : 3;
   MinDamage  : 1;
@@ -341,7 +341,7 @@
   (
   Sprite     : 'NECROMANCER';
   AIType     : aiNecro;
-  Decor      : dtBlood;
+  Decor      : 'BLOOD';
   Level      : 3;
   Exp        : 5;
   MinDamage  : 2;
@@ -361,7 +361,7 @@
   (
   Sprite     : 'TUORG';
   AIType     : aiBerserk;
-  Decor      : dtBlood;
+  Decor      : 'BLOOD';
   Level      : 4;
   Exp        : 5;
   MinDamage  : 3;

@@ -26,7 +26,7 @@ type
     Underground: Boolean;
     Village: Boolean;
     GenID: Integer;
-    DecorType: TDecorType;
+    DecorType: string;
     DecTypSize: Integer;
     DecTypCount: Integer;
     IsAutoEnt: Boolean;
@@ -102,7 +102,7 @@ type
     procedure Gen(const ID: Integer);
     procedure VizCell(X, Y: Integer; F: Boolean = True);
     procedure LineFOV2(AX, AY, X, Y: Integer; F: Boolean = True);
-    procedure SpotDraw(AP: PDType; AX, AY: Integer; D: string; Size: Byte);
+    procedure SpotDraw(AP: PDType; AX, AY: Integer; Decor: string; Size: Byte);
     constructor Create;
     destructor Destroy; override;
     function Info(): TMapRec;
@@ -178,7 +178,7 @@ begin
   end;
 end;
 
-procedure TMap.SpotDraw(AP: PDType; AX, AY: Integer; D: string; Size: Byte);
+procedure TMap.SpotDraw(AP: PDType; AX, AY: Integer; Decor: string; Size: Byte);
 var
   N, S, E, W, X, Y, I: Integer;
 
@@ -188,11 +188,11 @@ var
       case AP of
         pdCreature:
           if (Trollhunter.Creatures.Creatures.EmptyCell(X, Y)) then
-            Trollhunter.Creatures.Creatures.Add(X, Y, D);
+            Trollhunter.Creatures.Creatures.Add(X, Y, Decor);
         pdDecorator:
-          Decorators.Insert(StrToDecorType(D), X, Y);
+          Decorators.Insert(Decor, X, Y);
         pdItem:
-          Trollhunter.Item.Items.Add(X, Y, D);
+          Trollhunter.Item.Items.Add(X, Y, Decor);
       end;
   end;
 
@@ -450,13 +450,12 @@ begin
         Decorators.Add(X, Y, Rand(1, 19));
       end;
     end;
-    if (Info.DecorType <> dtNone) then
+    if (Info.DecorType <> '') then
       for I := 1 to Info.DecTypCount do
       begin
         X := Rand(2, Map.Width - 3);
         Y := Rand(2, Map.Height - 3);
-        SpotDraw(pdDecorator, X, Y, DecorTypeToStr(Info.DecorType),
-          Info.DecTypSize);
+        SpotDraw(pdDecorator, X, Y, Info.DecorType, Info.DecTypSize);
       end;
     // Script
     // Map Level
@@ -946,7 +945,7 @@ begin
         TrueOrFalse(MapInfo[I].Underground) + ',');
       SL.Append('		"village": ' + TrueOrFalse(MapInfo[I].Village) + ',');
       SL.Append('		"genid": ' + MapInfo[I].GenID.ToString + ',');
-      // SL.Append('		"decortype": ' + MapInfo[I].DecorType.ToString + ',');
+      SL.Append('		"decortype": "' + MapInfo[I].DecorType + '",');
       SL.Append('		"dectypsize": ' + MapInfo[I].DecTypSize.ToString + ',');
       SL.Append('		"dectypcount": ' + MapInfo[I].DecTypCount.ToString + ',');
       SL.Append('		"isautoent": ' + TrueOrFalse(MapInfo[I].IsAutoEnt) + ',');

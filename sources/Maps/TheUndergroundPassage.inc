@@ -6,7 +6,7 @@
   Underground  : True;
   Village      : False;
   GenID        : G_DARK_GROTTO;
-  DecorType    : dtWeb;
+  DecorType    : 'WEB';
   DecTypSize   : 25;
   DecTypCount  : 75;
   IsAutoEnt    : True;

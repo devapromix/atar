@@ -6,7 +6,7 @@
   Underground  : False;
   Village      : True;
   GenID        : G_VILLAGE;
-  DecorType    : dtNone;
+  DecorType    : '';
   DecTypSize   : 0;
   DecTypCount  : 0;
   IsAutoEnt    : False;

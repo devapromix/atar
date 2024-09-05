@@ -134,7 +134,7 @@ uses
 
 procedure TPC.Clear;
 begin
-  Prop.Decor := dtBlood;
+  Prop.Decor := 'BLOOD';
   Prop.MinDamage := 1;
   Prop.MaxDamage := 2;
   Prop.Protect := 0;

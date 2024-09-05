@@ -6,7 +6,7 @@
   Underground  : False;
   Village      : False;
   GenID        : G_DARK_FOREST;
-  DecorType    : dtNone;
+  DecorType    : '';
   DecTypSize   : 0;
   DecTypCount  : 0;
   IsAutoEnt    : False;
@@ -29,7 +29,7 @@
   Underground  : True;
   Village      : False;
   GenID        : G_CAVES;
-  DecorType    : dtBone;
+  DecorType    : 'BONE';
   DecTypSize   : 20;
   DecTypCount  : 50;
   IsAutoEnt    : False;
@@ -52,7 +52,7 @@
   Underground  : True;
   Village      : False;
   GenID        : G_CAVES;
-  DecorType    : dtBone;
+  DecorType    : 'BONE';
   DecTypSize   : 35;
   DecTypCount  : 105;
   IsAutoEnt    : False;

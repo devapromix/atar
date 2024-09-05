@@ -6,7 +6,7 @@
   Underground  : False;
   Village      : False;
   GenID        : G_DARK_FOREST;
-  DecorType    : dtNone;
+  DecorType    : '';
   DecTypSize   : 0;
   DecTypCount  : 0;
   IsAutoEnt    : False;

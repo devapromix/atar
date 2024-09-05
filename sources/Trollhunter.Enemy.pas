@@ -151,7 +151,7 @@ begin
     then
       Melee
     else
-      inherited Move(AX, AY, (Prop.Decor <> dtWeb) or (Prop.Decor <> dtSlime));
+      inherited Move(AX, AY, (Prop.Decor <> 'WEB') or (Prop.Decor <> 'SLIME'));
   except
     on E: Exception do
       Error.Add('Enemy.Move', E.Message);
