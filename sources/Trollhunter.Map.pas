@@ -885,7 +885,6 @@ begin
               Draw(DX, DY, Res.FOGFLOOR)
             else
               Draw(DX, DY, Res.FLOOR);
-        end;
       end;
     if B then
       Continue;
@@ -956,7 +955,7 @@ begin
       SL.Append('		"isvillageent": ' +
         TrueOrFalse(MapInfo[I].IsVillageEnt) + ',');
       SL.Append('		"istraps": ' + TrueOrFalse(MapInfo[I].IsTraps) + ',');
-      SL.Append('		"floortile": "' + MapInfo[I].FloorTile.ToString + '",');
+      SL.Append('		"floortile": "' + MapInfo[I].FloorTile + '",');
       SL.Append('		"floorres": "' + MapInfo[I].FloorRes + '",');
       SL.Append('		"wallres": "' + MapInfo[I].WallRes + '"');
 
