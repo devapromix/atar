@@ -141,7 +141,8 @@ uses
   Trollhunter.Utils,
   Trollhunter.Error,
   Trollhunter.Settings,
-  Trollhunter.Lang;
+  Trollhunter.Lang,
+  Trollhunter.Map.Pattern;
 
 {$R images.res}
 { TGraph }
@@ -511,7 +512,7 @@ begin
       end;
       Font.Color := T[0];
       Font.Style := [];
-      N := Language.GetLang(Map.Info.ID);
+      N := Language.GetLang(MapPatterns.GetPattern.Id);
       if (N <> '') then
         TextOut(Graph.Width - TextWidth(N), Graph.CharHeight, N);
     end;

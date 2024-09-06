@@ -63,17 +63,17 @@ type
     constructor Create;
     destructor Destroy; override;
     property Patterns: TObjectList<TMapPat> read FPatterns write FPatterns;
+    function GetPattern(const AIndex: Integer = -1): TMapPat;
   end;
 
 var
-  MapPats: TMapPats;
+  MapPatterns: TMapPats;
 
 implementation
 
 uses
   System.SysUtils,
   System.JSON,
-  Vcl.Dialogs,
   Neon.Core.Persistence,
   Neon.Core.Persistence.JSON,
   Trollhunter.Utils,
@@ -82,7 +82,8 @@ uses
   Trollhunter.Error,
   Trollhunter.MainForm,
   Trollhunter.Zip,
-  Trollhunter.Map;
+  Trollhunter.Map,
+  Trollhunter.Creatures;
 
 { TSkill }
 
@@ -110,16 +111,24 @@ begin
   inherited;
 end;
 
+function TMapPats.GetPattern(const AIndex: Integer = -1): TMapPat;
+begin
+  if AIndex > -1 then
+    Result := Patterns[AIndex]
+  else
+    Result := Patterns[Trollhunter.Creatures.Creatures.PC.Dungeon]
+end;
+
 procedure TMapPats.Serialize;
-var
+{ var
   LStringList: TStringList;
   LJSON: TJSONValue;
   LMapPat: TMapPat;
-  I: Integer;
+  I: Integer; }
 begin
-  Patterns.Clear;
-  for I := 0 to MapsCount - 1 do
-  begin
+  { Patterns.Clear;
+    for I := 0 to MapsCount - 1 do
+    begin
     LMapPat := TMapPat.Create;
     LMapPat.Id := MapInfo[I].Id;
     LMapPat.Level := MapInfo[I].Level;
@@ -142,20 +151,20 @@ begin
     LMapPat.FloorRes := MapInfo[I].FloorRes;
     LMapPat.WallRes := MapInfo[I].WallRes;
     Patterns.Add(LMapPat);
-  end;
-  LStringList := TStringList.Create;
-  LStringList.WriteBOM := False;
-  try
-    LJSON := TNeon.ObjectToJSON(MapPats);
-    try
-      LStringList.Text := TNeon.Print(LJSON, True);
-      LStringList.SaveToFile(Path + 'maps.json', TEncoding.UTF8);
-    finally
-      LJSON.Free;
     end;
-  finally
+    LStringList := TStringList.Create;
+    LStringList.WriteBOM := False;
+    try
+    LJSON := TNeon.ObjectToJSON(MapPatterns);
+    try
+    LStringList.Text := TNeon.Print(LJSON, True);
+    LStringList.SaveToFile(Path + 'maps.json', TEncoding.UTF8);
+    finally
+    LJSON.Free;
+    end;
+    finally
     LStringList.Free;
-  end;
+    end; }
 end;
 
 procedure NextSerialize;
@@ -166,7 +175,7 @@ begin
   LStringList := TStringList.Create;
   LStringList.WriteBOM := False;
   try
-    LJSON := TNeon.ObjectToJSON(MapPats);
+    LJSON := TNeon.ObjectToJSON(MapPatterns);
     try
       LStringList.Text := TNeon.Print(LJSON, True);
       LStringList.SaveToFile(Path + 'mappats.json', TEncoding.UTF8);
@@ -194,7 +203,7 @@ begin
     LJSON := TJSONObject.ParseJSONValue(LStringList.Text);
     try
       LConfig := TNeonConfiguration.Default;
-      TNeon.JSONToObject(MapPats, LJSON, LConfig);
+      TNeon.JSONToObject(MapPatterns, LJSON, LConfig);
     finally
       LJSON.Free;
     end;
@@ -206,14 +215,14 @@ end;
 
 initialization
 
-MapPats := TMapPats.Create;
-MapPats.Serialize;
-MapPats.Patterns.Clear;
-MapPats.Deserialize;
-NextSerialize;
+MapPatterns := TMapPats.Create;
+// MapPatterns.Serialize;
+// MapPatterns.Patterns.Clear;
+MapPatterns.Deserialize;
+// NextSerialize;
 
 finalization
 
-FreeAndNil(MapPats);
+FreeAndNil(MapPatterns);
 
 end.

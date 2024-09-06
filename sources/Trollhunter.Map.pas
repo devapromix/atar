@@ -41,25 +41,6 @@ type
     WallRes: string;
   end;
 
-const
-  MapInfo: array [0 .. MapsCount - 1] of TMapRec = (
-
-{$I Maps/Village.inc              }
-{$I Maps/SpiderForest.inc         }
-{$I Maps/TheUndergroundPassage.inc}
-{$I Maps/ValleyOfBear.inc         }
-{$I Maps/StonyField.inc           }
-{$I Maps/TwilightForest.inc       }
-{$I Maps/ForestMarsh.inc          }
-{$I Maps/BlackMarsh.inc           }
-{$I Maps/Badlands.inc             }
-{$I Maps/Graveyards.inc           }
-{$I Maps/PlainOfBones.inc         }
-{$I Maps/BloodyFields.inc         }
-    //
-{$I Maps/BlankMap.inc             }
-  );
-
 type
   TCell = record
     Tile: Tiles;
@@ -105,7 +86,6 @@ type
     procedure SpotDraw(AP: PDType; AX, AY: Integer; Decor: string; Size: Byte);
     constructor Create;
     destructor Destroy; override;
-    function Info(): TMapRec;
   end;
 
 var
@@ -305,7 +285,7 @@ begin
   try
     Self.Clear;
     SetLength(DR, Self.Width * Self.Height);
-    CreateMap(Self.Width, Self.Height, Info.GenID, DR,
+    CreateMap(Self.Width, Self.Height, MapPatterns.GetPattern.GenID, DR,
       Self.Width * Self.Height); // супер 1, 7, 17, 18, 19, 21
     SetLength(Cell, Self.Height + 1);
 
@@ -357,7 +337,7 @@ begin
       Trollhunter.Creatures.Creatures.PC.SetPosition(X, Y);
     end;
     // Add gate
-    if Map.Info.IsVillageEnt then
+    if MapPatterns.GetPattern.IsVillageEnt then
     begin
       VilGateX := Rand(15, Width - 16);
       for Y := 0 to 7 do
@@ -369,7 +349,7 @@ begin
       V := 0;
       L := Math.RandomRange(1, 5);
       C := 4;
-      if Map.Info.Village then
+      if MapPatterns.GetPattern.Village then
         C := Math.RandomRange(65, 75);
       for I := 3 to L + C do
       begin
@@ -384,7 +364,7 @@ begin
       Map.Cell[0][VilGateX].Tile := tlVillageGate;
     end;
     // Add forge
-    if Map.Info.Village then
+    if MapPatterns.GetPattern.Village then
     begin
       for X := VX - 5 to VX + 5 do
         for Y := VY to VY + 10 do
@@ -392,23 +372,25 @@ begin
     end;
     // Map.Cell[VY][VX].Tile := tlClosedDoor;
     // Add stairs
-    if not Map.Info.IsAutoEnt and (Map.Info.PrevMap <> '') then
+    if not MapPatterns.GetPattern.IsAutoEnt and
+      (MapPatterns.GetPattern.PrevMap <> '') then
     begin
       GenNewFloorPos();
       Map.Cell[Y][X].Tile := tlPrevDungeon;
     end;
-    if not Map.Info.IsAutoEnt and (Map.Info.NextMap <> '') then
+    if not MapPatterns.GetPattern.IsAutoEnt and
+      (MapPatterns.GetPattern.NextMap <> '') then
     begin
       GenNewFloorPos();
       Map.Cell[Y][X].Tile := tlNextDungeon;
     end;
-    if (Map.Info.AltNextMap <> '') then
+    if (MapPatterns.GetPattern.AltNextMap <> '') then
     begin
       GenNewFloorPos();
       Map.Cell[Y][X].Tile := tlAltNextDungeon;
     end;
     // Add shrine
-    if not Info.Village then
+    if not MapPatterns.GetPattern.Village then
       for I := 1 to 3 do
       begin
         GenNewFloorPos();
@@ -422,7 +404,7 @@ begin
         end;
       end;
     // Add chest
-    if Info.Underground then
+    if MapPatterns.GetPattern.Underground then
       for I := 1 to 19 do
       begin
         GenChestPos();
@@ -438,7 +420,7 @@ begin
         end;
       end;
     // Add decorators
-    if not Info.Village then
+    if not MapPatterns.GetPattern.Village then
     begin
       Light.Clear;
       for I := 0 to 1999 do
@@ -450,21 +432,23 @@ begin
         Decorators.Add(X, Y, Rand(1, 19));
       end;
     end;
-    if (Info.DecorType <> '') then
-      for I := 1 to Info.DecTypCount do
+    if (MapPatterns.GetPattern.DecorType <> '') then
+      for I := 1 to MapPatterns.GetPattern.DecTypCount do
       begin
         X := Rand(2, Map.Width - 3);
         Y := Rand(2, Map.Height - 3);
-        SpotDraw(pdDecorator, X, Y, Info.DecorType, Info.DecTypSize);
+        SpotDraw(pdDecorator, X, Y, MapPatterns.GetPattern.DecorType,
+          MapPatterns.GetPattern.DecTypSize);
       end;
     // Script
     // Map Level
-    Level := Info.Level;
+    Level := MapPatterns.GetPattern.Level;
     // Map Creatures
-    Creatures := Info.Creatures;
+    Creatures := MapPatterns.GetPattern.Creatures;
     // Map Items
-    Items := Info.Items + DefaultItems + RandomScrolls + RandomPotions;
-    if not Info.Village then
+    Items := MapPatterns.GetPattern.Items + DefaultItems + RandomScrolls +
+      RandomPotions;
+    if not MapPatterns.GetPattern.Village then
     begin
       // Add monsters
       AddCreatures(ID);
@@ -488,14 +472,14 @@ begin
       Exit;
     Creatures := RemoveBack(',', Creatures);
     V := Explode(',', Creatures);
-    for I := 0 to Clamp(Info.Level + 15, 15, 49) do
+    for I := 0 to Clamp(MapPatterns.GetPattern.Level + 15, 15, 49) do
     begin
       repeat
         X := Rand(5, Map.Width - 6);
         Y := Rand(5, Map.Height - 6);
       until (Cell[Y][X].Tile in FloorSet);
       SpotDraw(pdCreature, X, Y, V[Rand(0, High(V))],
-        Clamp(Info.Level + 5, 5, 15))
+        Clamp(MapPatterns.GetPattern.Level + 5, 5, 15))
     end;
   except
     on E: Exception do
@@ -509,7 +493,7 @@ var
   S: string;
 begin
   try
-    for I := 0 to Clamp(Info.Level, 9, 24) do
+    for I := 0 to Clamp(MapPatterns.GetPattern.Level, 9, 24) do
     begin
       repeat
         X := Rand(2, Map.Width - 3);
@@ -518,7 +502,7 @@ begin
       S := GetRandItemID;
       if (DungeonItems[Trollhunter.Item.Items.ItemIndex(S)].Category = dsGold)
       then
-        SpotDraw(pdItem, X, Y, S, Clamp(Info.Level, 2, 5))
+        SpotDraw(pdItem, X, Y, S, Clamp(MapPatterns.GetPattern.Level, 2, 5))
       else
         Trollhunter.Item.Items.Add(X, Y, GetRandItemID);
     end;
@@ -735,18 +719,13 @@ begin
   FCreatures := Value;
 end;
 
-function TMap.Info(): TMapRec;
-begin
-  Result := MapInfo[Trollhunter.Creatures.Creatures.PC.Dungeon];
-end;
-
 function TMap.GetMapIndex(AMapIdent: string): Integer;
 var
   LMapIndex: Integer;
 begin
   Result := 0;
   for LMapIndex := 0 to MapsCount - 1 do
-    if (MapInfo[LMapIndex].ID = AMapIdent) then
+    if (MapPatterns.GetPattern(LMapIndex).ID = UpperCase(AMapIdent)) then
     begin
       Result := LMapIndex;
       Exit;
@@ -875,12 +854,12 @@ begin
             else
               Draw(DX, DY, Res.DOWN);
         else
-          if Map.Info.FloorTile = 'GRASS' then
+          if MapPatterns.GetPattern.FloorTile = 'GRASS' then
             if B then
               Draw(DX, DY, Res.FOGGRASS)
             else
               Draw(DX, DY, Res.GRASS);
-          if Map.Info.FloorTile = 'FLOOR' then
+          if MapPatterns.GetPattern.FloorTile = 'FLOOR' then
             if B then
               Draw(DX, DY, Res.FOGFLOOR)
             else

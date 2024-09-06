@@ -47,7 +47,8 @@ uses
   Trollhunter.Map,
   Trollhunter.MainForm,
   Trollhunter.Decorator,
-  Trollhunter.Game;
+  Trollhunter.Game,
+  Trollhunter.Map.Pattern;
 
 { TResources }
 
@@ -97,20 +98,20 @@ begin
   // Floors
   FLOOR := Graphics.TBitmap.Create;
   FOGFLOOR := Graphics.TBitmap.Create;
-  SetTile(FLOOR, FOGFLOOR, 'FLOOR0', Map.Info.FloorRes);
+  SetTile(FLOOR, FOGFLOOR, 'FLOOR0', MapPatterns.GetPattern.FloorRes);
   GRASS := Graphics.TBitmap.Create;
   FOGGRASS := Graphics.TBitmap.Create;
-  SetTile(GRASS, FOGGRASS, 'GRASS0', Map.Info.FloorRes);
+  SetTile(GRASS, FOGGRASS, 'GRASS0', MapPatterns.GetPattern.FloorRes);
 
-  if Map.Info.FloorTile = 'GRASS' then
+  if MapPatterns.GetPattern.FloorTile = 'GRASS' then
     F.Assign(GRASS);
-  if Map.Info.FloorTile = 'FLOOR' then
+  if MapPatterns.GetPattern.FloorTile = 'FLOOR' then
     F.Assign(FLOOR);
 
   // Walls
   WALL := Graphics.TBitmap.Create;
   FOGWALL := Graphics.TBitmap.Create;
-  SetTile(WALL, FOGWALL, 'WALL0', Map.Info.WallRes);
+  SetTile(WALL, FOGWALL, 'WALL0', MapPatterns.GetPattern.WallRes);
 
   // Shrines
   with Graph do

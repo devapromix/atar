@@ -46,7 +46,8 @@ uses
   Trollhunter.Color,
   Trollhunter.Lang,
   Trollhunter.Map,
-  Trollhunter.Skill;
+  Trollhunter.Skill,
+  Trollhunter.Map.Pattern;
 
 { TSceneChar }
 
@@ -166,7 +167,8 @@ begin
         S := ' (' + IntToStr(Creatures.PC.Dungeon) + ')'
       else
         S := '';
-      Add(Language.GetLang(110), Language.GetLang(Map.Info.ID) + S);
+      Add(Language.GetLang(110),
+        Language.GetLang(MapPatterns.GetPattern.Id) + S);
       Add();
       Draw(Graph.Surface.Width - 72, Graph.CharHeight, SceneInv.Hero);
     end;

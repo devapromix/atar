@@ -123,7 +123,8 @@ uses
   Trollhunter.Light,
   Trollhunter.Map,
   Trollhunter.Map.Tiles,
-  Trollhunter.Utils;
+  Trollhunter.Utils,
+  Trollhunter.Map.Pattern;
 
 { TDecorators }
 
@@ -138,7 +139,7 @@ begin
     dSlimeMin .. dSlimeMax:
       Exit;
   end;
-  if not Map.Info.Underground then
+  if not MapPatterns.GetPattern.Underground then
     case ID of
       48, 49, 58, 59, 68, 69, 78, 79:
         ;

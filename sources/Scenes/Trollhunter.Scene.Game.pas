@@ -64,7 +64,8 @@ uses
   Trollhunter.Skill,
   Trollhunter.Scene.Statistics,
   Trollhunter.Statistics,
-  Trollhunter.GlobalMap;
+  Trollhunter.GlobalMap,
+  Trollhunter.Map.Pattern;
 
 { TGame }
 
@@ -93,14 +94,14 @@ end;
 
 procedure TSceneGame.GoToVillage;
 begin
-  if Map.Info.IsVillageEnt then
+  if MapPatterns.GetPattern.IsVillageEnt then
   begin
     Graph.Messagebar.Clear;
     Log.Add(Language.GetLang(290) + ' ' + Language.GetLang
-      (Map.Info.AltNextMap) + '.');
+      (MapPatterns.GetPattern.AltNextMap) + '.');
     Log.Apply;
     Game.Save;
-    if Map.Info.Village then
+    if MapPatterns.GetPattern.Village then
       Game.Load(1)
     else
       Game.Load(0);
@@ -114,15 +115,15 @@ var
   I: Integer;
   B: Boolean;
 begin
-  if (Map.Info.PrevMap <> '') then
+  if (MapPatterns.GetPattern.PrevMap <> '') then
   begin
     Graph.Messagebar.Clear;
     Log.Add(Language.GetLang(290) + ' ' + Language.GetLang
-      (Map.Info.PrevMap) + '.');
+      (MapPatterns.GetPattern.PrevMap) + '.');
     Log.Apply;
     Game.Save;
-    B := Map.Info.IsAltMapEnt;
-    I := Map.GetMapIndex(Map.Info.PrevMap);
+    B := MapPatterns.GetPattern.IsAltMapEnt;
+    I := Map.GetMapIndex(MapPatterns.GetPattern.PrevMap);
     if (I < 0) then
       I := 0;
     Game.Load(I);
@@ -136,14 +137,14 @@ end;
 
 procedure TSceneGame.GoToNextMap;
 begin
-  if (Map.Info.NextMap <> '') then
+  if (MapPatterns.GetPattern.NextMap <> '') then
   begin
     Graph.Messagebar.Clear;
     Log.Add(Language.GetLang(290) + ' ' + Language.GetLang
-      (Map.Info.NextMap) + '.');
+      (MapPatterns.GetPattern.NextMap) + '.');
     Log.Apply;
     Game.Save;
-    Game.Load(Map.GetMapIndex(Map.Info.NextMap));
+    Game.Load(Map.GetMapIndex(MapPatterns.GetPattern.NextMap));
     Go(tlPrevDungeon);
     Scenes.Render;
   end;
@@ -151,14 +152,14 @@ end;
 
 procedure TSceneGame.GoToAltNextMap;
 begin
-  if (Map.Info.AltNextMap <> '') then
+  if (MapPatterns.GetPattern.AltNextMap <> '') then
   begin
     Graph.Messagebar.Clear;
     Log.Add(Language.GetLang(290) + ' ' + Language.GetLang
-      (Map.Info.AltNextMap) + '.');
+      (MapPatterns.GetPattern.AltNextMap) + '.');
     Log.Apply;
     Game.Save;
-    Game.Load(Map.GetMapIndex(Map.Info.AltNextMap));
+    Game.Load(Map.GetMapIndex(MapPatterns.GetPattern.AltNextMap));
     Go(tlPrevDungeon);
     Scenes.Render;
   end;
@@ -205,13 +206,13 @@ begin
       Graph.Messagebar.Add(Language.GetLang(59));
     tlPrevDungeon:
       Graph.Messagebar.Add(Format(Language.GetLang(83),
-        [Language.GetLang(Map.Info.PrevMap)]));
+        [Language.GetLang(MapPatterns.GetPattern.PrevMap)]));
     tlNextDungeon:
       Graph.Messagebar.Add(Format(Language.GetLang(84),
-        [Language.GetLang(Map.Info.NextMap)]));
+        [Language.GetLang(MapPatterns.GetPattern.NextMap)]));
     tlAltNextDungeon:
       Graph.Messagebar.Add(Format(Language.GetLang(84),
-        [Language.GetLang(Map.Info.AltNextMap)]));
+        [Language.GetLang(MapPatterns.GetPattern.AltNextMap)]));
     tlEmptyShrine:
       Graph.Messagebar.Add(Language.GetLang(85));
     tlLifeShrine:
