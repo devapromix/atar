@@ -16,6 +16,18 @@ type
     FUnderground: Boolean;
     FVillage: Boolean;
     FGenId: Integer;
+    FDecorType: string;
+    FDecTypSize: Integer;
+    FDecTypCount: Integer;
+    FIsAutoEnt: Boolean;
+    FPrevMap: string;
+    FNextMap: string;
+    FAltNextMap: string;
+    FIsTraps: Boolean;
+    FIsVillageEnt: Boolean;
+    FFloorTile: string;
+    FFloorRes: string;
+    FWallRes: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -26,18 +38,31 @@ type
     property Underground: Boolean read FUnderground write FUnderground;
     property Village: Boolean read FVillage write FVillage;
     property GenId: Integer read FGenId write FGenId;
+    property DecorType: string read FDecorType write FDecorType;
+    property DecTypSize: Integer read FDecTypSize write FDecTypSize;
+    property DecTypCount: Integer read FDecTypCount write FDecTypCount;
+    property IsAutoEnt: Boolean read FIsAutoEnt write FIsAutoEnt;
+    property PrevMap: string read FPrevMap write FPrevMap;
+    property NextMap: string read FNextMap write FNextMap;
+    property AltNextMap: string read FAltNextMap write FAltNextMap;
+    property IsAltMapEnt: Boolean read FIsAutoEnt write FIsAutoEnt;
+    property IsVillageEnt: Boolean read FIsVillageEnt write FIsVillageEnt;
+    property IsTraps: Boolean read FIsTraps write FIsTraps;
+    property FloorTile: string read FFloorTile write FFloorTile;
+    property FloorRes: string read FFloorRes write FFloorRes;
+    property WallRes: string read FWallRes write FWallRes;
   end;
 
 type
   TMapPats = class(TObject)
   private
-    FMapPatList: TObjectList<TMapPat>;
+    FPatterns: TObjectList<TMapPat>;
+    procedure Serialize;
+    procedure Deserialize;
   public
     constructor Create;
     destructor Destroy; override;
-    property MapPatList: TObjectList<TMapPat> read FMapPatList
-      write FMapPatList;
-    procedure LoadFromResources;
+    property Patterns: TObjectList<TMapPat> read FPatterns write FPatterns;
   end;
 
 var
@@ -48,6 +73,7 @@ implementation
 uses
   System.SysUtils,
   System.JSON,
+  Vcl.Dialogs,
   Neon.Core.Persistence,
   Neon.Core.Persistence.JSON,
   Trollhunter.Utils,
@@ -55,7 +81,8 @@ uses
   Trollhunter.Lang,
   Trollhunter.Error,
   Trollhunter.MainForm,
-  Trollhunter.Zip;
+  Trollhunter.Zip,
+  Trollhunter.Map;
 
 { TSkill }
 
@@ -74,64 +101,64 @@ end;
 
 constructor TMapPats.Create;
 begin
-  FMapPatList := TObjectList<TMapPat>.Create;
+  FPatterns := TObjectList<TMapPat>.Create;
 end;
 
 destructor TMapPats.Destroy;
 begin
-  FreeAndNil(FMapPatList);
+  FreeAndNil(FPatterns);
   inherited;
 end;
 
-procedure TMapPats.LoadFromResources;
+procedure TMapPats.Serialize;
 var
   LStringList: TStringList;
-  LZip: TZip;
+  LJSON: TJSONValue;
   LMapPat: TMapPat;
-  LJSONObject: TJSONObject;
-  LMapPats: TJSONArray;
   I: Integer;
 begin
+  Patterns.Clear;
+  for I := 0 to MapsCount - 1 do
+  begin
+    LMapPat := TMapPat.Create;
+    LMapPat.Id := MapInfo[I].Id;
+    LMapPat.Level := MapInfo[I].Level;
+    LMapPat.Items := '';
+    LMapPat.Creatures := '';
+    LMapPat.Underground := MapInfo[I].Underground;
+    LMapPat.Village := MapInfo[I].Village;
+    LMapPat.GenId := MapInfo[I].GenId;
+    LMapPat.DecorType := MapInfo[I].DecorType;
+    LMapPat.DecTypSize := MapInfo[I].DecTypSize;
+    LMapPat.DecTypCount := MapInfo[I].DecTypCount;
+    LMapPat.IsAutoEnt := MapInfo[I].IsAutoEnt;
+    LMapPat.PrevMap := MapInfo[I].PrevMap;
+    LMapPat.NextMap := MapInfo[I].NextMap;
+    LMapPat.AltNextMap := MapInfo[I].AltNextMap;
+    LMapPat.IsAltMapEnt := MapInfo[I].IsAltMapEnt;
+    LMapPat.IsVillageEnt := MapInfo[I].IsVillageEnt;
+    LMapPat.IsTraps := MapInfo[I].IsTraps;
+    LMapPat.FloorTile := MapInfo[I].FloorTile;
+    LMapPat.FloorRes := MapInfo[I].FloorRes;
+    LMapPat.WallRes := MapInfo[I].WallRes;
+    Patterns.Add(LMapPat);
+  end;
+  LStringList := TStringList.Create;
+  LStringList.WriteBOM := False;
   try
-    if not FileExists(Path + 'resources.res') then
-      Exit;
-    LStringList := TStringList.Create;
+    LJSON := TNeon.ObjectToJSON(MapPats);
     try
-      LZip := TZip.Create(MainForm);
-      try
-        LStringList.Text := LZip.ExtractTextFromFile(Path + 'resources.res',
-          'maps.json');
-        LMapPats := TJSONObject.ParseJSONValue(LStringList.Text) as TJSONArray;
-        try
-          for I := 0 to LMapPats.Count - 1 do
-          begin
-            LJSONObject := LMapPats.Items[I] as TJSONObject;
-            LMapPat := TMapPat.Create;
-            LMapPat.Id := LJSONObject.GetValue('id').GetValue<string>;
-            LMapPat.Level := LJSONObject.GetValue('level').GetValue<Integer>;
-            LMapPat.Items := LJSONObject.GetValue('items').Value;
-            LMapPat.Creatures := LJSONObject.GetValue('creatures').Value;
-            LMapPat.Underground := LJSONObject.GetValue('underground').GetValue<Boolean>;
-            LMapPat.Village := LJSONObject.GetValue('village').GetValue<Boolean>;
-            LMapPat.GenId := LJSONObject.GetValue('genid').GetValue<Integer>;
-            MapPats.MapPatList.Add(LMapPat);
-          end;
-        finally
-          FreeAndNil(LMapPats);
-        end;
-      finally
-        FreeAndNil(LZip);
-      end;
+      LStringList.Text := TNeon.Print(LJSON, True);
+      LStringList.SaveToFile(Path + 'maps.json', TEncoding.UTF8);
     finally
-      FreeAndNil(LStringList);
+      LJSON.Free;
     end;
-  except
-    on E: Exception do
-      Error.Add('MapPats.LoadFromResources', E.Message);
+  finally
+    LStringList.Free;
   end;
 end;
 
-procedure Serialize;
+procedure NextSerialize;
 var
   LStringList: TStringList;
   LJSON: TJSONValue;
@@ -151,11 +178,39 @@ begin
   end;
 end;
 
+procedure TMapPats.Deserialize;
+var
+  LStringList: TStringList;
+  LJSON: TJSONValue;
+  LConfig: INeonConfiguration;
+  LZip: TZip;
+begin
+  LStringList := TStringList.Create;
+  LStringList.WriteBOM := False;
+  LZip := TZip.Create(MainForm);
+  try
+    LStringList.Text := LZip.ExtractTextFromFile(Path + 'resources.res',
+      'maps.json');
+    LJSON := TJSONObject.ParseJSONValue(LStringList.Text);
+    try
+      LConfig := TNeonConfiguration.Default;
+      TNeon.JSONToObject(MapPats, LJSON, LConfig);
+    finally
+      LJSON.Free;
+    end;
+  finally
+    LStringList.Free;
+    LZip.Free;
+  end;
+end;
+
 initialization
 
 MapPats := TMapPats.Create;
-MapPats.LoadFromResources;
-Serialize;
+MapPats.Serialize;
+MapPats.Patterns.Clear;
+MapPats.Deserialize;
+NextSerialize;
 
 finalization
 

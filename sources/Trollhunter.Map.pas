@@ -885,95 +885,45 @@ begin
               Draw(DX, DY, Res.FOGFLOOR)
             else
               Draw(DX, DY, Res.FLOOR);
-      end;
-    if B then
-      Continue;
-    case Map.Cell[Y][X].Tile of
-      tlLockedDoor, tlLockedWoodChest, tlLockedBestChest:
-        Draw(DX, DY, Res.LOCK); { ? }
-      tlOpenWoodChest, tlOpenBestChest:
-        if (Trollhunter.Item.Items.CellItemsCount(X, Y) > 0) then
-          Draw(DX, DY, Res.TREASURE);
-    end;
-    Decorators.Render(X, Y, DX, DY);
-    Trollhunter.Creatures.Creatures.Render(X, Y, DX, DY, True);
-    Trollhunter.Item.Items.Render(X, Y, DX, DY);
-    Trollhunter.Creatures.Creatures.Render(X, Y, DX, DY, False);
-    if not ParamLight then
-      Light.Render(X, Y, DX, DY);
-
-    // Look
-    if (CursorMode <> cmNone) then
-      if ((Trollhunter.Creatures.Creatures.PC.Look.X = X) and
-        (Trollhunter.Creatures.Creatures.PC.Look.Y = Y)) then
-      begin
-        Brush.Style := bsClear;
-        case CursorMode of
-          cmLook:
-            Pen.Color := cLtYellow;
-          cmShoot:
-            Pen.Color := cLtRed;
         end;
-        Rectangle(DX, DY, DX + TileSize, DY + TileSize);
+        if B then
+          Continue;
+        case Map.Cell[Y][X].Tile of
+          tlLockedDoor, tlLockedWoodChest, tlLockedBestChest:
+            Draw(DX, DY, Res.LOCK); { ? }
+          tlOpenWoodChest, tlOpenBestChest:
+            if (Trollhunter.Item.Items.CellItemsCount(X, Y) > 0) then
+              Draw(DX, DY, Res.TREASURE);
+        end;
+        Decorators.Render(X, Y, DX, DY);
+        Trollhunter.Creatures.Creatures.Render(X, Y, DX, DY, True);
+        Trollhunter.Item.Items.Render(X, Y, DX, DY);
+        Trollhunter.Creatures.Creatures.Render(X, Y, DX, DY, False);
+        if not ParamLight then
+          Light.Render(X, Y, DX, DY);
+
+        // Look
+        if (CursorMode <> cmNone) then
+          if ((Trollhunter.Creatures.Creatures.PC.Look.X = X) and
+            (Trollhunter.Creatures.Creatures.PC.Look.Y = Y)) then
+          begin
+            Brush.Style := bsClear;
+            case CursorMode of
+              cmLook:
+                Pen.Color := cLtYellow;
+              cmShoot:
+                Pen.Color := cLtRed;
+            end;
+            Rectangle(DX, DY, DX + TileSize, DY + TileSize);
+          end;
       end;
-  end;
-  Trollhunter.Creatures.Creatures.PC.Render;
-end;
-end;
-
-procedure SaveMaps;
-var
-  SL: TStringList;
-  I: Integer;
-  S: string;
-begin
-  S := ',';
-  SL := TStringList.Create;
-  SL.WriteBOM := False;
-  try
-    SL.Append('[');
-    for I := 0 to MapsCount - 2 do
-    begin
-      SL.Append('	{');
-      SL.Append('		"id": "' + MapInfo[I].ID + '",');
-      SL.Append('		"level": ' + MapInfo[I].Level.ToString + ',');
-      SL.Append('		"items": "",');
-      SL.Append('		"creatures": "",');
-      SL.Append('		"underground": ' +
-        TrueOrFalse(MapInfo[I].Underground) + ',');
-      SL.Append('		"village": ' + TrueOrFalse(MapInfo[I].Village) + ',');
-      SL.Append('		"genid": ' + MapInfo[I].GenID.ToString + ',');
-      SL.Append('		"decortype": "' + MapInfo[I].DecorType + '",');
-      SL.Append('		"dectypsize": ' + MapInfo[I].DecTypSize.ToString + ',');
-      SL.Append('		"dectypcount": ' + MapInfo[I].DecTypCount.ToString + ',');
-      SL.Append('		"isautoent": ' + TrueOrFalse(MapInfo[I].IsAutoEnt) + ',');
-      SL.Append('		"prevmap": "' + MapInfo[I].PrevMap + '",');
-      SL.Append('		"nextmap": "' + MapInfo[I].NextMap + '",');
-      SL.Append('		"altnextmap": "' + MapInfo[I].AltNextMap + '",');
-      SL.Append('		"isaltmapent": ' +
-        TrueOrFalse(MapInfo[I].IsAltMapEnt) + ',');
-      SL.Append('		"isvillageent": ' +
-        TrueOrFalse(MapInfo[I].IsVillageEnt) + ',');
-      SL.Append('		"istraps": ' + TrueOrFalse(MapInfo[I].IsTraps) + ',');
-      SL.Append('		"floortile": "' + MapInfo[I].FloorTile + '",');
-      SL.Append('		"floorres": "' + MapInfo[I].FloorRes + '",');
-      SL.Append('		"wallres": "' + MapInfo[I].WallRes + '"');
-
-      if I >= MapsCount - 2 then
-        S := '';
-      SL.Append('	}' + S);
-    end;
-    SL.Append(']');
-    SL.SaveToFile(Path + 'maps.json', TEncoding.UTF8);
-  finally
-    SL.Free;
+    Trollhunter.Creatures.Creatures.PC.Render;
   end;
 end;
 
 initialization
 
 Map := TMap.Create;
-SaveMaps;
 
 finalization
 
