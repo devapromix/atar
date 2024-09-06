@@ -378,7 +378,7 @@ begin
   Result := -1;
   try
     for I := 0 to High(DungeonCreatures) do
-      if (Trim(ID) = DungeonCreatures[I].Sprite) then
+      if (Trim(ID) = DungeonCreatures[I].Id) then
       begin
         Result := I;
         Break;

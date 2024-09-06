@@ -20,7 +20,7 @@ type
     ptArrow, ptIce);
 
   TCreatureRec = record
-    Sprite: string;
+    Id: string;
     AIType: TAIType;
     Decor: string;
     Level: Integer;
@@ -123,7 +123,7 @@ end;
 
 procedure TCreature.Move(AX, AY: Integer; B: Boolean = True);
 
-  procedure TrapDamage(ID: Byte);
+  procedure TrapDamage(Id: Byte);
   var
     D: Integer;
     S: string;
@@ -133,7 +133,7 @@ procedure TCreature.Move(AX, AY: Integer; B: Boolean = True);
       if (Self = Creatures.PC) then
         S := Language.GetLang(103)
       else
-        S := Language.GetLang(Prop.Sprite);
+        S := Language.GetLang(Prop.Id);
       Creatures.SetDamage(Self, S, D, True);
     except
       on E: Exception do
@@ -181,7 +181,7 @@ procedure TCreature.Move(AX, AY: Integer; B: Boolean = True);
         if (Self = Creatures.PC) then
           S := Language.GetLang(103)
         else
-          S := Language.GetLang(Prop.Sprite);
+          S := Language.GetLang(Prop.Id);
         if (D < 1) then
           D := Rand(1, 3);
         Creatures.SetManaDamage(Self, S, D, True);
@@ -192,11 +192,11 @@ procedure TCreature.Move(AX, AY: Integer; B: Boolean = True);
     end;
   end;
 
-  procedure DoTrap(ID: Word);
+  procedure DoTrap(Id: Word);
   begin
     Exit;
     try
-      case ID of
+      case Id of
         dTrapPsn:
           TrapPoison();
         dTrapMag:
@@ -208,7 +208,7 @@ procedure TCreature.Move(AX, AY: Integer; B: Boolean = True);
         dTrapMax:
           Creatures.Teleport(True);
       else
-        TrapDamage(ID);
+        TrapDamage(Id);
       end;
       Log.Apply;
       Graph.Render;

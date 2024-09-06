@@ -1,5 +1,5 @@
   (
-  Sprite     : 'BIGSPIDER';
+  Id     : 'BIGSPIDER';
   AIType     : aiMelee;
   Decor      : 'WEB';
   Level      : 1;
@@ -19,7 +19,7 @@
   ),
 
   (
-  Sprite     : 'REDSPIDER'; 
+  Id     : 'REDSPIDER'; 
   AIType     : aiRanged;
   Decor      : 'WEB';
   Level      : 1;
@@ -39,7 +39,7 @@
   ),
 
   (
-  Sprite     : 'CAVESPIDER';
+  Id     : 'CAVESPIDER';
   AIType     : aiBerserk;
   Decor      : 'WEB';
   Level      : 1;
@@ -59,7 +59,7 @@
   ),
 
   (
-  Sprite     : 'GOBLIN';
+  Id     : 'GOBLIN';
   AIType     : aiGoblin;
   Decor      : 'BLOOD';
   Level      : 1;
@@ -79,7 +79,7 @@
   ),
 
   (
-  Sprite     : 'DARKGOBLIN';
+  Id     : 'DARKGOBLIN';
   AIType     : aiGoblin;
   Decor      : 'BLOOD';
   Level      : 1;
@@ -99,7 +99,7 @@
   ),
 
   (
-  Sprite     : 'CAVEGOBLIN';
+  Id     : 'CAVEGOBLIN';
   AIType     : aiGoblin;
   Decor      : 'BLOOD';
   Level      : 1;
@@ -119,7 +119,7 @@
   ),
 
   (
-  Sprite     : 'SLUG';
+  Id     : 'SLUG';
   AIType     : aiSlug;
   Decor      : 'SLIME';
   Level      : 1;
@@ -139,7 +139,7 @@
   ),
 
   (
-  Sprite     : 'BIGSLIME';
+  Id     : 'BIGSLIME';
   AIType     : aiBigSlime;
   Decor      : 'SLIME';
   Level      : 1;
@@ -159,7 +159,7 @@
   ),
 
   (
-  Sprite     : 'SLIME';
+  Id     : 'SLIME';
   AIType     : aiSlime;
   Decor      : 'SLIME';
   Level      : 1;
@@ -179,7 +179,7 @@
   ),
 
   (
-  Sprite     : 'SMALLSLIME';
+  Id     : 'SMALLSLIME';
   AIType     : aiBerserk;
   Decor      : 'SLIME';
   Level      : 1;
@@ -199,7 +199,7 @@
   ),
 
   (
-  Sprite     : 'BAT';
+  Id     : 'BAT';
   AIType     : aiMelee;
   Decor      : 'BLOOD';
   Level      : 1;
@@ -219,7 +219,7 @@
   ),
 
   (
-  Sprite     : 'BLUEBAT';
+  Id     : 'BLUEBAT';
   AIType     : aiMelee;
   Decor      : 'BLOOD';
   Level      : 1;
@@ -239,7 +239,7 @@
   ),
 
   (
-  Sprite     : 'CAVEBAT';
+  Id     : 'CAVEBAT';
   AIType     : aiBerserk;
   Decor      : 'BLOOD';
   Level      : 2;
@@ -259,7 +259,7 @@
   ),
 
   (
-  Sprite     : 'SKELETON';
+  Id     : 'SKELETON';
   AIType     : aiBerserk;
   Decor      : 'BONE';
   Level      : 2;
@@ -279,7 +279,7 @@
   ),
 
   (
-  Sprite     : 'SKELETONMAGE';
+  Id     : 'SKELETONMAGE';
   AIType     : aiRanged;
   Decor      : 'BONE';
   Level      : 2;
@@ -299,7 +299,7 @@
   ),
 
   (
-  Sprite     : 'MAGAN';
+  Id     : 'MAGAN';
   AIType     : aiRanged;
   Decor      : 'BLOOD';
   Level      : 2;
@@ -319,7 +319,7 @@
   ),
 
   (
-  Sprite     : 'DARKEYE';
+  Id     : 'DARKEYE';
   AIType     : aiRanged;
   Decor      : 'BLOOD';
   Level      : 2;
@@ -339,7 +339,7 @@
   ),
 
   (
-  Sprite     : 'NECROMANCER';
+  Id     : 'NECROMANCER';
   AIType     : aiNecro;
   Decor      : 'BLOOD';
   Level      : 3;
@@ -359,7 +359,7 @@
   ),
 
   (
-  Sprite     : 'TUORG';
+  Id     : 'TUORG';
   AIType     : aiBerserk;
   Decor      : 'BLOOD';
   Level      : 4;
