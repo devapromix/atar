@@ -102,12 +102,10 @@ begin
   FOGGRASS := Graphics.TBitmap.Create;
   SetTile(GRASS, FOGGRASS, 'GRASS0', Map.Info.FloorRes);
 
-  case Map.Info.FloorTile of
-    tlGrass:
-      F.Assign(GRASS);
-    tlFloor:
-      F.Assign(FLOOR);
-  end;
+  if Map.Info.FloorTile = 'GRASS' then
+    F.Assign(GRASS);
+  if Map.Info.FloorTile = 'FLOOR' then
+    F.Assign(FLOOR);
 
   // Walls
   WALL := Graphics.TBitmap.Create;
@@ -311,5 +309,3 @@ finalization
 Res.Free;
 
 end.
-
-

@@ -36,7 +36,7 @@ type
     IsAltMapEnt: Boolean;
     IsVillageEnt: Boolean;
     IsTraps: Boolean;
-    FloorTile: Tiles;
+    FloorTile: string;
     FloorRes: string;
     WallRes: string;
   end;
@@ -875,52 +875,51 @@ begin
             else
               Draw(DX, DY, Res.DOWN);
         else
-          case Map.Info.FloorTile of
-            tlGrass:
-              if B then
-                Draw(DX, DY, Res.FOGGRASS)
-              else
-                Draw(DX, DY, Res.GRASS);
-            tlFloor:
-              if B then
-                Draw(DX, DY, Res.FOGFLOOR)
-              else
-                Draw(DX, DY, Res.FLOOR);
-          end;
+          if Map.Info.FloorTile = 'GRASS' then
+            if B then
+              Draw(DX, DY, Res.FOGGRASS)
+            else
+              Draw(DX, DY, Res.GRASS);
+          if Map.Info.FloorTile = 'FLOOR' then
+            if B then
+              Draw(DX, DY, Res.FOGFLOOR)
+            else
+              Draw(DX, DY, Res.FLOOR);
         end;
-        if B then
-          Continue;
-        case Map.Cell[Y][X].Tile of
-          tlLockedDoor, tlLockedWoodChest, tlLockedBestChest:
-            Draw(DX, DY, Res.LOCK); { ? }
-          tlOpenWoodChest, tlOpenBestChest:
-            if (Trollhunter.Item.Items.CellItemsCount(X, Y) > 0) then
-              Draw(DX, DY, Res.TREASURE);
-        end;
-        Decorators.Render(X, Y, DX, DY);
-        Trollhunter.Creatures.Creatures.Render(X, Y, DX, DY, True);
-        Trollhunter.Item.Items.Render(X, Y, DX, DY);
-        Trollhunter.Creatures.Creatures.Render(X, Y, DX, DY, False);
-        if not ParamLight then
-          Light.Render(X, Y, DX, DY);
-
-        // Look
-        if (CursorMode <> cmNone) then
-          if ((Trollhunter.Creatures.Creatures.PC.Look.X = X) and
-            (Trollhunter.Creatures.Creatures.PC.Look.Y = Y)) then
-          begin
-            Brush.Style := bsClear;
-            case CursorMode of
-              cmLook:
-                Pen.Color := cLtYellow;
-              cmShoot:
-                Pen.Color := cLtRed;
-            end;
-            Rectangle(DX, DY, DX + TileSize, DY + TileSize);
-          end;
       end;
-    Trollhunter.Creatures.Creatures.PC.Render;
+    if B then
+      Continue;
+    case Map.Cell[Y][X].Tile of
+      tlLockedDoor, tlLockedWoodChest, tlLockedBestChest:
+        Draw(DX, DY, Res.LOCK); { ? }
+      tlOpenWoodChest, tlOpenBestChest:
+        if (Trollhunter.Item.Items.CellItemsCount(X, Y) > 0) then
+          Draw(DX, DY, Res.TREASURE);
+    end;
+    Decorators.Render(X, Y, DX, DY);
+    Trollhunter.Creatures.Creatures.Render(X, Y, DX, DY, True);
+    Trollhunter.Item.Items.Render(X, Y, DX, DY);
+    Trollhunter.Creatures.Creatures.Render(X, Y, DX, DY, False);
+    if not ParamLight then
+      Light.Render(X, Y, DX, DY);
+
+    // Look
+    if (CursorMode <> cmNone) then
+      if ((Trollhunter.Creatures.Creatures.PC.Look.X = X) and
+        (Trollhunter.Creatures.Creatures.PC.Look.Y = Y)) then
+      begin
+        Brush.Style := bsClear;
+        case CursorMode of
+          cmLook:
+            Pen.Color := cLtYellow;
+          cmShoot:
+            Pen.Color := cLtRed;
+        end;
+        Rectangle(DX, DY, DX + TileSize, DY + TileSize);
+      end;
   end;
+  Trollhunter.Creatures.Creatures.PC.Render;
+end;
 end;
 
 procedure SaveMaps;
@@ -957,7 +956,7 @@ begin
       SL.Append('		"isvillageent": ' +
         TrueOrFalse(MapInfo[I].IsVillageEnt) + ',');
       SL.Append('		"istraps": ' + TrueOrFalse(MapInfo[I].IsTraps) + ',');
-      // SL.Append('		"floortile": ' + MapInfo[I].FloorTile.ToString + ',');
+      SL.Append('		"floortile": "' + MapInfo[I].FloorTile.ToString + '",');
       SL.Append('		"floorres": "' + MapInfo[I].FloorRes + '",');
       SL.Append('		"wallres": "' + MapInfo[I].WallRes + '"');
 

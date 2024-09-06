@@ -16,7 +16,7 @@
   IsAltMapEnt  : False;
   IsVillageEnt : True;
   IsTraps      : False;
-  FloorTile    : tlGrass;
+  FloorTile    : 'GRASS';
   FloorRes     : 'DIRTFLOOR0';
   WallRes      : '';
   ),

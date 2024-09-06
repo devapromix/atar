@@ -16,7 +16,7 @@
   IsAltMapEnt  : False;
   IsVillageEnt : False;
   IsTraps      : False;
-  FloorTile    : tlFloor;
+  FloorTile    : 'FLOOR';
   FloorRes     : '';
   WallRes      : '';
   )

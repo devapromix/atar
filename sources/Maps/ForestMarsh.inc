@@ -16,7 +16,7 @@
   IsAltMapEnt  : False;
   IsVillageEnt : True;
   IsTraps      : False;
-  FloorTile    : tlGrass;
+  FloorTile    : 'GRASS';
   FloorRes     : 'GRASS5';
   WallRes      : '';
   ),
@@ -39,7 +39,7 @@
   IsAltMapEnt  : True;
   IsVillageEnt : False;
   IsTraps      : True;
-  FloorTile    : tlFloor;
+  FloorTile    : 'FLOOR';
   FloorRes     : 'FLOOR2';
   WallRes      : 'WALL2';
   ),
