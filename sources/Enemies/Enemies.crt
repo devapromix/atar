@@ -1,6 +1,6 @@
   (
   Id     : 'BIGSPIDER';
-  AIType     : aiMelee;
+  AIType     : 'MELEE';
   Decor      : 'WEB';
   Level      : 1;
   Exp        : 2;
@@ -9,7 +9,7 @@
   Protect    : 0;
   Radius     : 8;
   Distance   : 0;
-  Projectile : ptNone;  
+  Projectile : 'NONE';
   Strength   : 4;
   Dexterity  : 2;
   Intelligence       : 2;
@@ -20,7 +20,7 @@
 
   (
   Id     : 'REDSPIDER'; 
-  AIType     : aiRanged;
+  AIType     : 'RANGED';
   Decor      : 'WEB';
   Level      : 1;
   Exp        : 2;
@@ -29,7 +29,7 @@
   Protect    : 0;
   Radius     : 9;
   Distance   : 5;
-  Projectile : ptFireball;
+  Projectile : 'FIREBALL';
   Strength   : 2;
   Dexterity  : 5;
   Intelligence       : 1;
@@ -40,7 +40,7 @@
 
   (
   Id     : 'CAVESPIDER';
-  AIType     : aiBerserk;
+  AIType     : 'BERSERK';
   Decor      : 'WEB';
   Level      : 1;
   Exp        : 2;
@@ -49,7 +49,7 @@
   Protect    : 1;
   Radius     : 9;
   Distance   : 0;
-  Projectile : ptNone;
+  Projectile : 'NONE';
   Strength   : 3;
   Dexterity  : 3;
   Intelligence       : 2;
@@ -60,7 +60,7 @@
 
   (
   Id     : 'GOBLIN';
-  AIType     : aiGoblin;
+  AIType     : 'GOBLIN';
   Decor      : 'BLOOD';
   Level      : 1;
   Exp        : 2;
@@ -69,7 +69,7 @@
   Protect    : 0;
   Radius     : 12;
   Distance   : 0;
-  Projectile : ptNone;
+  Projectile : 'NONE';
   Strength   : 6;
   Dexterity  : 2;
   Intelligence       : 2;
@@ -80,7 +80,7 @@
 
   (
   Id     : 'DARKGOBLIN';
-  AIType     : aiGoblin;
+  AIType     : 'GOBLIN';
   Decor      : 'BLOOD';
   Level      : 1;
   Exp        : 2;
@@ -89,7 +89,7 @@
   Protect    : 0;
   Radius     : 12;
   Distance   : 0;
-  Projectile : ptNone;
+  Projectile : 'NONE';
   Strength   : 5;
   Dexterity  : 3;
   Intelligence       : 2;
@@ -100,7 +100,7 @@
 
   (
   Id     : 'CAVEGOBLIN';
-  AIType     : aiGoblin;
+  AIType     : 'GOBLIN';
   Decor      : 'BLOOD';
   Level      : 1;
   Exp        : 2;
@@ -109,7 +109,7 @@
   Protect    : 1;
   Radius     : 12;
   Distance   : 0;
-  Projectile : ptNone;
+  Projectile : 'NONE';
   Strength   : 6;
   Dexterity  : 3;
   Intelligence       : 1;
@@ -120,7 +120,7 @@
 
   (
   Id     : 'SLUG';
-  AIType     : aiSlug;
+  AIType     : 'SLUG';
   Decor      : 'SLIME';
   Level      : 1;
   Exp        : 1;
@@ -129,7 +129,7 @@
   Protect    : 0;
   Radius     : 8;
   Distance   : 0;
-  Projectile : ptNone;
+  Projectile : 'NONE';
   Strength   : 2;
   Dexterity  : 5;
   Intelligence       : 1;
@@ -140,7 +140,7 @@
 
   (
   Id     : 'BIGSLIME';
-  AIType     : aiBigSlime;
+  AIType     : 'BIGSLIME';
   Decor      : 'SLIME';
   Level      : 1;
   Exp        : 3;
@@ -149,7 +149,7 @@
   Protect    : 0;
   Radius     : 9;
   Distance   : 0;
-  Projectile : ptNone;
+  Projectile : 'NONE';
   Strength   : 4;
   Dexterity  : 12;
   Intelligence       : 1;
@@ -160,7 +160,7 @@
 
   (
   Id     : 'SLIME';
-  AIType     : aiSlime;
+  AIType     : 'SLIME';
   Decor      : 'SLIME';
   Level      : 1;
   Exp        : 2;
@@ -169,7 +169,7 @@
   Protect    : 0;
   Radius     : 8;
   Distance   : 0;
-  Projectile : ptNone;
+  Projectile : 'NONE';
   Strength   : 2;
   Dexterity  : 10;
   Intelligence       : 1;
@@ -180,7 +180,7 @@
 
   (
   Id     : 'SMALLSLIME';
-  AIType     : aiBerserk;
+  AIType     : 'BERSERK';
   Decor      : 'SLIME';
   Level      : 1;
   Exp        : 1;
@@ -189,7 +189,7 @@
   Protect    : 0;
   Radius     : 7;
   Distance   : 0;
-  Projectile : ptNone;
+  Projectile : 'NONE';
   Strength   : 1;
   Dexterity  : 8;
   Intelligence       : 1;
@@ -200,7 +200,7 @@
 
   (
   Id     : 'BAT';
-  AIType     : aiMelee;
+  AIType     : 'MELEE';
   Decor      : 'BLOOD';
   Level      : 1;
   Exp        : 2;
@@ -209,7 +209,7 @@
   Protect    : 0;
   Radius     : 12;
   Distance   : 0;
-  Projectile : ptNone;
+  Projectile : 'NONE';
   Strength   : 2;
   Dexterity  : 5;
   Intelligence       : 2;
@@ -220,7 +220,7 @@
 
   (
   Id     : 'BLUEBAT';
-  AIType     : aiMelee;
+  AIType     : 'MELEE';
   Decor      : 'BLOOD';
   Level      : 1;
   Exp        : 2;
@@ -229,7 +229,7 @@
   Protect    : 0;
   Radius     : 12;
   Distance   : 0;
-  Projectile : ptNone;
+  Projectile : 'NONE';
   Strength   : 4;
   Dexterity  : 3;
   Intelligence       : 2;
@@ -240,7 +240,7 @@
 
   (
   Id     : 'CAVEBAT';
-  AIType     : aiBerserk;
+  AIType     : 'BERSERK';
   Decor      : 'BLOOD';
   Level      : 2;
   Exp        : 3;
@@ -249,7 +249,7 @@
   Protect    : 0;
   Radius     : 12;
   Distance   : 0;
-  Projectile : ptNone;
+  Projectile : 'NONE';
   Strength   : 5;
   Dexterity  : 2;
   Intelligence       : 1;
@@ -260,7 +260,7 @@
 
   (
   Id     : 'SKELETON';
-  AIType     : aiBerserk;
+  AIType     : 'BERSERK';
   Decor      : 'BONE';
   Level      : 2;
   Exp        : 4;
@@ -269,7 +269,7 @@
   Protect    : 0;
   Radius     : 10;
   Distance   : 0;
-  Projectile : ptNone;
+  Projectile : 'NONE';
   Strength   : 3;
   Dexterity  : 4;
   Intelligence       : 3;
@@ -280,7 +280,7 @@
 
   (
   Id     : 'SKELETONMAGE';
-  AIType     : aiRanged;
+  AIType     : 'RANGED';
   Decor      : 'BONE';
   Level      : 2;
   Exp        : 4;
@@ -289,7 +289,7 @@
   Protect    : 0;
   Radius     : 10;
   Distance   : 6;
-  Projectile : ptFireball;
+  Projectile : 'FIREBALL';
   Strength   : 2;
   Dexterity  : 3;
   Intelligence       : 5;
@@ -300,7 +300,7 @@
 
   (
   Id     : 'MAGAN';
-  AIType     : aiRanged;
+  AIType     : 'RANGED';
   Decor      : 'BLOOD';
   Level      : 2;
   Exp        : 3;
@@ -309,7 +309,7 @@
   Protect    : 0;
   Radius     : 8;
   Distance   : 5;
-  Projectile : ptPoisonball;
+  Projectile : 'POISONBALL';
   Strength   : 3;
   Dexterity  : 2;
   Intelligence       : 5;
@@ -320,7 +320,7 @@
 
   (
   Id     : 'DARKEYE';
-  AIType     : aiRanged;
+  AIType     : 'RANGED';
   Decor      : 'BLOOD';
   Level      : 2;
   Exp        : 3;
@@ -329,7 +329,7 @@
   Protect    : 0;
   Radius     : 9;
   Distance   : 5;
-  Projectile : ptPoisonball;
+  Projectile : 'POISONBALL';
   Strength   : 4;
   Dexterity  : 4;
   Intelligence       : 2;
@@ -340,7 +340,7 @@
 
   (
   Id     : 'NECROMANCER';
-  AIType     : aiNecro;
+  AIType     : 'NECRO';
   Decor      : 'BLOOD';
   Level      : 3;
   Exp        : 5;
@@ -349,7 +349,7 @@
   Protect    : 1;
   Radius     : 8;
   Distance   : 5;
-  Projectile : ptPoisonball;
+  Projectile : 'POISONBALL';
   Strength   : 4;
   Dexterity  : 4;
   Intelligence       : 7;
@@ -360,7 +360,7 @@
 
   (
   Id     : 'TUORG';
-  AIType     : aiBerserk;
+  AIType     : 'BERSERK';
   Decor      : 'BLOOD';
   Level      : 4;
   Exp        : 5;
@@ -369,7 +369,7 @@
   Protect    : 2;
   Radius     : 7;
   Distance   : 0;
-  Projectile : ptNone;
+  Projectile : 'NONE';
   Strength   : 6;
   Dexterity  : 4;
   Intelligence       : 1;

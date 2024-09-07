@@ -355,7 +355,7 @@ begin
             Inc(Protect, Strength div 10);
             Inc(Radius, Dexterity div 5);
           end;
-        if (Prop.AIType = aiBerserk) then
+        if (Prop.AIType = 'BERSERK') then
           Prop.Protect := 0;
         Calc();
         Fill();
@@ -378,7 +378,7 @@ begin
   Result := -1;
   try
     for I := 0 to High(DungeonCreatures) do
-      if (Trim(ID) = DungeonCreatures[I].Id) then
+      if (Trim(ID) = DungeonCreatures[I].ID) then
       begin
         Result := I;
         Break;

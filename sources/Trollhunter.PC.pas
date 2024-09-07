@@ -435,23 +435,21 @@ begin
       if (D > 0) and (Rand(1, Prop.Dexterity + Enemy[I].Prop.Dexterity) <=
         Prop.Dexterity) then
       begin
-        N := Language.GetLang(Enemy[I].Prop.Id);
+        N := Language.GetLang(Enemy[I].Prop.ID);
         SetDamage(Enemy[I], N, D);
         Enemy[I].AI := aiCombat;
         TrainSkill();
         if Enemy[I].Life.IsMin then
         begin
-          case Enemy[I].Prop.AIType of
-            aiBigSlime:
-              begin
-                for J := 1 to 3 do
-                  Insert(Enemy[I].Pos.X, Enemy[I].Pos.Y, 'SLIME');
-              end;
-            aiSlime:
-              begin
-                for J := 1 to 3 do
-                  Insert(Enemy[I].Pos.X, Enemy[I].Pos.Y, 'SMALLSLIME');
-              end;
+          if Enemy[I].Prop.AIType = 'BIGSLIME' then
+          begin
+            for J := 1 to 3 do
+              Insert(Enemy[I].Pos.X, Enemy[I].Pos.Y, 'SLIME');
+          end;
+          if Enemy[I].Prop.AIType = 'SLIME' then
+          begin
+            for J := 1 to 3 do
+              Insert(Enemy[I].Pos.X, Enemy[I].Pos.Y, 'SMALLSLIME');
           end;
           if (Rand(0, 9) = 0) then
             Items.Add(Enemy[I].Pos.X, Enemy[I].Pos.Y, Map.GetRandItemID);
@@ -461,7 +459,7 @@ begin
           with PC do
             Rating := Rating + Enemy[I].Prop.Exp;
         end;
-        if (Enemy[I].Prop.AIType = aiGoblin) then
+        if (Enemy[I].Prop.AIType = 'GOBLIN') then
         begin
           for D := 0 to High(Enemy) do
             if (Rand(1, 3) <= 2) then
@@ -472,16 +470,15 @@ begin
       else
       begin
         Log.Add(Format(Language.GetLang(74),
-          [Language.GetLang(Enemy[I].Prop.Id)]));
+          [Language.GetLang(Enemy[I].Prop.ID)]));
         // You miss the %s.
-        case Enemy[I].Prop.AIType of
-          aiSlug:
-            begin
-              Insert(Enemy[I].Pos.X, Enemy[I].Pos.Y, Enemy[I].Name, 5);
-            end;
+        if Enemy[I].Prop.AIType = 'SLUG' then
+        begin
+          Insert(Enemy[I].Pos.X, Enemy[I].Pos.Y, Enemy[I].Name, 5);
         end;
       end;
-      if (Enemy[I].Prop.AIType in [aiGoblin, aiMelee, aiRanged]) then
+      if ((Enemy[I].Prop.AIType = 'GOBLIN') or (Enemy[I].Prop.AIType = 'MELEE')
+        or (Enemy[I].Prop.AIType = 'RANGED')) then
         if (Enemy[I].AI <> aiRun) and (Rand(1, 2) = 1) and
           (Enemy[I].Life.Cur < (Enemy[I].Life.Max div 2)) and
           ((Enemy[I].Pos.X <> Enemy[I].Look.X) and
@@ -527,9 +524,9 @@ begin
           ProjID := GetDollItemID(ArmorSet);
           C := PC.Inv.GetCount(ProjID);
           if IsBow() then
-            PC.Prop.Projectile := ptArrow;
+            PC.Prop.Projectile := 'ARROW';
           if IsCrossBow() then
-            PC.Prop.Projectile := ptBolt;
+            PC.Prop.Projectile := 'BOLT';
           if (C > 0) then
           begin
             EX := Enemy[I].Pos.X;

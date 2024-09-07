@@ -13,15 +13,9 @@ const
   CreaturesCount = 19;
 
 type
-  TAIType = (aiSimple, aiGoblin, aiMelee, aiRanged, aiBerserk, aiSlug,
-    aiBigSlime, aiSlime, aiNecro);
-
-  TCreatureProjectileType = (ptNone, ptPoisonball, ptBolt, ptFireball,
-    ptArrow, ptIce);
-
   TCreatureRec = record
     Id: string;
-    AIType: TAIType;
+    AIType: string;
     Decor: string;
     Level: Integer;
     Exp: Integer;
@@ -30,7 +24,7 @@ type
     Protect: Integer;
     Radius: Integer;
     Distance: Integer;
-    Projectile: TCreatureProjectileType;
+    Projectile: string;
     Strength: Integer;
     Dexterity: Integer;
     Intelligence: Integer;

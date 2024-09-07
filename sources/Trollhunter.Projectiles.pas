@@ -81,12 +81,26 @@ var
     FImage.Transparent := True;
   end;
 
+  function GetProjectileInt(const ProjStr: string): Integer;
+  begin
+    if ProjStr = 'POISONBALL' then
+      Result := 1
+    else if ProjStr = 'BOLT' then
+      Result := 2
+    else if ProjStr = 'FIREBALL' then
+      Result := 3
+    else if ProjStr = 'ARROW' then
+      Result := 4
+    else
+      Result := 0;
+  end;
+
   procedure LoadShotBitmap();
   var
     Z, H: Integer;
   begin
     H := (FTileset.Height div 18) - 1;
-    Z := Ord(ACreature.Prop.Projectile) - 1;
+    Z := GetProjectileInt(ACreature.Prop.Projectile) - 1;
     if (Z < 0) then
       Z := 0;
     if (Z > H) then
