@@ -92,9 +92,12 @@ begin
     if (DungeonItems[V].Category in WeapArmSet + AmuRingSet) and
       Creatures.PC.Inv.Equip(I) then
     begin
-      Inc(Creatures.PC.Prop.MinDamage, DungeonItems[V].MinDamage);
-      Inc(Creatures.PC.Prop.MaxDamage, DungeonItems[V].MaxDamage);
-      Inc(Creatures.PC.Prop.Protect, DungeonItems[V].Protect);
+      Creatures.PC.Prop.MinDamage := Creatures.PC.Prop.MinDamage + DungeonItems
+        [V].MinDamage;
+      Creatures.PC.Prop.MaxDamage := Creatures.PC.Prop.MaxDamage + DungeonItems
+        [V].MaxDamage;
+      Creatures.PC.Prop.Protect := Creatures.PC.Prop.Protect + DungeonItems
+        [V].Protect;
       Creatures.PC.Calc;
 
       if IsShowLog then
@@ -553,7 +556,8 @@ begin
           begin
             Creatures.PC.Scrolls.SetDefined(T);
             Log.Add(Language.GetLang(220) + ' ' +
-              AnsiLowerCase(Language.GetItemLang(DungeonItems[J].Sprite)) + '.');
+              AnsiLowerCase(Language.GetItemLang(DungeonItems[J]
+              .Sprite)) + '.');
           end;
           Mana.Dec(DungeonItems[J].ManaCost);
           Items.UseItem(J, ScrollSet);

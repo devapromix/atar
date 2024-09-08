@@ -10,14 +10,38 @@ type
   TCreaturePattern = class(TObject)
   private
     FId: string;
-    FLevel: Integer;
+    FAIType: string;
     FDecor: string;
+    FProjectile: string;
+    FLevel: Integer;
+    FMaxDamage: Integer;
+    FProtect: Integer;
+    FRadius: Integer;
+    FDistance: Integer;
+    FMinDamage: Integer;
+    FStrength: Integer;
+    FIntelligence: Integer;
+    FPerception: Integer;
+    FSpeed: Integer;
+    FDexterity: Integer;
   public
     constructor Create;
     destructor Destroy; override;
     property Id: string read FId write FId;
-    property Level: Integer read FLevel write FLevel;
+    property AIType: string read FAIType write FAIType;
     property Decor: string read FDecor write FDecor;
+    property Projectile: string read FProjectile write FProjectile;
+    property Level: Integer read FLevel write FLevel;
+    property MinDamage: Integer read FMinDamage write FMinDamage;
+    property MaxDamage: Integer read FMaxDamage write FMaxDamage;
+    property Protect: Integer read FProtect write FProtect;
+    property Radius: Integer read FRadius write FRadius;
+    property Distance: Integer read FDistance write FDistance;
+    property Strength: Integer read FStrength write FStrength;
+    property Dexterity: Integer read FDexterity write FDexterity;
+    property Intelligence: Integer read FIntelligence write FIntelligence;
+    property Perception: Integer read FPerception write FPerception;
+    property Speed: Integer read FSpeed write FSpeed;
   end;
 
 type
@@ -103,6 +127,18 @@ begin
     LCreaturePattern.Id := DungeonCreatures[I].Id;
     LCreaturePattern.Level := DungeonCreatures[I].Level;
     LCreaturePattern.Decor := DungeonCreatures[I].Decor;
+    LCreaturePattern.AIType := DungeonCreatures[I].AIType;
+    LCreaturePattern.Projectile := DungeonCreatures[I].Projectile;
+    LCreaturePattern.MinDamage := DungeonCreatures[I].MinDamage;
+    LCreaturePattern.MaxDamage := DungeonCreatures[I].MaxDamage;
+    LCreaturePattern.Protect := DungeonCreatures[I].Protect;
+    LCreaturePattern.Radius := DungeonCreatures[I].Radius;
+    LCreaturePattern.Distance := DungeonCreatures[I].Distance;
+    LCreaturePattern.Strength := DungeonCreatures[I].Strength;
+    LCreaturePattern.Dexterity := DungeonCreatures[I].Dexterity;
+    LCreaturePattern.Intelligence := DungeonCreatures[I].Intelligence;
+    LCreaturePattern.Perception := 0;
+    LCreaturePattern.Speed := DungeonCreatures[I].Speed;
     Patterns.Add(LCreaturePattern);
   end;
   LStringList := TStringList.Create;

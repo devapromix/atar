@@ -5,6 +5,7 @@ interface
 uses
   Types,
   Graphics,
+  Trollhunter.Creature.Pattern,
   Trollhunter.BaseCreature,
   Trollhunter.Decorator,
   Trollhunter.TempSys;
@@ -12,55 +13,28 @@ uses
 const
   CreaturesCount = 19;
 
-type
-  TCreatureRec = record
-    Id: string;
-    AIType: string;
-    Decor: string;
-    Level: Integer;
-    Exp: Integer;
-    MinDamage: Integer;
-    MaxDamage: Integer;
-    Protect: Integer;
-    Radius: Integer;
-    Distance: Integer;
-    Projectile: string;
-    Strength: Integer;
-    Dexterity: Integer;
-    Intelligence: Integer;
-    Speed: Integer;
-    Poison: TTempSysItem;
-    Blind: TTempSysItem;
-  end;
+  type
+    TAI = (aiNone, aiCombat, aiRun);
 
-const
-  DungeonCreatures: array [0 .. CreaturesCount - 1] of TCreatureRec = (
-
-{$I Enemies/Enemies.crt     }
-  );
-
-type
-  TAI = (aiNone, aiCombat, aiRun);
-
-  // Creature
-  TCreature = class(TBaseCreature)
-  private
-    FLook: TPoint;
-    FAI: TAI;
-    procedure SetLook(const Value: TPoint);
-    procedure SetAI(const Value: TAI);
-  public
-    Prop: TCreatureRec;
-    Spot: Graphics.TBitmap;
-    procedure Calc;
-    property AI: TAI read FAI write SetAI;
-    function FreeCell(AX, AY: Integer): Boolean;
-    procedure Move(AX, AY: Integer; B: Boolean = True);
-    constructor Create();
-    destructor Destroy; override;
-    property Look: TPoint read FLook write SetLook;
-    procedure IncLook(X, Y: Integer);
-  end;
+    // Creature
+    TCreature = class(TBaseCreature)
+    private
+      FLook: TPoint;
+      FAI: TAI;
+      procedure SetLook(const Value: TPoint);
+      procedure SetAI(const Value: TAI);
+    public
+      Prop: TCreaturePattern;
+      Spot: Graphics.TBitmap;
+      procedure Calc;
+      property AI: TAI read FAI write SetAI;
+      function FreeCell(AX, AY: Integer): Boolean;
+      procedure Move(AX, AY: Integer; B: Boolean = True);
+      constructor Create();
+      destructor Destroy; override;
+      property Look: TPoint read FLook write SetLook;
+      procedure IncLook(X, Y: Integer);
+    end;
 
 implementation
 
@@ -85,6 +59,7 @@ begin
   AI := aiNone;
   Spot := Graphics.TBitmap.Create;
   Spot.Transparent := True;
+  Prop := TCreaturePattern.Create;
   Prop.Decor := '';
   Prop.Protect := 0;
   Prop.Radius := 5;
@@ -97,6 +72,7 @@ end;
 
 destructor TCreature.Destroy;
 begin
+  Prop.Free;
   Spot.Free;
   inherited;
 end;

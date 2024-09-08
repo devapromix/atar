@@ -12,6 +12,7 @@ type
     FLife: TBar;
     FMana: TBar;
     FAP: TBar;
+    FExp: Integer;
     procedure SetLife(const Value: TBar);
     procedure SetAP(const Value: TBar);
     procedure SetMana(const Value: TBar);
@@ -21,6 +22,7 @@ type
     property Life: TBar read FLife write SetLife;
     property Mana: TBar read FMana write SetMana;
     property AP: TBar read FAP write SetAP;
+    property Exp: Integer read FExp write FExp;
     procedure Fill;
   end;
 

@@ -38,23 +38,23 @@ uses
 
 procedure TEnemy.Poison;
 begin
-  with Creatures.PC.TempSys do
+  {with Creatures.PC.TempSys do
     if (Rand(1, 3) = 1) then
     begin
       Add('Poison', Prop.Poison.Power, Prop.Poison.Duration);
       Log.Add(Format(Language.GetLang(75), [Language.GetLang(Prop.Id),
         Power('Poison'), Duration('Poison')]));
-    end;
+    end;}
 end;
 
 procedure TEnemy.Blind;
 begin
-  with Creatures.PC.TempSys do
+  {with Creatures.PC.TempSys do
     if (Rand(1, 5) = 1) then
     begin
       Add('Blind', Prop.Blind.Power, Prop.Blind.Duration);
       Log.Add(Language.GetLang(148));
-    end;
+    end;}
 end;
 
 procedure TEnemy.SetEffects;

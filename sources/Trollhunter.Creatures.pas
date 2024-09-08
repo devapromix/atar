@@ -64,7 +64,7 @@ uses
   Trollhunter.Lang,
   Trollhunter.Decorator,
   Trollhunter.Map,
-  Trollhunter.Map.Tiles;
+  Trollhunter.Map.Tiles, Trollhunter.Creature.Pattern;
 
 { TCreatures }
 
@@ -323,7 +323,7 @@ begin
       if (AName = '') then
         Exit;
       P := CreatureIndex(AName);
-      if (P < 0) or (P > High(DungeonCreatures)) then
+      if P < 0 then
         Exit;
       I := Length(FEnemy) + 1;
       SetLength(FEnemy, I);
@@ -333,30 +333,12 @@ begin
         A := 0;
         Look := Point(X, Y);
         Name := AName;
-        Prop := DungeonCreatures[P];
+        Prop := CreaturePatterns.Patterns[P];
         B.Handle := Windows.LoadBitmap(hInstance, PChar(Name));
         Graph.BitmapFromTileset(Image, B, 0);
         Image.Transparent := True;
         Graph.BitmapFromTileset(Spot, B, 1);
         Spot.Transparent := True;
-        if (Prop.Level < PC.Dungeon) then
-          A := PC.Dungeon - Prop.Level;
-        with Prop do
-          if (A > 0) then
-          begin
-            Inc(Level, A);
-            if (Strength >= Dexterity) and (Strength >= Intelligence) then
-              Inc(Strength, A);
-            if (Dexterity >= Strength) and (Dexterity >= Intelligence) then
-              Inc(Dexterity, A);
-            if (Intelligence >= Strength) and (Intelligence >= Dexterity) then
-              Inc(Intelligence, A);
-            Inc(MaxDamage, Strength div 2);
-            Inc(Protect, Strength div 10);
-            Inc(Radius, Dexterity div 5);
-          end;
-        if (Prop.AIType = 'BERSERK') then
-          Prop.Protect := 0;
         Calc();
         Fill();
         AP.SetToMax;
@@ -377,8 +359,8 @@ var
 begin
   Result := -1;
   try
-    for I := 0 to High(DungeonCreatures) do
-      if (Trim(ID) = DungeonCreatures[I].ID) then
+    for I := 0 to CreaturePatterns.Patterns.Count - 1 do
+      if (Trim(ID) = CreaturePatterns.Patterns[I].ID) then
       begin
         Result := I;
         Break;
