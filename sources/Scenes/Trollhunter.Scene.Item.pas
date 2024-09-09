@@ -117,11 +117,12 @@ begin
   try
     if Creatures.PC.Inv.UnEquip(I) then
     begin
-      Dec(Creatures.PC.Prop.MinDamage, DungeonItems[KeyIDToInvItemID(I)
-        ].MinDamage);
-      Dec(Creatures.PC.Prop.MaxDamage, DungeonItems[KeyIDToInvItemID(I)
-        ].MaxDamage);
-      Dec(Creatures.PC.Prop.Protect, DungeonItems[KeyIDToInvItemID(I)].Protect);
+      Creatures.PC.Prop.MinDamage := Creatures.PC.Prop.MinDamage + DungeonItems
+        [KeyIDToInvItemID(I)].MinDamage;
+      Creatures.PC.Prop.MaxDamage := Creatures.PC.Prop.MaxDamage + DungeonItems
+        [KeyIDToInvItemID(I)].MaxDamage;
+      Creatures.PC.Prop.Protect := Creatures.PC.Prop.Protect + DungeonItems
+        [KeyIDToInvItemID(I)].Protect;
       Creatures.PC.Calc;
 
       if IsShowLog then
