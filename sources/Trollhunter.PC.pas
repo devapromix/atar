@@ -256,7 +256,7 @@ begin
     Prop.Intelligence := Get;
     Prop.Speed := Get;
     Prop.Level := Get;
-    Prop.Exp := Get;
+    Exp := Get;
     Prop.MinDamage := Get;
     Prop.MaxDamage := Get;
     Prop.Protect := Get;
@@ -306,7 +306,7 @@ begin
     Add(Prop.Speed);
     //
     Add(Prop.Level);
-    Add(Prop.Exp);
+    Add(Exp);
     Add(Prop.MinDamage);
     Add(Prop.MaxDamage);
     Add(Prop.Protect);
@@ -356,7 +356,7 @@ function TPC.AddExp(Value: Word): Boolean;
 begin
   Result := False;
   try
-    Prop.Exp := Prop.Exp + Value;
+    Exp := Exp + Value;
     Log.Add(Format(Language.GetLang(64), [Value]));
     Self.Statistics.Inc(stKills);
     with Prop do
@@ -454,10 +454,10 @@ begin
           if (Rand(0, 9) = 0) then
             Items.Add(Enemy[I].Pos.X, Enemy[I].Pos.Y, Map.GetRandItemID);
           Log.Add(Format(Language.GetLang(73), [N])); // The %s dies.
-          if PC.AddExp(Enemy[I].Prop.Exp) then
+          if PC.AddExp(Enemy[I].Exp) then
             Log.Add(Format(Language.GetLang(65), [PC.Prop.Level]));
           with PC do
-            Rating := Rating + Enemy[I].Prop.Exp;
+            Rating := Rating + Enemy[I].Exp;
         end;
         if (Enemy[I].Prop.AIType = 'GOBLIN') then
         begin
