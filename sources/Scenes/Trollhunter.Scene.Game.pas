@@ -469,13 +469,13 @@ begin
         ord('M'):
           if ParamDebug then
           begin
-            Inc(Creatures.PC.Prop.Radius);
+            Creatures.PC.Prop.Radius := Creatures.PC.Prop.Radius + 1;
             Scenes.Render;
           end;
         ord('N'):
           if ParamDebug then
           begin
-            Dec(Creatures.PC.Prop.Radius);
+            Creatures.PC.Prop.Radius := Creatures.PC.Prop.Radius - 1;
             Scenes.Render;
           end;
         27, 123:
