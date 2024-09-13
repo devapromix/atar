@@ -723,28 +723,28 @@ end;
 
 procedure TPC.AddDexterity;
 begin
-  Inc(Prop.Dexterity);
+  Prop.Dexterity := Prop.Dexterity + 1;
   Log.Add(Format('%s +1 (%d).', [Language.GetLang(16), Prop.Dexterity]));
   Calc;
 end;
 
 procedure TPC.AddSpeed;
 begin
-  Inc(Prop.Speed);
+  Prop.Speed := Prop.Speed + 1;
   Log.Add(Format('%s +1 (%d).', [Language.GetLang(18), Prop.Speed]));
   Calc;
 end;
 
 procedure TPC.AddStrength;
 begin
-  Inc(Prop.Strength);
+  Prop.Strength := Prop.Strength + 1;
   Log.Add(Format('%s +1 (%d).', [Language.GetLang(15), Prop.Strength]));
   Calc;
 end;
 
 procedure TPC.AddIntelligence;
 begin
-  Inc(Prop.Intelligence);
+  Prop.Intelligence := Prop.Intelligence + 1;
   Log.Add(Format('%s +1 (%d).', [Language.GetLang(17), Prop.Intelligence]));
   Calc;
 end;
