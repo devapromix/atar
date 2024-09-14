@@ -66,8 +66,8 @@ begin
   Prop.Distance := 0;
   Prop.Level := 1;
   Exp := 0;
-  Prop.Poison := TempSysItem(0, 0);
-  Prop.Blind := TempSysItem(0, 0);
+//  Prop.Poison := TempSysItem(0, 0);
+//  Prop.Blind := TempSysItem(0, 0);
 end;
 
 destructor TCreature.Destroy;
