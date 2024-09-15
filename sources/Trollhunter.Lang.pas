@@ -377,24 +377,6 @@ const
     //
     ('#', '#', '#'));
 
-const
-  CreatureName: array [0 .. CreaturesCount, 0 .. 2] of string = (
-
-    ('BIGSPIDER', 'Big Spider', 'Большой Паук'), ('REDSPIDER', 'Red Spider',
-    'Кровавый Паук'), ('CAVESPIDER', 'Cave Spider', 'Пещерный Паук'),
-    ('GOBLIN', 'Goblin', 'Гоблин'), ('DARKGOBLIN', 'Dark Goblin',
-    'Темный Гоблин'), ('CAVEGOBLIN', 'Cave Goblin', 'Пещерный Гоблин'),
-    ('SLUG', 'Slug', 'Слизень'), ('BIGSLIME', 'Big Slime',
-    'Большой Комок Слизи'), ('SLIME', 'Slime', 'Комок Слизи'),
-    ('SMALLSLIME', 'Small Slime', 'Крохотный Комок Слизи'),
-    ('BAT', 'Bat', 'Вампир'), ('BLUEBAT', 'Blue Bat', 'Небесный Вампир'),
-    ('CAVEBAT', 'Cave Bat', 'Пещерный Вампир'), ('SKELETON', 'Skeleton',
-    'Скелет'), ('SKELETONMAGE', 'Skeleton Mage', 'Скелет Маг'),
-    ('MAGAN', 'Magan', 'Маган'), ('DARKEYE', 'Dark Eye', 'Темный Глаз'),
-    ('NECROMANCER', 'Necromancer', 'Некромант'), ('TUORG', 'Tuorg', 'Туорг'),
-    //
-    ('#', '#', '#'));
-
 type
   TLanguageString = class(TObject)
   private
@@ -692,35 +674,6 @@ begin
   end;
 end;
 
-procedure SaveCrLang;
-var
-  SL: TStringList;
-  I: Integer;
-  S: string;
-begin
-  S := ',';
-  SL := TStringList.Create;
-  SL.WriteBOM := False;
-  try
-    SL.Append('[');
-    for I := 0 to CreaturesCount - 1 do
-    begin
-      SL.Append('	{');
-      SL.Append('		"id": "' + CreatureName[I][0] + '",');
-      SL.Append('		"en": "' + CreatureName[I][1] + '",');
-      SL.Append('		"ru": "' + CreatureName[I][2] + '",');
-      SL.Append('		"uk": ""');
-      if I = CreaturesCount - 1 then
-        S := '';
-      SL.Append('	}' + S);
-    end;
-    SL.Append(']');
-    SL.SaveToFile(Path + 'languages.creatures.json', TEncoding.UTF8);
-  finally
-    SL.Free;
-  end;
-end;
-
 procedure SaveItLang;
 var
   SL: TStringList;
@@ -756,7 +709,6 @@ Language := TLanguage.Create;
 Language.LoadFromResources;
 SaveLang;
 SaveMapLang;
-SaveCrLang;
 SaveItLang;
 
 finalization

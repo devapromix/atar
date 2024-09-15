@@ -10,31 +10,28 @@ uses
   Trollhunter.Decorator,
   Trollhunter.TempSys;
 
-const
-  CreaturesCount = 19;
+type
+  TAI = (aiNone, aiCombat, aiRun);
 
-  type
-    TAI = (aiNone, aiCombat, aiRun);
-
-    // Creature
-    TCreature = class(TBaseCreature)
-    private
-      FLook: TPoint;
-      FAI: TAI;
-      procedure SetLook(const Value: TPoint);
-      procedure SetAI(const Value: TAI);
-    public
-      Prop: TCreaturePattern;
-      Spot: Graphics.TBitmap;
-      procedure Calc;
-      property AI: TAI read FAI write SetAI;
-      function FreeCell(AX, AY: Integer): Boolean;
-      procedure Move(AX, AY: Integer; B: Boolean = True);
-      constructor Create();
-      destructor Destroy; override;
-      property Look: TPoint read FLook write SetLook;
-      procedure IncLook(X, Y: Integer);
-    end;
+  // Creature
+  TCreature = class(TBaseCreature)
+  private
+    FLook: TPoint;
+    FAI: TAI;
+    procedure SetLook(const Value: TPoint);
+    procedure SetAI(const Value: TAI);
+  public
+    Prop: TCreaturePattern;
+    Spot: Graphics.TBitmap;
+    procedure Calc;
+    property AI: TAI read FAI write SetAI;
+    function FreeCell(AX, AY: Integer): Boolean;
+    procedure Move(AX, AY: Integer; B: Boolean = True);
+    constructor Create();
+    destructor Destroy; override;
+    property Look: TPoint read FLook write SetLook;
+    procedure IncLook(X, Y: Integer);
+  end;
 
 implementation
 
@@ -66,8 +63,8 @@ begin
   Prop.Distance := 0;
   Prop.Level := 1;
   Exp := 0;
-//  Prop.Poison := TempSysItem(0, 0);
-//  Prop.Blind := TempSysItem(0, 0);
+  // Prop.Poison := TempSysItem(0, 0);
+  // Prop.Blind := TempSysItem(0, 0);
 end;
 
 destructor TCreature.Destroy;

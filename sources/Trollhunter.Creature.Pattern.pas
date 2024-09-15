@@ -48,7 +48,6 @@ type
   TCreaturePatterns = class(TObject)
   private
     FPatterns: TObjectList<TCreaturePattern>;
-//    procedure Serialize;
     procedure Deserialize;
   public
     constructor Create;
@@ -205,10 +204,8 @@ end;
 initialization
 
 CreaturePatterns := TCreaturePatterns.Create;
-//CreaturePatterns.Serialize;
-// CreaturePatterns.Patterns.Clear;
-// CreaturePatterns.Deserialize;
-// NextSerialize;
+CreaturePatterns.Deserialize;
+//NextSerialize;
 
 finalization
 
