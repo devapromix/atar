@@ -48,7 +48,7 @@ type
   TCreaturePatterns = class(TObject)
   private
     FPatterns: TObjectList<TCreaturePattern>;
-    procedure Serialize;
+//    procedure Serialize;
     procedure Deserialize;
   public
     constructor Create;
@@ -112,7 +112,7 @@ begin
   else
     Result := Patterns[Trollhunter.Creatures.Creatures.PC.Dungeon]
 end;
-
+{
 procedure TCreaturePatterns.Serialize;
 var
   LStringList: TStringList;
@@ -155,7 +155,7 @@ begin
     LStringList.Free;
   end;
 end;
-
+}
 procedure NextSerialize;
 var
   LStringList: TStringList;
@@ -205,7 +205,7 @@ end;
 initialization
 
 CreaturePatterns := TCreaturePatterns.Create;
-CreaturePatterns.Serialize;
+//CreaturePatterns.Serialize;
 // CreaturePatterns.Patterns.Clear;
 // CreaturePatterns.Deserialize;
 // NextSerialize;

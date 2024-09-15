@@ -764,7 +764,7 @@ begin
     Left := Graph.DL + (Graph.CharWidth * 2) + 4;
     S[1] := Format(C, [Creatures.PC.LIFE.Cur, Creatures.PC.LIFE.Max]);
     S[2] := Format(C, [Creatures.PC.MANA.Cur, Creatures.PC.MANA.Max]);
-    S[3] := Format(C, [Creatures.PC.Prop.EXP, Creatures.PC.MaxExp]);
+    S[3] := Format(C, [Creatures.PC.EXP, Creatures.PC.MaxExp]);
     M := 0;
     for I := 1 to 3 do
       if (Length(S[I]) > M) then
@@ -811,7 +811,7 @@ begin
       Font.Color := cRdBrown;
       Draw(Graph.DL + 4, (Graph.CharHeight * 4), EXP);
       TextOut(Left, (Graph.CharHeight * 4), S[3]);
-      if (Creatures.PC.Prop.EXP > 0) then
+      if (Creatures.PC.EXP > 0) then
       begin
         if (Creatures.PC.Prop.Level > 1) then
           R := Creatures.PC.MaxExp(Creatures.PC.Prop.Level - 1)
@@ -820,7 +820,7 @@ begin
         T.Assign(EXPBAR);
         if (T.Width > W) then
           T.Width := W;
-        T.Width := BarWidth(Creatures.PC.Prop.EXP - R,
+        T.Width := BarWidth(Creatures.PC.EXP - R,
           Creatures.PC.MaxExp - R, T.Width);
         DrawBar(4);
       end;
