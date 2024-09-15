@@ -14,7 +14,6 @@ uses
   Trollhunter.Map.Generator;
 
 const
-  MapsCount = 31;
   FloorSet = [tlFloor, tlGrass];
 
 type
@@ -724,7 +723,7 @@ var
   LMapIndex: Integer;
 begin
   Result := 0;
-  for LMapIndex := 0 to MapsCount - 1 do
+  for LMapIndex := 0 to MapPatterns.Patterns.Count - 1 do
     if (MapPatterns.GetPattern(LMapIndex).ID = UpperCase(AMapIdent)) then
     begin
       Result := LMapIndex;

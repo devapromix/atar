@@ -243,65 +243,6 @@ const
     ('#', '#'));
 
 const
-  MapName: array [0 .. MapsCount, 0 .. 2] of string = (
-
-    // Village
-    ('VILLAGE', 'Village', 'Деревня'),
-
-    // Spider Forest
-    ('SPIDERFOREST', 'Spider Forest', 'Лес Пауков'),
-    ('SPIDERCAVERN', 'Spider Cavern', 'Пещера Пауков'),
-    ('SPIDERNEST', 'Spider Nest', 'Гнездо Пауков'),
-
-    // The Underground Passage
-    ('THEUNDERGROUNDP', 'The Underground Passage', 'Подземный Проход'),
-
-    // Valley of Bear
-    ('VALLEYOFBEAR', 'Valley of Bear', 'Долина Медведей'),
-    ('INTERNALPIT', 'Internal Pit', 'Яма'),
-    ('CAVEOFDARKNESS', 'Cave of Darkness', 'Пещера Тьмы'),
-
-    // Stony Field
-    ('STONYFIELD', 'Stony Field', 'Каменное Поле'),
-    ('BATCAVE', 'Bat Cave', 'Пещера Летучих Мышей'),
-
-    // Twilight Forest
-    ('TWILIGHTFOREST', 'Twilight Forest', 'Сумеречный Лес'),
-    ('DENOFTHIEVES', 'Den of Thieves', 'Логово Воров'),
-
-    // Forest Marsh
-    ('FORESTMARSH', 'Forest Marsh', 'Лесное Болото'),
-    ('SWAMPYPIT', 'Swampy Pit', 'Болотная яма'),
-
-    // Black Marsh
-    ('BLACKMARSH', 'Black Marsh', 'Черная Топь'), ('BLACKCAVE', 'Black Cave',
-    'Черная Пещера'), ('BLACKCAVEPIT', 'Black Cave Pit', 'Яма Черной Пещеры'),
-
-    // Badlands
-    ('BADLANDS', 'Badlands', 'Бесплодные Земли'),
-    ('FARCAVE', 'Far Cave', 'Дальняя Пещера'),
-    ('FORGOTTENCAVE', 'Forgotten Cave', 'Забытая Пещера'),
-
-    // Graveyards
-    ('GRAVEYARDS', 'Graveyards', 'Могильники'),
-    ('HALLOFTHEDEAD', 'Hall of the Dead', 'Зал Мертвих'),
-
-    // Plain of Bones
-    ('PLAINOFBONES', 'Plain of Bones', 'Равнина Костей'),
-    ('MOONCAVE', 'Moon Cave', 'Лунная Пещера'),
-    ('GROTTOOFCLAWS', 'Grotto of Claws', 'Грот Когтей'),
-
-    // Bloody Fields
-    ('BLOODYFIELDS', 'Bloody Fields', 'Кровавые Поля'),
-    ('PASSAGEOFTHEDEAD', 'Passage of the Dead', 'Проход Мертвых'),
-    ('CITADELOFCHAOS', 'Citadel of Chaos', 'Цитадель Хаоса'),
-    ('STONEWORMLAIR', 'Stoneworm Lair', 'Логово Каменного Червя'),
-    ('ASYLUMOFDEATH', 'Asylum of Death', 'Убежище Смерти'),
-
-    //
-    ('#', '#', '#'), ('#', '#', '#'));
-
-const
   ItemName: array [0 .. ItemsCount, 0 .. 2] of string = (
 
     ('GOLDCOINS', 'Gold Coin', 'Золото'), ('KEY', 'Key', 'Ключ'),
@@ -645,35 +586,6 @@ begin
   end;
 end;
 
-procedure SaveMapLang;
-var
-  SL: TStringList;
-  I: Integer;
-  S: string;
-begin
-  S := ',';
-  SL := TStringList.Create;
-  SL.WriteBOM := False;
-  try
-    SL.Append('[');
-    for I := 0 to MapsCount - 1 do
-    begin
-      SL.Append('	{');
-      SL.Append('		"id": "' + MapName[I][0] + '",');
-      SL.Append('		"en": "' + MapName[I][1] + '",');
-      SL.Append('		"ru": "' + MapName[I][2] + '",');
-      SL.Append('		"uk": ""');
-      if I = MapsCount - 1 then
-        S := '';
-      SL.Append('	}' + S);
-    end;
-    SL.Append(']');
-    SL.SaveToFile(Path + 'languages.maps.json', TEncoding.UTF8);
-  finally
-    SL.Free;
-  end;
-end;
-
 procedure SaveItLang;
 var
   SL: TStringList;
@@ -708,7 +620,6 @@ initialization
 Language := TLanguage.Create;
 Language.LoadFromResources;
 SaveLang;
-SaveMapLang;
 SaveItLang;
 
 finalization
