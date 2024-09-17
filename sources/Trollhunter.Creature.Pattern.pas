@@ -24,6 +24,8 @@ type
     FPerception: Integer;
     FSpeed: Integer;
     FDexterity: Integer;
+    FPoison: string;
+    FBlind: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -42,6 +44,8 @@ type
     property Intelligence: Integer read FIntelligence write FIntelligence;
     property Perception: Integer read FPerception write FPerception;
     property Speed: Integer read FSpeed write FSpeed;
+    property Poison: string read FPoison write FPoison;
+    property Blind: string read FBlind write FBlind;
   end;
 
 type
@@ -49,6 +53,7 @@ type
   private
     FPatterns: TObjectList<TCreaturePattern>;
     procedure Deserialize;
+    procedure Serialize;
   public
     constructor Create;
     destructor Destroy; override;
@@ -112,7 +117,7 @@ begin
     Result := Patterns[Trollhunter.Creatures.Creatures.PC.Dungeon]
 end;
 
-procedure NextSerialize;
+procedure TCreaturePatterns.Serialize;
 var
   LStringList: TStringList;
   LJSON: TJSONValue;
@@ -162,6 +167,7 @@ initialization
 
 CreaturePatterns := TCreaturePatterns.Create;
 CreaturePatterns.Deserialize;
+//CreaturePatterns.Serialize;
 
 finalization
 

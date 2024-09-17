@@ -116,7 +116,6 @@ end;
 procedure TTowns.Gen;
 var
   I: Integer;
-  N, S: string;
 
   function HasName(const AName: string): Boolean;
   var

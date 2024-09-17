@@ -8,6 +8,8 @@ uses
 type
   TEnemy = class(TCreature)
   private
+    procedure AddRandomPoisonEffect;
+    procedure AddRandomBlindEffect;
   public
     procedure Move(AX, AY: Integer);
     procedure Process;
@@ -15,8 +17,6 @@ type
     procedure Melee;
     procedure Ranged;
     procedure SetEffects;
-    procedure Poison;
-    procedure Blind;
     constructor Create(AX, AY: Integer);
     destructor Destroy; override;
   end;
@@ -36,31 +36,39 @@ uses
   Trollhunter.AStar,
   Trollhunter.Map;
 
-procedure TEnemy.Poison;
+procedure TEnemy.AddRandomPoisonEffect;
+var
+  V: TArray<string>;
 begin
-  {with Creatures.PC.TempSys do
+  with Creatures.PC.TempSys do
     if (Rand(1, 3) = 1) then
-    begin
-      Add('Poison', Prop.Poison.Power, Prop.Poison.Duration);
-      Log.Add(Format(Language.GetLang(75), [Language.GetLang(Prop.Id),
-        Power('Poison'), Duration('Poison')]));
-    end;}
+      if Self.Prop.Poison.Trim <> '' then
+      begin
+        V := Self.Prop.Poison.Split([',']);
+        Add('Poison', V[0].ToInteger, V[1].ToInteger);
+        Log.Add(Format(Language.GetLang(75), [Language.GetLang(Prop.Id),
+          Power('Poison'), Duration('Poison')]));
+      end;
 end;
 
-procedure TEnemy.Blind;
+procedure TEnemy.AddRandomBlindEffect;
+var
+  V: TArray<string>;
 begin
-  {with Creatures.PC.TempSys do
-    if (Rand(1, 5) = 1) then
-    begin
-      Add('Blind', Prop.Blind.Power, Prop.Blind.Duration);
-      Log.Add(Language.GetLang(148));
-    end;}
+  with Creatures.PC.TempSys do
+    if (Rand(1, 7) = 1) then
+      if Self.Prop.Blind.Trim <> '' then
+      begin
+        V := Self.Prop.Poison.Split([',']);
+        Add('Blind', V[0].ToInteger, V[1].ToInteger);
+        Log.Add(Language.GetLang(148));
+      end;
 end;
 
 procedure TEnemy.SetEffects;
 begin
-  Poison;
-  Blind;
+  Self.AddRandomPoisonEffect;
+  Self.AddRandomBlindEffect;
 end;
 
 procedure TEnemy.Melee;

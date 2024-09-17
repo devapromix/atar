@@ -629,7 +629,6 @@ end;
 
 procedure TText.DrawText(const X, Y: Integer; const S: string);
 var
-  T: string;
   V: Char;
   F: Boolean;
   I, C, K, N: Integer;
