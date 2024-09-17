@@ -169,6 +169,7 @@ initialization
 
 MapPatterns := TMapPats.Create;
 MapPatterns.Deserialize;
+// MapPatterns.Serialize;
 
 finalization
 

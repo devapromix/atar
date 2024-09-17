@@ -308,6 +308,7 @@ begin
     LanguageString.Clear;
     LoadFromFile('languages.json');
     LoadFromFile('languages.maps.json');
+    LoadFromFile('languages.items.json');
     LoadFromFile('languages.creatures.json');
   except
     on E: Exception do

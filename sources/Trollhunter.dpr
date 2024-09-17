@@ -70,7 +70,8 @@ uses
   Trollhunter.Zip in 'Trollhunter.Zip.pas',
   Trollhunter.Town in 'Trollhunter.Town.pas',
   Trollhunter.Map.Pattern in 'Trollhunter.Map.Pattern.pas',
-  Trollhunter.Creature.Pattern in 'Trollhunter.Creature.Pattern.pas';
+  Trollhunter.Creature.Pattern in 'Trollhunter.Creature.Pattern.pas',
+  Trollhunter.Item.Pattern in 'Trollhunter.Item.Pattern.pas';
 
 {$R *.res}
 

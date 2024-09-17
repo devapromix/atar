@@ -167,7 +167,7 @@ initialization
 
 CreaturePatterns := TCreaturePatterns.Create;
 CreaturePatterns.Deserialize;
-//CreaturePatterns.Serialize;
+// CreaturePatterns.Serialize;
 
 finalization
 
