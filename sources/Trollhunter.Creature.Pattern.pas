@@ -111,50 +111,7 @@ begin
   else
     Result := Patterns[Trollhunter.Creatures.Creatures.PC.Dungeon]
 end;
-{
-procedure TCreaturePatterns.Serialize;
-var
-  LStringList: TStringList;
-  LJSON: TJSONValue;
-  LCreaturePattern: TCreaturePattern;
-  I: Integer;
-begin
-  Patterns.Clear;
-  for I := 0 to CreaturesCount - 1 do
-  begin
-    LCreaturePattern := TCreaturePattern.Create;
-    LCreaturePattern.Id := DungeonCreatures[I].Id;
-    LCreaturePattern.Level := DungeonCreatures[I].Level;
-    LCreaturePattern.Decor := DungeonCreatures[I].Decor;
-    LCreaturePattern.AIType := DungeonCreatures[I].AIType;
-    LCreaturePattern.Projectile := DungeonCreatures[I].Projectile;
-    LCreaturePattern.MinDamage := DungeonCreatures[I].MinDamage;
-    LCreaturePattern.MaxDamage := DungeonCreatures[I].MaxDamage;
-    LCreaturePattern.Protect := DungeonCreatures[I].Protect;
-    LCreaturePattern.Radius := DungeonCreatures[I].Radius;
-    LCreaturePattern.Distance := DungeonCreatures[I].Distance;
-    LCreaturePattern.Strength := DungeonCreatures[I].Strength;
-    LCreaturePattern.Dexterity := DungeonCreatures[I].Dexterity;
-    LCreaturePattern.Intelligence := DungeonCreatures[I].Intelligence;
-    LCreaturePattern.Perception := 0;
-    LCreaturePattern.Speed := DungeonCreatures[I].Speed;
-    Patterns.Add(LCreaturePattern);
-  end;
-  LStringList := TStringList.Create;
-  LStringList.WriteBOM := False;
-  try
-    LJSON := TNeon.ObjectToJSON(CreaturePatterns);
-    try
-      LStringList.Text := TNeon.Print(LJSON, True);
-      LStringList.SaveToFile(Path + 'creatures.json', TEncoding.UTF8);
-    finally
-      LJSON.Free;
-    end;
-  finally
-    LStringList.Free;
-  end;
-end;
-}
+
 procedure NextSerialize;
 var
   LStringList: TStringList;
@@ -166,7 +123,7 @@ begin
     LJSON := TNeon.ObjectToJSON(CreaturePatterns);
     try
       LStringList.Text := TNeon.Print(LJSON, True);
-      LStringList.SaveToFile(Path + 'crpats.json', TEncoding.UTF8);
+      LStringList.SaveToFile(Path + 'creatures.json', TEncoding.UTF8);
     finally
       LJSON.Free;
     end;
@@ -205,7 +162,6 @@ initialization
 
 CreaturePatterns := TCreaturePatterns.Create;
 CreaturePatterns.Deserialize;
-//NextSerialize;
 
 finalization
 

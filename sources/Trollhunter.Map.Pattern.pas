@@ -120,54 +120,6 @@ begin
 end;
 
 procedure TMapPats.Serialize;
-{ var
-  LStringList: TStringList;
-  LJSON: TJSONValue;
-  LMapPat: TMapPat;
-  I: Integer; }
-begin
-  { Patterns.Clear;
-    for I := 0 to MapsCount - 1 do
-    begin
-    LMapPat := TMapPat.Create;
-    LMapPat.Id := MapInfo[I].Id;
-    LMapPat.Level := MapInfo[I].Level;
-    LMapPat.Items := '';
-    LMapPat.Creatures := '';
-    LMapPat.Underground := MapInfo[I].Underground;
-    LMapPat.Village := MapInfo[I].Village;
-    LMapPat.GenId := MapInfo[I].GenId;
-    LMapPat.DecorType := MapInfo[I].DecorType;
-    LMapPat.DecTypSize := MapInfo[I].DecTypSize;
-    LMapPat.DecTypCount := MapInfo[I].DecTypCount;
-    LMapPat.IsAutoEnt := MapInfo[I].IsAutoEnt;
-    LMapPat.PrevMap := MapInfo[I].PrevMap;
-    LMapPat.NextMap := MapInfo[I].NextMap;
-    LMapPat.AltNextMap := MapInfo[I].AltNextMap;
-    LMapPat.IsAltMapEnt := MapInfo[I].IsAltMapEnt;
-    LMapPat.IsVillageEnt := MapInfo[I].IsVillageEnt;
-    LMapPat.IsTraps := MapInfo[I].IsTraps;
-    LMapPat.FloorTile := MapInfo[I].FloorTile;
-    LMapPat.FloorRes := MapInfo[I].FloorRes;
-    LMapPat.WallRes := MapInfo[I].WallRes;
-    Patterns.Add(LMapPat);
-    end;
-    LStringList := TStringList.Create;
-    LStringList.WriteBOM := False;
-    try
-    LJSON := TNeon.ObjectToJSON(MapPatterns);
-    try
-    LStringList.Text := TNeon.Print(LJSON, True);
-    LStringList.SaveToFile(Path + 'maps.json', TEncoding.UTF8);
-    finally
-    LJSON.Free;
-    end;
-    finally
-    LStringList.Free;
-    end; }
-end;
-
-procedure NextSerialize;
 var
   LStringList: TStringList;
   LJSON: TJSONValue;
@@ -178,7 +130,7 @@ begin
     LJSON := TNeon.ObjectToJSON(MapPatterns);
     try
       LStringList.Text := TNeon.Print(LJSON, True);
-      LStringList.SaveToFile(Path + 'mappats.json', TEncoding.UTF8);
+      LStringList.SaveToFile(Path + 'maps.json', TEncoding.UTF8);
     finally
       LJSON.Free;
     end;
@@ -216,10 +168,7 @@ end;
 initialization
 
 MapPatterns := TMapPats.Create;
-// MapPatterns.Serialize;
-// MapPatterns.Patterns.Clear;
 MapPatterns.Deserialize;
-// NextSerialize;
 
 finalization
 

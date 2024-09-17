@@ -820,8 +820,8 @@ begin
         T.Assign(EXPBAR);
         if (T.Width > W) then
           T.Width := W;
-        T.Width := BarWidth(Creatures.PC.EXP - R,
-          Creatures.PC.MaxExp - R, T.Width);
+        T.Width := BarWidth(Creatures.PC.EXP - R, Creatures.PC.MaxExp -
+          R, T.Width);
         DrawBar(4);
       end;
       // Damage, Protect
