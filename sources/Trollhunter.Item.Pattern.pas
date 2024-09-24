@@ -10,11 +10,13 @@ type
   TItemPattern = class(TObject)
   private
     FId: string;
+    FAdvSprite: string;
     FLevel: Integer;
   public
     constructor Create;
     destructor Destroy; override;
     property Id: string read FId write FId;
+    property AdvSprite: string read FAdvSprite write FAdvSprite;
     property Level: Integer read FLevel write FLevel;
   end;
 
@@ -48,8 +50,7 @@ uses
   Trollhunter.MainForm,
   Trollhunter.Zip,
   Trollhunter.Map,
-  Trollhunter.Creatures,
-  Trollhunter.Creature;
+  Trollhunter.Item;
 
 { TMapPattern }
 
@@ -112,7 +113,19 @@ procedure TItemPatterns.Serialize;
 var
   LStringList: TStringList;
   LJSON: TJSONValue;
+  LItemPattern: TItemPattern;
+  I: Integer;
 begin
+  Patterns.Clear;
+  for I := 0 to ItemsCount - 1 do
+  begin
+    LItemPattern := TItemPattern.Create;
+    LItemPattern.Id := DungeonItems[I].Sprite;
+    LItemPattern.AdvSprite := DungeonItems[I].AdvSprite;
+    LItemPattern.Level := 1;
+    Patterns.Add(LItemPattern);
+  end;
+
   LStringList := TStringList.Create;
   LStringList.WriteBOM := False;
   try
