@@ -11,12 +11,14 @@ type
   private
     FId: string;
     FAdvSprite: string;
+    FRarity: string;
     FLevel: Integer;
   public
     constructor Create;
     destructor Destroy; override;
     property Id: string read FId write FId;
     property AdvSprite: string read FAdvSprite write FAdvSprite;
+    property Rarity: string read FRarity write FRarity;
     property Level: Integer read FLevel write FLevel;
   end;
 
@@ -122,6 +124,7 @@ begin
     LItemPattern := TItemPattern.Create;
     LItemPattern.Id := DungeonItems[I].Sprite;
     LItemPattern.AdvSprite := DungeonItems[I].AdvSprite;
+    LItemPattern.Rarity := 'NORMAL';
     LItemPattern.Level := 1;
     Patterns.Add(LItemPattern);
   end;
