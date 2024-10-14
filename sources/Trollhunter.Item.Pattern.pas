@@ -13,6 +13,7 @@ type
     FAdvSprite: string;
     FRarity: string;
     FLevel: Integer;
+    FColor: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -20,6 +21,7 @@ type
     property AdvSprite: string read FAdvSprite write FAdvSprite;
     property Rarity: string read FRarity write FRarity;
     property Level: Integer read FLevel write FLevel;
+    property Color: string read FColor write FColor;
   end;
 
 type
@@ -126,6 +128,7 @@ begin
     LItemPattern.AdvSprite := DungeonItems[I].AdvSprite;
     LItemPattern.Rarity := 'NORMAL';
     LItemPattern.Level := 1;
+    LItemPattern.Rarity := 'NONE';
     Patterns.Add(LItemPattern);
   end;
 
