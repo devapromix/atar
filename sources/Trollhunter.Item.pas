@@ -21,6 +21,10 @@ const
 type
   TCategory = (dsNone, dsKey, dsGold, dsBody, dsHead, dsFoot, dsRHand, dsLHand,
     dsAmulet, dsRing, dsPotion, dsScroll, dsRepair, dsCraft, dsPlant);
+const
+  CategoryStr: array[TCategory] of string = ('NONE', 'KEY', 'GOLD', 'BODY',
+  'HEAD', 'FOOT', 'RHAND', 'LHAND', 'AMULET', 'RING', 'POTION', 'SCROLL',
+  'REPAIR', 'CRAFT', 'PLANT');
 
 type
   TSubCats = (scNone, scKey, scFill, scDispel, scAntidote, scTeleport, scPortal,

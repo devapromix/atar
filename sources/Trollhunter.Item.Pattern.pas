@@ -14,6 +14,8 @@ type
     FRarity: string;
     FLevel: Integer;
     FColor: string;
+    FIsStack: Boolean;
+    FCategory: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -22,6 +24,8 @@ type
     property Rarity: string read FRarity write FRarity;
     property Level: Integer read FLevel write FLevel;
     property Color: string read FColor write FColor;
+    property IsStack: Boolean read FIsStack write FIsStack;
+    property Category: string read FCategory write FCategory;
   end;
 
 type
@@ -128,7 +132,9 @@ begin
     LItemPattern.AdvSprite := DungeonItems[I].AdvSprite;
     LItemPattern.Rarity := 'NORMAL';
     LItemPattern.Level := 1;
-    LItemPattern.Rarity := 'NONE';
+    LItemPattern.Color := 'NONE';
+    LItemPattern.IsStack := DungeonItems[I].IsStack;
+    LItemPattern.Category := CategoryStr[DungeonItems[I].Category];
     Patterns.Add(LItemPattern);
   end;
 
