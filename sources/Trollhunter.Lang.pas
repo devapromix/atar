@@ -8,82 +8,6 @@ uses
   Trollhunter.Creature,
   Trollhunter.Map;
 
-const
-  ItemName: array [0 .. ItemsCount, 0 .. 2] of string = (
-
-    ('GOLDCOINS', 'Gold Coin', 'Золото'), ('KEY', 'Key', 'Ключ'),
-    ('MINIPOTION', 'Empty Bottle', 'Пустой Флакон'),
-    ('MINILIFEPOTION', 'Minor Healing Potion', 'Малый Эликсир Здоровья'),
-    ('MINIMANAPOTION', 'Minor Mana Potion', 'Малый Эликсир Маны'),
-    ('MINIMEGAPOTION', 'Minor Rejuvenation Potion',
-    'Малый Эликсир Восстановления'), ('MINIOILPOTION', 'Minor Oil Potion',
-    'Малое Кузнечное Масло'), ('NORMPOTION', 'Empty Bottle', 'Пустой Флакон'),
-    ('NORMLIFEPOTION', 'Light Healing Potion', 'Легкий Эликсир Здоровья'),
-    ('NORMMANAPOTION', 'Light Mana Potion', 'Легкий Эликсир Маны'),
-    ('NORMMEGAPOTION', 'Light Rejuvenation Potion',
-    'Легкий Эликсир Восстановления'), ('NORMOILPOTION', 'Light Oil Potion',
-    'Легкое Кузнечное Масло'), ('BASEPOTION', 'Empty Bottle', 'Пустой Флакон'),
-    ('BASELIFEPOTION', 'Healing Potion', 'Эликсир Здоровья'),
-    ('BASEMANAPOTION', 'Mana Potion', 'Эликсир Маны'),
-    ('BASEMEGAPOTION', 'Rejuvenation Potion', 'Эликсир Восстановления'),
-    ('BASEOILPOTION', 'Oil Potion', 'Кузнечное Масло'),
-    ('NANOPOTION', 'Empty Bottle', 'Пустой Флакон'),
-    ('NANOLIFEPOTION', 'Greater Healing Potion', 'Большой Эликсир Здоровья'),
-    ('NANOMANAPOTION', 'Greater Mana Potion', 'Большой Эликсир Маны'),
-    ('NANOMEGAPOTION', 'Greater Rejuvenation Potion',
-    'Большой Эликсир Восстановления'), ('NANOOILPOTION', 'Greater Oil Potion',
-    'Большое Кузнечное Масло'), ('BIGPOTION', 'Empty Bottle', 'Пустой Флакон'),
-    ('BIGLIFEPOTION', 'Super Healing Potion', 'Супер Эликсир Здоровья'),
-    ('BIGMANAPOTION', 'Super Mana Potion', 'Супер Эликсир Маны'),
-    ('BIGMEGAPOTION', 'Super Rejuvenation Potion',
-    'Супер Эликсир Восстановления'), ('BIGOILPOTION', 'Super Oil Potion',
-    'Супер Кузнечное Масло'), ('SLEDGEHAMMER', 'Sledge Hammer',
-    'Кузнечный Mолот'), ('STONEHAMMER', 'Stone Hammer', 'Каменный Молот'),
-    ('HATCHET', 'Hatchet', 'Топор Лесоруба'),
-    ('WARAXE', 'War Axe', 'Топор Войны'), ('LARGEAXE', 'Large Axe',
-    'Большой Топор'), ('BROADAXE', 'Broad Axe', 'Broad Axe'),
-    ('BATTLEAXE', 'Battle Axe', 'Боевой Топор'), ('GREATAXE', 'Great Axe',
-    'Большой Топор'), ('GIANTAXE', 'Giant Axe', 'Гигантский Топор'),
-    ('SHORTSWORD', 'Short Sword', 'Короткий Меч'),
-    ('SMALLSHIELD', 'Small Shield', 'Малый Щит'),
-    ('LARGESHIELD', 'Large Shield', 'Большой Щит'),
-    ('TOWERSHIELD', 'Tower Shield', 'Башенный Щит'),
-    ('GOTHICSHIELD', 'Gothic Shield', 'Готический Щит'),
-    ('LEATHERARMOR', 'Leather Armor', 'Кожаный Доспех'),
-    ('STUDDEDLEATHER', 'Studded Leather', 'Клепаный Доспех'),
-    ('RINGMAIL', 'Ring Mail', 'Кольчужный Доспех'), ('SCALEMAIL', 'Scale Mail',
-    'Чешуйчатый Доспех'), ('CAP', 'Cap', 'Шлем'), ('HELM', 'Helm', 'Шлем'),
-    ('MESHBOOTS', 'Mesh Boots', 'Меховые Сапоги'), ('HEAVYBOOTS', 'Heavy Boots',
-    'Тяжелые Сапоги'), ('EARTHRING', 'Earth Ring', 'Кольцо Земли'),
-    ('FIRERING', 'Fire Ring', 'Кольцо Огня'), ('TAMARILIS', 'Tamarilis',
-    'Taмарилис'), ('ARROW', 'Quiver of Arrows', 'Колчан Стрел'),
-    ('HUNTBOW', 'Hunter''s Bow', 'Лук Охотника'),
-    ('LONGBOW', 'Long Bow', 'Длинный Лук'), ('BOLT', 'Case of Bolts',
-    'Колчан Болтов'), ('LIGHTCROSSBOW', 'Light Crossbow', 'Легкий Арбалет'),
-    ('SIEGECROSSBOW', 'Siege Crossow', 'Осадный Арбалет'),
-    // Scrolls
-    ('SCROLLA', 'Scroll of Summon', 'Свиток Призыва'),
-    ('SCROLLB', 'Scroll of Power Cure', 'Свиток Восстановления'),
-    ('SCROLLC', 'Scroll of Teleportation', 'Свиток Телепортации'),
-    ('SCROLLD', 'Scroll of Unlocking', 'Свиток Отпирания'),
-    ('SCROLLE', 'Scroll of Identify', 'Свиток Идентификации'),
-    ('SCROLLF', 'Scroll of Portal', 'Свиток Портала'),
-    ('SCROLLG', 'Scroll of Wizard Eye', 'Свиток Глаза Чародея'),
-    ('SCROLLH', 'Scroll of Dispel Effects', 'Свиток Снятие Эффектов'),
-    ('SCROLLI', 'Scroll of Repair', 'Свиток Ремонта'),
-    // Potions
-    ('POTIONA', 'Antidote Potion', 'Эликсир Противоядия'),
-    ('POTIONB', 'Full Healing Potion', 'Эликсир Полного Здоровья'),
-    ('POTIONC', 'Full Mana Potion', 'Эликсир Полной Маны'),
-    ('POTIOND', 'Full Rejuvenation Potion', 'Эликсир Полного Восстановления'),
-    ('POTIONE', 'Strength Potion', 'Эликсир Силы'),
-    ('POTIONF', 'Dexterity Potion', 'Эликсир Ловкости'),
-    ('POTIONG', 'Intelligence Potion', 'Эликсир Интеллекта'),
-    ('POTIONH', 'Speed Potion', 'Эликсир Проворности'),
-    // Bag of Stones
-    //
-    ('#', '#', '#'));
-
 type
   TLanguageString = class(TObject)
   private
@@ -130,7 +54,7 @@ uses
   Trollhunter.Utils,
   Trollhunter.Error,
   Trollhunter.Creatures,
-  Trollhunter.MainForm;
+  Trollhunter.MainForm, Trollhunter.Item.Pattern;
 
 var
   LanguageString: TLanguageString;
@@ -215,17 +139,19 @@ begin
   Result := '';
   LItemIndex := Items.ItemIndex(AItemIdent);
   // Scrolls and Potions
-  LColorTag := DungeonItems[LItemIndex].ColorTag;
+  LColorTag := ItemPatterns.Patterns[LItemIndex].ColorTag;
   with Creatures.PC do
   begin
-    if (LColorTag > 0) and (DungeonItems[LItemIndex].Category = dsPotion) and
+    if (LColorTag > 0) and
+      (ItemPatterns.Patterns[LItemIndex].Category = 'POTION') and
       not Potions.IsDefined(LColorTag) then
     begin
       Result := '#r' + Potions.GetColorName(LColorTag) + ' ' +
         Language.GetLang(222) + '$';
       Exit;
     end;
-    if (LColorTag > 0) and (DungeonItems[LItemIndex].Category = dsScroll) and
+    if (LColorTag > 0) and
+      (ItemPatterns.Patterns[LItemIndex].Category = 'SCROLL') and
       not Scrolls.IsDefined(LColorTag) then
     begin
       Result := '#r' + Language.GetLang(221) + ' ' + '"' +
@@ -234,14 +160,12 @@ begin
     end;
   end;
   // Items
-  case DungeonItems[LItemIndex].Category of
-    dsPotion:
-      LColorPrefix := '#g';
-    dsScroll:
-      LColorPrefix := '#b';
+  if ItemPatterns.Patterns[LItemIndex].Category = 'POTION' then
+    LColorPrefix := '#g'
+  else if ItemPatterns.Patterns[LItemIndex].Category = 'SCROLL' then
+    LColorPrefix := '#b'
   else
     LColorPrefix := '#w';
-  end;
   Result := LColorPrefix + GetLang(AItemIdent) + '$';
 end;
 

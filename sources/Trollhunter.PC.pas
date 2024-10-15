@@ -687,28 +687,28 @@ end;
 procedure TPC.TrainSkill;
 var
   ID: string;
-  CS: TSubCSet;
+  CS: TSubCats;
 begin
   ID := Trim(Items.GetDollItemID(WeaponSet));
   if (ID = '') then
     Exit;
   CS := DungeonItems[Items.ItemIndex(ID)].SubCats;
   ///
-  if (scDagger in CS) then
+  if (scDagger = CS) then
     Skills.Up('DAGGERS');
-  if (scAxe in CS) then
+  if (scAxe = CS) then
     Skills.Up('AXES');
-  if (scSword in CS) then
+  if (scSword = CS) then
     Skills.Up('SWORDS');
-  if (scMace in CS) then
+  if (scMace = CS) then
     Skills.Up('MACES');
-  if (scSpear in CS) then
+  if (scSpear = CS) then
     Skills.Up('SPEARS');
-  if (scBow in CS) then
+  if (scBow = CS) then
     Skills.Up('BOWS');
-  if (scCrossBow in CS) then
+  if (scCrossBow = CS) then
     Skills.Up('CROSSBOWS');
-  if (scShield in CS) then
+  if (scShield = CS) then
     Skills.Up('SHIELDS');
 
   {

@@ -10,22 +10,45 @@ type
   TItemPattern = class(TObject)
   private
     FId: string;
-    FAdvSprite: string;
+    FSprite: string;
     FRarity: string;
     FLevel: Integer;
+    FColorTag: Integer;
     FColor: string;
     FIsStack: Boolean;
     FCategory: string;
+    FScript: string;
+    FMaxDamage: Integer;
+    FProtect: Integer;
+    FMinDamage: Integer;
+    FTough: Integer;
+    FMaxTough: Integer;
+    FWeight: Integer;
+    FManaCost: Integer;
+    FMaxCount: Integer;
+    FMinCount: Integer;
   public
     constructor Create;
     destructor Destroy; override;
     property Id: string read FId write FId;
-    property AdvSprite: string read FAdvSprite write FAdvSprite;
+    property Sprite: string read FSprite write FSprite;
     property Rarity: string read FRarity write FRarity;
     property Level: Integer read FLevel write FLevel;
+    property ColorTag: Integer read FColorTag write FColorTag;
     property Color: string read FColor write FColor;
     property IsStack: Boolean read FIsStack write FIsStack;
     property Category: string read FCategory write FCategory;
+    property Script: string read FScript write FScript;
+    property MinDamage: Integer read FMinDamage write FMinDamage;
+    property MaxDamage: Integer read FMaxDamage write FMaxDamage;
+    property Protect: Integer read FProtect write FProtect;
+    property Tough: Integer read FTough write FTough;
+    property MaxTough: Integer read FMaxTough write FMaxTough;
+    property Weight: Integer read FWeight write FWeight;
+    property ManaCost: Integer read FManaCost write FManaCost;
+    property MinCount: Integer read FMinCount write FMinCount;
+    property MaxCount: Integer read FMaxCount write FMaxCount;
+
   end;
 
 type
@@ -124,20 +147,6 @@ var
   LItemPattern: TItemPattern;
   I: Integer;
 begin
-  Patterns.Clear;
-  for I := 0 to ItemsCount - 1 do
-  begin
-    LItemPattern := TItemPattern.Create;
-    LItemPattern.Id := DungeonItems[I].Sprite;
-    LItemPattern.AdvSprite := DungeonItems[I].AdvSprite;
-    LItemPattern.Rarity := 'NORMAL';
-    LItemPattern.Level := 1;
-    LItemPattern.Color := 'NONE';
-    LItemPattern.IsStack := DungeonItems[I].IsStack;
-    LItemPattern.Category := CategoryStr[DungeonItems[I].Category];
-    Patterns.Add(LItemPattern);
-  end;
-
   LStringList := TStringList.Create;
   LStringList.WriteBOM := False;
   try
@@ -157,7 +166,7 @@ initialization
 
 ItemPatterns := TItemPatterns.Create;
 ItemPatterns.Deserialize;
-ItemPatterns.Serialize;
+//ItemPatterns.Serialize;
 
 finalization
 

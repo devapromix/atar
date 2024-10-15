@@ -21,10 +21,11 @@ const
 type
   TCategory = (dsNone, dsKey, dsGold, dsBody, dsHead, dsFoot, dsRHand, dsLHand,
     dsAmulet, dsRing, dsPotion, dsScroll, dsRepair, dsCraft, dsPlant);
+
 const
-  CategoryStr: array[TCategory] of string = ('NONE', 'KEY', 'GOLD', 'BODY',
-  'HEAD', 'FOOT', 'RHAND', 'LHAND', 'AMULET', 'RING', 'POTION', 'SCROLL',
-  'REPAIR', 'CRAFT', 'PLANT');
+  CategoryStr: array [TCategory] of string = ('NONE', 'KEY', 'GOLD', 'BODY',
+    'HEAD', 'FOOT', 'RHAND', 'LHAND', 'AMULET', 'RING', 'POTION', 'SCROLL',
+    'REPAIR', 'CRAFT', 'PLANT');
 
 type
   TSubCats = (scNone, scKey, scFill, scDispel, scAntidote, scTeleport, scPortal,
@@ -33,6 +34,15 @@ type
     scRepair25, scRepairAll, scLife, scLife25, scLife50, scLife75, scLife100,
     scLife200, scMana, scMana25, scMana50, scMana75, scMana100, scMana200,
     scDagger, scAxe, scSword, scMace, scSpear, scShield, scBow, scCrossBow);
+
+const
+  SubCatsStr: array [TSubCats] of string = ('NONE', 'KEY', 'FILL', 'DISPEL',
+    'ANTIDOTE', 'TELEPORT', 'PORTAL', 'SUMMON', 'IDENTIFY', 'WIZARDEYE',
+    'STRENGTH', 'DEXTERITY', 'INTELLIGENCE', 'SPEED', 'REPAIR', 'REPAIR 3',
+    'REPAIR 6', 'REPAIR 9', 'REPAIR 12', 'REPAIR 15', 'REPAIR 25', 'REPAIRALL',
+    'LIFE', 'LIFE 25', 'LIFE 50', 'LIFE 75', 'LIFE 100', 'LIFE 200', 'MANA',
+    'MANA 25', 'MANA 50', 'MANA 75', 'MANA 100', 'MANA 200', 'DAGGER', 'AXE',
+    'SWORD', 'MACE', 'SPEAR', 'SHIELD', 'BOW', 'CROSSBOW');
 
 type
   TCatSet = set of TCategory;
@@ -80,7 +90,7 @@ type
     MinCount: Integer;
     MaxCount: Integer;
     Category: TCategory;
-    SubCats: TSubCSet;
+    SubCats: TSubCats;
     ColorTag: Integer;
     Color: Integer;
     BonusStrength: Integer;
@@ -148,25 +158,6 @@ const
   ScrollLevel6 = '';
   ScrollLevel7 = '';
 
-const
-  DungeonItems: array [0 .. ItemsCount - 1] of TItemRec = (
-
-{$I Items/Items.itm         }
-{$I Items/Potions.itm       }
-{$I Items/RandomPotions.itm }
-{$I Items/RandomScrolls.itm }
-{$I Items/Armors.itm        }
-{$I Items/Shields.itm       }
-{$I Items/Bows.itm          }
-{$I Items/Crossbows.itm     }
-{$I Items/Axes.itm          }
-{$I Items/Swords.itm        }
-{$I Items/Maces.itm         }
-{$I Items/Rings.itm         }
-{$I Items/Amulets.itm       }
-{$I Items/Plants.itm        }
-  );
-
 var
   RandomScrolls, RandomPotions: string;
 
@@ -203,7 +194,7 @@ type
     function IsCrossBow: Boolean;
     function IsRangedWeapon: Boolean;
     function GetDollItemID(ACatSet: TCatSet): string;
-    function GetDollItemSubCat(ACatSet: TCatSet): TSubCSet;
+    function GetDollItemSubCat(ACatSet: TCatSet): TSubCats;
     procedure Add(const X, Y: Integer; AName: string); overload;
     procedure Add(const AIdent: string; const ACount: Integer = 1); overload;
     procedure AddAndEquip(ID: string; ACount: Integer = 1);
@@ -248,7 +239,7 @@ uses
   Trollhunter.TempSys,
   Trollhunter.Inv,
   Trollhunter.Skill,
-  Trollhunter.Formulas;
+  Trollhunter.Formulas, Trollhunter.Item.Pattern;
 
 { TBaseItem }
 
@@ -473,71 +464,71 @@ begin
         with TempSys do
         begin
           // Life
-          if (scLife in SubCats) then
+          if (scLife = SubCats) then
             Life.SetToMax;
-          if (scLife25 in SubCats) then
+          if (scLife25 = SubCats) then
             Add('VialOfLife', 5, 5);
-          if (scLife50 in SubCats) then
+          if (scLife50 = SubCats) then
             Add('VialOfLife', 10, 5);
-          if (scLife75 in SubCats) then
+          if (scLife75 = SubCats) then
             Add('VialOfLife', 15, 5);
-          if (scLife100 in SubCats) then
+          if (scLife100 = SubCats) then
             Add('VialOfLife', 10, 10);
-          if (scLife200 in SubCats) then
+          if (scLife200 = SubCats) then
             Add('VialOfLife', 20, 10);
           // Mana
-          if (scMana in SubCats) then
+          if (scMana = SubCats) then
             Mana.SetToMax;
-          if (scMana25 in SubCats) then
+          if (scMana25 = SubCats) then
             Add('VialOfMana', 5, 5);
-          if (scMana50 in SubCats) then
+          if (scMana50 = SubCats) then
             Add('VialOfMana', 10, 5);
-          if (scMana75 in SubCats) then
+          if (scMana75 = SubCats) then
             Add('VialOfMana', 15, 5);
-          if (scMana100 in SubCats) then
+          if (scMana100 = SubCats) then
             Add('VialOfMana', 10, 10);
-          if (scMana200 in SubCats) then
+          if (scMana200 = SubCats) then
             Add('VialOfMana', 20, 10);
           // Drink Oil
-          if (scRepair3 in SubCats) then
+          if (scRepair3 = SubCats) then
             Add('Poison', 3, 10);
-          if (scRepair6 in SubCats) then
+          if (scRepair6 = SubCats) then
             Add('Poison', 6, 10);
-          if (scRepair9 in SubCats) then
+          if (scRepair9 = SubCats) then
             Add('Poison', 9, 10);
-          if (scRepair12 in SubCats) then
+          if (scRepair12 = SubCats) then
             Add('Poison', 12, 10);
-          if (scRepair15 in SubCats) then
+          if (scRepair15 = SubCats) then
             Add('Poison', 15, 10);
           // Atr
-          if (scStrength in SubCats) then
+          if (scStrength = SubCats) then
             AddStrength;
-          if (scDexterity in SubCats) then
+          if (scDexterity = SubCats) then
             AddDexterity;
-          if (scIntelligence in SubCats) then
+          if (scIntelligence = SubCats) then
             AddIntelligence;
-          if (scSpeed in SubCats) then
+          if (scSpeed = SubCats) then
             AddSpeed;
           // Misc
-          if (scFill in SubCats) then
+          if (scFill = SubCats) then
             Fill;
-          if (scAntidote in SubCats) then
+          if (scAntidote = SubCats) then
             ClearVar('Poison');
-          if (scKey in SubCats) then
+          if (scKey = SubCats) then
             Key;
-          if (scTeleport in SubCats) then
+          if (scTeleport = SubCats) then
             Creatures.Teleport(False);
-          if (scSummon in SubCats) then
+          if (scSummon = SubCats) then
             Creatures.Summon;
-          if (scIdentify in SubCats) then
+          if (scIdentify = SubCats) then
             Identify;
-          if (scPortal in SubCats) then
+          if (scPortal = SubCats) then
             Portal;
-          if (scWizardEye in SubCats) then
+          if (scWizardEye = SubCats) then
             Add('WizardEye', GetWizardEyePower, Mana.Max);
-          if (scDispel in SubCats) then
+          if (scDispel = SubCats) then
             Clear;
-          if (scRepairAll in SubCats) then
+          if (scRepairAll = SubCats) then
             RepairAll;
         end;
   except
@@ -580,8 +571,8 @@ end;
 
 function TItems.GetWeight(Index: Integer): string;
 begin
-  if (DungeonItems[Index].Weight > 0) then
-    Result := Format(' %ds', [DungeonItems[Index].Weight])
+  if (ItemPatterns.Patterns[Index].Weight > 0) then
+    Result := Format(' %ds', [ItemPatterns.Patterns[Index].Weight])
   else
     Result := '';
 end;
@@ -594,7 +585,8 @@ begin
     Exit;
   try
     for Z := 0 to High(Items.Item) do
-      if (DungeonItems[ItemIndex(Items.Item[Z].Name)].Category = dsPlant) then
+      if (ItemPatterns.Patterns[ItemIndex(Items.Item[Z].Name)
+        ].Category = 'PLANT') then
       begin
         X := Items.Item[Z].Pos.X + Rand(-1, 1);
         Y := Items.Item[Z].Pos.Y + Rand(-1, 1);
@@ -613,8 +605,8 @@ var
   I: Integer;
 begin
   Result := -1;
-  for I := 0 to High(DungeonItems) do
-    if (Trim(ID) = DungeonItems[I].Sprite) then
+  for I := 0 to ItemPatterns.Patterns.Count - 1 do
+    if (Trim(ID) = ItemPatterns.Patterns[I].ID) then
     begin
       Result := I;
       Break;
@@ -803,13 +795,13 @@ begin
       // Repair item (oils, hammers)
       if ((DungeonItems[A].Category in PotionSet) or
         (DungeonItems[A].Category in RepairSet)) and
-        ((scRepair in DungeonItems[A].SubCats) or
-        (scRepair3 in DungeonItems[A].SubCats) or
-        (scRepair6 in DungeonItems[A].SubCats) or
-        (scRepair9 in DungeonItems[A].SubCats) or
-        (scRepair12 in DungeonItems[A].SubCats) or
-        (scRepair15 in DungeonItems[A].SubCats) or
-        (scRepair25 in DungeonItems[A].SubCats)) and
+        ((scRepair = DungeonItems[A].SubCats) or
+        (scRepair3 = DungeonItems[A].SubCats) or
+        (scRepair6 = DungeonItems[A].SubCats) or
+        (scRepair9 = DungeonItems[A].SubCats) or
+        (scRepair12 = DungeonItems[A].SubCats) or
+        (scRepair15 = DungeonItems[A].SubCats) or
+        (scRepair25 = DungeonItems[A].SubCats)) and
         ((DungeonItems[B].Category in WeaponSet) or
         (DungeonItems[B].Category in ArmorSet)) then
       begin
@@ -817,19 +809,19 @@ begin
         MaxD := DungeonItems[B].MaxTough;
         if (D < MaxD) then
         begin
-          if (scRepair in DungeonItems[A].SubCats) then
+          if (scRepair = DungeonItems[A].SubCats) then
             SetTough(I, MaxD);
-          if (scRepair3 in DungeonItems[A].SubCats) then
+          if (scRepair3 = DungeonItems[A].SubCats) then
             SetTough(I, D + 3);
-          if (scRepair6 in DungeonItems[A].SubCats) then
+          if (scRepair6 = DungeonItems[A].SubCats) then
             SetTough(I, D + 6);
-          if (scRepair9 in DungeonItems[A].SubCats) then
+          if (scRepair9 = DungeonItems[A].SubCats) then
             SetTough(I, D + 9);
-          if (scRepair12 in DungeonItems[A].SubCats) then
+          if (scRepair12 = DungeonItems[A].SubCats) then
             SetTough(I, D + 12);
-          if (scRepair15 in DungeonItems[A].SubCats) then
+          if (scRepair15 = DungeonItems[A].SubCats) then
             SetTough(I, D + 15);
-          if (scRepair25 in DungeonItems[A].SubCats) then
+          if (scRepair25 = DungeonItems[A].SubCats) then
             SetTough(I, D + 25);
           if (GetTough(I) > MaxD) then
             SetTough(I, MaxD);
@@ -885,7 +877,7 @@ begin
       J := ItemIndex(K);
       if Inv.GetDoll(K) then
       begin
-        if (SC in DungeonItems[J].SubCats) then
+        if (SC = DungeonItems[J].SubCats) then
         begin
           Result := True;
           Exit;
@@ -895,21 +887,21 @@ begin
   end;
 end;
 
-function TItems.GetDollItemSubCat(ACatSet: TCatSet): TSubCSet;
+function TItems.GetDollItemSubCat(ACatSet: TCatSet): TSubCats;
 begin
   Result := DungeonItems[ItemIndex(GetDollItemID(ACatSet))].SubCats;
 end;
 
 function TItems.IsBow: Boolean;
 begin
-  Result := (scBow in GetDollItemSubCat(WeaponSet)) and
-    (scBow in GetDollItemSubCat(ArmorSet))
+  Result := (scBow = GetDollItemSubCat(WeaponSet)) and
+    (scBow = GetDollItemSubCat(ArmorSet))
 end;
 
 function TItems.IsCrossBow: Boolean;
 begin
-  Result := (scCrossBow in GetDollItemSubCat(WeaponSet)) and
-    (scCrossBow in GetDollItemSubCat(ArmorSet))
+  Result := (scCrossBow = GetDollItemSubCat(WeaponSet)) and
+    (scCrossBow = GetDollItemSubCat(ArmorSet))
 end;
 
 function TItems.IsRangedWeapon: Boolean;

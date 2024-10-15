@@ -56,7 +56,7 @@ uses
   Trollhunter.Map,
   Trollhunter.Map.Tiles,
   Trollhunter.Lang,
-  Trollhunter.Skill;
+  Trollhunter.Skill, Trollhunter.Item.Pattern;
 
 { TSceneItem }
 
@@ -84,25 +84,25 @@ begin
       and (Creatures.PC.Inv.GetTough(I) > 0))
       or (DungeonItems[V].MaxTough = 0); }
     for J := 1 to 26 do
-      if (DungeonItems[V].Category = DungeonItems[KeyIDToInvItemID(J)].Category)
-      then
+      if (ItemPatterns.Patterns[V].Category = ItemPatterns.Patterns
+        [KeyIDToInvItemID(J)].Category) then
         UnEquip(J);
     // if (B and (DungeonItems[V].Category in WeapArmSet))
     // or (DungeonItems[V].Category in AmuRingSet)
-    if (DungeonItems[V].Category in WeapArmSet + AmuRingSet) and
+    if (ItemPatterns.Patterns[V].Category in WeapArmSet + AmuRingSet) and
       Creatures.PC.Inv.Equip(I) then
     begin
-      Creatures.PC.Prop.MinDamage := Creatures.PC.Prop.MinDamage + DungeonItems
-        [V].MinDamage;
-      Creatures.PC.Prop.MaxDamage := Creatures.PC.Prop.MaxDamage + DungeonItems
-        [V].MaxDamage;
-      Creatures.PC.Prop.Protect := Creatures.PC.Prop.Protect + DungeonItems
-        [V].Protect;
+      Creatures.PC.Prop.MinDamage := Creatures.PC.Prop.MinDamage +
+        ItemPatterns.Patterns[V].MinDamage;
+      Creatures.PC.Prop.MaxDamage := Creatures.PC.Prop.MaxDamage +
+        ItemPatterns.Patterns[V].MaxDamage;
+      Creatures.PC.Prop.Protect := Creatures.PC.Prop.Protect +
+        ItemPatterns.Patterns[V].Protect;
       Creatures.PC.Calc;
 
       if IsShowLog then
         Log.Add(Format(Language.GetLang(96),
-          [Language.GetItemLang(DungeonItems[V].Sprite)]));
+          [Language.GetItemLang(ItemPatterns.Patterns[V].ID)]));
       // You equip a %s.
       Scenes.Render;
     end;
@@ -117,17 +117,18 @@ begin
   try
     if Creatures.PC.Inv.UnEquip(I) then
     begin
-      Creatures.PC.Prop.MinDamage := Creatures.PC.Prop.MinDamage + DungeonItems
-        [KeyIDToInvItemID(I)].MinDamage;
-      Creatures.PC.Prop.MaxDamage := Creatures.PC.Prop.MaxDamage + DungeonItems
-        [KeyIDToInvItemID(I)].MaxDamage;
-      Creatures.PC.Prop.Protect := Creatures.PC.Prop.Protect + DungeonItems
-        [KeyIDToInvItemID(I)].Protect;
+      Creatures.PC.Prop.MinDamage := Creatures.PC.Prop.MinDamage +
+        ItemPatterns.Patterns[KeyIDToInvItemID(I)].MinDamage;
+      Creatures.PC.Prop.MaxDamage := Creatures.PC.Prop.MaxDamage +
+        ItemPatterns.Patterns[KeyIDToInvItemID(I)].MaxDamage;
+      Creatures.PC.Prop.Protect := Creatures.PC.Prop.Protect +
+        ItemPatterns.Patterns[KeyIDToInvItemID(I)].Protect;
       Creatures.PC.Calc;
 
       if IsShowLog then
         Log.Add(Format(Language.GetLang(97),
-          [Language.GetItemLang(DungeonItems[KeyIDToInvItemID(I)].Sprite)]));
+          [Language.GetItemLang(ItemPatterns.Patterns
+          [KeyIDToInvItemID(I)].ID)]));
       // You unequip a %s.
       Scenes.Render;
     end;
@@ -165,7 +166,7 @@ begin
           end;
         end;
       ord('W'):
-        if (DungeonItems[I].Category in EquipSet) then
+        if (ItemPatterns.Patterns[I].Category in EquipSet) then
         begin
           if not Creatures.PC.Inv.GetDoll(ItemIndex) then
             Equip(ItemIndex)
@@ -175,7 +176,7 @@ begin
           Scenes.Scene := SceneInv;
         end;
       ord('U'):
-        if (DungeonItems[I].Category in UseSet) then
+        if (ItemPatterns.Patterns[I].Category in UseSet) then
         begin
           Use(ItemIndex);
           Log.Apply;
@@ -183,7 +184,7 @@ begin
           Scenes.Scene := SceneInv;
         end;
       ord('R'):
-        if (DungeonItems[I].Category in ScrollSet) then
+        if (ItemPatterns.Patterns[I].Category in ScrollSet) then
         begin
           Read(ItemIndex);
           Log.Apply;
@@ -191,7 +192,7 @@ begin
           Scenes.Scene := SceneGame;
         end;
       ord('Q'):
-        if (DungeonItems[I].Category in PotionSet) then
+        if (ItemPatterns.Patterns[I].Category in PotionSet) then
         begin
           Drink(ItemIndex);
           Log.Apply;
@@ -199,7 +200,7 @@ begin
           Scenes.Scene := SceneGame;
         end;
       ord('D'):
-        if (DungeonItems[I].Category in DropSet) and
+        if (ItemPatterns.Patterns[I].Category in DropSet) and
           not Creatures.PC.Inv.GetDoll(ItemIndex) then
         begin
           Drop(ItemIndex);
@@ -269,125 +270,128 @@ var
     with Graph.Surface.Canvas do
     begin
       Font.Color := cWhiteGre;
-      with DungeonItems[I] do
+      with ItemPatterns.Patterns[I] do
       begin
         // Life
-        if (scLife in SubCats) then
+        if (scLife = SubCats) then
           Add(Language.GetLang(223));
-        if (scLife25 in SubCats) then
+        if (scLife25 = SubCats) then
           Add(Format(Language.GetLang(81), [25]));
-        if (scLife50 in SubCats) then
+        if (scLife50 = SubCats) then
           Add(Format(Language.GetLang(81), [50]));
-        if (scLife75 in SubCats) then
+        if (scLife75 = SubCats) then
           Add(Format(Language.GetLang(81), [75]));
-        if (scLife100 in SubCats) then
+        if (scLife100 = SubCats) then
           Add(Format(Language.GetLang(81), [100]));
-        if (scLife200 in SubCats) then
+        if (scLife200 = SubCats) then
           Add(Format(Language.GetLang(81), [200]));
         // Mana
-        if (scMana in SubCats) then
+        if (scMana = SubCats) then
           Add(Language.GetLang(224));
-        if (scMana25 in SubCats) then
+        if (scMana25 = SubCats) then
           Add(Format(Language.GetLang(82), [25]));
-        if (scMana50 in SubCats) then
+        if (scMana50 = SubCats) then
           Add(Format(Language.GetLang(82), [50]));
-        if (scMana75 in SubCats) then
+        if (scMana75 = SubCats) then
           Add(Format(Language.GetLang(82), [75]));
-        if (scMana100 in SubCats) then
+        if (scMana100 = SubCats) then
           Add(Format(Language.GetLang(82), [100]));
-        if (scMana200 in SubCats) then
+        if (scMana200 = SubCats) then
           Add(Format(Language.GetLang(82), [200]));
         // Atr
-        if (scStrength in SubCats) then
+        if (scStrength = SubCats) then
           Add(Format('%s +1.', [Language.GetLang(15)]));
-        if (scDexterity in SubCats) then
+        if (scDexterity = SubCats) then
           Add(Format('%s +1.', [Language.GetLang(16)]));
-        if (scIntelligence in SubCats) then
+        if (scIntelligence = SubCats) then
           Add(Format('%s +1.', [Language.GetLang(17)]));
-        if (scSpeed in SubCats) then
+        if (scSpeed = SubCats) then
           Add(Format('%s +1.', [Language.GetLang(18)]));
         // Misc
-        if (scFill in SubCats) then
+        if (scFill = SubCats) then
           Add(Language.GetLang(80));
-        if (scAntidote in SubCats) then
+        if (scAntidote = SubCats) then
           Add(Language.GetLang(79));
-        if (scKey in SubCats) then
+        if (scKey = SubCats) then
           Add(Language.GetLang(112));
-        if (scTeleport in SubCats) then
+        if (scTeleport = SubCats) then
           Add(Language.GetLang(272));
-        if (scSummon in SubCats) then
+        if (scSummon = SubCats) then
           Add(Language.GetLang(273));
-        if (scIdentify in SubCats) then
+        if (scIdentify = SubCats) then
           Add(Language.GetLang(274));
-        if (scPortal in SubCats) then
+        if (scPortal = SubCats) then
           Add(Language.GetLang(275));
-        if (scWizardEye in SubCats) then
+        if (scWizardEye = SubCats) then
           Add(Format('%s %d.', [Language.GetLang(115),
             Creatures.PC.TempSys.Power('WizardEye')]));
-        if (scDispel in SubCats) then
+        if (scDispel = SubCats) then
           Add(Language.GetLang(230));
         // Repair
-        if (scRepair in SubCats) then
+        if (scRepair = SubCats) then
           Add(Language.GetLang(270));
-        if (scRepairAll in SubCats) then
+        if (scRepairAll = SubCats) then
           Add(Language.GetLang(271));
-        if (scRepair3 in SubCats) then
+        if (scRepair3 = SubCats) then
           Add(Format('%s 3.', [Language.GetLang(89)]));
-        if (scRepair6 in SubCats) then
+        if (scRepair6 = SubCats) then
           Add(Format('%s 6.', [Language.GetLang(89)]));
-        if (scRepair9 in SubCats) then
+        if (scRepair9 = SubCats) then
           Add(Format('%s 9.', [Language.GetLang(89)]));
-        if (scRepair12 in SubCats) then
+        if (scRepair12 = SubCats) then
           Add(Format('%s 12.', [Language.GetLang(89)]));
-        if (scRepair15 in SubCats) then
+        if (scRepair15 = SubCats) then
           Add(Format('%s 15.', [Language.GetLang(89)]));
-        if (scRepair25 in SubCats) then
+        if (scRepair25 = SubCats) then
           Add(Format('%s 25.', [Language.GetLang(89)]));
       end;
       //
       Font.Color := cSkyBlue;
-      if (DungeonItems[I].MaxDamage > 0) then
-        Add(Format('%s %d-%d', [Language.GetLang(32), DungeonItems[I].MinDamage,
-          DungeonItems[I].MaxDamage]));
-      if (DungeonItems[I].Protect > 0) then
-        Add(Format('%s %d', [Language.GetLang(33), DungeonItems[I].Protect]));
+      if (ItemPatterns.Patterns[I].MaxDamage > 0) then
+        Add(Format('%s %d-%d', [Language.GetLang(32),
+          ItemPatterns.Patterns[I].MinDamage,
+          ItemPatterns.Patterns[I].MaxDamage]));
+      if (ItemPatterns.Patterns[I].Protect > 0) then
+        Add(Format('%s %d', [Language.GetLang(33),
+          ItemPatterns.Patterns[I].Protect]));
       // Bonuses
-      Font.Color := cSkyBlue;
-      if (DungeonItems[I].BonusStrength > 0) then
+      { Font.Color := cSkyBlue;
+        if (DungeonItems[I].BonusStrength > 0) then
         Add(Format('%s %d', [Language.GetLang(15),
-          DungeonItems[I].BonusStrength]));
-      if (DungeonItems[I].BonusDexterity > 0) then
+        DungeonItems[I].BonusStrength]));
+        if (DungeonItems[I].BonusDexterity > 0) then
         Add(Format('%s %d', [Language.GetLang(16),
-          DungeonItems[I].BonusDexterity]));
-      if (DungeonItems[I].BonusIntelligence > 0) then
+        DungeonItems[I].BonusDexterity]));
+        if (DungeonItems[I].BonusIntelligence > 0) then
         Add(Format('%s %d', [Language.GetLang(17),
-          DungeonItems[I].BonusIntelligence]));
-      if (DungeonItems[I].BonusSpeed > 0) then
+        DungeonItems[I].BonusIntelligence]));
+        if (DungeonItems[I].BonusSpeed > 0) then
         Add(Format('%s %d', [Language.GetLang(18),
-          DungeonItems[I].BonusSpeed]));
-      if (DungeonItems[I].BonusLife > 0) then
+        DungeonItems[I].BonusSpeed]));
+        if (DungeonItems[I].BonusLife > 0) then
         Add(Format('%s %d', [Language.GetLang(22), DungeonItems[I].BonusLife]));
-      if (DungeonItems[I].BonusMana > 0) then
-        Add(Format('%s %d', [Language.GetLang(23), DungeonItems[I].BonusMana]));
+        if (DungeonItems[I].BonusMana > 0) then
+        Add(Format('%s %d', [Language.GetLang(23), DungeonItems[I].BonusMana])); }
       //
       Font.Color := cWhiteGre;
-      if (DungeonItems[I].ManaCost > 0) then
+      if (ItemPatterns.Patterns[I].ManaCost > 0) then
         Add(Format('%s -%d (%d/%d)', [Language.GetLang(23),
-          DungeonItems[I].ManaCost, Creatures.PC.Mana.Cur,
+          ItemPatterns.Patterns[I].ManaCost, Creatures.PC.Mana.Cur,
           Creatures.PC.Mana.Max]));
-      if (DungeonItems[I].NeedMagic > 0) then
+      { if (ItemPatterns.Patterns[I].NeedMagic > 0) then
         Add(Format('%s %d (%d)', [Language.GetLang(280),
-          DungeonItems[I].NeedMagic, Skills.GetSkill('MAGIC').Level]));
+        ItemPatterns.Patterns[I].NeedMagic, Skills.GetSkill('MAGIC').Level])); }
       //
       Font.Color := cSkyBlue;
-      if (DungeonItems[I].Weight > 0) then
+      if (ItemPatterns.Patterns[I].Weight > 0) then
         Add(Language.GetLang(42) + Items.GetWeight(I));
-      if (DungeonItems[I].MaxTough > 0) then
+      if (ItemPatterns.Patterns[I].MaxTough > 0) then
       begin
         if (Creatures.PC.Inv.GetTough(ItemIndex) <= 0) then
           Font.Color := cRdRed;
         Add(Format('%s %d/%d', [Language.GetLang(40),
-          Creatures.PC.Inv.GetTough(ItemIndex), DungeonItems[I].MaxTough]));
+          Creatures.PC.Inv.GetTough(ItemIndex),
+          ItemPatterns.Patterns[I].MaxTough]));
       end;
     end;
   end;
@@ -399,14 +403,14 @@ begin
   with Graph do
     try
       I := KeyIDToInvItemID(ItemIndex);
-      ID := DungeonItems[I].Sprite;
+      ID := ItemPatterns.Patterns[I].ID;
       P := Height div CharHeight div 2 - 5;
       Clear(0);
-      if (DungeonItems[I].AdvSprite = '') then
+      if (ItemPatterns.Patterns[I].Sprite = '') then
         Tileset.Handle := Windows.LoadBitmap(hInstance, PChar(ID))
       else
         Tileset.Handle := Windows.LoadBitmap(hInstance,
-          PChar(DungeonItems[I].AdvSprite));
+          PChar(ItemPatterns.Patterns[I].Sprite));
       BitmapFromTileset(Icon, Tileset, 0);
       Items.Colors(Icon, I);
       ScaleBmp(Icon, 64, 64);
@@ -414,19 +418,19 @@ begin
       with Surface.Canvas do
       begin
         Draw((Surface.Width div 2) - 32, ((P - 2) * CharHeight) - 64, Icon);
-        Text.TitleOut(Language.GetItemLang(DungeonItems[I].Sprite), P - 1);
+        Text.TitleOut(Language.GetItemLang(ItemPatterns.Patterns[I].ID), P - 1);
         Inc(P, 2);
-        T := DungeonItems[I].ColorTag;
+        T := ItemPatterns.Patterns[I].ColorTag;
         if (T = 0) then
           RenderItemInfo(I)
         else
         begin
-          if (DungeonItems[I].Category = dsScroll) and
+          if (ItemPatterns.Patterns[I].Category = 'SCROLL') and
             Creatures.PC.Scrolls.IsDefined(T) then
             RenderItemInfo(I)
           else
             Add(Language.GetLang(23));
-          if (DungeonItems[I].Category = dsPotion) and
+          if (ItemPatterns.Patterns[I].Category = 'POTION') and
             Creatures.PC.Potions.IsDefined(T) then
             RenderItemInfo(I)
           else
@@ -468,15 +472,15 @@ begin
       Exit;
     T := Creatures.PC.Inv.GetTough(I);
     J := KeyIDToInvItemID(I);
-    C := Creatures.PC.Inv.GetCount(DungeonItems[J].Sprite);
+    C := Creatures.PC.Inv.GetCount(ItemPatterns.Patterns[J].ID);
     if Creatures.PC.Inv.Del(I, C) then
     begin
       if (C = 1) then
       begin
         Log.Add(Format(Language.GetLang(91),
-          [Language.GetItemLang(DungeonItems[J].Sprite)]));
+          [Language.GetItemLang(ItemPatterns.Patterns[J].ID)]));
         Items.Add(Creatures.PC.Pos.X, Creatures.PC.Pos.Y,
-          DungeonItems[J].Sprite);
+          ItemPatterns.Patterns[J].ID);
         with Items.Item[High(Items.Item)] do
         begin
           Prop.Tough := T;
@@ -486,9 +490,9 @@ begin
       else
       begin
         Log.Add(Format(Language.GetLang(92),
-          [Language.GetItemLang(DungeonItems[J].Sprite), C]));
+          [Language.GetItemLang(ItemPatterns.Patterns[J].ID), C]));
         Items.Add(Creatures.PC.Pos.X, Creatures.PC.Pos.Y,
-          DungeonItems[J].Sprite);
+          ItemPatterns.Patterns[J].ID);
         Items.Item[High(Items.Item)].Count := C;
       end;
     end;
@@ -504,7 +508,7 @@ var
 begin
   try
     J := KeyIDToInvItemID(I);
-    SceneInv.ItemUseID := DungeonItems[J].Sprite;
+    SceneInv.ItemUseID := ItemPatterns.Patterns[J].ID;
     Scenes.Scene := SceneInv;
   except
     on E: Exception do
@@ -521,14 +525,15 @@ begin
     with Creatures.PC do
       if Inv.Del(I, 1) then
       begin
-        T := DungeonItems[J].ColorTag;
+        T := ItemPatterns.Patterns[J].ColorTag;
         Log.Add(Format(Language.GetLang(94),
-          [Language.GetItemLang(DungeonItems[J].Sprite)]));
+          [Language.GetItemLang(ItemPatterns.Patterns[J].ID)]));
         if (T > 0) and not Creatures.PC.Potions.IsDefined(T) then
         begin
           Creatures.PC.Potions.SetDefined(T);
           Log.Add(Language.GetLang(225) + ' ' +
-            AnsiLowerCase(Language.GetItemLang(DungeonItems[J].Sprite)) + '.');
+            AnsiLowerCase(Language.GetItemLang(ItemPatterns.Patterns[J]
+            .ID)) + '.');
         end;
         Items.UseItem(J, PotionSet);
       end;
@@ -546,21 +551,21 @@ begin
     J := KeyIDToInvItemID(I);
     with Creatures.PC do
     begin
-      if (Mana.Cur >= DungeonItems[J].ManaCost) then
+      if (Mana.Cur >= ItemPatterns.Patterns[J].ManaCost) then
       begin
         if Inv.Del(I, 1) then
         begin
-          T := DungeonItems[J].ColorTag;
+          T := ItemPatterns.Patterns[J].ColorTag;
           Log.Add(Format(Language.GetLang(100),
-            [Language.GetItemLang(DungeonItems[J].Sprite)]));
+            [Language.GetItemLang(ItemPatterns.Patterns[J].ID)]));
           if (T > 0) and not Creatures.PC.Scrolls.IsDefined(T) then
           begin
             Creatures.PC.Scrolls.SetDefined(T);
             Log.Add(Language.GetLang(220) + ' ' +
-              AnsiLowerCase(Language.GetItemLang(DungeonItems[J]
-              .Sprite)) + '.');
+              AnsiLowerCase(Language.GetItemLang(ItemPatterns.Patterns[J]
+              .ID)) + '.');
           end;
-          Mana.Dec(DungeonItems[J].ManaCost);
+          Mana.Dec(ItemPatterns.Patterns[J].ManaCost);
           Items.UseItem(J, ScrollSet);
         end;
       end
