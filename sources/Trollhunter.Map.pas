@@ -103,7 +103,8 @@ uses
   Trollhunter.Color,
   Trollhunter.Light,
   Trollhunter.Resources,
-  Trollhunter.Map.Pattern;
+  Trollhunter.Map.Pattern,
+  Trollhunter.Item.Pattern;
 
 { TMap }
 
@@ -499,8 +500,8 @@ begin
         Y := Rand(2, Map.Height - 3);
       until (Map.Cell[Y][X].Tile in FloorSet);
       S := GetRandItemID;
-      if (DungeonItems[Trollhunter.Item.Items.ItemIndex(S)].Category = dsGold)
-      then
+      if (ItemPatterns.Patterns[Trollhunter.Item.Items.ItemIndex(S)
+        ].Category = 'GOLD') then
         SpotDraw(pdItem, X, Y, S, Clamp(MapPatterns.GetPattern.Level, 2, 5))
       else
         Trollhunter.Item.Items.Add(X, Y, GetRandItemID);
@@ -523,16 +524,16 @@ begin
     Map.Items := RemoveBack(',', Map.Items);
     V := Explode(',', Map.Items);
     Result := V[Rand(0, High(V))];
-    if (DungeonItems[Trollhunter.Item.Items.ItemIndex(Result)].Rarity = riMagic)
-    then
+    if (ItemPatterns.Patterns[Trollhunter.Item.Items.ItemIndex(Result)
+      ].Rarity = 'MAGIC') then
       if (Rand(0, 5) > 0) then
         Result := GetRandItemID;
-    if (DungeonItems[Trollhunter.Item.Items.ItemIndex(Result)].Rarity = riRare)
-    then
+    if (ItemPatterns.Patterns[Trollhunter.Item.Items.ItemIndex(Result)
+      ].Rarity = 'RARE') then
       if (Rand(0, 15) > 0) then
         Result := GetRandItemID;
-    if (DungeonItems[Trollhunter.Item.Items.ItemIndex(Result)].Rarity = riUnique)
-    then
+    if (ItemPatterns.Patterns[Trollhunter.Item.Items.ItemIndex(Result)
+      ].Rarity = 'UNIQUE') then
       if (Rand(0, 45) > 0) then
         Result := GetRandItemID;
   except

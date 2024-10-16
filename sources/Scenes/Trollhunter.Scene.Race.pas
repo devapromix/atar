@@ -44,7 +44,8 @@ uses
   Trollhunter.Race,
   Trollhunter.Utils,
   Trollhunter.Item,
-  Trollhunter.Skill;
+  Trollhunter.Skill,
+  Trollhunter.Item.Pattern;
 
 { TSceneRace }
 
@@ -380,8 +381,9 @@ begin
           F := ' (' + IntToStr(Creatures.PC.Inv.GetCount(J)) + 'x)'
         else
           F := '';
-        Graph.Text.DrawText(T * 3, H + R, Language.GetItemLang(DungeonItems[V].Sprite) +
-          F + Items.GetDollText(J, V));
+        Graph.Text.DrawText(T * 3, H + R,
+          Language.GetItemLang(ItemPatterns.Patterns[V].ID) + F +
+          Items.GetDollText(J, V));
       end;
       //
       if (Races.RaceList.Count = 1) then

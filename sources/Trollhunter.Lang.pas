@@ -240,41 +240,10 @@ begin
   end;
 end;
 
-procedure SaveItLang;
-var
-  SL: TStringList;
-  I: Integer;
-  S: string;
-begin
-  S := ',';
-  SL := TStringList.Create;
-  SL.WriteBOM := False;
-  try
-    SL.Append('[');
-    for I := 0 to ItemsCount - 1 do
-    begin
-      SL.Append('	{');
-      SL.Append('		"id": "' + ItemName[I][0] + '",');
-      SL.Append('		"en": "' + ItemName[I][1] + '",');
-      SL.Append('		"ru": "' + ItemName[I][2] + '",');
-      SL.Append('		"uk": ""');
-      if I = ItemsCount - 1 then
-        S := '';
-      SL.Append('	}' + S);
-    end;
-    SL.Append(']');
-    SL.SaveToFile(Path + 'languages.items.json', TEncoding.UTF8);
-  finally
-    SL.Free;
-  end;
-end;
-
 initialization
 
 Language := TLanguage.Create;
 Language.LoadFromResources;
-
-SaveItLang;
 
 finalization
 

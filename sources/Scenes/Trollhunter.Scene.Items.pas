@@ -38,7 +38,7 @@ uses
   Trollhunter.Color,
   Trollhunter.Utils,
   Trollhunter.Lang,
-  Trollhunter.Scene.Inv;
+  Trollhunter.Scene.Inv, Trollhunter.Item.Pattern;
 
 { TSceneItem }
 
@@ -151,21 +151,22 @@ begin
               Font.Style := [];
             end;
             Graph.Text.DrawOut(1, Y, S);
-            if (DungeonItems[V].AdvSprite = '') then
+            if (ItemPatterns.Patterns[V].Sprite = '') then
               Tileset.Handle := Windows.LoadBitmap(hInstance, PChar(ID))
             else
               Tileset.Handle := Windows.LoadBitmap(hInstance,
-                PChar(DungeonItems[V].AdvSprite));
+                PChar(ItemPatterns.Patterns[V].Sprite));
             Graph.BitmapFromTileset(Icon, Tileset, 0);
             Items.Colors(Icon, V);
             ScaleBmp(Icon, Graph.CharHeight, Graph.CharHeight);
             Icon.Transparent := True;
             Draw(Graph.CharWidth * 3, Y * Graph.CharHeight, Icon);
             Items.SetColor(V);
-            if ((DungeonItems[V].MaxTough > 0) and
+            if ((ItemPatterns.Patterns[V].MaxTough > 0) and
               (Items.Item[I].Prop.Tough <= 0)) then
               Font.Color := cRed;
-            Graph.Text.DrawText(5, Y, Language.GetItemLang(DungeonItems[V].Sprite) +
+            Graph.Text.DrawText(5, Y,
+              Language.GetItemLang(ItemPatterns.Patterns[V].ID) +
               Items.GetItemProp(Items.Item[I].Count, Items.Item[I].Prop.Tough,
               I, V) + Items.GetWeight(V));
             Inc(Y);
