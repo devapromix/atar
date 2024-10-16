@@ -48,7 +48,8 @@ uses
   Trollhunter.Scene.Game,
   Trollhunter.Scene.Item,
   Trollhunter.Scene.Char,
-  Trollhunter.Scene.Items;
+  Trollhunter.Scene.Items,
+  Trollhunter.Item.Pattern;
 
 { TSceneInv }
 
@@ -124,8 +125,8 @@ begin
           begin
             if (ItemUseID <> '') then
             begin
-              Items.Use(ItemUseID, DungeonItems[SceneItem.KeyIDToInvItemID(I)
-                ].Sprite, I);
+              Items.Use(ItemUseID,
+                ItemPatterns.Patterns[SceneItem.KeyIDToInvItemID(I)].ID, I);
               ItemUseID := '';
               Log.Apply;
               Game.Save;
@@ -166,7 +167,7 @@ end;
 
 procedure TSceneInv.RenderUseIcon;
 var
-  B, R: string;
+  ID, R: string;
 
   procedure DrawIcon(G: string; Y: Integer);
   var
@@ -176,11 +177,11 @@ var
     Tileset := Graphics.TBitmap.Create;
     try
       I := Items.ItemIndex(G);
-      if (DungeonItems[I].AdvSprite = '') then
+      if (ItemPatterns.Patterns[I].Sprite = '') then
         Tileset.Handle := Windows.LoadBitmap(hInstance, PChar(G))
       else
         Tileset.Handle := Windows.LoadBitmap(hInstance,
-          PChar(DungeonItems[I].AdvSprite));
+          PChar(ItemPatterns.Patterns[I].Sprite));
       Graph.BitmapFromTileset(Item, Tileset, 0);
       Items.Colors(Item, I);
       ScaleBmp(Item, 64, 64);
@@ -193,9 +194,9 @@ var
 
 begin
   DrawIcon(ItemUseID, 96);
-  B := DungeonItems[Items.ItemIndex(CursorPos)].Sprite;
-  DrawIcon(B, 176);
-  R := Items.Craft(ItemUseID, B);
+  ID := ItemPatterns.Patterns[Items.ItemIndex(CursorPos)].ID;
+  DrawIcon(ID, 176);
+  R := Items.Craft(ItemUseID, ID);
   if (R <> '') then
     DrawIcon(R, 255);
 end;
@@ -231,12 +232,12 @@ begin
         end;
         Graph.Text.DrawOut(1, Y, S);
 
-        if (DungeonItems[ID].AdvSprite = '') then
+        if (ItemPatterns.Patterns[ID].Sprite = '') then
           Tileset.Handle := Windows.LoadBitmap(hInstance,
             PChar(Creatures.PC.Inv.GetIdent(I)))
         else
           Tileset.Handle := Windows.LoadBitmap(hInstance,
-            PChar(DungeonItems[ID].AdvSprite));
+            PChar(ItemPatterns.Patterns[ID].Sprite));
         Graph.BitmapFromTileset(Icon, Tileset, 0);
         Items.Colors(Icon, ID);
         ScaleBmp(Icon, Graph.CharHeight, Graph.CharHeight);
@@ -251,10 +252,11 @@ begin
         end
         else if (Font.Style <> [fsBold]) then
           Font.Style := [];
-        if ((DungeonItems[ID].MaxTough > 0) and
+        if ((ItemPatterns.Patterns[ID].MaxTough > 0) and
           (Creatures.PC.Inv.GetTough(I) <= 0)) then
           Font.Color := cRed;
-        Graph.Text.DrawText(5, Y, Trim(Language.GetItemLang(DungeonItems[ID].Sprite) +
+        Graph.Text.DrawText(5, Y,
+          Trim(Language.GetItemLang(ItemPatterns.Patterns[ID].ID) +
           Items.GetItemProp(Creatures.PC.Inv.GetCount(I),
           Creatures.PC.Inv.GetTough(I), I, ID) + Items.GetWeight(ID) +
           Items.GetDollText(I, ID)));

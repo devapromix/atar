@@ -72,6 +72,7 @@ function RemoveBack(C: Char; S: string): string;
 function GetStrValue(Key, S: string): string;
 function GetStrKey(Key, S: string): string;
 function TrueOrFalse(const AValue: Boolean): string;
+function ColorToInt(const AColor: string): Integer;
 
 implementation
 
@@ -658,6 +659,11 @@ end;
 function TrueOrFalse(const AValue: Boolean): string;
 begin
   Result := IfThen(AValue, 'true', 'false');
+end;
+
+function ColorToInt(const AColor: string): Integer;
+begin
+  Result := Integer(clWhite);
 end;
 
 initialization

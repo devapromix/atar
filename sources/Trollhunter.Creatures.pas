@@ -124,7 +124,7 @@ begin
     if (ACreature = Creatures.PC) then
     begin
       // The %s hits you %d.
-      Items.Damage(ArmorSet, 7);
+      Items.Damage(ArmorCategories, 7);
       Log.Add(Format(Language.GetLang(68), [EnemyName, ADamage]));
     end
     else
@@ -137,7 +137,7 @@ begin
       else
       begin
         // You hit the %s %d.
-        Items.Damage(WeaponSet, 5);
+        Items.Damage(WeaponCategories, 5);
         Log.Add(Format(Language.GetLang(69), [EnemyName, ADamage]));
       end;
     end;

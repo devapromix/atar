@@ -89,8 +89,8 @@ begin
         UnEquip(J);
     // if (B and (DungeonItems[V].Category in WeapArmSet))
     // or (DungeonItems[V].Category in AmuRingSet)
-    if (ItemPatterns.Patterns[V].Category in WeapArmSet + AmuRingSet) and
-      Creatures.PC.Inv.Equip(I) then
+    if Items.IsCategory(ItemPatterns.Patterns[V].Category, EquipmentCategories)
+      and Creatures.PC.Inv.Equip(I) then
     begin
       Creatures.PC.Prop.MinDamage := Creatures.PC.Prop.MinDamage +
         ItemPatterns.Patterns[V].MinDamage;
@@ -166,7 +166,8 @@ begin
           end;
         end;
       ord('W'):
-        if (ItemPatterns.Patterns[I].Category in EquipSet) then
+        if Items.IsCategory(ItemPatterns.Patterns[I].Category,
+          EquipmentCategories) then
         begin
           if not Creatures.PC.Inv.GetDoll(ItemIndex) then
             Equip(ItemIndex)
@@ -176,7 +177,8 @@ begin
           Scenes.Scene := SceneInv;
         end;
       ord('U'):
-        if (ItemPatterns.Patterns[I].Category in UseSet) then
+        if Items.IsCategory(ItemPatterns.Patterns[I].Category, UseCategories)
+        then
         begin
           Use(ItemIndex);
           Log.Apply;
@@ -184,7 +186,8 @@ begin
           Scenes.Scene := SceneInv;
         end;
       ord('R'):
-        if (ItemPatterns.Patterns[I].Category in ScrollSet) then
+        if Items.IsCategory(ItemPatterns.Patterns[I].Category, ReadCategories)
+        then
         begin
           Read(ItemIndex);
           Log.Apply;
@@ -192,7 +195,8 @@ begin
           Scenes.Scene := SceneGame;
         end;
       ord('Q'):
-        if (ItemPatterns.Patterns[I].Category in PotionSet) then
+        if Items.IsCategory(ItemPatterns.Patterns[I].Category, QuaffCategories)
+        then
         begin
           Drink(ItemIndex);
           Log.Apply;
@@ -200,8 +204,8 @@ begin
           Scenes.Scene := SceneGame;
         end;
       ord('D'):
-        if (ItemPatterns.Patterns[I].Category in DropSet) and
-          not Creatures.PC.Inv.GetDoll(ItemIndex) then
+        if Items.IsCategory(ItemPatterns.Patterns[I].Category, DropCategories)
+          and not Creatures.PC.Inv.GetDoll(ItemIndex) then
         begin
           Drop(ItemIndex);
           Log.Apply;
@@ -273,7 +277,7 @@ var
       with ItemPatterns.Patterns[I] do
       begin
         // Life
-        if (scLife = SubCats) then
+        {if (scLife = SubCats) then
           Add(Language.GetLang(223));
         if (scLife25 = SubCats) then
           Add(Format(Language.GetLang(81), [25]));
@@ -343,7 +347,7 @@ var
         if (scRepair15 = SubCats) then
           Add(Format('%s 15.', [Language.GetLang(89)]));
         if (scRepair25 = SubCats) then
-          Add(Format('%s 25.', [Language.GetLang(89)]));
+          Add(Format('%s 25.', [Language.GetLang(89)])); }
       end;
       //
       Font.Color := cSkyBlue;
@@ -438,7 +442,7 @@ begin
         end;
       end;
       Text.BarOut('esc', Language.GetLang(49), True);
-      if (DungeonItems[I].Category in EquipSet) then
+      {if (DungeonItems[I].Category in EquipSet) then
         AddCommand('W', Language.GetLang(95));
       if (DungeonItems[I].Category in UseSet) then
         AddCommand('U', Language.GetLang(98));
@@ -448,7 +452,7 @@ begin
         AddCommand('R', Language.GetLang(99));
       if (DungeonItems[I].Category in DropSet) and
         not Creatures.PC.Inv.GetDoll(ItemIndex) then
-        AddCommand('D', Language.GetLang(90));
+        AddCommand('D', Language.GetLang(90));}
       Render;
       Tileset.Free;
     except
