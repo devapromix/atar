@@ -128,7 +128,7 @@ uses
   Trollhunter.Screenshot,
   Trollhunter.Game,
   Trollhunter.Scene.Records,
-  Trollhunter.Formulas;
+  Trollhunter.Formulas, Trollhunter.Item.Pattern;
 
 { TPC }
 
@@ -190,9 +190,9 @@ end;
 
 procedure TPC.Redraw;
 var
-  I: Integer;
-  L: TCategory;
+  I, L: Integer;
   B, D: Graphics.TBitmap;
+  LCategories: TArray<string>;
 begin
   try
     with Graph.Surface.Canvas do
@@ -201,10 +201,13 @@ begin
       B.Handle := Windows.LoadBitmap(hInstance, 'PC');
       Graph.BitmapFromTileset(Image, B, Race);
       B.Free;
-      for L := Low(L) to High(L) do
+      LCategories := EquipmentCategories.Split([',']);
+      for L := 0 to Length(LCategories) - 1 do
         for I := 1 to Inv.Count do
-          if Inv.GetDoll(I) and (DungeonItems[Items.ItemIndex(I)].Category
-            in WeapArmSet) and (DungeonItems[Items.ItemIndex(I)].Category = L)
+          if Inv.GetDoll(I) and
+            Items.IsCategory(ItemPatterns.Patterns[Items.ItemIndex(I)].Category,
+            EquipmentCategories) and
+            (ItemPatterns.Patterns[Items.ItemIndex(I)].Category = LCategories[L])
           then
           begin
             D := Graphics.TBitmap.Create;
@@ -692,24 +695,24 @@ begin
   ID := Trim(Items.GetDollItemID(WeaponSet));
   if (ID = '') then
     Exit;
-  CS := DungeonItems[Items.ItemIndex(ID)].SubCats;
-  ///
-  if (scDagger = CS) then
+  { CS := DungeonItems[Items.ItemIndex(ID)].SubCats;
+    ///
+    if (scDagger = CS) then
     Skills.Up('DAGGERS');
-  if (scAxe = CS) then
+    if (scAxe = CS) then
     Skills.Up('AXES');
-  if (scSword = CS) then
+    if (scSword = CS) then
     Skills.Up('SWORDS');
-  if (scMace = CS) then
+    if (scMace = CS) then
     Skills.Up('MACES');
-  if (scSpear = CS) then
+    if (scSpear = CS) then
     Skills.Up('SPEARS');
-  if (scBow = CS) then
+    if (scBow = CS) then
     Skills.Up('BOWS');
-  if (scCrossBow = CS) then
+    if (scCrossBow = CS) then
     Skills.Up('CROSSBOWS');
-  if (scShield = CS) then
-    Skills.Up('SHIELDS');
+    if (scShield = CS) then
+    Skills.Up('SHIELDS'); }
 
   {
     'Dodge':1,

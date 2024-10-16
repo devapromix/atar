@@ -9,7 +9,8 @@ uses
   Trollhunter.Color,
   Trollhunter.Craft,
   Trollhunter.Entity,
-  Trollhunter.RandItems;
+  Trollhunter.RandItems,
+  Trollhunter.Item.Pattern;
 
 const
   ItemsCount = 75;
@@ -26,6 +27,22 @@ const
   CategoryStr: array [TCategory] of string = ('NONE', 'KEY', 'GOLD', 'BODY',
     'HEAD', 'FOOT', 'RHAND', 'LHAND', 'AMULET', 'RING', 'POTION', 'SCROLL',
     'REPAIR', 'CRAFT', 'PLANT');
+
+const
+  ArmorCategories = 'BODY, HEAD, FOOT, LHAND';
+  WeaponCategories = 'RHAND';
+  AmuRingCategories = 'AMULET, RING';
+  EquipmentCategories = 'BODY, HEAD, FOOT, RHAND, LHAND, AMULET, RING';
+  UseCategories = 'POTION, REPAIR, CRAFT';
+  ReadCategories = 'SCROLL';
+  QuaffCategories = 'POTION';
+  FoodCategories = 'PLANT';
+  CraftCategories = 'CRAFT';
+  RepairCategories = 'REPAIR';
+  KeyCategories = 'KEY';
+  DropCategories = EquipmentCategories + ',' + QuaffCategories + ',' +
+    RepairCategories + ',' + KeyCategories + ',' + CraftCategories + ',' +
+    FoodCategories + ',' + ReadCategories;
 
 type
   TSubCats = (scNone, scKey, scFill, scDispel, scAntidote, scTeleport, scPortal,
@@ -169,7 +186,7 @@ type
     HeroImage: Graphics.TBitmap;
     procedure SetCount(const Value: Integer);
   public
-    Prop: TItemRec;
+    Prop: TItemPattern;
     constructor Create(AX, AY: Integer);
     destructor Destroy; override;
     property Count: Integer read FCount write SetCount;
@@ -188,13 +205,13 @@ type
     procedure Pickup(Index: Integer = 0);
     procedure PickupAll;
     function Craft(A, B: string): string;
-    procedure Damage(const ItemSet: TCatSet; Chance: Byte = 3);
+    procedure Damage(const ACategories: string; Chance: Byte = 3);
     function IsDollSubCat(SC: TSubCats): Boolean;
     function IsBow: Boolean;
     function IsCrossBow: Boolean;
     function IsRangedWeapon: Boolean;
     function GetDollItemID(ACatSet: TCatSet): string;
-    function GetDollItemSubCat(ACatSet: TCatSet): TSubCats;
+    // function GetDollItemSubCat(ACatSet: TCatSet): TSubCats;
     procedure Add(const X, Y: Integer; AName: string); overload;
     procedure Add(const AIdent: string; const ACount: Integer = 1); overload;
     procedure AddAndEquip(ID: string; ACount: Integer = 1);
@@ -216,6 +233,7 @@ type
     procedure RenderPCInvStat(Y: Integer);
     constructor Create;
     destructor Destroy; override;
+    function IsCategory(const ACategory, ACategories: string): Boolean;
   end;
 
 var
@@ -239,7 +257,7 @@ uses
   Trollhunter.TempSys,
   Trollhunter.Inv,
   Trollhunter.Skill,
-  Trollhunter.Formulas, Trollhunter.Item.Pattern;
+  Trollhunter.Formulas;
 
 { TBaseItem }
 
@@ -251,7 +269,7 @@ begin
     HeroImage := Graphics.TBitmap.Create;
     HeroImage.Transparent := True;
     Count := 1;
-    Prop.Tough := 0;
+    //Prop.Tough := 0;
     SetPosition(AX, AY);
   except
     on E: Exception do
@@ -284,25 +302,25 @@ begin
     if (AName = '') then
       Exit;
     LIndex := ItemIndex(AName);
-    if (LIndex < 0) or (LIndex > High(DungeonItems)) then
+    if (LIndex < 0) then
       Exit;
     I := Length(FItem) + 1;
     SetLength(FItem, I);
     FItem[I - 1] := TBaseItem.Create(X, Y);
     with FItem[I - 1] do
-      with DungeonItems[LIndex] do
+      with ItemPatterns.Patterns[LIndex] do
       begin
         Name := AName;
-        Prop := DungeonItems[LIndex];
+        Prop := ItemPatterns.Patterns[LIndex];
         Count := Rand(MinCount, MaxCount);
-        if Prop.IsStack and (Category = dsGold) then
+        if Prop.IsStack and (Category = 'GOLD') then
           Count := Map.Level * Count;
         Prop.Tough := Rand(Prop.MaxTough div 3, Prop.MaxTough - 1);
 
-        if (AdvSprite = '') then
+        if (Sprite = '') then
           Tileset.Handle := Windows.LoadBitmap(hInstance, PChar(Name))
         else
-          Tileset.Handle := Windows.LoadBitmap(hInstance, PChar(AdvSprite));
+          Tileset.Handle := Windows.LoadBitmap(hInstance, PChar(Sprite));
 
         Graph.BitmapFromTileset(Image, Tileset, 1);
         HeroImage.Assign(Image);
@@ -329,15 +347,16 @@ begin
       Exit;
     LIdent := UpperCase(AIdent);
     LIndex := ItemIndex(LIdent);
-    if (LIndex < 0) or (LIndex > High(DungeonItems)) then
+    if (LIndex < 0) then
       Exit;
     with Creatures.PC do
     begin
       LCount := ACount;
-      if (LCount > 1) and not DungeonItems[LIndex].IsStack then
+      if (LCount > 1) and not ItemPatterns.Patterns[LIndex].IsStack then
         LCount := 1;
-      if not Inv.Add(LIdent, LCount, DungeonItems[LIndex].Weight,
-        DungeonItems[LIndex].MaxTough, DungeonItems[LIndex].IsStack) then
+      if not Inv.Add(LIdent, LCount, ItemPatterns.Patterns[LIndex].Weight,
+        ItemPatterns.Patterns[LIndex].MaxTough,
+        ItemPatterns.Patterns[LIndex].IsStack) then
         Exit;
     end;
   except
@@ -359,26 +378,24 @@ end;
 
 procedure TItems.Colors(var Icon: Graphics.TBitmap; ItemIndex: Integer);
 begin
-  with DungeonItems[ItemIndex] do
+  with ItemPatterns.Patterns[ItemIndex] do
     try
       if (ColorTag > 0) then
       begin
-        case Category of
-          dsPotion:
-            Graph.ModTileColor(Icon, AdvSprite,
-              Creatures.PC.Potions.GetColor(ColorTag));
-          dsScroll:
-            Graph.ModTileColor(Icon, AdvSprite,
-              Creatures.PC.Scrolls.GetColor(ColorTag));
-        end;
+        if Category = 'POTION' then
+          Graph.ModTileColor(Icon, Sprite,
+            Creatures.PC.Potions.GetColor(ColorTag));
+        if Category = 'SCROLL' then
+          Graph.ModTileColor(Icon, Sprite,
+            Creatures.PC.Scrolls.GetColor(ColorTag));
         Exit;
       end;
-      if (Color = clNone) then
+      if (Color = 'NONE') then
         Exit;
-      if (AdvSprite = '') then
-        Graph.ModTileColor(Icon, Sprite, Color)
+      if (Sprite = '') then
+        Graph.ModTileColor(Icon, Sprite, ColorToInt(Color))
       else
-        Graph.ModTileColor(Icon, AdvSprite, Color);
+        Graph.ModTileColor(Icon, Sprite, ColorToInt(Color));
     except
       on E: Exception do
         Error.Add('Items.Colors', E.Message);
@@ -399,15 +416,16 @@ begin
     end;
 end;
 
-procedure TItems.Damage(const ItemSet: TCatSet; Chance: Byte);
+procedure TItems.Damage(const ACategories: string; Chance: Byte);
 var
   I, J: Integer;
 begin
   with Creatures.PC do
     for I := 1 to Inv.Count do
     begin
-      if Inv.GetDoll(I) and not(DungeonItems[Items.ItemIndex(I)].IsStack) and
-        (DungeonItems[Items.ItemIndex(I)].Category in ItemSet) then
+      if Inv.GetDoll(I) and not(ItemPatterns.Patterns[Items.ItemIndex(I)
+        ].IsStack) and IsCategory(ItemPatterns.Patterns[Items.ItemIndex(I)
+        ].Category, ACategories) then
       begin
         if (Rand(1, Chance) > 1) then
           Continue;
@@ -459,78 +477,78 @@ end;
 procedure TItems.UseSubCats(const Index: Integer);
 begin
   try
-    with Creatures.PC do
+    { with Creatures.PC do
       with DungeonItems[Index] do
-        with TempSys do
-        begin
-          // Life
-          if (scLife = SubCats) then
-            Life.SetToMax;
-          if (scLife25 = SubCats) then
-            Add('VialOfLife', 5, 5);
-          if (scLife50 = SubCats) then
-            Add('VialOfLife', 10, 5);
-          if (scLife75 = SubCats) then
-            Add('VialOfLife', 15, 5);
-          if (scLife100 = SubCats) then
-            Add('VialOfLife', 10, 10);
-          if (scLife200 = SubCats) then
-            Add('VialOfLife', 20, 10);
-          // Mana
-          if (scMana = SubCats) then
-            Mana.SetToMax;
-          if (scMana25 = SubCats) then
-            Add('VialOfMana', 5, 5);
-          if (scMana50 = SubCats) then
-            Add('VialOfMana', 10, 5);
-          if (scMana75 = SubCats) then
-            Add('VialOfMana', 15, 5);
-          if (scMana100 = SubCats) then
-            Add('VialOfMana', 10, 10);
-          if (scMana200 = SubCats) then
-            Add('VialOfMana', 20, 10);
-          // Drink Oil
-          if (scRepair3 = SubCats) then
-            Add('Poison', 3, 10);
-          if (scRepair6 = SubCats) then
-            Add('Poison', 6, 10);
-          if (scRepair9 = SubCats) then
-            Add('Poison', 9, 10);
-          if (scRepair12 = SubCats) then
-            Add('Poison', 12, 10);
-          if (scRepair15 = SubCats) then
-            Add('Poison', 15, 10);
-          // Atr
-          if (scStrength = SubCats) then
-            AddStrength;
-          if (scDexterity = SubCats) then
-            AddDexterity;
-          if (scIntelligence = SubCats) then
-            AddIntelligence;
-          if (scSpeed = SubCats) then
-            AddSpeed;
-          // Misc
-          if (scFill = SubCats) then
-            Fill;
-          if (scAntidote = SubCats) then
-            ClearVar('Poison');
-          if (scKey = SubCats) then
-            Key;
-          if (scTeleport = SubCats) then
-            Creatures.Teleport(False);
-          if (scSummon = SubCats) then
-            Creatures.Summon;
-          if (scIdentify = SubCats) then
-            Identify;
-          if (scPortal = SubCats) then
-            Portal;
-          if (scWizardEye = SubCats) then
-            Add('WizardEye', GetWizardEyePower, Mana.Max);
-          if (scDispel = SubCats) then
-            Clear;
-          if (scRepairAll = SubCats) then
-            RepairAll;
-        end;
+      with TempSys do
+      begin
+      // Life
+      if (scLife = SubCats) then
+      Life.SetToMax;
+      if (scLife25 = SubCats) then
+      Add('VialOfLife', 5, 5);
+      if (scLife50 = SubCats) then
+      Add('VialOfLife', 10, 5);
+      if (scLife75 = SubCats) then
+      Add('VialOfLife', 15, 5);
+      if (scLife100 = SubCats) then
+      Add('VialOfLife', 10, 10);
+      if (scLife200 = SubCats) then
+      Add('VialOfLife', 20, 10);
+      // Mana
+      if (scMana = SubCats) then
+      Mana.SetToMax;
+      if (scMana25 = SubCats) then
+      Add('VialOfMana', 5, 5);
+      if (scMana50 = SubCats) then
+      Add('VialOfMana', 10, 5);
+      if (scMana75 = SubCats) then
+      Add('VialOfMana', 15, 5);
+      if (scMana100 = SubCats) then
+      Add('VialOfMana', 10, 10);
+      if (scMana200 = SubCats) then
+      Add('VialOfMana', 20, 10);
+      // Drink Oil
+      if (scRepair3 = SubCats) then
+      Add('Poison', 3, 10);
+      if (scRepair6 = SubCats) then
+      Add('Poison', 6, 10);
+      if (scRepair9 = SubCats) then
+      Add('Poison', 9, 10);
+      if (scRepair12 = SubCats) then
+      Add('Poison', 12, 10);
+      if (scRepair15 = SubCats) then
+      Add('Poison', 15, 10);
+      // Atr
+      if (scStrength = SubCats) then
+      AddStrength;
+      if (scDexterity = SubCats) then
+      AddDexterity;
+      if (scIntelligence = SubCats) then
+      AddIntelligence;
+      if (scSpeed = SubCats) then
+      AddSpeed;
+      // Misc
+      if (scFill = SubCats) then
+      Fill;
+      if (scAntidote = SubCats) then
+      ClearVar('Poison');
+      if (scKey = SubCats) then
+      Key;
+      if (scTeleport = SubCats) then
+      Creatures.Teleport(False);
+      if (scSummon = SubCats) then
+      Creatures.Summon;
+      if (scIdentify = SubCats) then
+      Identify;
+      if (scPortal = SubCats) then
+      Portal;
+      if (scWizardEye = SubCats) then
+      Add('WizardEye', GetWizardEyePower, Mana.Max);
+      if (scDispel = SubCats) then
+      Clear;
+      if (scRepairAll = SubCats) then
+      RepairAll;
+      end; }
   except
     on E: Exception do
       Error.Add('Items.UseSubCats', E.Message);
@@ -540,8 +558,8 @@ end;
 procedure TItems.UseItem(const Index: Integer; Category: TCatSet);
 begin
   try
-    if (DungeonItems[Index].Category in Category) then
-      UseSubCats(Index);
+    // if (DungeonItems[Index].Category in Category) then
+    // UseSubCats(Index);
   except
     on E: Exception do
       Error.Add('Items.UseItem', E.Message);
@@ -556,7 +574,7 @@ end;
 function TItems.GetItemProp(ACount, ATough, I, V: Integer): string;
 begin
   Result := '';
-  with DungeonItems[V] do
+  with ItemPatterns.Patterns[V] do
   begin
     if (MaxDamage > 0) then
       Result := Result + Format(' [%d-%d]', [MinDamage, MaxDamage]);
@@ -764,12 +782,10 @@ end;
 procedure TItems.SetColor(const AColor: Integer);
 begin
   with Graph.Surface.Canvas do
-    case DungeonItems[AColor].Category of
-      dsGold:
-        Font.Color := clYellow;
+    if ItemPatterns.Patterns[AColor].Category = 'GOLD' then
+      Font.Color := clYellow
     else
       Font.Color := clSkyBlue;
-    end;
 end;
 
 procedure TItems.SetItem(const Value: TItem);
@@ -793,7 +809,7 @@ begin
       C := ItemIndex(ItemC);
 
       // Repair item (oils, hammers)
-      if ((DungeonItems[A].Category in PotionSet) or
+      { if ((DungeonItems[A].Category in PotionSet) or
         (DungeonItems[A].Category in RepairSet)) and
         ((scRepair = DungeonItems[A].SubCats) or
         (scRepair3 = DungeonItems[A].SubCats) or
@@ -804,47 +820,47 @@ begin
         (scRepair25 = DungeonItems[A].SubCats)) and
         ((DungeonItems[B].Category in WeaponSet) or
         (DungeonItems[B].Category in ArmorSet)) then
-      begin
+        begin
         D := GetTough(I);
-        MaxD := DungeonItems[B].MaxTough;
+        MaxD := ItemPatterns.Patterns[B].MaxTough;
         if (D < MaxD) then
         begin
-          if (scRepair = DungeonItems[A].SubCats) then
-            SetTough(I, MaxD);
-          if (scRepair3 = DungeonItems[A].SubCats) then
-            SetTough(I, D + 3);
-          if (scRepair6 = DungeonItems[A].SubCats) then
-            SetTough(I, D + 6);
-          if (scRepair9 = DungeonItems[A].SubCats) then
-            SetTough(I, D + 9);
-          if (scRepair12 = DungeonItems[A].SubCats) then
-            SetTough(I, D + 12);
-          if (scRepair15 = DungeonItems[A].SubCats) then
-            SetTough(I, D + 15);
-          if (scRepair25 = DungeonItems[A].SubCats) then
-            SetTough(I, D + 25);
-          if (GetTough(I) > MaxD) then
-            SetTough(I, MaxD);
-          Del(ItemA);
-          Result := True;
+        if (scRepair = DungeonItems[A].SubCats) then
+        SetTough(I, MaxD);
+        if (scRepair3 = DungeonItems[A].SubCats) then
+        SetTough(I, D + 3);
+        if (scRepair6 = DungeonItems[A].SubCats) then
+        SetTough(I, D + 6);
+        if (scRepair9 = DungeonItems[A].SubCats) then
+        SetTough(I, D + 9);
+        if (scRepair12 = DungeonItems[A].SubCats) then
+        SetTough(I, D + 12);
+        if (scRepair15 = DungeonItems[A].SubCats) then
+        SetTough(I, D + 15);
+        if (scRepair25 = DungeonItems[A].SubCats) then
+        SetTough(I, D + 25);
+        if (GetTough(I) > MaxD) then
+        SetTough(I, MaxD);
+        Del(ItemA);
+        Result := True;
         end;
         Exit;
-      end;
+        end; }
 
       // Mix potions
-      if (DungeonItems[A].Category in UseSet) or
+      { if (DungeonItems[A].Category in UseSet) or
         (DungeonItems[B].Category in PotionSet) then
-      begin
+        begin
         ItemC := Craft(ItemA, ItemB);
         if (ItemC <> '') then
         begin
-          Del(ItemA);
-          Del(ItemB);
-          Add(ItemC, 1, DungeonItems[C].Weight, 0, True);
-          Result := True;
+        Del(ItemA);
+        Del(ItemB);
+        Add(ItemC, 1, ItemPatterns.Patterns[C].Weight, 0, True);
+        Result := True;
         end;
         Exit;
-      end;
+        end; }
 
     end;
   end;
@@ -855,14 +871,14 @@ var
   I: Integer;
 begin
   Result := '';
-  with Creatures.PC do
+  { with Creatures.PC do
     for I := 1 to Inv.Count do
-      if Inv.GetDoll(I) and (DungeonItems[Items.ItemIndex(I)].Category
-        in ACatSet) then
-      begin
-        Result := Inv.GetIdent(I);
-        Exit;
-      end;
+    if Inv.GetDoll(I) and (DungeonItems[Items.ItemIndex(I)].Category
+    in ACatSet) then
+    begin
+    Result := Inv.GetIdent(I);
+    Exit;
+    end; }
 end;
 
 function TItems.IsDollSubCat(SC: TSubCats): Boolean;
@@ -877,31 +893,31 @@ begin
       J := ItemIndex(K);
       if Inv.GetDoll(K) then
       begin
-        if (SC = DungeonItems[J].SubCats) then
-        begin
+        { if (SC = DungeonItems[J].SubCats) then
+          begin
           Result := True;
           Exit;
-        end;
+          end; }
       end;
     end;
   end;
 end;
 
-function TItems.GetDollItemSubCat(ACatSet: TCatSet): TSubCats;
-begin
-  Result := DungeonItems[ItemIndex(GetDollItemID(ACatSet))].SubCats;
-end;
+{ function TItems.GetDollItemSubCat(ACatSet: TCatSet): TSubCats;
+  begin
+  Result := ItemPatterns.Patterns[ItemIndex(GetDollItemID(ACatSet))].SubCats;
+  end; }
 
 function TItems.IsBow: Boolean;
 begin
-  Result := (scBow = GetDollItemSubCat(WeaponSet)) and
-    (scBow = GetDollItemSubCat(ArmorSet))
+  Result := False // (scBow = GetDollItemSubCat(WeaponSet)) and
+  // (scBow = GetDollItemSubCat(ArmorSet))
 end;
 
 function TItems.IsCrossBow: Boolean;
 begin
-  Result := (scCrossBow = GetDollItemSubCat(WeaponSet)) and
-    (scCrossBow = GetDollItemSubCat(ArmorSet))
+  Result := False // (scCrossBow = GetDollItemSubCat(WeaponSet)) and
+  // (scCrossBow = GetDollItemSubCat(ArmorSet))
 end;
 
 function TItems.IsRangedWeapon: Boolean;
@@ -920,18 +936,30 @@ begin
       for LSlot := 1 to Inv.Count do
       begin
         LIndex := ItemIndex(LSlot);
-        LTag := DungeonItems[LIndex].ColorTag;
-        if (LTag > 0) and (DungeonItems[LIndex].Category = dsPotion) and
-          not Potions.IsDefined(LTag) then
+        LTag := ItemPatterns.Patterns[LIndex].ColorTag;
+        if (LTag > 0) and (ItemPatterns.Patterns[LIndex].Category = 'POTION')
+          and not Potions.IsDefined(LTag) then
           Potions.SetDefined(LTag);
-        if (LTag > 0) and (DungeonItems[LIndex].Category = dsScroll) and
-          not Scrolls.IsDefined(LTag) then
+        if (LTag > 0) and (ItemPatterns.Patterns[LIndex].Category = 'SCROLL')
+          and not Scrolls.IsDefined(LTag) then
           Scrolls.SetDefined(LTag);
       end;
   except
     on E: Exception do
       Error.Add('Items.Identify', E.Message);
   end;
+end;
+
+function TItems.IsCategory(const ACategory, ACategories: string): Boolean;
+var
+  I: Integer;
+  LCategories: TArray<string>;
+begin
+  LCategories := ACategories.Split([',']);
+  for I := 0 to Length(LCategories) - 1 do
+    if UpperCase(Trim(ACategory)) = UpperCase(Trim(LCategories[I])) then
+      Exit(True);
+  Exit(False);
 end;
 
 procedure TItems.RepairAll;
@@ -943,7 +971,7 @@ begin
     with Creatures.PC.Inv do
       for LSlot := 1 to Count do
       begin
-        LTough := DungeonItems[ItemIndex(LSlot)].MaxTough;
+        LTough := ItemPatterns.Patterns[ItemIndex(LSlot)].MaxTough;
         if (GetTough(LSlot) < LTough) then
           SetTough(LSlot, LTough);
       end;
@@ -967,22 +995,23 @@ var
   LStr: string;
 begin
   Result := '';
-  case DungeonItems[AItemIdent].Category of
+  LStr := '';
+  { case DungeonItems[AItemIdent].Category of
     dsLHand:
-      LStr := Language.GetLang(231);
+    LStr := Language.GetLang(231);
     dsRHand:
-      LStr := Language.GetLang(232);
+    LStr := Language.GetLang(232);
     dsBody:
-      LStr := Language.GetLang(233);
+    LStr := Language.GetLang(233);
     dsHead:
-      LStr := Language.GetLang(234);
+    LStr := Language.GetLang(234);
     dsFoot:
-      LStr := Language.GetLang(235);
+    LStr := Language.GetLang(235);
     dsRing:
-      LStr := Language.GetLang(236);
+    LStr := Language.GetLang(236);
     dsAmulet:
-      LStr := Language.GetLang(237);
-  end;
+    LStr := Language.GetLang(237);
+    end; }
   if Creatures.PC.Inv.GetDoll(AItemIndex) then
     Result := ' - ' + LStr;
 end;
