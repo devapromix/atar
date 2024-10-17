@@ -277,76 +277,76 @@ var
       with ItemPatterns.Patterns[I] do
       begin
         // Life
-        {if (scLife = SubCats) then
+        { if (scLife = SubCats) then
           Add(Language.GetLang(223));
-        if (scLife25 = SubCats) then
+          if (scLife25 = SubCats) then
           Add(Format(Language.GetLang(81), [25]));
-        if (scLife50 = SubCats) then
+          if (scLife50 = SubCats) then
           Add(Format(Language.GetLang(81), [50]));
-        if (scLife75 = SubCats) then
+          if (scLife75 = SubCats) then
           Add(Format(Language.GetLang(81), [75]));
-        if (scLife100 = SubCats) then
+          if (scLife100 = SubCats) then
           Add(Format(Language.GetLang(81), [100]));
-        if (scLife200 = SubCats) then
+          if (scLife200 = SubCats) then
           Add(Format(Language.GetLang(81), [200]));
-        // Mana
-        if (scMana = SubCats) then
+          // Mana
+          if (scMana = SubCats) then
           Add(Language.GetLang(224));
-        if (scMana25 = SubCats) then
+          if (scMana25 = SubCats) then
           Add(Format(Language.GetLang(82), [25]));
-        if (scMana50 = SubCats) then
+          if (scMana50 = SubCats) then
           Add(Format(Language.GetLang(82), [50]));
-        if (scMana75 = SubCats) then
+          if (scMana75 = SubCats) then
           Add(Format(Language.GetLang(82), [75]));
-        if (scMana100 = SubCats) then
+          if (scMana100 = SubCats) then
           Add(Format(Language.GetLang(82), [100]));
-        if (scMana200 = SubCats) then
+          if (scMana200 = SubCats) then
           Add(Format(Language.GetLang(82), [200]));
-        // Atr
-        if (scStrength = SubCats) then
+          // Atr
+          if (scStrength = SubCats) then
           Add(Format('%s +1.', [Language.GetLang(15)]));
-        if (scDexterity = SubCats) then
+          if (scDexterity = SubCats) then
           Add(Format('%s +1.', [Language.GetLang(16)]));
-        if (scIntelligence = SubCats) then
+          if (scIntelligence = SubCats) then
           Add(Format('%s +1.', [Language.GetLang(17)]));
-        if (scSpeed = SubCats) then
+          if (scSpeed = SubCats) then
           Add(Format('%s +1.', [Language.GetLang(18)]));
-        // Misc
-        if (scFill = SubCats) then
+          // Misc
+          if (scFill = SubCats) then
           Add(Language.GetLang(80));
-        if (scAntidote = SubCats) then
+          if (scAntidote = SubCats) then
           Add(Language.GetLang(79));
-        if (scKey = SubCats) then
+          if (scKey = SubCats) then
           Add(Language.GetLang(112));
-        if (scTeleport = SubCats) then
+          if (scTeleport = SubCats) then
           Add(Language.GetLang(272));
-        if (scSummon = SubCats) then
+          if (scSummon = SubCats) then
           Add(Language.GetLang(273));
-        if (scIdentify = SubCats) then
+          if (scIdentify = SubCats) then
           Add(Language.GetLang(274));
-        if (scPortal = SubCats) then
+          if (scPortal = SubCats) then
           Add(Language.GetLang(275));
-        if (scWizardEye = SubCats) then
+          if (scWizardEye = SubCats) then
           Add(Format('%s %d.', [Language.GetLang(115),
-            Creatures.PC.TempSys.Power('WizardEye')]));
-        if (scDispel = SubCats) then
+          Creatures.PC.TempSys.Power('WizardEye')]));
+          if (scDispel = SubCats) then
           Add(Language.GetLang(230));
-        // Repair
-        if (scRepair = SubCats) then
+          // Repair
+          if (scRepair = SubCats) then
           Add(Language.GetLang(270));
-        if (scRepairAll = SubCats) then
+          if (scRepairAll = SubCats) then
           Add(Language.GetLang(271));
-        if (scRepair3 = SubCats) then
+          if (scRepair3 = SubCats) then
           Add(Format('%s 3.', [Language.GetLang(89)]));
-        if (scRepair6 = SubCats) then
+          if (scRepair6 = SubCats) then
           Add(Format('%s 6.', [Language.GetLang(89)]));
-        if (scRepair9 = SubCats) then
+          if (scRepair9 = SubCats) then
           Add(Format('%s 9.', [Language.GetLang(89)]));
-        if (scRepair12 = SubCats) then
+          if (scRepair12 = SubCats) then
           Add(Format('%s 12.', [Language.GetLang(89)]));
-        if (scRepair15 = SubCats) then
+          if (scRepair15 = SubCats) then
           Add(Format('%s 15.', [Language.GetLang(89)]));
-        if (scRepair25 = SubCats) then
+          if (scRepair25 = SubCats) then
           Add(Format('%s 25.', [Language.GetLang(89)])); }
       end;
       //
@@ -442,17 +442,20 @@ begin
         end;
       end;
       Text.BarOut('esc', Language.GetLang(49), True);
-      {if (DungeonItems[I].Category in EquipSet) then
+      if Items.IsCategory(ItemPatterns.Patterns[I].Category, EquipmentCategories)
+      then
         AddCommand('W', Language.GetLang(95));
-      if (DungeonItems[I].Category in UseSet) then
+      if Items.IsCategory(ItemPatterns.Patterns[I].Category, UseCategories) then
         AddCommand('U', Language.GetLang(98));
-      if (DungeonItems[I].Category in PotionSet) then
+      if Items.IsCategory(ItemPatterns.Patterns[I].Category, PotionCategories)
+      then
         AddCommand('Q', Language.GetLang(93));
-      if (DungeonItems[I].Category in ScrollSet) then
+      if Items.IsCategory(ItemPatterns.Patterns[I].Category, ScrollCategories)
+      then
         AddCommand('R', Language.GetLang(99));
-      if (DungeonItems[I].Category in DropSet) and
+      if Items.IsCategory(ItemPatterns.Patterns[I].Category, DropCategories) and
         not Creatures.PC.Inv.GetDoll(ItemIndex) then
-        AddCommand('D', Language.GetLang(90));}
+        AddCommand('D', Language.GetLang(90));
       Render;
       Tileset.Free;
     except

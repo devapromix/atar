@@ -264,7 +264,7 @@ initialization
 
 Skills := TSkills.Create;
 Skills.LoadFromResources;
-//Serialize;
+// Serialize;
 
 finalization
 
