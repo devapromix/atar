@@ -201,14 +201,14 @@ begin
       B.Handle := Windows.LoadBitmap(hInstance, 'PC');
       Graph.BitmapFromTileset(Image, B, Race);
       B.Free;
-      LCategories := Items.GetCategory(EquipmentCategories);
+      LCategories := Items.ExplodeString(EquipmentCategories);
       for L := 0 to Length(LCategories) - 1 do
         for I := 1 to Inv.Count do
           if Inv.GetDoll(I) and
             Items.IsCategory(ItemPatterns.Patterns[Items.ItemIndex(I)].Category,
             EquipmentCategories) and
-            (ItemPatterns.Patterns[Items.ItemIndex(I)].Category = LCategories[L])
-          then
+            (UpperCase(Trim(ItemPatterns.Patterns[Items.ItemIndex(I)].Category))
+            = UpperCase(Trim(LCategories[L]))) then
           begin
             D := Graphics.TBitmap.Create;
             B := Graphics.TBitmap.Create;

@@ -235,7 +235,7 @@ type
     constructor Create;
     destructor Destroy; override;
     function IsCategory(const ACategory, ACategories: string): Boolean;
-    function GetCategory(const ACategories: string): TArray<string>;
+    function ExplodeString(const ACategories: string): TArray<string>;
   end;
 
 var
@@ -953,7 +953,7 @@ begin
   end;
 end;
 
-function TItems.GetCategory(const ACategories: string): TArray<string>;
+function TItems.ExplodeString(const ACategories: string): TArray<string>;
 begin
   Result := ACategories.Split([',']);
 end;
@@ -963,7 +963,7 @@ var
   I: Integer;
   LCategories: TArray<string>;
 begin
-  LCategories := GetCategory(ACategories);
+  LCategories := ExplodeString(ACategories);
   for I := 0 to Length(LCategories) - 1 do
     if UpperCase(Trim(ACategory)) = UpperCase(Trim(LCategories[I])) then
       Exit(True);
@@ -1006,9 +1006,10 @@ var
 begin
   Result := '';
   LStr := '';
-  LCategories := GetCategory(EquipmentCategories);
+  LCategories := ExplodeString(EquipmentCategories);
   for I := 0 to Length(LCategories) - 1 do
-    if ItemPatterns.Patterns[AItemIdent].Category = LCategories[I] then
+    if UpperCase(Trim(ItemPatterns.Patterns[AItemIdent].Category))
+      = UpperCase(Trim(LCategories[I])) then
     begin
       LStr := Language.GetLang(I + 231);
       Break;

@@ -270,16 +270,27 @@ var
   end;
 
   procedure RenderItemInfo(I: Integer);
+  const
+    Effects = 'LIFE, MANA, FILL, ANTIDOTE, KEY, TELEPORT, SUMMON, IDENTIFY, PORTAL, DISPEL, REPAIR, REPAIRALL';
+    EffLangNums: array [0 .. 11] of Integer = (223, 224, 80, 79, 112, 272, 273, 274,
+      275, 230, 270, 271);
+  var
+    LEffects: TArray<string>;
+    J: Integer;
   begin
     with Graph.Surface.Canvas do
     begin
       Font.Color := cWhiteGre;
       with ItemPatterns.Patterns[I] do
       begin
+        // Random
+        LEffects := Items.ExplodeString(Effects);
+        for J := 0 to Length(LEffects) do
+          if UpperCase(Trim(Script)) = UpperCase(Trim(LEffects[J])) then
+            Add(Language.GetLang(EffLangNums[J]));
+
         // Life
-        { if (scLife = SubCats) then
-          Add(Language.GetLang(223));
-          if (scLife25 = SubCats) then
+        { if (scLife25 = SubCats) then
           Add(Format(Language.GetLang(81), [25]));
           if (scLife50 = SubCats) then
           Add(Format(Language.GetLang(81), [50]));
@@ -288,11 +299,9 @@ var
           if (scLife100 = SubCats) then
           Add(Format(Language.GetLang(81), [100]));
           if (scLife200 = SubCats) then
-          Add(Format(Language.GetLang(81), [200]));
-          // Mana
-          if (scMana = SubCats) then
-          Add(Language.GetLang(224));
-          if (scMana25 = SubCats) then
+          Add(Format(Language.GetLang(81), [200])); }
+        // Mana
+        { if (scMana25 = SubCats) then
           Add(Format(Language.GetLang(82), [25]));
           if (scMana50 = SubCats) then
           Add(Format(Language.GetLang(82), [50]));
@@ -301,42 +310,22 @@ var
           if (scMana100 = SubCats) then
           Add(Format(Language.GetLang(82), [100]));
           if (scMana200 = SubCats) then
-          Add(Format(Language.GetLang(82), [200]));
-          // Atr
-          if (scStrength = SubCats) then
+          Add(Format(Language.GetLang(82), [200])); }
+        // Atr
+        { if (scStrength = SubCats) then
           Add(Format('%s +1.', [Language.GetLang(15)]));
           if (scDexterity = SubCats) then
           Add(Format('%s +1.', [Language.GetLang(16)]));
           if (scIntelligence = SubCats) then
           Add(Format('%s +1.', [Language.GetLang(17)]));
           if (scSpeed = SubCats) then
-          Add(Format('%s +1.', [Language.GetLang(18)]));
-          // Misc
-          if (scFill = SubCats) then
-          Add(Language.GetLang(80));
-          if (scAntidote = SubCats) then
-          Add(Language.GetLang(79));
-          if (scKey = SubCats) then
-          Add(Language.GetLang(112));
-          if (scTeleport = SubCats) then
-          Add(Language.GetLang(272));
-          if (scSummon = SubCats) then
-          Add(Language.GetLang(273));
-          if (scIdentify = SubCats) then
-          Add(Language.GetLang(274));
-          if (scPortal = SubCats) then
-          Add(Language.GetLang(275));
-          if (scWizardEye = SubCats) then
+          Add(Format('%s +1.', [Language.GetLang(18)])); }
+        // Misc
+        { if (scWizardEye = SubCats) then
           Add(Format('%s %d.', [Language.GetLang(115),
-          Creatures.PC.TempSys.Power('WizardEye')]));
-          if (scDispel = SubCats) then
-          Add(Language.GetLang(230));
-          // Repair
-          if (scRepair = SubCats) then
-          Add(Language.GetLang(270));
-          if (scRepairAll = SubCats) then
-          Add(Language.GetLang(271));
-          if (scRepair3 = SubCats) then
+          Creatures.PC.TempSys.Power('WizardEye')])); }
+        // Repair
+        { if (scRepair3 = SubCats) then
           Add(Format('%s 3.', [Language.GetLang(89)]));
           if (scRepair6 = SubCats) then
           Add(Format('%s 6.', [Language.GetLang(89)]));
@@ -347,7 +336,8 @@ var
           if (scRepair15 = SubCats) then
           Add(Format('%s 15.', [Language.GetLang(89)]));
           if (scRepair25 = SubCats) then
-          Add(Format('%s 25.', [Language.GetLang(89)])); }
+          Add(Format('%s 25.', [Language.GetLang(89)]));
+        }
       end;
       //
       Font.Color := cSkyBlue;
