@@ -144,8 +144,6 @@ procedure TItemPatterns.Serialize;
 var
   LStringList: TStringList;
   LJSON: TJSONValue;
-  LItemPattern: TItemPattern;
-  I: Integer;
 begin
   LStringList := TStringList.Create;
   LStringList.WriteBOM := False;

@@ -220,7 +220,7 @@ type
     procedure Colors(var Icon: Graphics.TBitmap; ItemIndex: Integer);
     procedure SetColor(const AColor: Integer);
     procedure UseItem(const AIndex: Integer; const AScript: string);
-    procedure UseSubCats(const Index: Integer);
+    procedure UseScript(const Index: Integer);
     function CellItemsCount(X, Y: Integer): Integer;
     function ItemIndex(ID: string): Integer; overload;
     function ItemIndex(ID: Integer): Integer; overload;
@@ -476,84 +476,84 @@ begin
   Scenes.Render;
 end;
 
-procedure TItems.UseSubCats(const Index: Integer);
+procedure TItems.UseScript(const Index: Integer);
 begin
   try
-    { with Creatures.PC do
-      with DungeonItems[Index] do
-      with TempSys do
-      begin
-      // Life
-      if (scLife = SubCats) then
-      Life.SetToMax;
-      if (scLife25 = SubCats) then
-      Add('VialOfLife', 5, 5);
-      if (scLife50 = SubCats) then
-      Add('VialOfLife', 10, 5);
-      if (scLife75 = SubCats) then
-      Add('VialOfLife', 15, 5);
-      if (scLife100 = SubCats) then
-      Add('VialOfLife', 10, 10);
-      if (scLife200 = SubCats) then
-      Add('VialOfLife', 20, 10);
-      // Mana
-      if (scMana = SubCats) then
-      Mana.SetToMax;
-      if (scMana25 = SubCats) then
-      Add('VialOfMana', 5, 5);
-      if (scMana50 = SubCats) then
-      Add('VialOfMana', 10, 5);
-      if (scMana75 = SubCats) then
-      Add('VialOfMana', 15, 5);
-      if (scMana100 = SubCats) then
-      Add('VialOfMana', 10, 10);
-      if (scMana200 = SubCats) then
-      Add('VialOfMana', 20, 10);
-      // Drink Oil
-      if (scRepair3 = SubCats) then
-      Add('Poison', 3, 10);
-      if (scRepair6 = SubCats) then
-      Add('Poison', 6, 10);
-      if (scRepair9 = SubCats) then
-      Add('Poison', 9, 10);
-      if (scRepair12 = SubCats) then
-      Add('Poison', 12, 10);
-      if (scRepair15 = SubCats) then
-      Add('Poison', 15, 10);
-      // Atr
-      if (scStrength = SubCats) then
-      AddStrength;
-      if (scDexterity = SubCats) then
-      AddDexterity;
-      if (scIntelligence = SubCats) then
-      AddIntelligence;
-      if (scSpeed = SubCats) then
-      AddSpeed;
-      // Misc
-      if (scFill = SubCats) then
-      Fill;
-      if (scAntidote = SubCats) then
-      ClearVar('Poison');
-      if (scKey = SubCats) then
-      Key;
-      if (scTeleport = SubCats) then
-      Creatures.Teleport(False);
-      if (scSummon = SubCats) then
-      Creatures.Summon;
-      if (scIdentify = SubCats) then
-      Identify;
-      if (scPortal = SubCats) then
-      Portal;
-      if (scWizardEye = SubCats) then
-      Add('WizardEye', GetWizardEyePower, Mana.Max);
-      if (scDispel = SubCats) then
-      Clear;
-      if (scRepairAll = SubCats) then
-      RepairAll;
-      end; }
+    with Creatures.PC do
+      with ItemPatterns.Patterns[Index] do
+        with TempSys do
+        begin
+          // Life
+          if ('LIFE' = Script) then
+            Life.SetToMax;
+          {if (scLife25 = Script) then
+            Add('VialOfLife', 5, 5);
+          if (scLife50 = Script) then
+            Add('VialOfLife', 10, 5);
+          if (scLife75 = Script) then
+            Add('VialOfLife', 15, 5);
+          if (scLife100 = Script) then
+            Add('VialOfLife', 10, 10);
+          if (scLife200 = Script) then
+            Add('VialOfLife', 20, 10);}
+          // Mana
+          if ('MANA' = Script) then
+            Mana.SetToMax;
+          {if (scMana25 = Script) then
+            Add('VialOfMana', 5, 5);
+          if (scMana50 = Script) then
+            Add('VialOfMana', 10, 5);
+          if (scMana75 = Script) then
+            Add('VialOfMana', 15, 5);
+          if (scMana100 = Script) then
+            Add('VialOfMana', 10, 10);
+          if (scMana200 = Script) then
+            Add('VialOfMana', 20, 10);}
+          // Drink Oil
+          {if (scRepair3 = Script) then
+            Add('Poison', 3, 10);
+          if (scRepair6 = Script) then
+            Add('Poison', 6, 10);
+          if (scRepair9 = Script) then
+            Add('Poison', 9, 10);
+          if (scRepair12 = Script) then
+            Add('Poison', 12, 10);
+          if (scRepair15 = Script) then
+            Add('Poison', 15, 10); }
+          // Atr
+          if ('STRENGTH' = Script) then
+            AddStrength;
+          if ('DEXTERITY' = Script) then
+            AddDexterity;
+          if ('INTELLIGENCE' = Script) then
+            AddIntelligence;
+          if ('SPEED' = Script) then
+            AddSpeed;
+          // Misc
+          if ('FILL' = Script) then
+            Fill;
+          if ('ANTIDOTE' = Script) then
+            ClearVar('Poison');
+          if ('KEY' = Script) then
+            Key;
+          if ('TELEPORT' = Script) then
+            Creatures.Teleport(False);
+          if ('SUMMON' = Script) then
+            Creatures.Summon;
+          if ('IDENTIFY' = Script) then
+            Identify;
+          if ('PORTAL' = Script) then
+            Portal;
+          if ('WIZARDEYE' = Script) then
+            Add('WizardEye', GetWizardEyePower, Mana.Max);
+          if ('DISPEL' = Script) then
+            Clear;
+          if ('REPAIRALL' = Script) then
+            RepairAll;
+        end;
   except
     on E: Exception do
-      Error.Add('Items.UseSubCats', E.Message);
+      Error.Add('Items.UseScript', E.Message);
   end;
 end;
 
@@ -561,7 +561,7 @@ procedure TItems.UseItem(const AIndex: Integer; const AScript: string);
 begin
   try
     if Items.IsCategory(ItemPatterns.Patterns[AIndex].Category, AScript) then
-      UseSubCats(AIndex);
+      UseScript(AIndex);
   except
     on E: Exception do
       Error.Add('Items.UseItem', E.Message);

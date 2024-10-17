@@ -88,7 +88,8 @@ uses
   Trollhunter.Log,
   Trollhunter.Creatures,
   Trollhunter.AStar,
-  Trollhunter.Error;
+  Trollhunter.Error,
+  Trollhunter.Color;
 
 var
   LExplodeResult: TExplodeResult;
@@ -663,7 +664,20 @@ end;
 
 function ColorToInt(const AColor: string): Integer;
 begin
-  Result := Integer(clWhite);
+  if AColor = 'GRAY' then
+    Result := Integer(cGray)
+  else if AColor = 'RED' then
+    Result := Integer(cRed)
+  else if AColor = 'GREEN' then
+    Result := Integer(cGreen)
+  else if AColor = 'BLUE' then
+    Result := Integer(cBlue)
+  else if AColor = 'YELLOW' then
+    Result := Integer(cYellow)
+  else if AColor = 'PURPLE' then
+    Result := Integer(cYellow)
+  else
+    Result := Integer(clWhite);
 end;
 
 initialization
