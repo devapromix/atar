@@ -95,7 +95,7 @@ begin
     uFlags := NIF_ICON or NIF_MESSAGE or NIF_TIP;
     hicon := Icon.Handle;
     uCallbackMessage := WM_USER + 1;
-    szTip := 'Trollhunter';
+    szTip := 'Dragonhunter';
   end;
   case N of
     1:

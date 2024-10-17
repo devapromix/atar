@@ -207,12 +207,12 @@ type
     procedure PickupAll;
     function Craft(A, B: string): string;
     procedure Damage(const ACategories: string; Chance: Byte = 3);
-    function IsDollSubCat(SC: TSubCats): Boolean;
+    function IsDollScript(const AScript: string): Boolean;
     function IsBow: Boolean;
     function IsCrossBow: Boolean;
     function IsRangedWeapon: Boolean;
-    function GetDollItemID(ACatSet: TCatSet): string;
-    // function GetDollItemSubCat(ACatSet: TCatSet): TSubCats;
+    function GetDollItemID(ACategories: string): string;
+    function GetDollItemScript(const AScript: string): string;
     procedure Add(const X, Y: Integer; AName: string); overload;
     procedure Add(const AIdent: string; const ACount: Integer = 1); overload;
     procedure AddAndEquip(ID: string; ACount: Integer = 1);
@@ -235,6 +235,7 @@ type
     constructor Create;
     destructor Destroy; override;
     function IsCategory(const ACategory, ACategories: string): Boolean;
+    function GetCategory(const ACategories: string): TArray<string>;
   end;
 
 var
@@ -867,22 +868,22 @@ begin
   end;
 end;
 
-function TItems.GetDollItemID(ACatSet: TCatSet): string;
+function TItems.GetDollItemID(ACategories: string): string;
 var
   I: Integer;
 begin
   Result := '';
-  { with Creatures.PC do
+  with Creatures.PC do
     for I := 1 to Inv.Count do
-    if Inv.GetDoll(I) and (DungeonItems[Items.ItemIndex(I)].Category
-    in ACatSet) then
-    begin
-    Result := Inv.GetIdent(I);
-    Exit;
-    end; }
+      if Inv.GetDoll(I) and Items.IsCategory
+        (ItemPatterns.Patterns[Items.ItemIndex(I)].Category, ACategories) then
+      begin
+        Result := Inv.GetIdent(I);
+        Exit;
+      end;
 end;
 
-function TItems.IsDollSubCat(SC: TSubCats): Boolean;
+function TItems.IsDollScript(const AScript: string): Boolean;
 var
   K, J: Integer;
 begin
@@ -894,37 +895,37 @@ begin
       J := ItemIndex(K);
       if Inv.GetDoll(K) then
       begin
-        { if (SC = DungeonItems[J].SubCats) then
-          begin
+        if (AScript = ItemPatterns.Patterns[J].Script) then
+        begin
           Result := True;
           Exit;
-          end; }
+        end;
       end;
     end;
   end;
 end;
 
-{ function TItems.GetDollItemSubCat(ACatSet: TCatSet): TSubCats;
-  begin
-  Result := ItemPatterns.Patterns[ItemIndex(GetDollItemID(ACatSet))].SubCats;
-  end; }
+function TItems.GetDollItemScript(const AScript: string): string;
+begin
+  Result := ItemPatterns.Patterns[ItemIndex(GetDollItemID(AScript))].Script;
+end;
 
 function TItems.IsBow: Boolean;
 begin
-  Result := False // (scBow = GetDollItemSubCat(WeaponSet)) and
-  // (scBow = GetDollItemSubCat(ArmorSet))
+  Result := ('BOW' = GetDollItemScript(WeaponCategories)) and
+    ('BOW' = GetDollItemScript(ArmorCategories))
 end;
 
 function TItems.IsCrossBow: Boolean;
 begin
-  Result := False // (scCrossBow = GetDollItemSubCat(WeaponSet)) and
-  // (scCrossBow = GetDollItemSubCat(ArmorSet))
+  Result := ('CROSSBOW' = GetDollItemScript(WeaponCategories)) and
+    ('CROSSBOW' = GetDollItemScript(ArmorCategories))
 end;
 
 function TItems.IsRangedWeapon: Boolean;
 begin
-  Result := (GetDollItemID(WeaponSet) <> '') and (GetDollItemID(ArmorSet) <> '')
-    and (IsBow or IsCrossBow);
+  Result := (GetDollItemID(WeaponCategories) <> '') and
+    (GetDollItemID(ArmorCategories) <> '') and (IsBow or IsCrossBow);
 end;
 
 procedure TItems.Identify;
@@ -951,12 +952,17 @@ begin
   end;
 end;
 
+function TItems.GetCategory(const ACategories: string): TArray<string>;
+begin
+  Result := ACategories.Split([',']);
+end;
+
 function TItems.IsCategory(const ACategory, ACategories: string): Boolean;
 var
   I: Integer;
   LCategories: TArray<string>;
 begin
-  LCategories := ACategories.Split([',']);
+  LCategories := GetCategory(ACategories);
   for I := 0 to Length(LCategories) - 1 do
     if UpperCase(Trim(ACategory)) = UpperCase(Trim(LCategories[I])) then
       Exit(True);
@@ -999,7 +1005,7 @@ var
 begin
   Result := '';
   LStr := '';
-  LCategories := EquipmentCategories.Split([',']);
+  LCategories := GetCategory(EquipmentCategories);
   for I := 0 to Length(LCategories) - 1 do
     if ItemPatterns.Patterns[AItemIdent].Category = LCategories[I] then
     begin

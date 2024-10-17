@@ -201,7 +201,7 @@ begin
       B.Handle := Windows.LoadBitmap(hInstance, 'PC');
       Graph.BitmapFromTileset(Image, B, Race);
       B.Free;
-      LCategories := EquipmentCategories.Split([',']);
+      LCategories := Items.GetCategory(EquipmentCategories);
       for L := 0 to Length(LCategories) - 1 do
         for I := 1 to Inv.Count do
           if Inv.GetDoll(I) and
@@ -524,7 +524,7 @@ begin
       with Creatures do
         if IsRangedWeapon then
         begin
-          ProjID := GetDollItemID(ArmorSet);
+          ProjID := GetDollItemID(ArmorCategories);
           C := PC.Inv.GetCount(ProjID);
           if IsBow() then
             PC.Prop.Projectile := 'ARROW';
@@ -692,7 +692,7 @@ var
   ID: string;
   CS: TSubCats;
 begin
-  ID := Trim(Items.GetDollItemID(WeaponSet));
+  ID := Trim(Items.GetDollItemID(WeaponCategories));
   if (ID = '') then
     Exit;
   { CS := DungeonItems[Items.ItemIndex(ID)].SubCats;
