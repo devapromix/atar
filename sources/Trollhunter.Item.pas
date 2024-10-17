@@ -33,7 +33,7 @@ const
   WeaponCategories = 'RHAND';
   AmuRingCategories = 'AMULET, RING';
   ReadCategories = 'SCROLL';
-  QuaffCategories = 'POTION';
+  PotionCategories = 'POTION';
   FoodCategories = 'PLANT';
   CraftCategories = 'CRAFT';
   RepairCategories = 'REPAIR';
@@ -41,7 +41,7 @@ const
   UseCategories = 'POTION, REPAIR, CRAFT';
   EquipmentCategories = WeaponCategories + ',' + ArmorCategories + ',' +
     AmuRingCategories;
-  DropCategories = EquipmentCategories + ',' + QuaffCategories + ',' +
+  DropCategories = EquipmentCategories + ',' + PotionCategories + ',' +
     RepairCategories + ',' + KeyCategories + ',' + CraftCategories + ',' +
     FoodCategories + ',' + ReadCategories;
 
@@ -811,8 +811,8 @@ begin
       C := ItemIndex(ItemC);
 
       // Repair item (oils, hammers)
-      { if ((DungeonItems[A].Category in PotionSet) or
-        (DungeonItems[A].Category in RepairSet)) and
+      { if ((DungeonItems[A].Category in PotionCategories) or
+        (DungeonItems[A].Category in RepairCategories)) and
         ((scRepair = DungeonItems[A].SubCats) or
         (scRepair3 = DungeonItems[A].SubCats) or
         (scRepair6 = DungeonItems[A].SubCats) or
@@ -850,19 +850,20 @@ begin
         end; }
 
       // Mix potions
-      { if (DungeonItems[A].Category in UseSet) or
-        (DungeonItems[B].Category in PotionSet) then
-        begin
+      if Items.IsCategory(ItemPatterns.Patterns[A].Category, UseCategories) or
+        Items.IsCategory(ItemPatterns.Patterns[B].Category, PotionCategories)
+      then
+      begin
         ItemC := Craft(ItemA, ItemB);
         if (ItemC <> '') then
         begin
-        Del(ItemA);
-        Del(ItemB);
-        Add(ItemC, 1, ItemPatterns.Patterns[C].Weight, 0, True);
-        Result := True;
+          Del(ItemA);
+          Del(ItemB);
+          Add(ItemC, 1, ItemPatterns.Patterns[C].Weight, 0, True);
+          Result := True;
         end;
         Exit;
-        end; }
+      end;
 
     end;
   end;

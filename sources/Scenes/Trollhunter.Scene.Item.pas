@@ -195,7 +195,7 @@ begin
           Scenes.Scene := SceneGame;
         end;
       ord('Q'):
-        if Items.IsCategory(ItemPatterns.Patterns[I].Category, QuaffCategories)
+        if Items.IsCategory(ItemPatterns.Patterns[I].Category, PotionCategories)
         then
         begin
           Drink(ItemIndex);
