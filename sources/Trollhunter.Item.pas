@@ -32,7 +32,7 @@ const
   ArmorCategories = 'LHAND, HEAD, BODY, FOOT';
   WeaponCategories = 'RHAND';
   AmuRingCategories = 'AMULET, RING';
-  ReadCategories = 'SCROLL';
+  ScrollCategories = 'SCROLL';
   PotionCategories = 'POTION';
   FoodCategories = 'PLANT';
   CraftCategories = 'CRAFT';
@@ -43,7 +43,7 @@ const
     AmuRingCategories;
   DropCategories = EquipmentCategories + ',' + PotionCategories + ',' +
     RepairCategories + ',' + KeyCategories + ',' + CraftCategories + ',' +
-    FoodCategories + ',' + ReadCategories;
+    FoodCategories + ',' + ScrollCategories;
 
 type
   TSubCats = (scNone, scKey, scFill, scDispel, scAntidote, scTeleport, scPortal,
@@ -219,7 +219,7 @@ type
     procedure Render(X, Y, DX, DY: Integer);
     procedure Colors(var Icon: Graphics.TBitmap; ItemIndex: Integer);
     procedure SetColor(const AColor: Integer);
-    procedure UseItem(const Index: Integer; Category: TCatSet);
+    procedure UseItem(const AIndex: Integer; const AScript: string);
     procedure UseSubCats(const Index: Integer);
     function CellItemsCount(X, Y: Integer): Integer;
     function ItemIndex(ID: string): Integer; overload;
@@ -557,11 +557,11 @@ begin
   end;
 end;
 
-procedure TItems.UseItem(const Index: Integer; Category: TCatSet);
+procedure TItems.UseItem(const AIndex: Integer; const AScript: string);
 begin
   try
-    // if (DungeonItems[Index].Category in Category) then
-    // UseSubCats(Index);
+    if Items.IsCategory(ItemPatterns.Patterns[AIndex].Category, AScript) then
+      UseSubCats(AIndex);
   except
     on E: Exception do
       Error.Add('Items.UseItem', E.Message);

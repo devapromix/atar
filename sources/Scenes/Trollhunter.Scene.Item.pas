@@ -186,7 +186,7 @@ begin
           Scenes.Scene := SceneInv;
         end;
       ord('R'):
-        if Items.IsCategory(ItemPatterns.Patterns[I].Category, ReadCategories)
+        if Items.IsCategory(ItemPatterns.Patterns[I].Category, ScrollCategories)
         then
         begin
           Read(ItemIndex);
@@ -539,7 +539,7 @@ begin
             AnsiLowerCase(Language.GetItemLang(ItemPatterns.Patterns[J]
             .ID)) + '.');
         end;
-        Items.UseItem(J, PotionSet);
+        Items.UseItem(J, PotionCategories);
       end;
   except
     on E: Exception do
@@ -570,7 +570,7 @@ begin
               .ID)) + '.');
           end;
           Mana.Dec(ItemPatterns.Patterns[J].ManaCost);
-          Items.UseItem(J, ScrollSet);
+          Items.UseItem(J, ScrollCategories);
         end;
       end
       else
