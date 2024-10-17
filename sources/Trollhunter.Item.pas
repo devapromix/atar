@@ -29,17 +29,18 @@ const
     'REPAIR', 'CRAFT', 'PLANT');
 
 const
-  ArmorCategories = 'BODY, HEAD, FOOT, LHAND';
+  ArmorCategories = 'LHAND, HEAD, BODY, FOOT';
   WeaponCategories = 'RHAND';
   AmuRingCategories = 'AMULET, RING';
-  EquipmentCategories = 'BODY, HEAD, FOOT, RHAND, LHAND, AMULET, RING';
-  UseCategories = 'POTION, REPAIR, CRAFT';
   ReadCategories = 'SCROLL';
   QuaffCategories = 'POTION';
   FoodCategories = 'PLANT';
   CraftCategories = 'CRAFT';
   RepairCategories = 'REPAIR';
   KeyCategories = 'KEY';
+  UseCategories = 'POTION, REPAIR, CRAFT';
+  EquipmentCategories = WeaponCategories + ',' + ArmorCategories + ',' +
+    AmuRingCategories;
   DropCategories = EquipmentCategories + ',' + QuaffCategories + ',' +
     RepairCategories + ',' + KeyCategories + ',' + CraftCategories + ',' +
     FoodCategories + ',' + ReadCategories;
@@ -269,7 +270,7 @@ begin
     HeroImage := Graphics.TBitmap.Create;
     HeroImage.Transparent := True;
     Count := 1;
-    //Prop.Tough := 0;
+    // Prop.Tough := 0;
     SetPosition(AX, AY);
   except
     on E: Exception do
@@ -993,25 +994,18 @@ end;
 function TItems.GetDollText(AItemIndex, AItemIdent: Integer): string;
 var
   LStr: string;
+  I: Integer;
+  LCategories: TArray<string>;
 begin
   Result := '';
   LStr := '';
-  { case DungeonItems[AItemIdent].Category of
-    dsLHand:
-    LStr := Language.GetLang(231);
-    dsRHand:
-    LStr := Language.GetLang(232);
-    dsBody:
-    LStr := Language.GetLang(233);
-    dsHead:
-    LStr := Language.GetLang(234);
-    dsFoot:
-    LStr := Language.GetLang(235);
-    dsRing:
-    LStr := Language.GetLang(236);
-    dsAmulet:
-    LStr := Language.GetLang(237);
-    end; }
+  LCategories := EquipmentCategories.Split([',']);
+  for I := 0 to Length(LCategories) - 1 do
+    if ItemPatterns.Patterns[AItemIdent].Category = LCategories[I] then
+    begin
+      LStr := Language.GetLang(I + 231);
+      Break;
+    end;
   if Creatures.PC.Inv.GetDoll(AItemIndex) then
     Result := ' - ' + LStr;
 end;
