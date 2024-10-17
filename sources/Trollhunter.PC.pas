@@ -689,30 +689,15 @@ end;
 
 procedure TPC.TrainSkill;
 var
-  ID: string;
-  CS: TSubCats;
+  LItemIdent, LSkill: string;
 begin
-  ID := Trim(Items.GetDollItemID(WeaponCategories));
-  if (ID = '') then
-    Exit;
-  { CS := DungeonItems[Items.ItemIndex(ID)].SubCats;
-    ///
-    if (scDagger = CS) then
-    Skills.Up('DAGGERS');
-    if (scAxe = CS) then
-    Skills.Up('AXES');
-    if (scSword = CS) then
-    Skills.Up('SWORDS');
-    if (scMace = CS) then
-    Skills.Up('MACES');
-    if (scSpear = CS) then
-    Skills.Up('SPEARS');
-    if (scBow = CS) then
-    Skills.Up('BOWS');
-    if (scCrossBow = CS) then
-    Skills.Up('CROSSBOWS');
-    if (scShield = CS) then
-    Skills.Up('SHIELDS'); }
+  LItemIdent := Trim(Items.GetDollItemID(WeaponCategories));
+  if (LItemIdent <> '') then
+  begin
+    LSkill := ItemPatterns.Patterns[Items.ItemIndex(LItemIdent)].Script;
+    if (LSkill <> '') then
+      Skills.Up(LSkill);
+  end;
 
   {
     'Dodge':1,
@@ -721,7 +706,6 @@ begin
     'Unarmed fighting':3,
     'Throwing':2,
   }
-
 end;
 
 procedure TPC.AddDexterity;
