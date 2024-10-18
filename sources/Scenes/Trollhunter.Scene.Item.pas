@@ -271,11 +271,12 @@ var
 
   procedure RenderItemInfo(AItemIndex: Integer);
   const
-    Effects = 'LIFE, MANA, FILL, ANTIDOTE, KEY, TELEPORT, SUMMON, IDENTIFY, PORTAL, DISPEL, REPAIR, REPAIRALL';
+    Effects = 'LIFE,MANA,FILL,ANTIDOTE,KEY,TELEPORT,SUMMON,IDENTIFY,PORTAL,DISPEL,REPAIR,REPAIRALL';
     EffLangNums: array [0 .. 11] of Integer = (223, 224, 80, 79, 112, 272, 273,
       274, 275, 230, 270, 271);
+    Atributes = 'STRENGTH,DEXTERITY,INTELLIGENCE,PERCEPTION,SPEED';
   var
-    LEffects: TArray<string>;
+    LEffects, LAtributes: TArray<string>;
     J: Integer;
   begin
     with Graph.Surface.Canvas do
@@ -283,12 +284,33 @@ var
       Font.Color := cWhiteGre;
       with ItemPatterns.Patterns[AItemIndex] do
       begin
-        // Random
+        // Effects
         LEffects := Items.ExplodeString(Effects);
         for J := 0 to Length(LEffects) do
           if UpperCase(Trim(Script)) = UpperCase(Trim(LEffects[J])) then
             Add(Language.GetLang(EffLangNums[J]));
-
+        // Atributes
+        LAtributes := Items.ExplodeString(Atributes);
+        for J := 0 to Length(LAtributes) do
+          if UpperCase(Trim(Script)) = UpperCase(Trim(LAtributes[J])) then
+            Add(Format('%s +1.', [Language.GetLang(J + 15)]));
+        // Misc
+        if (UpperCase(Trim(Script)) = 'WIZARDEYE') then
+          Add(Format('%s %d.', [Language.GetLang(115),
+            Creatures.PC.TempSys.Power('WizardEye')]));
+        // Repair
+        { if (scRepair3 = SubCats) then
+          Add(Format('%s 3.', [Language.GetLang(89)]));
+          if (scRepair6 = SubCats) then
+          Add(Format('%s 6.', [Language.GetLang(89)]));
+          if (scRepair9 = SubCats) then
+          Add(Format('%s 9.', [Language.GetLang(89)]));
+          if (scRepair12 = SubCats) then
+          Add(Format('%s 12.', [Language.GetLang(89)]));
+          if (scRepair15 = SubCats) then
+          Add(Format('%s 15.', [Language.GetLang(89)]));
+          if (scRepair25 = SubCats) then
+          Add(Format('%s 25.', [Language.GetLang(89)])); }
         // Life
         { if (scLife25 = SubCats) then
           Add(Format(Language.GetLang(81), [25]));
@@ -311,33 +333,6 @@ var
           Add(Format(Language.GetLang(82), [100]));
           if (scMana200 = SubCats) then
           Add(Format(Language.GetLang(82), [200])); }
-        // Atr
-        { if (scStrength = SubCats) then
-          Add(Format('%s +1.', [Language.GetLang(15)]));
-          if (scDexterity = SubCats) then
-          Add(Format('%s +1.', [Language.GetLang(16)]));
-          if (scIntelligence = SubCats) then
-          Add(Format('%s +1.', [Language.GetLang(17)]));
-          if (scSpeed = SubCats) then
-          Add(Format('%s +1.', [Language.GetLang(18)])); }
-        // Misc
-        { if (scWizardEye = SubCats) then
-          Add(Format('%s %d.', [Language.GetLang(115),
-          Creatures.PC.TempSys.Power('WizardEye')])); }
-        // Repair
-        { if (scRepair3 = SubCats) then
-          Add(Format('%s 3.', [Language.GetLang(89)]));
-          if (scRepair6 = SubCats) then
-          Add(Format('%s 6.', [Language.GetLang(89)]));
-          if (scRepair9 = SubCats) then
-          Add(Format('%s 9.', [Language.GetLang(89)]));
-          if (scRepair12 = SubCats) then
-          Add(Format('%s 12.', [Language.GetLang(89)]));
-          if (scRepair15 = SubCats) then
-          Add(Format('%s 15.', [Language.GetLang(89)]));
-          if (scRepair25 = SubCats) then
-          Add(Format('%s 25.', [Language.GetLang(89)]));
-        }
       end;
       //
       Font.Color := cSkyBlue;
