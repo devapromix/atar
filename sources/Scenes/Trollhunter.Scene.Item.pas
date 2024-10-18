@@ -16,18 +16,18 @@ type
     Commands: string;
     FCursorPos: Integer;
     FItemIndex: Integer;
-    procedure Drink(I: Integer);
-    procedure Drop(I: Integer);
-    procedure Read(I: Integer);
-    procedure Use(I: Integer);
+    procedure Drink(AItemIndex: Integer);
+    procedure Drop(AItemIndex: Integer);
+    procedure Read(AItemIndex: Integer);
+    procedure Use(AItemIndex: Integer);
     procedure SetCursorPos(const Value: Integer);
     procedure SetItemIndex(const Value: Integer);
   public
     property CursorPos: Integer read FCursorPos write SetCursorPos;
     property ItemIndex: Integer read FItemIndex write SetItemIndex;
-    function KeyIDToInvItemID(I: Integer): Integer;
-    procedure Equip(I: Integer; IsShowLog: Boolean = True);
-    procedure UnEquip(I: Integer; IsShowLog: Boolean = True);
+    function KeyIDToInvItemID(AItemIndex: Integer): Integer;
+    procedure Equip(AItemIndex: Integer; IsShowLog: Boolean = True);
+    procedure UnEquip(AItemIndex: Integer; IsShowLog: Boolean = True);
     procedure KeyPress(var Key: Char); override;
     procedure Render(); override;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
@@ -73,36 +73,36 @@ begin
   inherited;
 end;
 
-procedure TSceneItem.Equip(I: Integer; IsShowLog: Boolean = True);
+procedure TSceneItem.Equip(AItemIndex: Integer; IsShowLog: Boolean = True);
 var
-  V, J: Integer;
+  LPatItemIndex, LItemIndex: Integer;
   // B: Boolean;
 begin
   try
-    V := KeyIDToInvItemID(I);
+    LPatItemIndex := KeyIDToInvItemID(AItemIndex);
     { B := True;{((DungeonItems[V].MaxTough > 0)
       and (Creatures.PC.Inv.GetTough(I) > 0))
       or (DungeonItems[V].MaxTough = 0); }
-    for J := 1 to 26 do
-      if (ItemPatterns.Patterns[V].Category = ItemPatterns.Patterns
-        [KeyIDToInvItemID(J)].Category) then
-        UnEquip(J);
+    for LItemIndex := 1 to 26 do
+      if (ItemPatterns.Patterns[LPatItemIndex].Category = ItemPatterns.Patterns
+        [KeyIDToInvItemID(LItemIndex)].Category) then
+        UnEquip(LItemIndex);
     // if (B and (DungeonItems[V].Category in WeapArmSet))
     // or (DungeonItems[V].Category in AmuRingSet)
-    if Items.IsCategory(ItemPatterns.Patterns[V].Category, EquipmentCategories)
-      and Creatures.PC.Inv.Equip(I) then
+    if Items.IsCategory(ItemPatterns.Patterns[LPatItemIndex].Category,
+      EquipmentCategories) and Creatures.PC.Inv.Equip(AItemIndex) then
     begin
       Creatures.PC.Prop.MinDamage := Creatures.PC.Prop.MinDamage +
-        ItemPatterns.Patterns[V].MinDamage;
+        ItemPatterns.Patterns[LPatItemIndex].MinDamage;
       Creatures.PC.Prop.MaxDamage := Creatures.PC.Prop.MaxDamage +
-        ItemPatterns.Patterns[V].MaxDamage;
+        ItemPatterns.Patterns[LPatItemIndex].MaxDamage;
       Creatures.PC.Prop.Protect := Creatures.PC.Prop.Protect +
-        ItemPatterns.Patterns[V].Protect;
+        ItemPatterns.Patterns[LPatItemIndex].Protect;
       Creatures.PC.Calc;
 
       if IsShowLog then
         Log.Add(Format(Language.GetLang(96),
-          [Language.GetItemLang(ItemPatterns.Patterns[V].ID)]));
+          [Language.GetItemLang(ItemPatterns.Patterns[LPatItemIndex].ID)]));
       // You equip a %s.
       Scenes.Render;
     end;
@@ -112,23 +112,23 @@ begin
   end;
 end;
 
-procedure TSceneItem.UnEquip(I: Integer; IsShowLog: Boolean = True);
+procedure TSceneItem.UnEquip(AItemIndex: Integer; IsShowLog: Boolean = True);
 begin
   try
-    if Creatures.PC.Inv.UnEquip(I) then
+    if Creatures.PC.Inv.UnEquip(AItemIndex) then
     begin
       Creatures.PC.Prop.MinDamage := Creatures.PC.Prop.MinDamage +
-        ItemPatterns.Patterns[KeyIDToInvItemID(I)].MinDamage;
+        ItemPatterns.Patterns[KeyIDToInvItemID(AItemIndex)].MinDamage;
       Creatures.PC.Prop.MaxDamage := Creatures.PC.Prop.MaxDamage +
-        ItemPatterns.Patterns[KeyIDToInvItemID(I)].MaxDamage;
+        ItemPatterns.Patterns[KeyIDToInvItemID(AItemIndex)].MaxDamage;
       Creatures.PC.Prop.Protect := Creatures.PC.Prop.Protect +
-        ItemPatterns.Patterns[KeyIDToInvItemID(I)].Protect;
+        ItemPatterns.Patterns[KeyIDToInvItemID(AItemIndex)].Protect;
       Creatures.PC.Calc;
 
       if IsShowLog then
         Log.Add(Format(Language.GetLang(97),
           [Language.GetItemLang(ItemPatterns.Patterns
-          [KeyIDToInvItemID(I)].ID)]));
+          [KeyIDToInvItemID(AItemIndex)].ID)]));
       // You unequip a %s.
       Scenes.Render;
     end;
@@ -140,12 +140,12 @@ end;
 
 procedure TSceneItem.KeyDown(var Key: Word; Shift: TShiftState);
 var
-  I: Integer;
+  LPatItemIndex: Integer;
   K: Word;
   C: Char;
 begin
   try
-    I := KeyIDToInvItemID(ItemIndex);
+    LPatItemIndex := KeyIDToInvItemID(ItemIndex);
     case Key of
       27, 123:
         Scenes.Scene := SceneInv;
@@ -166,7 +166,7 @@ begin
           end;
         end;
       ord('W'):
-        if Items.IsCategory(ItemPatterns.Patterns[I].Category,
+        if Items.IsCategory(ItemPatterns.Patterns[LPatItemIndex].Category,
           EquipmentCategories) then
         begin
           if not Creatures.PC.Inv.GetDoll(ItemIndex) then
@@ -177,8 +177,8 @@ begin
           Scenes.Scene := SceneInv;
         end;
       ord('U'):
-        if Items.IsCategory(ItemPatterns.Patterns[I].Category, UseCategories)
-        then
+        if Items.IsCategory(ItemPatterns.Patterns[LPatItemIndex].Category,
+          UseCategories) then
         begin
           Use(ItemIndex);
           Log.Apply;
@@ -186,8 +186,8 @@ begin
           Scenes.Scene := SceneInv;
         end;
       ord('R'):
-        if Items.IsCategory(ItemPatterns.Patterns[I].Category, ScrollCategories)
-        then
+        if Items.IsCategory(ItemPatterns.Patterns[LPatItemIndex].Category,
+          ScrollCategories) then
         begin
           Read(ItemIndex);
           Log.Apply;
@@ -195,8 +195,8 @@ begin
           Scenes.Scene := SceneGame;
         end;
       ord('Q'):
-        if Items.IsCategory(ItemPatterns.Patterns[I].Category, PotionCategories)
-        then
+        if Items.IsCategory(ItemPatterns.Patterns[LPatItemIndex].Category,
+          PotionCategories) then
         begin
           Drink(ItemIndex);
           Log.Apply;
@@ -204,8 +204,8 @@ begin
           Scenes.Scene := SceneGame;
         end;
       ord('D'):
-        if Items.IsCategory(ItemPatterns.Patterns[I].Category, DropCategories)
-          and not Creatures.PC.Inv.GetDoll(ItemIndex) then
+        if Items.IsCategory(ItemPatterns.Patterns[LPatItemIndex].Category,
+          DropCategories) and not Creatures.PC.Inv.GetDoll(ItemIndex) then
         begin
           Drop(ItemIndex);
           Log.Apply;
@@ -269,11 +269,11 @@ var
     AddMenu(S);
   end;
 
-  procedure RenderItemInfo(I: Integer);
+  procedure RenderItemInfo(AItemIndex: Integer);
   const
     Effects = 'LIFE, MANA, FILL, ANTIDOTE, KEY, TELEPORT, SUMMON, IDENTIFY, PORTAL, DISPEL, REPAIR, REPAIRALL';
-    EffLangNums: array [0 .. 11] of Integer = (223, 224, 80, 79, 112, 272, 273, 274,
-      275, 230, 270, 271);
+    EffLangNums: array [0 .. 11] of Integer = (223, 224, 80, 79, 112, 272, 273,
+      274, 275, 230, 270, 271);
   var
     LEffects: TArray<string>;
     J: Integer;
@@ -281,7 +281,7 @@ var
     with Graph.Surface.Canvas do
     begin
       Font.Color := cWhiteGre;
-      with ItemPatterns.Patterns[I] do
+      with ItemPatterns.Patterns[AItemIndex] do
       begin
         // Random
         LEffects := Items.ExplodeString(Effects);
@@ -341,13 +341,13 @@ var
       end;
       //
       Font.Color := cSkyBlue;
-      if (ItemPatterns.Patterns[I].MaxDamage > 0) then
+      if (ItemPatterns.Patterns[AItemIndex].MaxDamage > 0) then
         Add(Format('%s %d-%d', [Language.GetLang(32),
-          ItemPatterns.Patterns[I].MinDamage,
-          ItemPatterns.Patterns[I].MaxDamage]));
-      if (ItemPatterns.Patterns[I].Protect > 0) then
+          ItemPatterns.Patterns[AItemIndex].MinDamage,
+          ItemPatterns.Patterns[AItemIndex].MaxDamage]));
+      if (ItemPatterns.Patterns[AItemIndex].Protect > 0) then
         Add(Format('%s %d', [Language.GetLang(33),
-          ItemPatterns.Patterns[I].Protect]));
+          ItemPatterns.Patterns[AItemIndex].Protect]));
       // Bonuses
       { Font.Color := cSkyBlue;
         if (DungeonItems[I].BonusStrength > 0) then
@@ -368,24 +368,24 @@ var
         Add(Format('%s %d', [Language.GetLang(23), DungeonItems[I].BonusMana])); }
       //
       Font.Color := cWhiteGre;
-      if (ItemPatterns.Patterns[I].ManaCost > 0) then
+      if (ItemPatterns.Patterns[AItemIndex].ManaCost > 0) then
         Add(Format('%s -%d (%d/%d)', [Language.GetLang(23),
-          ItemPatterns.Patterns[I].ManaCost, Creatures.PC.Mana.Cur,
+          ItemPatterns.Patterns[AItemIndex].ManaCost, Creatures.PC.Mana.Cur,
           Creatures.PC.Mana.Max]));
       { if (ItemPatterns.Patterns[I].NeedMagic > 0) then
         Add(Format('%s %d (%d)', [Language.GetLang(280),
         ItemPatterns.Patterns[I].NeedMagic, Skills.GetSkill('MAGIC').Level])); }
       //
       Font.Color := cSkyBlue;
-      if (ItemPatterns.Patterns[I].Weight > 0) then
-        Add(Language.GetLang(42) + Items.GetWeight(I));
-      if (ItemPatterns.Patterns[I].MaxTough > 0) then
+      if (ItemPatterns.Patterns[AItemIndex].Weight > 0) then
+        Add(Language.GetLang(42) + Items.GetWeight(AItemIndex));
+      if (ItemPatterns.Patterns[AItemIndex].MaxTough > 0) then
       begin
         if (Creatures.PC.Inv.GetTough(ItemIndex) <= 0) then
           Font.Color := cRdRed;
         Add(Format('%s %d/%d', [Language.GetLang(40),
           Creatures.PC.Inv.GetTough(ItemIndex),
-          ItemPatterns.Patterns[I].MaxTough]));
+          ItemPatterns.Patterns[AItemIndex].MaxTough]));
       end;
     end;
   end;
@@ -454,12 +454,12 @@ begin
     end;
 end;
 
-function TSceneItem.KeyIDToInvItemID(I: Integer): Integer;
+function TSceneItem.KeyIDToInvItemID(AItemIndex: Integer): Integer;
 begin
-  Result := Items.ItemIndex(I);
+  Result := Items.ItemIndex(AItemIndex);
 end;
 
-procedure TSceneItem.Drop(I: Integer);
+procedure TSceneItem.Drop(AItemIndex: Integer);
 var
   J, T, C: Integer;
 begin
@@ -467,10 +467,10 @@ begin
     if not(Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile in FloorSet +
       [tlOpenWoodChest, tlOpenBestChest, tlOpenBarrel]) then
       Exit;
-    T := Creatures.PC.Inv.GetTough(I);
-    J := KeyIDToInvItemID(I);
+    T := Creatures.PC.Inv.GetTough(AItemIndex);
+    J := KeyIDToInvItemID(AItemIndex);
     C := Creatures.PC.Inv.GetCount(ItemPatterns.Patterns[J].ID);
-    if Creatures.PC.Inv.Del(I, C) then
+    if Creatures.PC.Inv.Del(AItemIndex, C) then
     begin
       if (C = 1) then
       begin
@@ -499,13 +499,13 @@ begin
   end;
 end;
 
-procedure TSceneItem.Use(I: Integer);
+procedure TSceneItem.Use(AItemIndex: Integer);
 var
-  J: Integer;
+  LItemIndex: Integer;
 begin
   try
-    J := KeyIDToInvItemID(I);
-    SceneInv.ItemUseID := ItemPatterns.Patterns[J].ID;
+    LItemIndex := KeyIDToInvItemID(AItemIndex);
+    SceneInv.ItemUseID := ItemPatterns.Patterns[LItemIndex].ID;
     Scenes.Scene := SceneInv;
   except
     on E: Exception do
@@ -513,14 +513,14 @@ begin
   end;
 end;
 
-procedure TSceneItem.Drink(I: Integer);
+procedure TSceneItem.Drink(AItemIndex: Integer);
 var
   J, T: Integer;
 begin
   try
-    J := KeyIDToInvItemID(I);
+    J := KeyIDToInvItemID(AItemIndex);
     with Creatures.PC do
-      if Inv.Del(I, 1) then
+      if Inv.Del(AItemIndex, 1) then
       begin
         T := ItemPatterns.Patterns[J].ColorTag;
         Log.Add(Format(Language.GetLang(94),
@@ -540,17 +540,17 @@ begin
   end;
 end;
 
-procedure TSceneItem.Read(I: Integer);
+procedure TSceneItem.Read(AItemIndex: Integer);
 var
   J, T: Integer;
 begin
   try
-    J := KeyIDToInvItemID(I);
+    J := KeyIDToInvItemID(AItemIndex);
     with Creatures.PC do
     begin
       if (Mana.Cur >= ItemPatterns.Patterns[J].ManaCost) then
       begin
-        if Inv.Del(I, 1) then
+        if Inv.Del(AItemIndex, 1) then
         begin
           T := ItemPatterns.Patterns[J].ColorTag;
           Log.Add(Format(Language.GetLang(100),

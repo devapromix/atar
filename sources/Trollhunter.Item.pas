@@ -13,121 +13,28 @@ uses
   Trollhunter.Item.Pattern;
 
 const
-  ItemsCount = 75;
-
-const
   RandomScrollsCount = 9;
   RandomPotionsCount = 8;
 
-type
-  TCategory = (dsNone, dsKey, dsGold, dsBody, dsHead, dsFoot, dsRHand, dsLHand,
-    dsAmulet, dsRing, dsPotion, dsScroll, dsRepair, dsCraft, dsPlant);
-
 const
-  CategoryStr: array [TCategory] of string = ('NONE', 'KEY', 'GOLD', 'BODY',
-    'HEAD', 'FOOT', 'RHAND', 'LHAND', 'AMULET', 'RING', 'POTION', 'SCROLL',
-    'REPAIR', 'CRAFT', 'PLANT');
-
-const
-  ArmorCategories = 'LHAND, HEAD, BODY, FOOT';
+  ArmorCategories = 'LHAND,HEAD,BODY,FOOT';
   WeaponCategories = 'RHAND';
-  AmuRingCategories = 'AMULET, RING';
+  AmuRingCategories = 'AMULET,RING';
   ScrollCategories = 'SCROLL';
   PotionCategories = 'POTION';
   FoodCategories = 'PLANT';
   CraftCategories = 'CRAFT';
   RepairCategories = 'REPAIR';
   KeyCategories = 'KEY';
-  UseCategories = 'POTION, REPAIR, CRAFT';
+  UseCategories = PotionCategories + ',' + RepairCategories + ',' +
+    CraftCategories;
   EquipmentCategories = WeaponCategories + ',' + ArmorCategories + ',' +
     AmuRingCategories;
   DropCategories = EquipmentCategories + ',' + PotionCategories + ',' +
     RepairCategories + ',' + KeyCategories + ',' + CraftCategories + ',' +
     FoodCategories + ',' + ScrollCategories;
 
-type
-  TSubCats = (scNone, scKey, scFill, scDispel, scAntidote, scTeleport, scPortal,
-    scSummon, scIdentify, scWizardEye, scStrength, scDexterity, scIntelligence,
-    scSpeed, scRepair, scRepair3, scRepair6, scRepair9, scRepair12, scRepair15,
-    scRepair25, scRepairAll, scLife, scLife25, scLife50, scLife75, scLife100,
-    scLife200, scMana, scMana25, scMana50, scMana75, scMana100, scMana200,
-    scDagger, scAxe, scSword, scMace, scSpear, scShield, scBow, scCrossBow);
-
 const
-  SubCatsStr: array [TSubCats] of string = ('NONE', 'KEY', 'FILL', 'DISPEL',
-    'ANTIDOTE', 'TELEPORT', 'PORTAL', 'SUMMON', 'IDENTIFY', 'WIZARDEYE',
-    'STRENGTH', 'DEXTERITY', 'INTELLIGENCE', 'SPEED', 'REPAIR', 'REPAIR 3',
-    'REPAIR 6', 'REPAIR 9', 'REPAIR 12', 'REPAIR 15', 'REPAIR 25', 'REPAIRALL',
-    'LIFE', 'LIFE 25', 'LIFE 50', 'LIFE 75', 'LIFE 100', 'LIFE 200', 'MANA',
-    'MANA 25', 'MANA 50', 'MANA 75', 'MANA 100', 'MANA 200', 'DAGGER', 'AXE',
-    'SWORD', 'MACE', 'SPEAR', 'SHIELD', 'BOW', 'CROSSBOW');
-
-type
-  TCatSet = set of TCategory;
-
-type
-  TSubCSet = set of TSubCats;
-
-type
-  TRarity = (riNormal, riMagic, riRare, riUnique);
-
-type
-  TJewlery = (jwNone, jwSteel, jwBronze, jwCopper, jwBrass, jwSilver, jwGold,
-    jwAgate, jwOpal, jwAmethyst, jwRuby, jwEmerald, jwJade, jwPearl, jwQuartz,
-    jwSapphire, jwDiamond);
-
-const
-  KeySet = [dsKey];
-  PotionSet = [dsPotion];
-  WeaponSet = [dsRHand];
-  ArmorSet = [dsBody, dsHead, dsLHand, dsFoot];
-  AmuRingSet = [dsAmulet, dsRing];
-  UseSet = [dsPotion, dsRepair, dsCraft];
-  CraftSet = [dsCraft];
-  FoodSet = [dsPlant];
-  RepairSet = [dsRepair];
-  ScrollSet = [dsScroll];
-  WeapArmSet = WeaponSet + ArmorSet;
-  EquipSet = WeapArmSet + AmuRingSet;
-  DropSet = EquipSet + PotionSet + RepairSet + KeySet + CraftSet + FoodSet +
-    ScrollSet;
-
-type
-  TItemRec = record
-    Sprite: string;
-    AdvSprite: string;
-    MinDamage: Integer;
-    MaxDamage: Integer;
-    Protect: Integer;
-    Rarity: TRarity;
-    Tough: Integer;
-    MaxTough: Integer;
-    Weight: Integer;
-    ManaCost: Integer;
-    IsStack: Boolean;
-    MinCount: Integer;
-    MaxCount: Integer;
-    Category: TCategory;
-    SubCats: TSubCats;
-    ColorTag: Integer;
-    Color: Integer;
-    BonusStrength: Integer;
-    BonusDexterity: Integer;
-    BonusIntelligence: Integer;
-    BonusSpeed: Integer;
-    BonusLife: Integer;
-    BonusMana: Integer;
-    NeedStrength: Integer;
-    NeedDexterity: Integer;
-    NeedIntelligence: Integer;
-    NeedSpeed: Integer;
-    NeedMagic: Integer;
-  end;
-
-const
-  // RandomScroll = 'SCROLLA,SCROLLB,SCROLLC,SCROLLD,SCROLLE,SCROLLF,SCROLLG,SCROLLH,';
-  // RandomPotion = 'POTIONA,POTIONB,POTIONC,POTIOND,POTIONE,POTIONF,POTIONG,POTIONH,';
-
   DefaultItems = 'GOLDCOINS,KEY,SLEDGEHAMMER,ARROW,BOLT,';
 
   PotionLevel1 =
@@ -227,7 +134,6 @@ type
     function GetDollText(AItemIndex, AItemIdent: Integer): string;
     procedure RepairAll;
     procedure Key;
-    procedure Grow;
     procedure Identify;
     function GetItemProp(ACount, ATough, I, V: Integer): string;
     function GetWeight(Index: Integer): string;
@@ -235,7 +141,7 @@ type
     constructor Create;
     destructor Destroy; override;
     function IsCategory(const ACategory, ACategories: string): Boolean;
-    function ExplodeString(const ACategories: string): TArray<string>;
+    function ExplodeString(const AString: string): TArray<string>;
   end;
 
 var
@@ -271,7 +177,6 @@ begin
     HeroImage := Graphics.TBitmap.Create;
     HeroImage.Transparent := True;
     Count := 1;
-    // Prop.Tough := 0;
     SetPosition(AX, AY);
   except
     on E: Exception do
@@ -486,39 +391,39 @@ begin
           // Life
           if ('LIFE' = Script) then
             Life.SetToMax;
-          {if (scLife25 = Script) then
+          { if (scLife25 = Script) then
             Add('VialOfLife', 5, 5);
-          if (scLife50 = Script) then
+            if (scLife50 = Script) then
             Add('VialOfLife', 10, 5);
-          if (scLife75 = Script) then
+            if (scLife75 = Script) then
             Add('VialOfLife', 15, 5);
-          if (scLife100 = Script) then
+            if (scLife100 = Script) then
             Add('VialOfLife', 10, 10);
-          if (scLife200 = Script) then
-            Add('VialOfLife', 20, 10);}
+            if (scLife200 = Script) then
+            Add('VialOfLife', 20, 10); }
           // Mana
           if ('MANA' = Script) then
             Mana.SetToMax;
-          {if (scMana25 = Script) then
+          { if (scMana25 = Script) then
             Add('VialOfMana', 5, 5);
-          if (scMana50 = Script) then
+            if (scMana50 = Script) then
             Add('VialOfMana', 10, 5);
-          if (scMana75 = Script) then
+            if (scMana75 = Script) then
             Add('VialOfMana', 15, 5);
-          if (scMana100 = Script) then
+            if (scMana100 = Script) then
             Add('VialOfMana', 10, 10);
-          if (scMana200 = Script) then
-            Add('VialOfMana', 20, 10);}
+            if (scMana200 = Script) then
+            Add('VialOfMana', 20, 10); }
           // Drink Oil
-          {if (scRepair3 = Script) then
+          { if (scRepair3 = Script) then
             Add('Poison', 3, 10);
-          if (scRepair6 = Script) then
+            if (scRepair6 = Script) then
             Add('Poison', 6, 10);
-          if (scRepair9 = Script) then
+            if (scRepair9 = Script) then
             Add('Poison', 9, 10);
-          if (scRepair12 = Script) then
+            if (scRepair12 = Script) then
             Add('Poison', 12, 10);
-          if (scRepair15 = Script) then
+            if (scRepair15 = Script) then
             Add('Poison', 15, 10); }
           // Atr
           if ('STRENGTH' = Script) then
@@ -595,29 +500,6 @@ begin
     Result := Format(' %ds', [ItemPatterns.Patterns[Index].Weight])
   else
     Result := '';
-end;
-
-procedure TItems.Grow;
-var
-  X, Y, Z: Integer;
-begin
-  if (Length(Items.Item) = 0) or (Rand(1, 3) > 1) then
-    Exit;
-  try
-    for Z := 0 to High(Items.Item) do
-      if (ItemPatterns.Patterns[ItemIndex(Items.Item[Z].Name)
-        ].Category = 'PLANT') then
-      begin
-        X := Items.Item[Z].Pos.X + Rand(-1, 1);
-        Y := Items.Item[Z].Pos.Y + Rand(-1, 1);
-        if (Map.Cell[Y, X].Tile in FloorSet) and (Items.CellItemsCount(X, Y) = 0)
-        then
-          Items.Add(X, Y, Items.Item[Z].Name);
-      end;
-  except
-    on E: Exception do
-      Error.Add('Items.Grow', E.Message);
-  end;
 end;
 
 function TItems.ItemIndex(ID: string): Integer;
@@ -953,9 +835,9 @@ begin
   end;
 end;
 
-function TItems.ExplodeString(const ACategories: string): TArray<string>;
+function TItems.ExplodeString(const AString: string): TArray<string>;
 begin
-  Result := ACategories.Split([',']);
+  Result := AString.Split([',']);
 end;
 
 function TItems.IsCategory(const ACategory, ACategories: string): Boolean;

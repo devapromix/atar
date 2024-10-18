@@ -49,7 +49,8 @@ uses
   Trollhunter.Map,
   Trollhunter.Race,
   Trollhunter.Creature.Pattern,
-  Trollhunter.Map.Pattern;
+  Trollhunter.Map.Pattern,
+  Trollhunter.Item.Pattern;
 
 { TSceneMenu }
 
@@ -78,8 +79,8 @@ begin
       Surface.Canvas.Font.Color := cRdGray;
       Text.TextCenter(T - 3,
         Format('[Races: %d, Items: %d, Enemies: %d, Maps: %d]',
-        [Races.RaceList.Count, ItemsCount, CreaturePatterns.Patterns.Count,
-        MapPatterns.Patterns.Count]));
+        [Races.RaceList.Count, ItemPatterns.Patterns.Count,
+        CreaturePatterns.Patterns.Count, MapPatterns.Patterns.Count]));
       Text.TextCenter(T - 4, '[' + S + ']');
     end;
   end;

@@ -2,8 +2,8 @@ object MainForm: TMainForm
   Left = 126
   Top = 151
   Caption = 'Trollhunter'
-  ClientHeight = 61
-  ClientWidth = 208
+  ClientHeight = 487
+  ClientWidth = 705
   Color = clBlack
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clCream
