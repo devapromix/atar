@@ -10,7 +10,8 @@ uses
   Trollhunter.Craft,
   Trollhunter.Entity,
   Trollhunter.RandItems,
-  Trollhunter.Item.Pattern;
+  Trollhunter.Item.Pattern,
+  Dragonhunter.Item.Script;
 
 const
   RandomScrollsCount = 9;
@@ -105,6 +106,7 @@ type
   TItems = class(TObject)
   private
     FItem: TItem;
+    FItemScript: TItemScript;
     procedure SetItem(const Value: TItem);
   public
     function Use(ItemA, ItemB: string; I: Integer): Boolean;
@@ -142,6 +144,7 @@ type
     destructor Destroy; override;
     function IsCategory(const ACategory, ACategories: string): Boolean;
     function ExplodeString(const AString: string): TArray<string>;
+    property ItemScript: TItemScript read FItemScript write FItemScript;
   end;
 
 var
@@ -360,11 +363,12 @@ begin
   RandomScrolls := '';
   for I := 1 to RandomScrollsCount do
     RandomScrolls := RandomScrolls + 'SCROLL' + Chr(I + 64) + ',';
+  FItemScript := TItemScript.Create;
 end;
 
 destructor TItems.Destroy;
 begin
-
+  FreeAndNil(FItemScript);
   inherited;
 end;
 
@@ -384,78 +388,7 @@ end;
 procedure TItems.UseScript(const Index: Integer);
 begin
   try
-    with Creatures.PC do
-      with ItemPatterns.Patterns[Index] do
-        with TempSys do
-        begin
-          // Life
-          if ('LIFE' = Script) then
-            Life.SetToMax;
-          { if (scLife25 = Script) then
-            Add('VialOfLife', 5, 5);
-            if (scLife50 = Script) then
-            Add('VialOfLife', 10, 5);
-            if (scLife75 = Script) then
-            Add('VialOfLife', 15, 5);
-            if (scLife100 = Script) then
-            Add('VialOfLife', 10, 10);
-            if (scLife200 = Script) then
-            Add('VialOfLife', 20, 10); }
-          // Mana
-          if ('MANA' = Script) then
-            Mana.SetToMax;
-          { if (scMana25 = Script) then
-            Add('VialOfMana', 5, 5);
-            if (scMana50 = Script) then
-            Add('VialOfMana', 10, 5);
-            if (scMana75 = Script) then
-            Add('VialOfMana', 15, 5);
-            if (scMana100 = Script) then
-            Add('VialOfMana', 10, 10);
-            if (scMana200 = Script) then
-            Add('VialOfMana', 20, 10); }
-          // Drink Oil
-          { if (scRepair3 = Script) then
-            Add('Poison', 3, 10);
-            if (scRepair6 = Script) then
-            Add('Poison', 6, 10);
-            if (scRepair9 = Script) then
-            Add('Poison', 9, 10);
-            if (scRepair12 = Script) then
-            Add('Poison', 12, 10);
-            if (scRepair15 = Script) then
-            Add('Poison', 15, 10); }
-          // Atr
-          if ('STRENGTH' = Script) then
-            AddStrength;
-          if ('DEXTERITY' = Script) then
-            AddDexterity;
-          if ('INTELLIGENCE' = Script) then
-            AddIntelligence;
-          if ('SPEED' = Script) then
-            AddSpeed;
-          // Misc
-          if ('FILL' = Script) then
-            Fill;
-          if ('ANTIDOTE' = Script) then
-            ClearVar('Poison');
-          if ('KEY' = Script) then
-            Key;
-          if ('TELEPORT' = Script) then
-            Creatures.Teleport(False);
-          if ('SUMMON' = Script) then
-            Creatures.Summon;
-          if ('IDENTIFY' = Script) then
-            Identify;
-          if ('PORTAL' = Script) then
-            Portal;
-          if ('WIZARDEYE' = Script) then
-            Add('WizardEye', GetWizardEyePower, Mana.Max);
-          if ('DISPEL' = Script) then
-            Clear;
-          if ('REPAIRALL' = Script) then
-            RepairAll;
-        end;
+    ItemScript.DoCommands(ItemPatterns.Patterns[Index].Script);
   except
     on E: Exception do
       Error.Add('Items.UseScript', E.Message);
@@ -465,7 +398,7 @@ end;
 procedure TItems.UseItem(const AIndex: Integer; const AScript: string);
 begin
   try
-    if Items.IsCategory(ItemPatterns.Patterns[AIndex].Category, AScript) then
+    if IsCategory(ItemPatterns.Patterns[AIndex].Category, AScript) then
       UseScript(AIndex);
   except
     on E: Exception do
