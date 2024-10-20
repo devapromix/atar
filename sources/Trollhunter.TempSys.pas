@@ -1,4 +1,4 @@
-unit Trollhunter.TempSys;
+﻿unit Trollhunter.TempSys;
 
 interface
 
@@ -24,16 +24,16 @@ type
     function Count: Integer;
     function VarName(I: Integer): string;
     function Power(I: Integer): Integer; overload;
-    function Power(S: string): Integer; overload;
+    function Power(AVarName: string): Integer; overload;
     function Duration(I: Integer): Integer; overload;
-    function Duration(S: string): Integer; overload;
+    function Duration(AVarName: string): Integer; overload;
     function IsMove: Boolean;
-    function IsVar(S: string): Boolean;
+    function IsVar(AVarName: string): Boolean;
     property Text: string read GetText write SetText;
-    procedure SetValue(S: string; AValue: Integer);
-    procedure Add(AName: string; APower, ADuration: Integer);
+    procedure SetValue(AVarName: string; AValue: Integer);
+    procedure Add(AVarName: string; APower, ADuration: Integer);
     procedure Clear;
-    procedure ClearVar(AName: string);
+    procedure ClearVar(AVarName: string);
     procedure Move;
   end;
 
@@ -91,13 +91,13 @@ begin
     Length(FList.Names[I])), 0);
 end;
 
-function TTempSys.Power(S: string): Integer;
+function TTempSys.Power(AVarName: string): Integer;
 var
   I: Integer;
 begin
   Result := 0;
   for I := 0 to Count - 1 do
-    if (S = VarName(I)) then
+    if (UpperCase(AVarName) = VarName(I)) then
     begin
       Result := Power(I);
       Exit;
@@ -126,7 +126,7 @@ begin
   Result := StrToIntDef(FList.ValueFromIndex[I], 0);
 end;
 
-function TTempSys.Duration(S: string): Integer;
+function TTempSys.Duration(AVarName: string): Integer;
 var
   I: Integer;
 begin
@@ -134,7 +134,7 @@ begin
   if IsMove then
     with FList do
       for I := 0 to Count - 1 do
-        if (S = VarName(I)) then
+        if (UpperCase(AVarName) = VarName(I)) then
         begin
           Result := StrToIntDef(Copy(FList[I], Pos('=', FList[I]) + 1,
             Length(FList[I])), 0);
@@ -142,40 +142,40 @@ begin
         end;
 end;
 
-procedure TTempSys.SetValue(S: string; AValue: Integer);
+procedure TTempSys.SetValue(AVarName: string; AValue: Integer);
 begin
-  if IsVar(S) then
-    FList.Values[S] := IntToStr(AValue);
+  if IsVar(AVarName) then
+    FList.Values[AVarName] := IntToStr(AValue);
 end;
 
-function TTempSys.IsVar(S: string): Boolean;
+function TTempSys.IsVar(AVarName: string): Boolean;
 begin
-  Result := (Duration(S) > 0);
+  Result := (Duration(AVarName) > 0);
 end;
 
-procedure TTempSys.ClearVar(AName: string);
+procedure TTempSys.ClearVar(AVarName: string);
 var
   I: Integer;
 begin
   if IsMove then
     with FList do
       for I := Count - 1 downto 0 do
-        if (AName = VarName(I)) then
+        if (UpperCase(AVarName) = VarName(I)) then
           Delete(I);
 end;
 
-procedure TTempSys.Add(AName: string; APower, ADuration: Integer);
+procedure TTempSys.Add(AVarName: string; APower, ADuration: Integer);
 var
   I, V, P: Integer;
 begin
-  if (Trim(AName) = '') or (ADuration <= 0) or (ADuration > 1000) or
+  if (Trim(AVarName) = '') or (ADuration <= 0) or (ADuration > 1000) or
     (APower <= 0) or (APower > 1000) then
     Exit;
   if IsMove then
     with FList do
       for I := 0 to Count - 1 do
       begin
-        if (AName = VarName(I)) then
+        if (UpperCase(AVarName) = VarName(I)) then
         begin
           P := Power(I);
           if (APower > P) then
@@ -187,7 +187,7 @@ begin
           Exit;
         end;
       end;
-  FList.Append(Format(LS, [AName, APower, ADuration]));
+  FList.Append(Format(LS, [UpperCase(AVarName), APower, ADuration]));
 end;
 
 procedure TTempSys.SetText(const AValue: string);
