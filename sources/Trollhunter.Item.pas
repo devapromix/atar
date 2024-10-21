@@ -131,8 +131,8 @@ type
     procedure UseItem(const AIndex: Integer; const AScript: string);
     procedure UseScript(const Index: Integer);
     function CellItemsCount(X, Y: Integer): Integer;
-    function ItemIndex(ID: string): Integer; overload;
-    function ItemIndex(ID: Integer): Integer; overload;
+    function ItemIndex(AIdent: string): Integer; overload;
+    function ItemIndex(AIdent: Integer): Integer; overload;
     function GetDollText(AItemIndex, AItemIdent: Integer): string;
     procedure RepairAll;
     procedure Key;
@@ -434,28 +434,28 @@ begin
     Result := '';
 end;
 
-function TItems.ItemIndex(ID: string): Integer;
+function TItems.ItemIndex(AIdent: string): Integer;
 var
   I: Integer;
 begin
   Result := -1;
   for I := 0 to ItemPatterns.Patterns.Count - 1 do
-    if (Trim(ID) = ItemPatterns.Patterns[I].ID) then
+    if (Trim(AIdent) = ItemPatterns.Patterns[I].ID) then
     begin
       Result := I;
       Break;
     end;
 end;
 
-function TItems.ItemIndex(ID: Integer): Integer;
+function TItems.ItemIndex(AIdent: Integer): Integer;
 var
-  S: string;
+  LIdent: string;
 begin
   Result := -1;
-  S := Creatures.PC.Inv.GetIdent(ID);
-  if (S = '') then
+  LIdent := Creatures.PC.Inv.GetIdent(AIdent);
+  if (LIdent = '') then
     Exit;
-  Result := ItemIndex(S);
+  Result := ItemIndex(LIdent);
 end;
 
 procedure TItems.Pickup(Index: Integer = 0);
@@ -625,7 +625,7 @@ begin
       C := ItemIndex(ItemC);
 
       // Repair item (oils, hammers)
-      { if ((DungeonItems[A].Category in PotionCategories) or
+      { if ((ItemPatterns.Patterns[A].Category in PotionCategories) or
         (DungeonItems[A].Category in RepairCategories)) and
         ((scRepair = DungeonItems[A].SubCats) or
         (scRepair3 = DungeonItems[A].SubCats) or

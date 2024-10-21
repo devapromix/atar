@@ -83,10 +83,11 @@ begin
     { B := True;{((DungeonItems[V].MaxTough > 0)
       and (Creatures.PC.Inv.GetTough(I) > 0))
       or (DungeonItems[V].MaxTough = 0); }
-    for LItemIndex := 1 to 26 do
+    {for LItemIndex := 1 to 26 do
       if (ItemPatterns.Patterns[LPatItemIndex].Category = ItemPatterns.Patterns
         [KeyIDToInvItemID(LItemIndex)].Category) then
-        UnEquip(LItemIndex);
+        UnEquip(LItemIndex); }
+
     // if (B and (DungeonItems[V].Category in WeapArmSet))
     // or (DungeonItems[V].Category in AmuRingSet)
     if Items.IsCategory(ItemPatterns.Patterns[LPatItemIndex].Category,

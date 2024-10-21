@@ -89,6 +89,8 @@ begin
           AddDexterity;
         if ('INTELLIGENCE' = LScriptCommand[I]) then
           AddIntelligence;
+        if ('PERCEPTION' = LScriptCommand[I]) then
+          AddIntelligence;
         if ('SPEED' = LScriptCommand[I]) then
           AddSpeed;
       end;
