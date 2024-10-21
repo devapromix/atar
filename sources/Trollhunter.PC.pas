@@ -392,26 +392,26 @@ begin
       inherited Move(AX, AY);
       if ((AX <> 0) or (AY <> 0)) then
         Look := Pos;
-      if TempSys.IsVar('Poison') then
+      if TempSys.IsVar('POISON') then
       begin
-        V := TempSys.Power('Poison');
+        V := TempSys.Power('POISON');
         with TAnimNumber.Create(-V) do
           Free;
         Life.Dec(V);
-        Log.Add(Format(Language.GetLang(70), [V, TempSys.Duration('Poison')]));
-        if (TempSys.Duration('Poison') <= 1) then
+        Log.Add(Format(Language.GetLang(70), [V, TempSys.Duration('POISON')]));
+        if (TempSys.Duration('POISON') <= 1) then
           Log.Add(Language.GetLang(71));
       end;
-      if TempSys.IsVar('VialOfLife') and not Life.IsMax then
+      if TempSys.IsVar('VIALOFLIFE') and not Life.IsMax then
       begin
-        V := TempSys.Power('VialOfLife');
+        V := TempSys.Power('VIALOFLIFE');
         with TAnimNumber.Create(V) do
           Free;
         Life.Inc(V);
       end;
-      if TempSys.IsVar('VialOfMana') and not Mana.IsMax then
+      if TempSys.IsVar('VIALOFMANA') and not Mana.IsMax then
       begin
-        V := TempSys.Power('VialOfMana');
+        V := TempSys.Power('VIALOFMANA');
         with TAnimNumber.Create(V) do
           Free;
         Mana.Inc(V);

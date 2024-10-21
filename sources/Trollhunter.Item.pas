@@ -15,7 +15,7 @@ uses
 
 const
   RandomScrollsCount = 9;
-  RandomPotionsCount = 8;
+  RandomPotionsCount = 9;
 
 const
   ArmorCategories = 'LHAND,HEAD,BODY,FOOT';
