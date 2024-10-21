@@ -69,10 +69,13 @@ procedure TransKeys(var Key: word);
 function GetParams: TPoint;
 function GetParamFontSize: Integer;
 function RemoveBack(C: Char; S: string): string;
+function ExplodeString(const AString: string): TArray<string>;
 function GetStrValue(Key, S: string): string;
 function GetStrKey(Key, S: string): string;
 function TrueOrFalse(const AValue: Boolean): string;
 function ColorToInt(const AColor: string): Integer;
+function AppendToString(const AString: string;
+  const ANewString: string): string;
 
 implementation
 
@@ -135,8 +138,15 @@ end;
 function RemoveBack(C: Char; S: string): string;
 begin
   Result := S;
+  if (Trim(Result) = '') then
+    Exit('');
   if Result[Length(Result)] = C then
     Delete(Result, Length(Result), 1);
+end;
+
+function ExplodeString(const AString: string): TArray<string>;
+begin
+  Result := AString.Split([',']);
 end;
 
 procedure Gamma(Bitmap: Graphics.TBitmap; L: Double);
@@ -678,6 +688,17 @@ begin
     Result := Integer(cYellow)
   else
     Result := Integer(clWhite);
+end;
+
+function AppendToString(const AString: string;
+  const ANewString: string): string;
+begin
+  Result := RemoveBack(',', AString);
+  if Result = '' then
+    Result := ANewString
+  else
+    Result := Result + ',' + ANewString;
+  Result := RemoveBack(',', Result);
 end;
 
 initialization

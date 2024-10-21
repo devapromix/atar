@@ -201,7 +201,7 @@ begin
       B.Handle := Windows.LoadBitmap(hInstance, 'PC');
       Graph.BitmapFromTileset(Image, B, Race);
       B.Free;
-      LCategories := Items.ExplodeString(EquipmentCategories);
+      LCategories := ExplodeString(EquipmentCategories);
       for L := 0 to Length(LCategories) - 1 do
         for I := 1 to Inv.Count do
           if Inv.GetDoll(I) and

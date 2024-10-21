@@ -143,7 +143,6 @@ type
     constructor Create;
     destructor Destroy; override;
     function IsCategory(const ACategory, ACategories: string): Boolean;
-    function ExplodeString(const AString: string): TArray<string>;
     property ItemScript: TItemScript read FItemScript write FItemScript;
   end;
 
@@ -766,11 +765,6 @@ begin
     on E: Exception do
       Error.Add('Items.Identify', E.Message);
   end;
-end;
-
-function TItems.ExplodeString(const AString: string): TArray<string>;
-begin
-  Result := AString.Split([',']);
 end;
 
 function TItems.IsCategory(const ACategory, ACategories: string): Boolean;

@@ -446,8 +446,10 @@ begin
     // Map Creatures
     Creatures := MapPatterns.GetPattern.Creatures;
     // Map Items
-    Items := MapPatterns.GetPattern.Items + DefaultItems + RandomScrolls +
-      RandomPotions;
+    Items := AppendToString('', MapPatterns.GetPattern.Items);
+    Items := AppendToString(Items, DefaultItems);
+    Items := AppendToString(Items, RandomScrolls);
+    Items := AppendToString(Items, RandomPotions);
     if not MapPatterns.GetPattern.Village then
     begin
       // Add monsters

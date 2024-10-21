@@ -285,12 +285,12 @@ var
       with ItemPatterns.Patterns[AItemIndex] do
       begin
         // Effects
-        LEffects := Items.ExplodeString(Effects);
+        LEffects := ExplodeString(Effects);
         for J := 0 to Length(LEffects) do
           if UpperCase(Trim(Script)) = UpperCase(Trim(LEffects[J])) then
             Add(Language.GetLang(EffLangNums[J]));
         // Atributes
-        LAtributes := Items.ExplodeString(Atributes);
+        LAtributes := ExplodeString(Atributes);
         for J := 0 to Length(LAtributes) do
           if UpperCase(Trim(Script)) = UpperCase(Trim(LAtributes[J])) then
             Add(Format('%s +1.', [Language.GetLang(J + 15)]));
