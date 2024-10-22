@@ -611,7 +611,7 @@ end;
 
 function TItems.Use(ItemA, ItemB: string; I: Integer): Boolean;
 var
-  A, B, C, D, MaxD: Integer;
+  A, B, C, LTough, LMaxTough, LScriptTough: Integer;
   ItemC: string;
 begin
   Result := False;
@@ -625,43 +625,32 @@ begin
       C := ItemIndex(ItemC);
 
       // Repair item (oils, hammers)
-      { if ((ItemPatterns.Patterns[A].Category in PotionCategories) or
-        (DungeonItems[A].Category in RepairCategories)) and
-        ((scRepair = DungeonItems[A].SubCats) or
-        (scRepair3 = DungeonItems[A].SubCats) or
-        (scRepair6 = DungeonItems[A].SubCats) or
-        (scRepair9 = DungeonItems[A].SubCats) or
-        (scRepair12 = DungeonItems[A].SubCats) or
-        (scRepair15 = DungeonItems[A].SubCats) or
-        (scRepair25 = DungeonItems[A].SubCats)) and
-        ((DungeonItems[B].Category in WeaponSet) or
-        (DungeonItems[B].Category in ArmorSet)) then
+      if (Items.IsCategory(ItemPatterns.Patterns[A].Category, PotionCategories)
+        or Items.IsCategory(ItemPatterns.Patterns[A].Category, RepairCategories)
+        ) and ((ItemPatterns.Patterns[A].Script.StartsWith('REPAIR'))) and
+        (Items.IsCategory(ItemPatterns.Patterns[B].Category, WeaponCategories)
+        or Items.IsCategory(ItemPatterns.Patterns[B].Category, ArmorCategories))
+      then
+      begin
+        LTough := GetTough(I);
+        LMaxTough := ItemPatterns.Patterns[B].MaxTough;
+        if (LTough < LMaxTough) then
         begin
-        D := GetTough(I);
-        MaxD := ItemPatterns.Patterns[B].MaxTough;
-        if (D < MaxD) then
-        begin
-        if (scRepair = DungeonItems[A].SubCats) then
-        SetTough(I, MaxD);
-        if (scRepair3 = DungeonItems[A].SubCats) then
-        SetTough(I, D + 3);
-        if (scRepair6 = DungeonItems[A].SubCats) then
-        SetTough(I, D + 6);
-        if (scRepair9 = DungeonItems[A].SubCats) then
-        SetTough(I, D + 9);
-        if (scRepair12 = DungeonItems[A].SubCats) then
-        SetTough(I, D + 12);
-        if (scRepair15 = DungeonItems[A].SubCats) then
-        SetTough(I, D + 15);
-        if (scRepair25 = DungeonItems[A].SubCats) then
-        SetTough(I, D + 25);
-        if (GetTough(I) > MaxD) then
-        SetTough(I, MaxD);
-        Del(ItemA);
-        Result := True;
+          if (ItemPatterns.Patterns[A].Script = 'REPAIR') then
+            SetTough(I, LMaxTough)
+          else if ItemPatterns.Patterns[A].Script.StartsWith('REPAIR'#32) then
+          begin
+            LScriptTough := GetStrValue(#32, ItemPatterns.Patterns[A].Script)
+              .ToInteger;
+            SetTough(I, LTough + LScriptTough);
+          end;
+          if (GetTough(I) > LMaxTough) then
+            SetTough(I, LMaxTough);
+          Del(ItemA);
+          Result := True;
         end;
         Exit;
-        end; }
+      end;
 
       // Mix potions
       if Items.IsCategory(ItemPatterns.Patterns[A].Category, UseCategories) or

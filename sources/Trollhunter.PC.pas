@@ -64,6 +64,7 @@ type
     procedure AddStrength;
     procedure AddDexterity;
     procedure AddIntelligence;
+    procedure AddPerception;
     procedure AddSpeed;
     procedure DetectTraps;
     procedure DoDetectTraps;
@@ -733,6 +734,13 @@ procedure TPC.AddIntelligence;
 begin
   Prop.Intelligence := Prop.Intelligence + 1;
   Log.Add(Format('%s +1 (%d).', [Language.GetLang(17), Prop.Intelligence]));
+  Calc;
+end;
+
+procedure TPC.AddPerception;
+begin
+  Prop.Perception := Prop.Perception + 1;
+  //Log.Add(Format('%s +1 (%d).', [Language.GetLang(17), Prop.Perception]));
   Calc;
 end;
 
