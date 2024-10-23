@@ -47,7 +47,7 @@ uses
   Trollhunter.Creatures,
   Trollhunter.Scenes,
   Trollhunter.Scene.Inv,
-  Trollhunter.Item,
+  Dragonhunter.Item,
   Trollhunter.Graph,
   Trollhunter.Game,
   Trollhunter.Scene.Game,
@@ -83,10 +83,10 @@ begin
     { B := True;{((DungeonItems[V].MaxTough > 0)
       and (Creatures.PC.Inv.GetTough(I) > 0))
       or (DungeonItems[V].MaxTough = 0); }
-    {for LItemIndex := 1 to 26 do
+    { for LItemIndex := 1 to 26 do
       if (ItemPatterns.Patterns[LPatItemIndex].Category = ItemPatterns.Patterns
-        [KeyIDToInvItemID(LItemIndex)].Category) then
-        UnEquip(LItemIndex); }
+      [KeyIDToInvItemID(LItemIndex)].Category) then
+      UnEquip(LItemIndex); }
 
     // if (B and (DungeonItems[V].Category in WeapArmSet))
     // or (DungeonItems[V].Category in AmuRingSet)

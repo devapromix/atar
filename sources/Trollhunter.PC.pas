@@ -115,7 +115,7 @@ uses
   Trollhunter.Log,
   Trollhunter.Decorator,
   Trollhunter.Lang,
-  Trollhunter.Item,
+  Dragonhunter.Item,
   Trollhunter.Scenes,
   Trollhunter.Scene.LevelUp,
   Trollhunter.Creatures,
@@ -740,7 +740,7 @@ end;
 procedure TPC.AddPerception;
 begin
   Prop.Perception := Prop.Perception + 1;
-  //Log.Add(Format('%s +1 (%d).', [Language.GetLang(17), Prop.Perception]));
+  // Log.Add(Format('%s +1 (%d).', [Language.GetLang(17), Prop.Perception]));
   Calc;
 end;
 

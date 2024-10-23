@@ -81,7 +81,7 @@ uses
   Trollhunter.MainForm,
   Trollhunter.Zip,
   Trollhunter.Map,
-  Trollhunter.Item;
+  Dragonhunter.Item;
 
 { TMapPattern }
 
@@ -164,7 +164,7 @@ initialization
 
 ItemPatterns := TItemPatterns.Create;
 ItemPatterns.Deserialize;
-//ItemPatterns.Serialize;
+// ItemPatterns.Serialize;
 
 finalization
 

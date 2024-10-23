@@ -14,7 +14,7 @@ uses
   SysUtils,
   Trollhunter.Creatures,
   Trollhunter.Item.Pattern,
-  Trollhunter.Item,
+  Dragonhunter.Item,
   Trollhunter.Formulas,
   Trollhunter.Utils,
   Trollhunter.Effect;

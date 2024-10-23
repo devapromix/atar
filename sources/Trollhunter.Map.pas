@@ -7,7 +7,7 @@ uses
   Classes,
   Trollhunter.CustomMap,
   Trollhunter.MiniMap,
-  Trollhunter.Item,
+  Dragonhunter.Item,
   Trollhunter.Script,
   Trollhunter.Map.Tiles,
   Trollhunter.Decorator,
@@ -104,7 +104,8 @@ uses
   Trollhunter.Light,
   Trollhunter.Resources,
   Trollhunter.Map.Pattern,
-  Trollhunter.Item.Pattern;
+  Trollhunter.Item.Pattern,
+  Dragonhunter.Item.Default;
 
 { TMap }
 
@@ -172,7 +173,7 @@ var
         pdDecorator:
           Decorators.Insert(Decor, X, Y);
         pdItem:
-          Trollhunter.Item.Items.Add(X, Y, Decor);
+          Dragonhunter.Item.Items.Add(X, Y, Decor);
       end;
   end;
 
@@ -447,7 +448,7 @@ begin
     Creatures := MapPatterns.GetPattern.Creatures;
     // Map Items
     Items := AppendToString('', MapPatterns.GetPattern.Items);
-    Items := AppendToString(Items, DefaultItems);
+    Items := AppendToString(Items, DefaultItems.Items);
     Items := AppendToString(Items, RandomScrolls);
     Items := AppendToString(Items, RandomPotions);
     if not MapPatterns.GetPattern.Village then
@@ -502,11 +503,11 @@ begin
         Y := Rand(2, Map.Height - 3);
       until (Map.Cell[Y][X].Tile in FloorSet);
       S := GetRandItemID;
-      if (ItemPatterns.Patterns[Trollhunter.Item.Items.ItemIndex(S)
+      if (ItemPatterns.Patterns[Dragonhunter.Item.Items.ItemIndex(S)
         ].Category = 'GOLD') then
         SpotDraw(pdItem, X, Y, S, Clamp(MapPatterns.GetPattern.Level, 2, 5))
       else
-        Trollhunter.Item.Items.Add(X, Y, GetRandItemID);
+        Dragonhunter.Item.Items.Add(X, Y, GetRandItemID);
     end;
   except
     on E: Exception do
@@ -526,15 +527,15 @@ begin
     Map.Items := RemoveBack(',', Map.Items);
     V := Explode(',', Map.Items);
     Result := V[Rand(0, High(V))];
-    if (ItemPatterns.Patterns[Trollhunter.Item.Items.ItemIndex(Result)
+    if (ItemPatterns.Patterns[Dragonhunter.Item.Items.ItemIndex(Result)
       ].Rarity = 'MAGIC') then
       if (Rand(0, 5) > 0) then
         Result := GetRandItemID;
-    if (ItemPatterns.Patterns[Trollhunter.Item.Items.ItemIndex(Result)
+    if (ItemPatterns.Patterns[Dragonhunter.Item.Items.ItemIndex(Result)
       ].Rarity = 'RARE') then
       if (Rand(0, 15) > 0) then
         Result := GetRandItemID;
-    if (ItemPatterns.Patterns[Trollhunter.Item.Items.ItemIndex(Result)
+    if (ItemPatterns.Patterns[Dragonhunter.Item.Items.ItemIndex(Result)
       ].Rarity = 'UNIQUE') then
       if (Rand(0, 45) > 0) then
         Result := GetRandItemID;
@@ -669,7 +670,7 @@ begin
             IntToStr(Enemy[I].Pos.Y) + ' ' + Enemy[I].Name + ' ' +
             IntToStr(Enemy[I].Life.Cur) + ' ' + IntToStr(Enemy[I].Mana.Cur));
     // Items
-    with Trollhunter.Item.Items do
+    with Dragonhunter.Item.Items do
       if (Length(Item) > 0) then
         for I := 0 to High(Item) do
           FS.Append('AddItem ' + IntToStr(Item[I].Pos.X) + ' ' +
@@ -699,7 +700,7 @@ procedure TMap.Clear;
 begin
   MiniMap.Clear;
   Trollhunter.Creatures.Creatures.Clear;
-  Trollhunter.Item.Items.Clear;
+  Dragonhunter.Item.Items.Clear;
 end;
 
 procedure TMap.ClearViz;
@@ -873,12 +874,12 @@ begin
           tlLockedDoor, tlLockedWoodChest, tlLockedBestChest:
             Draw(DX, DY, Res.LOCK); { ? }
           tlOpenWoodChest, tlOpenBestChest:
-            if (Trollhunter.Item.Items.CellItemsCount(X, Y) > 0) then
+            if (Dragonhunter.Item.Items.CellItemsCount(X, Y) > 0) then
               Draw(DX, DY, Res.TREASURE);
         end;
         Decorators.Render(X, Y, DX, DY);
         Trollhunter.Creatures.Creatures.Render(X, Y, DX, DY, True);
-        Trollhunter.Item.Items.Render(X, Y, DX, DY);
+        Dragonhunter.Item.Items.Render(X, Y, DX, DY);
         Trollhunter.Creatures.Creatures.Render(X, Y, DX, DY, False);
         if not ParamLight then
           Light.Render(X, Y, DX, DY);

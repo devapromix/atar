@@ -4,7 +4,7 @@ interface
 
 uses
   System.Classes,
-  Trollhunter.Item,
+  Dragonhunter.Item,
   Trollhunter.Creature,
   Trollhunter.Map;
 

@@ -59,7 +59,7 @@ uses
   Trollhunter.Error,
   Trollhunter.Graph,
   Trollhunter.Projectiles,
-  Trollhunter.Item,
+  Dragonhunter.Item,
   Trollhunter.Log,
   Trollhunter.Lang,
   Trollhunter.Decorator,

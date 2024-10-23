@@ -44,7 +44,7 @@ uses
   Trollhunter.Scene.Settings,
   Trollhunter.Lang,
   Trollhunter.Settings,
-  Trollhunter.Item,
+  Dragonhunter.Item,
   Trollhunter.Creature,
   Trollhunter.Map,
   Trollhunter.Race,

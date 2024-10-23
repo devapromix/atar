@@ -84,7 +84,7 @@ uses
   Forms,
   StrUtils,
   Classes,
-  Trollhunter.Item,
+  Dragonhunter.Item,
   Trollhunter.Lang,
   Trollhunter.Map.Tiles,
   Trollhunter.Map,
@@ -650,7 +650,7 @@ begin
   end;
   for I := 0 to J do
   begin
-    Trollhunter.Item.Items.Add(Creatures.PC.Pos.X, Creatures.PC.Pos.Y,
+    Dragonhunter.Item.Items.Add(Creatures.PC.Pos.X, Creatures.PC.Pos.Y,
       Map.GetRandItemID);
     if not F or (Rand(1, 2) = 1) then
       Break;

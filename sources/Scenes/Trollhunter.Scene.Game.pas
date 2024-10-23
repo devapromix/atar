@@ -47,7 +47,7 @@ uses
   Trollhunter.Trap,
   Trollhunter.Log,
   Trollhunter.Game,
-  Trollhunter.Item,
+  Dragonhunter.Item,
   Trollhunter.Color,
   Trollhunter.Error,
   Trollhunter.Scene.Menu,

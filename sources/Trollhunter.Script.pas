@@ -30,7 +30,7 @@ uses
   Trollhunter.Map,
   Trollhunter.Creatures,
   Trollhunter.Error,
-  Trollhunter.Item;
+  Dragonhunter.Item;
 
 { TScript }
 

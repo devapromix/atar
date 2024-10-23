@@ -42,7 +42,7 @@ uses
   Trollhunter.Scene.Game,
   Trollhunter.Creatures,
   Trollhunter.Scene.Inv,
-  Trollhunter.Item,
+  Dragonhunter.Item,
   Trollhunter.Color,
   Trollhunter.Lang,
   Trollhunter.Map,
@@ -138,7 +138,7 @@ begin
       Add(Language.GetLang(180), Language.GetLang(Creatures.PC.Race + 182));
       Add(Language.GetLang(30), Creatures.PC.Prop.Level);
       Add(Graph.Bars.EXP, Language.GetLang(31),
-        Format('%d/%d', [Creatures.PC.Exp,
+        Format('%d/%d', [Creatures.PC.EXP,
         Creatures.PC.MaxExp(Creatures.PC.Prop.Level)]));
       Add();
       Add(Language.GetLang(15), Creatures.PC.Prop.Strength);

@@ -43,7 +43,7 @@ uses
   Trollhunter.Scene.Inv,
   Trollhunter.Race,
   Trollhunter.Utils,
-  Trollhunter.Item,
+  Dragonhunter.Item,
   Trollhunter.Skill,
   Trollhunter.Item.Pattern;
 

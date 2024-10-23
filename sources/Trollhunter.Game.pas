@@ -44,7 +44,7 @@ uses
   Trollhunter.Graph,
   Trollhunter.Error,
   Trollhunter.TempSys,
-  Trollhunter.Item,
+  Dragonhunter.Item,
   Trollhunter.Settings,
   Trollhunter.Skill;
 
