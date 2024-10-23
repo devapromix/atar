@@ -67,12 +67,12 @@ end;
 
 function TEffects.GetEffectImage(const I: Integer): Graphics.TBitmap;
 var
-  S: string;
+  LEffectStr: string;
   N: TEffectEnum;
 begin
-  S := Creatures.PC.TempSys.VarName(I);
+  LEffectStr := Creatures.PC.TempSys.VarName(I);
   for N := Low(TEffectEnum) to High(TEffectEnum) do
-    if (S = EffectStr[N]) then
+    if (LEffectStr = UpperCase(EffectStr[N])) then
     begin
       Result := Image[N];
       Break;
