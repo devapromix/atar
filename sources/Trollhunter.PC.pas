@@ -4,7 +4,7 @@ interface
 
 uses
   Classes,
-  Trollhunter.Effect,
+  Dragonhunter.Effect,
   Trollhunter.Creature,
   Trollhunter.Inv,
   Trollhunter.Skill,

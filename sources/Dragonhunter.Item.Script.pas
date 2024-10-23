@@ -17,7 +17,7 @@ uses
   Dragonhunter.Item,
   Trollhunter.Formulas,
   Trollhunter.Utils,
-  Trollhunter.Effect;
+  Dragonhunter.Effect;
 
 { TItemScript }
 
@@ -55,7 +55,7 @@ begin
           then
           begin
             LValue := GetStrValue(#32, LScriptCommand[I]).ToInteger;
-            Add(UpperCase(EffectStr[Commands[J].Effect]), LValue, 10);
+            Add(UpperCase(EffectName[Commands[J].Effect]), LValue, 10);
           end;
         end;
         //

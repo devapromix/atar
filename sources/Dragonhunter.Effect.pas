@@ -1,4 +1,4 @@
-﻿unit Trollhunter.Effect;
+﻿unit Dragonhunter.Effect;
 
 interface
 
@@ -9,7 +9,7 @@ type
   TEffectEnum = (efBlind, efPoison, efLife, efMana, efWizardEye, efWebbed);
 
 const
-  EffectStr: array [TEffectEnum] of string = ('Blind', 'Poison', 'VialOfLife',
+  EffectName: array [TEffectEnum] of string = ('Blind', 'Poison', 'VialOfLife',
     'VialOfMana', 'WizardEye', 'Webbed');
 
 type
@@ -28,6 +28,7 @@ implementation
 
 uses
   Windows,
+  System.SysUtils,
   Trollhunter.Error,
   Trollhunter.Graph,
   Trollhunter.TempSys,
@@ -40,41 +41,41 @@ uses
 
 constructor TEffects.Create;
 var
-  I: TEffectEnum;
+  LEffectEnum: TEffectEnum;
   Tileset: Graphics.TBitmap;
 begin
   Surface := Graphics.TBitmap.Create;
   Tileset := Graphics.TBitmap.Create;
   Tileset.Handle := Windows.LoadBitmap(hInstance, 'EFFECTS');
-  for I := Low(TEffectEnum) to High(TEffectEnum) do
+  for LEffectEnum := Low(TEffectEnum) to High(TEffectEnum) do
   begin
-    Image[I] := Graphics.TBitmap.Create;
-    Graph.BitmapFromTileset(Image[I], Tileset, Ord(I));
-    Image[I].Transparent := False;
+    Image[LEffectEnum] := Graphics.TBitmap.Create;
+    Graph.BitmapFromTileset(Image[LEffectEnum], Tileset, Ord(LEffectEnum));
+    Image[LEffectEnum].Transparent := False;
   end;
   Tileset.Free;
 end;
 
 destructor TEffects.Destroy;
 var
-  I: TEffectEnum;
+  LEffectEnum: TEffectEnum;
 begin
-  for I := Low(TEffectEnum) to High(TEffectEnum) do
-    Image[I].Free;
+  for LEffectEnum := Low(TEffectEnum) to High(TEffectEnum) do
+    Image[LEffectEnum].Free;
   Surface.Free;
   inherited;
 end;
 
 function TEffects.GetEffectImage(const I: Integer): Graphics.TBitmap;
 var
-  LEffectStr: string;
-  N: TEffectEnum;
+  LEffectName: string;
+  LEffectEnum: TEffectEnum;
 begin
-  LEffectStr := Creatures.PC.TempSys.VarName(I);
-  for N := Low(TEffectEnum) to High(TEffectEnum) do
-    if (LEffectStr = UpperCase(EffectStr[N])) then
+  LEffectName := Creatures.PC.TempSys.VarName(I);
+  for LEffectEnum := Low(TEffectEnum) to High(TEffectEnum) do
+    if (LEffectName = UpperCase(EffectName[LEffectEnum])) then
     begin
-      Result := Image[N];
+      Result := Image[LEffectEnum];
       Break;
     end;
   ScaleBMP(Result, TileSize, TileSize);
@@ -82,7 +83,7 @@ end;
 
 procedure TEffects.Render;
 var
-  I, L: Integer;
+  I, Left: Integer;
 begin
   if Creatures.PC.TempSys.Count > 0 then
   begin
@@ -90,8 +91,9 @@ begin
     Surface.Height := TileSize;
     for I := 0 to Creatures.PC.TempSys.Count - 1 do
       Surface.Canvas.Draw(I * TileSize, 0, GetEffectImage(I));
-    L := ((Graph.Width - Graph.PW) div 2) - (Surface.Width div 2);
-    Graph.Surface.Canvas.Draw(L, Graph.Surface.Canvas.Font.Size + 8, Surface);
+    Left := ((Graph.Width - Graph.PW) div 2) - (Surface.Width div 2);
+    Graph.Surface.Canvas.Draw(Left, Graph.Surface.Canvas.Font.Size + 8,
+      Surface);
   end;
 end;
 
