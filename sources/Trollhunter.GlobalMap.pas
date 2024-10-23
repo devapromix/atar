@@ -41,7 +41,7 @@ uses
   Trollhunter.Error,
   Trollhunter.Creatures,
   Trollhunter.Graph,
-  Trollhunter.Resources;
+  Dragonhunter.Resources;
 
 const
   MapMinLevel = 0;

@@ -33,7 +33,7 @@ uses
   Trollhunter.Error,
   Trollhunter.Projectiles,
   Trollhunter.Decorator,
-  Trollhunter.AStar,
+  Dragonhunter.AStar,
   Trollhunter.Map;
 
 procedure TEnemy.AddRandomPoisonEffect;

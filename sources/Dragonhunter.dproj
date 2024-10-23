@@ -152,7 +152,7 @@
         <DCCReference Include="Trollhunter.Color.pas"/>
         <DCCReference Include="Trollhunter.Name.pas"/>
         <DCCReference Include="Trollhunter.Map.Generator.pas"/>
-        <DCCReference Include="Trollhunter.AStar.pas"/>
+        <DCCReference Include="Dragonhunter.AStar.pas"/>
         <DCCReference Include="Trollhunter.Error.pas"/>
         <DCCReference Include="Trollhunter.Inv.pas"/>
         <DCCReference Include="Trollhunter.Projectiles.pas"/>
@@ -163,7 +163,7 @@
         <DCCReference Include="Trollhunter.Light.pas"/>
         <DCCReference Include="Dragonhunter.Effect.pas"/>
         <DCCReference Include="Trollhunter.Look.pas"/>
-        <DCCReference Include="Trollhunter.Resources.pas"/>
+        <DCCReference Include="Dragonhunter.Resources.pas"/>
         <DCCReference Include="Trollhunter.Time.pas"/>
         <DCCReference Include="Trollhunter.Race.pas"/>
         <DCCReference Include="Trollhunter.Skill.pas"/>

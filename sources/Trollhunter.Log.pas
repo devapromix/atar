@@ -36,7 +36,7 @@ uses
   Trollhunter.Utils,
   Trollhunter.Graph,
   Trollhunter.Color,
-  Trollhunter.AStar;
+  Dragonhunter.AStar;
 
 { TLog }
 

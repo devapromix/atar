@@ -95,14 +95,14 @@ implementation
 uses
   Math, dialogs,
   SysUtils,
-  Trollhunter.AStar,
+  Dragonhunter.AStar,
   Trollhunter.Creatures,
   Trollhunter.Utils,
   Trollhunter.Error,
   Trollhunter.Graph,
   Trollhunter.Color,
   Trollhunter.Light,
-  Trollhunter.Resources,
+  Dragonhunter.Resources,
   Trollhunter.Map.Pattern,
   Trollhunter.Item.Pattern,
   Dragonhunter.Item.Default;

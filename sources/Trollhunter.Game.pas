@@ -5,7 +5,7 @@ interface
 uses
   Trollhunter.Race,
   Trollhunter.Scores,
-  Trollhunter.Resources;
+  Dragonhunter.Resources;
 
 type
   TPCInfo = record

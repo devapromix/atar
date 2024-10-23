@@ -19,17 +19,12 @@ var
 implementation
 
 uses
-  System.SysUtils, Dialogs,
-  System.Classes,
+  System.SysUtils,
   System.JSON,
-  Neon.Core.Persistence,
-  Neon.Core.Persistence.JSON,
+  Dragonhunter.Resources,
   Trollhunter.Utils,
   Trollhunter.Log,
-  Trollhunter.Lang,
-  Trollhunter.Error,
-  Trollhunter.MainForm,
-  Trollhunter.Zip;
+  Trollhunter.Error;
 
 { TDefaultItems }
 
@@ -46,34 +41,22 @@ end;
 
 procedure TDefaultItems.LoadFromResources;
 var
-  LStringList: TStringList;
-  LZip: TZip;
-  LJSONObject: TJSONObject;
   LDefaultItems: TJSONArray;
+  LJSONData: TJSONData;
   I: Integer;
 begin
   try
-    if not FileExists(Path + 'resources.res') then
-      Exit;
-    LStringList := TStringList.Create;
+    LJSONData := TJSONData.Create;
     try
-      LZip := TZip.Create(MainForm);
+      LDefaultItems := LJSONData.LoadFromFile('items.default.json');
       try
-        LStringList.Text := LZip.ExtractTextFromFile(Path + 'resources.res',
-          'items.default.json');
-        LDefaultItems := TJSONObject.ParseJSONValue(LStringList.Text)
-          as TJSONArray;
-        try
-          for I := 0 to LDefaultItems.Count - 1 do
-            FItems := FItems + LDefaultItems.Items[I].Value + ',';
-        finally
-          FreeAndNil(LDefaultItems);
-        end;
+        for I := 0 to LDefaultItems.Count - 1 do
+          FItems := FItems + LDefaultItems.Items[I].Value + ',';
       finally
-        FreeAndNil(LZip);
+        FreeAndNil(LDefaultItems);
       end;
     finally
-      FreeAndNil(LStringList);
+      FreeAndNil(LJSONData);
     end;
   except
     on E: Exception do

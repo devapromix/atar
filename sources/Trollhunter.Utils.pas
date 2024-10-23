@@ -90,7 +90,7 @@ uses
   Trollhunter.Map,
   Trollhunter.Log,
   Trollhunter.Creatures,
-  Trollhunter.AStar,
+  Dragonhunter.AStar,
   Trollhunter.Error,
   Trollhunter.Color;
 

@@ -1,10 +1,11 @@
-﻿unit Trollhunter.Resources;
+﻿unit Dragonhunter.Resources;
 
 interface
 
 uses
   Windows,
   Graphics,
+  System.JSON,
   Trollhunter.Map.Tiles;
 
 type
@@ -33,6 +34,10 @@ type
     destructor Destroy; override;
   end;
 
+  TJSONData = class(TObject)
+    function LoadFromFile(const AFileName: string): TJSONArray;
+  end;
+
 var
   Res: TResources;
 
@@ -48,7 +53,10 @@ uses
   Trollhunter.MainForm,
   Trollhunter.Decorator,
   Trollhunter.Game,
-  Trollhunter.Map.Pattern;
+  Trollhunter.Map.Pattern,
+  Trollhunter.Log,
+  Trollhunter.Error,
+  Trollhunter.Zip;
 
 { TResources }
 
@@ -301,6 +309,32 @@ begin
 
   Decorators.Free;
   inherited;
+end;
+
+{ TJSONData }
+
+function TJSONData.LoadFromFile(const AFileName: string): TJSONArray;
+var
+  LJSONData: string;
+  LZip: TZip;
+  LFileName: string;
+begin
+  Result := nil;
+  LFileName := Path + 'resources.res';
+  try
+    if not FileExists(LFileName) then
+      Exit;
+    LZip := TZip.Create(nil);
+    try
+      LJSONData := LZip.ExtractTextFromFile(LFileName, AFileName);
+      Result := TJSONObject.ParseJSONValue(LJSONData) as TJSONArray;
+    finally
+      FreeAndNil(LZip);
+    end;
+  except
+    on E: Exception do
+      Error.Add('Resources.LoadFromResources', E.Message);
+  end;
 end;
 
 initialization
