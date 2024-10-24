@@ -186,6 +186,8 @@
         <DCCReference Include="Trollhunter.Item.Pattern.pas"/>
         <DCCReference Include="Dragonhunter.Item.Script.pas"/>
         <DCCReference Include="Dragonhunter.Item.Default.pas"/>
+        <DCCReference Include="Dragonhunter.Scene.Menu.pas"/>
+        <DCCReference Include="Dragonhunter.Terminal.pas"/>
         <None Include="Dragonhunter.todo"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>

@@ -73,7 +73,9 @@ uses
   Trollhunter.Creature.Pattern in 'Trollhunter.Creature.Pattern.pas',
   Trollhunter.Item.Pattern in 'Trollhunter.Item.Pattern.pas',
   Dragonhunter.Item.Script in 'Dragonhunter.Item.Script.pas',
-  Dragonhunter.Item.Default in 'Dragonhunter.Item.Default.pas';
+  Dragonhunter.Item.Default in 'Dragonhunter.Item.Default.pas',
+  Dragonhunter.Scene.Menu in 'Dragonhunter.Scene.Menu.pas',
+  Dragonhunter.Terminal in 'Dragonhunter.Terminal.pas';
 
 {$R *.res}
 

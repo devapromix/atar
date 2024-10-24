@@ -38,7 +38,8 @@ uses
   Trollhunter.Error,
   Trollhunter.Utils,
   Trollhunter.Lang,
-  Trollhunter.Settings;
+  Trollhunter.Settings,
+  Dragonhunter.Terminal;
 
 { TSceneSettings }
 
@@ -162,6 +163,8 @@ begin
       TextOut((Graph.Width div 2) - (TextWidth(S) div 2),
         (P * Graph.CharHeight) + T, S);
       Inc(P);
+      Font.Color := cBgColor;
+      Font.Style := [];
     end;
   except
     on E: Exception do
@@ -183,7 +186,7 @@ begin
       SettingsItem(Language.GetLang(133),
         IfThen(Fullscreen, Language.GetLang(13), Language.GetLang(14)));
     end;
-    Graph.Render;
+    Frame.Draw((Terminal.Width div 2) - 28, (Terminal.Height div 2) - 3, 56, 7);    Graph.Render;
   except
     on E: Exception do
       Error.Add('SceneSettings.Render', E.Message);

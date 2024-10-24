@@ -30,6 +30,8 @@ implementation
 uses
   Graphics,
   SysUtils,
+  Dragonhunter.Terminal,
+  Dragonhunter.Item,
   Trollhunter.Graph,
   Trollhunter.Color,
   Trollhunter.Scene.Name,
@@ -44,7 +46,6 @@ uses
   Trollhunter.Scene.Settings,
   Trollhunter.Lang,
   Trollhunter.Settings,
-  Dragonhunter.Item,
   Trollhunter.Creature,
   Trollhunter.Map,
   Trollhunter.Race,
@@ -174,6 +175,8 @@ begin
       TextOut((Graph.Width div 2) - (TextWidth(S) div 2),
         (P * Graph.CharHeight) + T, S);
       Inc(P);
+      Font.Color := cBgColor;
+      Font.Style := [];
     end;
   except
     on E: Exception do
@@ -201,8 +204,8 @@ begin
     IsGame := False;
     DrawLogo();
     DrawCopyright();
-    Frame.Draw((Graph.Width div Graph.CharWidth div 2) - (56 div 2),
-      (Graph.Height div Graph.CharHeight div 2) - 4, 56, 9);
+    Frame.Draw((Terminal.Width div 2) - 28, (T div Graph.CharHeight) -
+      2, 56, 9);
     Graph.Render();
   except
     on E: Exception do
