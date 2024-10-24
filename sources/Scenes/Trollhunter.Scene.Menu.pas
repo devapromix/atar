@@ -201,6 +201,8 @@ begin
     IsGame := False;
     DrawLogo();
     DrawCopyright();
+    Frame.Draw((Graph.Width div Graph.CharWidth div 2) - (56 div 2),
+      (Graph.Height div Graph.CharHeight div 2) - 4, 56, 9);
     Graph.Render();
   except
     on E: Exception do
