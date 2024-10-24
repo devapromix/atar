@@ -59,7 +59,7 @@ uses
   Trollhunter.Bar in 'Trollhunter.Bar.pas',
   Trollhunter.MiniMap in 'Trollhunter.MiniMap.pas',
   Trollhunter.CustomMap in 'Trollhunter.CustomMap.pas',
-  Trollhunter.RandItems in 'Trollhunter.RandItems.pas',
+  Dragonhunter.Item.Random in 'Dragonhunter.Item.Random.pas',
   Trollhunter.PC in 'Trollhunter.PC.pas',
   Trollhunter.BaseCreature in 'Trollhunter.BaseCreature.pas',
   Trollhunter.Creature in 'Trollhunter.Creature.pas',

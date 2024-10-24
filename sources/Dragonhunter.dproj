@@ -171,7 +171,7 @@
         <DCCReference Include="Trollhunter.Bar.pas"/>
         <DCCReference Include="Trollhunter.MiniMap.pas"/>
         <DCCReference Include="Trollhunter.CustomMap.pas"/>
-        <DCCReference Include="Trollhunter.RandItems.pas"/>
+        <DCCReference Include="Dragonhunter.Item.Random.pas"/>
         <DCCReference Include="Trollhunter.PC.pas"/>
         <DCCReference Include="Trollhunter.BaseCreature.pas"/>
         <DCCReference Include="Trollhunter.Creature.pas"/>

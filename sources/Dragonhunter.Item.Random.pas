@@ -1,4 +1,4 @@
-﻿unit Trollhunter.RandItems;
+﻿unit Dragonhunter.Item.Random;
 
 interface
 
@@ -15,15 +15,10 @@ type
   end;
 
 const
-  RandItemCount = 12;
+  ItemRandomCount = 12;
 
 type
-  TRandItem = array [1 .. RandItemCount] of TRandItemRec;
-
-const
-  AllowColors: array [1 .. RandItemCount] of Integer = (cGolden, cIndigo, cJade,
-    cAzure, cLight, cDark, cGray, cBrown, cFxBlack, cFxWhite, cSkyBlue,
-    cLtYellow);
+  TRandItem = array [1 .. ItemRandomCount] of TRandItemRec;
 
 type
   TRandItems = class(TObject)
@@ -46,10 +41,10 @@ type
     property Text: string read GetText write SetText;
     property Count: Byte read FCount;
     function GetColor(const AIndex: Integer): Integer;
-    function GetColorName(Index: Integer): string;
-    function GetName(Index: Integer): string;
-    function IsDefined(Index: Integer): Boolean;
-    procedure SetDefined(Index: Integer);
+    function GetColorName(const AIndex: Integer): string;
+    function GetName(const AIndex: Integer): string;
+    function IsDefined(const AIndex: Integer): Boolean;
+    procedure SetDefined(const AIndex: Integer);
   end;
 
 implementation
@@ -59,13 +54,26 @@ uses
   Trollhunter.Utils,
   Trollhunter.Lang;
 
-{ TRandItems }
+type
+  TType = record
+    Color: Integer;
+    LangId: Integer;
+  end;
+  {
+    const
+    AllowColors: array [1 .. ItemRandomCount] of TType = (
+    //
+    (Color:cGolden;LangId:), cIndigo,
+    cJade, cAzure, cLight, cDark, cGray, cBrown, cFxBlack, cFxWhite, cSkyBlue,
+    cLtYellow); }
+
+  { TRandItems }
 
 procedure TRandItems.Clear;
 var
-  LIndex: Byte;
+  LIndex: Integer;
 begin
-  for LIndex := 1 to RandItemCount do
+  for LIndex := 1 to ItemRandomCount do
     with RandItem[LIndex] do
     begin
       Name := '';
@@ -89,7 +97,7 @@ end;
 
 function TRandItems.IsThisColor(const AColor: Integer): Boolean;
 var
-  LIndex: Byte;
+  LIndex: Integer;
 begin
   Result := False;
   for LIndex := 1 to Count do
@@ -102,7 +110,7 @@ end;
 
 function TRandItems.IsThisName(const AName: string): Boolean;
 var
-  LIndex: Byte;
+  LIndex: Integer;
 begin
   Result := False;
   for LIndex := 1 to Count do
@@ -121,9 +129,9 @@ begin
   Clear;
   for LIndex := 1 to Count do
   begin
-    repeat
-      LColor := AllowColors[Rand(1, RandItemCount)];
-    until not IsThisColor(LColor);
+    {repeat
+      LColor := AllowColors[Rand(1, ItemRandomCount)];
+    until not IsThisColor(LColor);  }
     repeat
       LName := UpperCase(GenName.Trim);
     until not IsThisName(LName);
@@ -165,10 +173,10 @@ begin
   Result := RandItem[AIndex].Color;
 end;
 
-function TRandItems.GetColorName(Index: Integer): string;
+function TRandItems.GetColorName(const AIndex: Integer): string;
 begin
   Result := '';
-  case GetColor(Index) of
+  case GetColor(AIndex) of
     cGolden:
       Result := Language.GetLang(250);
     cIndigo:
@@ -196,9 +204,9 @@ begin
   end;
 end;
 
-function TRandItems.GetName(Index: Integer): string;
+function TRandItems.GetName(const AIndex: Integer): string;
 begin
-  Result := RandItem[Index].Name;
+  Result := RandItem[AIndex].Name;
 end;
 
 function TRandItems.GetText: string;
@@ -207,9 +215,9 @@ begin
   Result := FStringList.Text;
 end;
 
-function TRandItems.IsDefined(Index: Integer): Boolean;
+function TRandItems.IsDefined(const AIndex: Integer): Boolean;
 begin
-  Result := RandItem[Index].Defined = 1;
+  Result := RandItem[AIndex].Defined = 1;
 end;
 
 procedure TRandItems.Load;
@@ -236,7 +244,7 @@ end;
 
 procedure TRandItems.Save;
 var
-  LIndex: Byte;
+  LIndex: Integer;
 begin
   FStringList.Clear;
   for LIndex := 1 to Count do
@@ -244,9 +252,9 @@ begin
       FStringList.Append(Format('%s/%d/%d', [Name, Color, Defined]));
 end;
 
-procedure TRandItems.SetDefined(Index: Integer);
+procedure TRandItems.SetDefined(const AIndex: Integer);
 begin
-  RandItem[Index].Defined := 1;
+  RandItem[AIndex].Defined := 1;
 end;
 
 procedure TRandItems.SetText(const Value: string);

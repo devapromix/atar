@@ -9,7 +9,7 @@ uses
   Trollhunter.Inv,
   Trollhunter.Skill,
   Trollhunter.TempSys,
-  Trollhunter.RandItems,
+  Dragonhunter.Item.Random,
   Trollhunter.GlobalMap,
   Trollhunter.Statistics;
 
@@ -129,7 +129,8 @@ uses
   Trollhunter.Screenshot,
   Trollhunter.Game,
   Trollhunter.Scene.Records,
-  Trollhunter.Formulas, Trollhunter.Item.Pattern;
+  Trollhunter.Formulas,
+  Trollhunter.Item.Pattern;
 
 { TPC }
 

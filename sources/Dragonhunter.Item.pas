@@ -9,7 +9,7 @@ uses
   Trollhunter.Color,
   Trollhunter.Craft,
   Trollhunter.Entity,
-  Trollhunter.RandItems,
+  Dragonhunter.Item.Random,
   Trollhunter.Item.Pattern,
   Dragonhunter.Item.Script;
 
