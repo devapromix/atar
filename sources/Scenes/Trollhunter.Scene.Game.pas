@@ -175,8 +175,41 @@ procedure TSceneGame.Info();
 var
   LTile: Tiles;
   F: Boolean;
-  I, J, K: Integer;
-  S: string;
+  I: Integer;
+
+  procedure ItemInfo(const I: Integer);
+  var
+    J, K: Integer;
+    S: string;
+  begin
+    Graph.Messagebar.Clear;
+    S := Language.GetItemLang(Items.Item[I].Prop.Id);
+    if (Items.Item[I].Prop.IsStack) and (Items.Item[I].Count > 1) then
+      S := S + Format('$ (#r%dx$)', [Items.Item[I].Count]);
+    if (Items.CellItemsCount(Items.Item[I].Pos.X, Items.Item[I].Pos.Y) > 1) then
+      J := 0
+    else
+      J := 1;
+    case LTile of
+      tlOpenWoodChest, tlOpenBestChest:
+        begin
+          K := 51;
+          F := True;
+        end;
+      tlOpenBarrel:
+        begin
+          K := 101;
+          F := True;
+        end;
+    else
+      begin
+        K := 53;
+        F := True;
+      end;
+    end;
+    Graph.Messagebar.Add(Format(Language.GetLang(K + J), [S]));
+  end;
+
 begin
   F := False;
   LTile := tlMin;
@@ -185,6 +218,7 @@ begin
       LTile := Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile;
     cmLook, cmShoot:
       begin
+        LTile := Map.Cell[Creatures.PC.Look.Y][Creatures.PC.Look.X].Tile;
         if (Length(Creatures.Enemy) > 0) then
           for I := 0 to High(Creatures.Enemy) do
             if (Creatures.PC.Look.X = Creatures.Enemy[I].Pos.X) and
@@ -196,7 +230,14 @@ begin
                 Creatures.Enemy[I].Life.Max]));
               Exit;
             end;
-        LTile := Map.Cell[Creatures.PC.Look.Y][Creatures.PC.Look.X].Tile;
+        if (Length(Items.Item) > 0) then
+          for I := 0 to High(Items.Item) do
+            if (Creatures.PC.Look.X = Items.Item[I].Pos.X) and
+              (Creatures.PC.Look.Y = Items.Item[I].Pos.Y) then
+            begin
+              ItemInfo(I);
+              Exit;
+            end;
       end;
   end;
   case LTile of
@@ -236,33 +277,7 @@ begin
       if (Creatures.PC.Pos.X = Items.Item[I].Pos.X) and
         (Creatures.PC.Pos.Y = Items.Item[I].Pos.Y) then
       begin
-        Graph.Messagebar.Clear;
-        S := Language.GetItemLang(Items.Item[I].Prop.Id);
-        if (Items.Item[I].Prop.IsStack) and (Items.Item[I].Count > 1) then
-          S := S + Format('$ (#r%dx$)', [Items.Item[I].Count]);
-        if (Items.CellItemsCount(Creatures.PC.Pos.X, Creatures.PC.Pos.Y) > 1)
-        then
-          J := 0
-        else
-          J := 1;
-        case LTile of
-          tlOpenWoodChest, tlOpenBestChest:
-            begin
-              K := 51;
-              F := True;
-            end;
-          tlOpenBarrel:
-            begin
-              K := 101;
-              F := True;
-            end;
-        else
-          begin
-            K := 53;
-            F := True;
-          end;
-        end;
-        Graph.Messagebar.Add(Format(Language.GetLang(K + J), [S]));
+        ItemInfo(I);
         Break;
       end;
   if F then
