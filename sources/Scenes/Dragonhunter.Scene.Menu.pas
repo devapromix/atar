@@ -1,4 +1,4 @@
-﻿unit Trollhunter.Scene.Menu;
+﻿unit Dragonhunter.Scene.Menu;
 
 interface
 
@@ -9,7 +9,7 @@ uses
 type
   TSceneMenu = class(TScene)
   private
-    Count, P, T: Integer;
+    Count, P: Integer;
     CursorPos: Integer;
     procedure MenuItem(S: string);
     procedure DrawCopyright;
@@ -34,7 +34,7 @@ uses
   Dragonhunter.Item,
   Trollhunter.Graph,
   Trollhunter.Color,
-  Trollhunter.Scene.Name,
+  Dragonhunter.Scene.Name,
   Trollhunter.Scenes,
   Trollhunter.MainForm,
   Trollhunter.Scene.Records,
@@ -43,7 +43,7 @@ uses
   Trollhunter.Scene.Load,
   Trollhunter.Error,
   Trollhunter.Utils,
-  Trollhunter.Scene.Settings,
+  Dragonhunter.Scene.Settings,
   Trollhunter.Lang,
   Trollhunter.Settings,
   Trollhunter.Creature,
@@ -57,33 +57,31 @@ uses
 
 procedure TSceneMenu.DrawCopyright;
 var
-  I, T: Integer;
-  S: string;
+  I, W: Integer;
+  S, T: string;
 begin
   S := '';
-  T := Graph.Height div Graph.CharHeight;
   if ParamDebug then
   begin
     for I := 1 to ParamCount do
       S := S + ParamStr(I) + #32;
     S := Trim(S);
   end;
-  with Graph.Surface.Canvas do
+  Terminal.NormalFont;
+  Terminal.TextColor(0);
+  if ParamDebug and (S <> '') then
   begin
-    Font.Style := [];
-    Brush.Color := 0;
-  end;
-  with Graph do
-  begin
-    if ParamDebug and (S <> '') then
-    begin
-      Surface.Canvas.Font.Color := cRdGray;
-      Text.TextCenter(T - 3,
-        Format('[Races: %d, Items: %d, Enemies: %d, Maps: %d]',
-        [Races.RaceList.Count, ItemPatterns.Patterns.Count,
-        CreaturePatterns.Patterns.Count, MapPatterns.Patterns.Count]));
-      Text.TextCenter(T - 4, '[' + S + ']');
-    end;
+    Terminal.TextColor(cRdGray);
+    T := Format('[Races: %d, Items: %d, Enemies: %d, Maps: %d]',
+      [Races.RaceList.Count, ItemPatterns.Patterns.Count,
+      CreaturePatterns.Patterns.Count, MapPatterns.Patterns.Count]);
+    W := Terminal.TextWidth(T);
+    Terminal.TextOut((Terminal.Width div 2) - (W div 2),
+      Terminal.Height - 3, T);
+    S := '[' + S + ']';
+    W := Terminal.TextWidth(S);
+    Terminal.TextOut((Terminal.Width div 2) - (W div 2),
+      Terminal.Height - 4, S);
   end;
 end;
 
@@ -159,25 +157,23 @@ end;
 procedure TSceneMenu.MenuItem(S: string);
 begin
   try
-    with Graph.Surface.Canvas do
+    if (CursorPos = P) then
     begin
-      if (CursorPos = P) then
-      begin
-        Font.Color := cAcColor;
-        Font.Style := [fsBold];
-        Graph.RenderMenuLine(P, T, False, 50, cDkGray);
-      end
-      else
-      begin
-        Font.Color := cBgColor;
-        Font.Style := [];
-      end;
-      TextOut((Graph.Width div 2) - (TextWidth(S) div 2),
-        (P * Graph.CharHeight) + T, S);
-      Inc(P);
-      Font.Color := cBgColor;
-      Font.Style := [];
+      Terminal.TextColor(cAcColor);
+      Terminal.BoldFont;
+      Terminal.MenuLine(Terminal.Width div 2 - 27, Terminal.Height div 2 -
+        1 + P, 54);
+    end
+    else
+    begin
+      Terminal.TextColor(cBGColor);
+      Terminal.NormalFont;
     end;
+    Terminal.TextOut((Terminal.Width div 2) - (Terminal.TextWidth(S) div 2),
+      P + (Terminal.Height div 2 - 1), S);
+    Inc(P);
+    Terminal.TextColor(cBGColor);
+    Terminal.NormalFont;
   except
     on E: Exception do
       Error.Add('SceneMenu.MenuItem', E.Message);
@@ -191,8 +187,7 @@ begin
   inherited;
   try
     P := 0;
-    Graph.Clear(0);
-    T := (Graph.Height div 2) - ((Count - 1) * Graph.CharHeight div 2);
+    Terminal.Clear;
     for I := 0 to Count - 1 do
     begin
       if (I < Count - 1) then
@@ -204,9 +199,9 @@ begin
     IsGame := False;
     DrawLogo();
     DrawCopyright();
-    Frame.Draw((Terminal.Width div 2) - 28, (T div Graph.CharHeight) -
-      2, 56, 9);
-    Graph.Render();
+    Terminal.TextColor(cAcColor);
+    Frame.Draw((Terminal.Width div 2) - 30, Terminal.Height div 2 - 3, 60, 9);
+    Terminal.Render;
   except
     on E: Exception do
       Error.Add('SceneMenu.Render', E.Message);
@@ -247,7 +242,7 @@ begin
     begin
       Font.Style := [fsBold];
       Font.Color := DarkColor(cLtRed, Y * 5);
-      TextOut(X, (Y * Graph.CharHeight) + ((T div 2) - (H div 2)), Logo[Y]);
+      // TextOut(X, (Y * Graph.CharHeight) + ((T div 2) - (H div 2)), Logo[Y]);
     end;
   end;
 end;

@@ -25,7 +25,7 @@ uses
   Trollhunter.Lang,
   Trollhunter.Graph,
   Trollhunter.Scenes,
-  Trollhunter.Scene.Menu;
+  Dragonhunter.Scene.Menu;
 
 { TSceneBaseMenu }
 

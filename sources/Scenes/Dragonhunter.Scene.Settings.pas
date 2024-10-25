@@ -1,4 +1,4 @@
-﻿unit Trollhunter.Scene.Settings;
+﻿unit Dragonhunter.Scene.Settings;
 
 interface
 
@@ -11,7 +11,7 @@ uses
 type
   TSceneSettings = class(TSceneBaseMenu)
   private
-    Count, P, T: Integer;
+    Count, P: Integer;
     CursorPos: Integer;
     procedure SettingsItem(A, B: string);
   public
@@ -34,7 +34,7 @@ uses
   Trollhunter.Color,
   Trollhunter.Scenes,
   Trollhunter.MainForm,
-  Trollhunter.Scene.Menu,
+  Dragonhunter.Scene.Menu,
   Trollhunter.Error,
   Trollhunter.Utils,
   Trollhunter.Lang,
@@ -141,31 +141,29 @@ var
   I, D: Integer;
 begin
   try
-    with Graph.Surface.Canvas do
+    L := #32;
+    B := '<< ' + B + ' >>';
+    D := 30 - Length(A + L + B);
+    for I := 0 to D do
+      L := L + #32;
+    S := A + L + B;
+    if (CursorPos = P) then
     begin
-      L := #32;
-      B := '<< ' + B + ' >>';
-      D := 30 - Length(A + L + B);
-      for I := 0 to D do
-        L := L + #32;
-      S := A + L + B;
-      if (CursorPos = P) then
-      begin
-        Font.Color := cAcColor;
-        Font.Style := [fsBold];
-        Graph.RenderMenuLine(P, T, False, 50, cDkGray);
-      end
-      else
-      begin
-        Font.Color := cBgColor;
-        Font.Style := [];
-      end;
-      TextOut((Graph.Width div 2) - (TextWidth(S) div 2),
-        (P * Graph.CharHeight) + T, S);
-      Inc(P);
-      Font.Color := cBgColor;
-      Font.Style := [];
+      Terminal.TextColor(cAcColor);
+      Terminal.BoldFont;
+      Terminal.MenuLine(Terminal.Width div 2 - 27, Terminal.Height div 2 -
+        1 + P, 54);
+    end
+    else
+    begin
+      Terminal.TextColor(cBGColor);
+      Terminal.NormalFont;
     end;
+    Terminal.TextOut((Terminal.Width div 2) - (Terminal.TextWidth(S) div 2),
+      P + (Terminal.Height div 2 - 1), S);
+    Inc(P);
+    Terminal.TextColor(cBGColor);
+    Terminal.NormalFont;
   except
     on E: Exception do
       Error.Add('SceneSettings.SettingsItem', E.Message);
@@ -179,14 +177,16 @@ begin
     P := 0;
     with Graph.Surface.Canvas do
     begin
-      T := (Graph.Height div 2) - ((Count - 1) * Graph.CharHeight div 2);
       SettingsItem(Language.GetLang(130), Language.LanguageName);
       SettingsItem(Language.GetLang(131), IntToStr(Font.Size));
       SettingsItem(Language.GetLang(132), IntToStr(TileSize));
       SettingsItem(Language.GetLang(133),
         IfThen(Fullscreen, Language.GetLang(13), Language.GetLang(14)));
     end;
-    Frame.Draw((Terminal.Width div 2) - 28, (Terminal.Height div 2) - 3, 56, 7);    Graph.Render;
+
+    Terminal.TextColor(cAcColor);
+    Frame.Draw((Terminal.Width div 2) - 30, Terminal.Height div 2 - 3, 60, 8);
+    Terminal.Render;
   except
     on E: Exception do
       Error.Add('SceneSettings.Render', E.Message);

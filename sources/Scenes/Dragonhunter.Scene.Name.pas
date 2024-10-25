@@ -1,4 +1,4 @@
-﻿unit Trollhunter.Scene.Name;
+﻿unit Dragonhunter.Scene.Name;
 
 interface
 
@@ -11,6 +11,7 @@ type
   TSceneName = class(TSceneBaseMenu)
   private
     procedure AddChar(S: string);
+    function GetPath: string;
   public
     procedure Render(); override;
     procedure KeyPress(var Key: Char); override;
@@ -27,6 +28,7 @@ implementation
 uses
   SysUtils,
   Graphics,
+  Dragonhunter.Terminal,
   Trollhunter.Creatures,
   Trollhunter.Scenes,
   Trollhunter.Scene.Game,
@@ -34,7 +36,7 @@ uses
   Trollhunter.Color,
   Trollhunter.Game,
   Trollhunter.MainForm,
-  Trollhunter.Scene.Menu,
+  Dragonhunter.Scene.Menu,
   Trollhunter.Name,
   Trollhunter.Utils,
   Trollhunter.Error,
@@ -61,6 +63,11 @@ destructor TSceneName.Destroy;
 begin
 
   inherited;
+end;
+
+function TSceneName.GetPath: string;
+begin
+  Result := Path + 'save\' + Creatures.PC.Name + '.sav';
 end;
 
 procedure TSceneName.KeyDown(var Key: Word; Shift: TShiftState);
@@ -129,44 +136,51 @@ end;
 procedure TSceneName.Render;
 var
   S, N: string;
-  W, H: Integer;
+  W, H, V: Integer;
   P: TPCInfo;
+  F: Boolean;
 begin
   inherited;
   try
-    with Graph.Surface.Canvas do
+    F := FileExists(GetPath);
+    N := 'space';
+    Terminal.TextColor(cBgColor);
+    S := Language.GetLang(38) + #32 + Creatures.PC.Name + '_';
+    W := Terminal.TextWidth(S);
+    S := Language.GetLang(38);
+    Terminal.NormalFont;
+    H := Terminal.TextWidth(S);
+    V := 0;
+    if F then
+      V := 1;
+    Terminal.TextOut((Terminal.Width div 2) - (W div 2),
+      Terminal.Height div 2 - V, S);
+    Terminal.BoldFont;
+    Terminal.TextColor(cAcColor);
+    S := #32 + Creatures.PC.Name + '_';
+    Terminal.TextOut((Terminal.Width div 2) - (W div 2) + H,
+      Terminal.Height div 2 - V, S);
+    if (Creatures.PC.Name = '') then
+      N := 'enter, ' + N;
+    Graph.Text.BarOut(N, 48);
+
+    if F then
     begin
-      N := 'space';
-      Font.Color := cBgColor;
-      S := Language.GetLang(38) + #32 + Creatures.PC.Name + '_';
-      W := TextWidth(S);
-      S := Language.GetLang(38);
-      Font.Style := [];
-      H := TextWidth(S);
-      TextOut((Graph.Width div 2) - (W div 2), (Graph.Height div 2) -
-        (Graph.CharHeight div 2), S);
-      Font.Style := [fsBold];
-      Font.Color := cAcColor;
-      S := #32 + Creatures.PC.Name + '_';
-      TextOut((Graph.Width div 2) - (W div 2) + H, (Graph.Height div 2) -
-        (Graph.CharHeight div 2), S);
-      if (Creatures.PC.Name = '') then
-        N := 'enter, ' + N;
-      Graph.Text.BarOut(N, 48);
-      if FileExists(Path + 'save\' + Creatures.PC.Name + '.sav') then
-      begin
-        P := Game.GetPCInfo(Path + 'save\' + Creatures.PC.Name + '.sav');
-        S := Language.GetLang(30) + ': ' + IntToStr(P.Level) + ' | ' +
-          Language.GetLang(36) + ': ' + IntToStr(P.Rating) + ' | ' +
-          Language.GetLang(140) + ': ' + GetFileDate(Path + 'save\' + Creatures.PC.Name
-          + '.sav');
-        Font.Color := cBgColor;
-        Graph.Text.TextCenter(((Graph.Height div 2) div Graph.CharHeight) + 2,
-          AnsiLowerCase(S));
-        Graph.Text.BarOut('enter', 1);
-      end;
+      P := Game.GetPCInfo(GetPath);
+      S := AnsiLowerCase(Language.GetLang(30) + ': ' + IntToStr(P.Level) + ' | '
+        + Language.GetLang(36) + ': ' + IntToStr(P.Rating) + ' | ' +
+        Language.GetLang(140) + ': ' + GetFileDate(GetPath));
+      Terminal.TextColor(cBgColor);
+      W := Terminal.TextWidth(S);
+      Terminal.TextOut((Terminal.Width div 2) - (W div 2),
+        Terminal.Height div 2 + 1, S);
+      Graph.Text.BarOut('enter', 1);
     end;
-    Graph.Render;
+
+    Terminal.TextColor(cAcColor);
+    Frame.Draw((Terminal.Width div 2) - 30, Terminal.Height div 2 - (V + 2), 60,
+      (V * 2) + 5);
+    Terminal.Render;
   except
     on E: Exception do
       Error.Add('SceneName.Render', E.Message);

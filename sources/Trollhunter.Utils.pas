@@ -14,6 +14,7 @@ const
 
 var
   TileSize: Byte = 32;
+  FontSize: Byte = 12;
 
 type
   TExplodeResult = array of string;

@@ -29,7 +29,7 @@ uses
   Graphics,
   Trollhunter.Utils,
   Trollhunter.Graph,
-  Trollhunter.Scene.Menu,
+  Dragonhunter.Scene.Menu,
   Trollhunter.Scenes,
   Trollhunter.Color,
   Trollhunter.Error,
