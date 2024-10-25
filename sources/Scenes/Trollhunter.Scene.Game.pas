@@ -472,7 +472,7 @@ begin
             if not Wander.WanderMode then
               Wander.Start
             else
-              Wander.Finish;
+              Wander.Finish(True);
           end;
         ord('M'):
           if ParamDebug then
@@ -713,7 +713,8 @@ begin
   // else
   Map.MiniMap.Render;
   Creatures.PC.Effects.Render;
-  Wander.Render;
+  if ParamDebug then
+    Wander.Render;
   Graph.Render;
 end;
 

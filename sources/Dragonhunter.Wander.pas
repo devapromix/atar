@@ -16,7 +16,7 @@ type
     constructor Create;
     destructor Destroy; override;
     procedure Start;
-    procedure Finish;
+    procedure Finish(const IsClear: Boolean = False);
     procedure Process;
     property Target: TPoint read FTarget write FTarget;
     function IsFound: Boolean;
@@ -57,9 +57,14 @@ begin
   inherited;
 end;
 
-procedure TWander.Finish;
+procedure TWander.Finish(const IsClear: Boolean = False);
 begin
   WanderMode := False;
+  if IsClear then
+  begin
+    FTarget.X := 0;
+    FTarget.Y := 0;
+  end;
 end;
 
 procedure TWander.Process;
