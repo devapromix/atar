@@ -899,13 +899,6 @@ begin
             end;
             Rectangle(DX, DY, DX + TileSize, DY + TileSize);
           end;
-        if ((Wander.Target.X <> 0) and (Wander.Target.Y <> 0)) then
-          if ((Wander.Target.X = X) and (Wander.Target.Y = Y)) then
-          begin
-            Brush.Style := bsClear;
-            Pen.Color := cLtYellow;
-            Rectangle(DX, DY, DX + TileSize, DY + TileSize);
-          end;
       end;
     Trollhunter.Creatures.Creatures.PC.Render;
   end;

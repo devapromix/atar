@@ -713,6 +713,7 @@ begin
   // else
   Map.MiniMap.Render;
   Creatures.PC.Effects.Render;
+  Wander.Render;
   Graph.Render;
 end;
 
