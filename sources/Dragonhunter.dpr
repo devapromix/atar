@@ -74,7 +74,8 @@ uses
   Trollhunter.Item.Pattern in 'Trollhunter.Item.Pattern.pas',
   Dragonhunter.Item.Script in 'Dragonhunter.Item.Script.pas',
   Dragonhunter.Item.Default in 'Dragonhunter.Item.Default.pas',
-  Dragonhunter.Terminal in 'Dragonhunter.Terminal.pas';
+  Dragonhunter.Terminal in 'Dragonhunter.Terminal.pas',
+  Dragonhunter.Wander in 'Dragonhunter.Wander.pas';
 
 {$R *.res}
 

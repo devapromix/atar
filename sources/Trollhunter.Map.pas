@@ -105,7 +105,8 @@ uses
   Dragonhunter.Resources,
   Trollhunter.Map.Pattern,
   Trollhunter.Item.Pattern,
-  Dragonhunter.Item.Default;
+  Dragonhunter.Item.Default,
+  Dragonhunter.Wander;
 
 { TMap }
 
@@ -896,6 +897,13 @@ begin
               cmShoot:
                 Pen.Color := cLtRed;
             end;
+            Rectangle(DX, DY, DX + TileSize, DY + TileSize);
+          end;
+        if ((Wander.Target.X <> 0) and (Wander.Target.Y <> 0)) then
+          if ((Wander.Target.X = X) and (Wander.Target.Y = Y)) then
+          begin
+            Brush.Style := bsClear;
+            Pen.Color := cLtYellow;
             Rectangle(DX, DY, DX + TileSize, DY + TileSize);
           end;
       end;

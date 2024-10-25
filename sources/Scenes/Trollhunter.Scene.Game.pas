@@ -65,7 +65,7 @@ uses
   Trollhunter.Scene.Statistics,
   Trollhunter.Statistics,
   Trollhunter.GlobalMap,
-  Trollhunter.Map.Pattern;
+  Trollhunter.Map.Pattern, Dragonhunter.Wander;
 
 { TGame }
 
@@ -465,6 +465,14 @@ begin
             Creatures.PC.Wait;
             Creatures.PC.DoDetectTraps;
             Scenes.Render;
+          end;
+        ord('A'):
+          if ParamDebug then
+          begin
+            if not Wander.WanderMode then
+              Wander.Start
+            else
+              Wander.Finish;
           end;
         ord('M'):
           if ParamDebug then

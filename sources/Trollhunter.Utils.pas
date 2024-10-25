@@ -20,7 +20,7 @@ type
   TExplodeResult = array of string;
 
 type
-  TCursorMode = (cmNone, cmLook, cmShoot);
+  TCursorMode = (cmNone, cmLook, cmShoot, cmSearch);
 
 var
   CursorMode: TCursorMode = cmNone;

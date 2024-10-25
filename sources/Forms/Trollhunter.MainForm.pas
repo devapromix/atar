@@ -50,7 +50,8 @@ uses
   Trollhunter.Utils,
   Trollhunter.Screenshot,
   Trollhunter.Game,
-  Trollhunter.Scene.LevelUp;
+  Trollhunter.Scene.LevelUp,
+  Dragonhunter.Wander, Trollhunter.Scene.Game;
 
 {$R *.dfm}
 
@@ -156,6 +157,11 @@ procedure TMainForm.Timer1Timer(Sender: TObject);
 begin
   if (Scenes.Scene = SceneMenu) then
     Scenes.Render;
+  if (Scenes.Scene = SceneGame) and Wander.WanderMode then
+  begin
+    Wander.Process;
+    Scenes.Render;
+  end;
 end;
 
 {
