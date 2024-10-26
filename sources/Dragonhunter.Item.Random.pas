@@ -59,15 +59,48 @@ type
     Color: Integer;
     LangId: Integer;
   end;
-  {
-    const
-    AllowColors: array [1 .. ItemRandomCount] of TType = (
+
+const
+  AllowColors: array [1 .. ItemRandomCount] of TType = (
     //
-    (Color:cGolden;LangId:), cIndigo,
-    cJade, cAzure, cLight, cDark, cGray, cBrown, cFxBlack, cFxWhite, cSkyBlue,
-    cLtYellow); }
+    (Color: cGolden; LangId: 250),
+    //
+    (Color: cIndigo; LangId: 251),
+    //
+    (Color: cJade; LangId: 252),
+    //
+    (Color: cAzure; LangId: 253),
+    //
+    (Color: cLight; LangId: 254),
+    //
+    (Color: cDark; LangId: 255),
+    //
+    (Color: cGray; LangId: 256),
+    //
+    (Color: cBrown; LangId: 257),
+    //
+    (Color: cFxBlack; LangId: 258),
+    //
+    (Color: cFxWhite; LangId: 259),
+    //
+    (Color: cSkyBlue; LangId: 260),
+    //
+    (Color: cLtYellow; LangId: 261));
 
   { TRandItems }
+
+function TRandItems.GetColorName(const AIndex: Integer): string;
+var
+  LIndex: Integer;
+begin
+  Result := '';
+  for LIndex := 1 to ItemRandomCount do
+    if GetColor(AIndex) = AllowColors[LIndex].Color then
+    begin
+      Result := Language.GetLang(AllowColors[LIndex].LangId);
+      Exit;
+    end;
+end;
 
 procedure TRandItems.Clear;
 var
@@ -129,9 +162,9 @@ begin
   Clear;
   for LIndex := 1 to Count do
   begin
-    {repeat
-      LColor := AllowColors[Rand(1, ItemRandomCount)];
-    until not IsThisColor(LColor);  }
+    repeat
+      LColor := AllowColors[Rand(1, ItemRandomCount)].Color;
+    until not IsThisColor(LColor);
     repeat
       LName := UpperCase(GenName.Trim);
     until not IsThisName(LName);
@@ -171,37 +204,6 @@ end;
 function TRandItems.GetColor(const AIndex: Integer): Integer;
 begin
   Result := RandItem[AIndex].Color;
-end;
-
-function TRandItems.GetColorName(const AIndex: Integer): string;
-begin
-  Result := '';
-  case GetColor(AIndex) of
-    cGolden:
-      Result := Language.GetLang(250);
-    cIndigo:
-      Result := Language.GetLang(251);
-    cJade:
-      Result := Language.GetLang(252);
-    cAzure:
-      Result := Language.GetLang(253);
-    cLight:
-      Result := Language.GetLang(254);
-    cDark:
-      Result := Language.GetLang(255);
-    cGray:
-      Result := Language.GetLang(256);
-    cBrown:
-      Result := Language.GetLang(257);
-    cFxBlack:
-      Result := Language.GetLang(258);
-    cFxWhite:
-      Result := Language.GetLang(259);
-    cSkyBlue:
-      Result := Language.GetLang(260);
-    cLtYellow:
-      Result := Language.GetLang(261);
-  end;
 end;
 
 function TRandItems.GetName(const AIndex: Integer): string;
