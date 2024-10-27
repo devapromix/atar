@@ -741,7 +741,7 @@ end;
 procedure TPC.AddPerception;
 begin
   Prop.Perception := Prop.Perception + 1;
-  // Log.Add(Format('%s +1 (%d).', [Language.GetLang(17), Prop.Perception]));
+  Log.Add(Format('%s +1 (%d).', [Language.GetLang(19), Prop.Perception]));
   Calc;
 end;
 

@@ -73,6 +73,8 @@ begin
         2:
           S := S + #32 + IntToStr(Creatures.PC.Prop.Intelligence);
         3:
+          S := S + #32 + IntToStr(Creatures.PC.Prop.Perception);
+        4:
           S := S + #32 + IntToStr(Creatures.PC.Prop.Speed);
       end;
       if (FCursorPos = FSelCursorPos) then
@@ -142,6 +144,12 @@ begin
                   AddIntelligence;
                 end;
               3:
+                if Creatures.PC.AtrPoint > 0 then
+                begin
+                  Creatures.PC.AtrPoint := Creatures.PC.AtrPoint - 1;
+                  AddPerception;
+                end;
+              4:
                 if Creatures.PC.AtrPoint > 0 then
                 begin
                   Creatures.PC.AtrPoint := Creatures.PC.AtrPoint - 1;

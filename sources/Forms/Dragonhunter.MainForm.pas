@@ -51,7 +51,8 @@ uses
   Trollhunter.Screenshot,
   Trollhunter.Game,
   Trollhunter.Scene.LevelUp,
-  Dragonhunter.Wander, Trollhunter.Scene.Game;
+  Dragonhunter.Wander,
+  Trollhunter.Scene.Game;
 
 {$R *.dfm}
 
