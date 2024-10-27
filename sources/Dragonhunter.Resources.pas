@@ -50,7 +50,7 @@ uses
   Trollhunter.Color,
   Trollhunter.Light,
   Trollhunter.Map,
-  Trollhunter.MainForm,
+  Dragonhunter.MainForm,
   Trollhunter.Decorator,
   Trollhunter.Game,
   Trollhunter.Map.Pattern,

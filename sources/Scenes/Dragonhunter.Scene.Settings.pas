@@ -33,7 +33,7 @@ uses
   Trollhunter.Graph,
   Trollhunter.Color,
   Trollhunter.Scenes,
-  Trollhunter.MainForm,
+  Dragonhunter.MainForm,
   Dragonhunter.Scene.Menu,
   Trollhunter.Error,
   Trollhunter.Utils,

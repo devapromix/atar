@@ -58,7 +58,7 @@ uses
   Trollhunter.Error,
   Trollhunter.Zip,
   Trollhunter.Utils,
-  Trollhunter.MainForm;
+  Dragonhunter.MainForm;
 
 { TRace }
 

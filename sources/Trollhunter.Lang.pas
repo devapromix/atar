@@ -54,7 +54,8 @@ uses
   Trollhunter.Utils,
   Trollhunter.Error,
   Trollhunter.Creatures,
-  Trollhunter.MainForm, Trollhunter.Item.Pattern;
+  Dragonhunter.MainForm,
+  Trollhunter.Item.Pattern;
 
 var
   LanguageString: TLanguageString;

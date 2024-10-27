@@ -1,7 +1,7 @@
 object MainForm: TMainForm
   Left = 126
   Top = 151
-  Caption = 'Trollhunter'
+  Caption = 'Dragonhunter'
   ClientHeight = 183
   ClientWidth = 456
   Color = clBlack

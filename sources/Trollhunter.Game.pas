@@ -35,7 +35,7 @@ implementation
 
 uses
   System.SysUtils,
-  Trollhunter.MainForm,
+  Dragonhunter.MainForm,
   Trollhunter.Map,
   Trollhunter.Utils,
   Trollhunter.Creatures,

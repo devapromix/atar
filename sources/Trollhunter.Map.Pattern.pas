@@ -80,7 +80,7 @@ uses
   Trollhunter.Log,
   Trollhunter.Lang,
   Trollhunter.Error,
-  Trollhunter.MainForm,
+  Dragonhunter.MainForm,
   Trollhunter.Zip,
   Trollhunter.Map,
   Trollhunter.Creatures;

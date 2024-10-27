@@ -35,7 +35,7 @@ uses
   Dragonhunter.Scene.Menu,
   Trollhunter.Utils,
   Trollhunter.Color,
-  Trollhunter.MainForm,
+  Dragonhunter.MainForm,
   Trollhunter.Game,
   Trollhunter.Creatures,
   Trollhunter.Scene.Game,

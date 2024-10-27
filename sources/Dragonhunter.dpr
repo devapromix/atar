@@ -3,7 +3,7 @@
 uses
   Windows,
   Forms,
-  Trollhunter.MainForm in 'Forms\Trollhunter.MainForm.pas' {MainForm},
+  Dragonhunter.MainForm in 'Forms\Dragonhunter.MainForm.pas' {MainForm},
   Trollhunter.Scenes in 'Scenes\Trollhunter.Scenes.pas',
   Trollhunter.Scene in 'Scenes\Trollhunter.Scene.pas',
   Trollhunter.Scene.BaseMenu in 'Scenes\Trollhunter.Scene.BaseMenu.pas',
@@ -84,13 +84,13 @@ var
 
 begin
   UniqueMapping := CreateFileMapping($FFFFFFFF, nil, PAGE_READONLY, 0, 32,
-    'm6gh7jq2lb6mbpfrwchmaltdr45');
+    'm6gh7jq2lb6mbghsdhgksakbrjlsrnuaiopfrwchmaltdr45');
   if UniqueMapping = 0 then
     Halt
   else if GetLastError = ERROR_ALREADY_EXISTS then
     Halt;
   Application.Initialize;
-  Application.Title := 'Trollhunter';
+  Application.Title := 'Dragonhunter';
   Application.CreateForm(TMainForm, MainForm);
   Application.Run;
 

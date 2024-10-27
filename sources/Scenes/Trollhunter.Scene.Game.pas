@@ -39,7 +39,7 @@ uses
   Windows, Dialogs,
   Types,
   SysUtils,
-  Trollhunter.MainForm,
+  Dragonhunter.MainForm,
   Trollhunter.Graph,
   Trollhunter.Creatures,
   Trollhunter.Scenes,
