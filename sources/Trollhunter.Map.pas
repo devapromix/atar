@@ -8,7 +8,7 @@ uses
   Trollhunter.CustomMap,
   Trollhunter.MiniMap,
   Dragonhunter.Item,
-  Trollhunter.Script,
+  Dragonhunter.Script,
   Trollhunter.Map.Tiles,
   Trollhunter.Decorator,
   Trollhunter.Map.Generator;

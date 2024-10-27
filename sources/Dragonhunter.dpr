@@ -31,7 +31,7 @@ uses
   Trollhunter.Utils in 'Trollhunter.Utils.pas',
   Dragonhunter.Item in 'Dragonhunter.Item.pas',
   Trollhunter.Trap in 'Trollhunter.Trap.pas',
-  Trollhunter.Script in 'Trollhunter.Script.pas',
+  Dragonhunter.Script in 'Dragonhunter.Script.pas',
   Trollhunter.Map.Tiles in 'Trollhunter.Map.Tiles.pas',
   Trollhunter.Screenshot in 'Trollhunter.Screenshot.pas',
   Trollhunter.Log in 'Trollhunter.Log.pas',
