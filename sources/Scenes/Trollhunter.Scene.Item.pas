@@ -91,15 +91,15 @@ begin
     // if (B and (DungeonItems[V].Category in WeapArmSet))
     // or (DungeonItems[V].Category in AmuRingSet)
     if Items.IsCategory(ItemPatterns.Patterns[LPatItemIndex].Category,
-      EquipmentCategories) and Creatures.PC.Inv.Equip(AItemIndex) then
+      EquipmentCategories) and Creatures.Character.Inv.Equip(AItemIndex) then
     begin
-      Creatures.PC.Prop.MinDamage := Creatures.PC.Prop.MinDamage +
+      Creatures.Character.Prop.MinDamage := Creatures.Character.Prop.MinDamage +
         ItemPatterns.Patterns[LPatItemIndex].MinDamage;
-      Creatures.PC.Prop.MaxDamage := Creatures.PC.Prop.MaxDamage +
+      Creatures.Character.Prop.MaxDamage := Creatures.Character.Prop.MaxDamage +
         ItemPatterns.Patterns[LPatItemIndex].MaxDamage;
-      Creatures.PC.Prop.Protect := Creatures.PC.Prop.Protect +
+      Creatures.Character.Prop.Protect := Creatures.Character.Prop.Protect +
         ItemPatterns.Patterns[LPatItemIndex].Protect;
-      Creatures.PC.Calc;
+      Creatures.Character.Calc;
 
       if IsShowLog then
         Log.Add(Format(Language.GetLang(96),
@@ -116,15 +116,15 @@ end;
 procedure TSceneItem.UnEquip(AItemIndex: Integer; IsShowLog: Boolean = True);
 begin
   try
-    if Creatures.PC.Inv.UnEquip(AItemIndex) then
+    if Creatures.Character.Inv.UnEquip(AItemIndex) then
     begin
-      Creatures.PC.Prop.MinDamage := Creatures.PC.Prop.MinDamage +
+      Creatures.Character.Prop.MinDamage := Creatures.Character.Prop.MinDamage +
         ItemPatterns.Patterns[KeyIDToInvItemID(AItemIndex)].MinDamage;
-      Creatures.PC.Prop.MaxDamage := Creatures.PC.Prop.MaxDamage +
+      Creatures.Character.Prop.MaxDamage := Creatures.Character.Prop.MaxDamage +
         ItemPatterns.Patterns[KeyIDToInvItemID(AItemIndex)].MaxDamage;
-      Creatures.PC.Prop.Protect := Creatures.PC.Prop.Protect +
+      Creatures.Character.Prop.Protect := Creatures.Character.Prop.Protect +
         ItemPatterns.Patterns[KeyIDToInvItemID(AItemIndex)].Protect;
-      Creatures.PC.Calc;
+      Creatures.Character.Calc;
 
       if IsShowLog then
         Log.Add(Format(Language.GetLang(97),
@@ -170,7 +170,7 @@ begin
         if Items.IsCategory(ItemPatterns.Patterns[LPatItemIndex].Category,
           EquipmentCategories) then
         begin
-          if not Creatures.PC.Inv.GetDoll(ItemIndex) then
+          if not Creatures.Character.Inv.GetDoll(ItemIndex) then
             Equip(ItemIndex)
           else
             UnEquip(ItemIndex);
@@ -206,12 +206,12 @@ begin
         end;
       ord('D'):
         if Items.IsCategory(ItemPatterns.Patterns[LPatItemIndex].Category,
-          DropCategories) and not Creatures.PC.Inv.GetDoll(ItemIndex) then
+          DropCategories) and not Creatures.Character.Inv.GetDoll(ItemIndex) then
         begin
           Drop(ItemIndex);
           Log.Apply;
           Game.Save;
-          Creatures.PC.Redraw;
+          Creatures.Character.Redraw;
           Scenes.Scene := SceneGame;
         end;
     end;
@@ -298,7 +298,7 @@ var
         // Misc
         if (UpperCase(Trim(Script)) = 'WIZARDEYE') then
           Add(Format('%s %d.', [Language.GetLang(115),
-            Creatures.PC.TempSys.Power('WizardEye')]));
+            Creatures.Character.TempSys.Power('WizardEye')]));
         // Repair
         { if (scRepair3 = SubCats) then
           Add(Format('%s 3.', [Language.GetLang(89)]));
@@ -366,8 +366,8 @@ var
       Font.Color := cWhiteGre;
       if (ItemPatterns.Patterns[AItemIndex].ManaCost > 0) then
         Add(Format('%s -%d (%d/%d)', [Language.GetLang(23),
-          ItemPatterns.Patterns[AItemIndex].ManaCost, Creatures.PC.Mana.Cur,
-          Creatures.PC.Mana.Max]));
+          ItemPatterns.Patterns[AItemIndex].ManaCost, Creatures.Character.Mana.Cur,
+          Creatures.Character.Mana.Max]));
       { if (ItemPatterns.Patterns[I].NeedMagic > 0) then
         Add(Format('%s %d (%d)', [Language.GetLang(280),
         ItemPatterns.Patterns[I].NeedMagic, Skills.GetSkill('MAGIC').Level])); }
@@ -377,10 +377,10 @@ var
         Add(Language.GetLang(42) + Items.GetWeight(AItemIndex));
       if (ItemPatterns.Patterns[AItemIndex].MaxTough > 0) then
       begin
-        if (Creatures.PC.Inv.GetTough(ItemIndex) <= 0) then
+        if (Creatures.Character.Inv.GetTough(ItemIndex) <= 0) then
           Font.Color := cRdRed;
         Add(Format('%s %d/%d', [Language.GetLang(40),
-          Creatures.PC.Inv.GetTough(ItemIndex),
+          Creatures.Character.Inv.GetTough(ItemIndex),
           ItemPatterns.Patterns[AItemIndex].MaxTough]));
       end;
     end;
@@ -416,12 +416,12 @@ begin
         else
         begin
           if (ItemPatterns.Patterns[I].Category = 'SCROLL') and
-            Creatures.PC.Scrolls.IsDefined(T) then
+            Creatures.Character.Scrolls.IsDefined(T) then
             RenderItemInfo(I)
           else
             Add(Language.GetLang(23));
           if (ItemPatterns.Patterns[I].Category = 'POTION') and
-            Creatures.PC.Potions.IsDefined(T) then
+            Creatures.Character.Potions.IsDefined(T) then
             RenderItemInfo(I)
           else
             Add(Language.GetLang(23));
@@ -440,7 +440,7 @@ begin
       then
         AddCommand('R', Language.GetLang(99));
       if Items.IsCategory(ItemPatterns.Patterns[I].Category, DropCategories) and
-        not Creatures.PC.Inv.GetDoll(ItemIndex) then
+        not Creatures.Character.Inv.GetDoll(ItemIndex) then
         AddCommand('D', Language.GetLang(90));
       Render;
       Tileset.Free;
@@ -460,19 +460,19 @@ var
   J, T, C: Integer;
 begin
   try
-    if not(Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile in FloorSet +
+    if not(Map.Cell[Creatures.Character.Pos.Y][Creatures.Character.Pos.X].Tile in FloorSet +
       [tlOpenWoodChest, tlOpenBestChest, tlOpenBarrel]) then
       Exit;
-    T := Creatures.PC.Inv.GetTough(AItemIndex);
+    T := Creatures.Character.Inv.GetTough(AItemIndex);
     J := KeyIDToInvItemID(AItemIndex);
-    C := Creatures.PC.Inv.GetCount(ItemPatterns.Patterns[J].ID);
-    if Creatures.PC.Inv.Del(AItemIndex, C) then
+    C := Creatures.Character.Inv.GetCount(ItemPatterns.Patterns[J].ID);
+    if Creatures.Character.Inv.Del(AItemIndex, C) then
     begin
       if (C = 1) then
       begin
         Log.Add(Format(Language.GetLang(91),
           [Language.GetItemLang(ItemPatterns.Patterns[J].ID)]));
-        Items.Add(Creatures.PC.Pos.X, Creatures.PC.Pos.Y,
+        Items.Add(Creatures.Character.Pos.X, Creatures.Character.Pos.Y,
           ItemPatterns.Patterns[J].ID);
         with Items.Item[High(Items.Item)] do
         begin
@@ -484,7 +484,7 @@ begin
       begin
         Log.Add(Format(Language.GetLang(92),
           [Language.GetItemLang(ItemPatterns.Patterns[J].ID), C]));
-        Items.Add(Creatures.PC.Pos.X, Creatures.PC.Pos.Y,
+        Items.Add(Creatures.Character.Pos.X, Creatures.Character.Pos.Y,
           ItemPatterns.Patterns[J].ID);
         Items.Item[High(Items.Item)].Count := C;
       end;
@@ -515,15 +515,15 @@ var
 begin
   try
     J := KeyIDToInvItemID(AItemIndex);
-    with Creatures.PC do
+    with Creatures.Character do
       if Inv.Del(AItemIndex, 1) then
       begin
         T := ItemPatterns.Patterns[J].ColorTag;
         Log.Add(Format(Language.GetLang(94),
           [Language.GetItemLang(ItemPatterns.Patterns[J].ID)]));
-        if (T > 0) and not Creatures.PC.Potions.IsDefined(T) then
+        if (T > 0) and not Creatures.Character.Potions.IsDefined(T) then
         begin
-          Creatures.PC.Potions.SetDefined(T);
+          Creatures.Character.Potions.SetDefined(T);
           Log.Add(Language.GetLang(225) + ' ' +
             AnsiLowerCase(Language.GetItemLang(ItemPatterns.Patterns[J]
             .ID)) + '.');
@@ -542,7 +542,7 @@ var
 begin
   try
     J := KeyIDToInvItemID(AItemIndex);
-    with Creatures.PC do
+    with Creatures.Character do
     begin
       if (Mana.Cur >= ItemPatterns.Patterns[J].ManaCost) then
       begin
@@ -551,9 +551,9 @@ begin
           T := ItemPatterns.Patterns[J].ColorTag;
           Log.Add(Format(Language.GetLang(100),
             [Language.GetItemLang(ItemPatterns.Patterns[J].ID)]));
-          if (T > 0) and not Creatures.PC.Scrolls.IsDefined(T) then
+          if (T > 0) and not Creatures.Character.Scrolls.IsDefined(T) then
           begin
-            Creatures.PC.Scrolls.SetDefined(T);
+            Creatures.Character.Scrolls.SetDefined(T);
             Log.Add(Language.GetLang(220) + ' ' +
               AnsiLowerCase(Language.GetItemLang(ItemPatterns.Patterns[J]
               .ID)) + '.');

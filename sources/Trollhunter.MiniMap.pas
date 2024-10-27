@@ -84,7 +84,7 @@ var
 begin
   if IsGlobalMap then
   begin
-    PSet(Creatures.PC.Pos.X, Creatures.PC.Pos.Y, cWhite);
+    PSet(Creatures.Character.Pos.X, Creatures.Character.Pos.Y, cWhite);
 
   end
   else
@@ -98,22 +98,22 @@ begin
       end
       else
       begin
-        for X := Creatures.PC.Pos.X - 7 to Creatures.PC.Pos.X + 7 do
-          for Y := Creatures.PC.Pos.Y - 7 to Creatures.PC.Pos.Y + 7 do
+        for X := Creatures.Character.Pos.X - 7 to Creatures.Character.Pos.X + 7 do
+          for Y := Creatures.Character.Pos.Y - 7 to Creatures.Character.Pos.Y + 7 do
             RenderCell(X, Y);
       end;
     end;
 
     // Show all enemies on map. "Глаз Чародея".
     with Creatures do
-      if PC.TempSys.IsVar('WizardEye') then
+      if Character.TempSys.IsVar('WizardEye') then
         for J := 0 to High(Enemy) do
           if not Enemy[J].Life.IsMin then
-            if (GetDist(PC.Pos.X, PC.Pos.Y, Enemy[J].Pos.X, Enemy[J].Pos.Y) <=
-              PC.TempSys.Power('WizardEye')) then
+            if (GetDist(Character.Pos.X, Character.Pos.Y, Enemy[J].Pos.X, Enemy[J].Pos.Y) <=
+              Character.TempSys.Power('WizardEye')) then
               PSet(Enemy[J].Pos.X, Enemy[J].Pos.Y, clRed);
 
-    PSet(Creatures.PC.Pos.X, Creatures.PC.Pos.Y, cWhite);
+    PSet(Creatures.Character.Pos.X, Creatures.Character.Pos.Y, cWhite);
   end;
   Graph.Surface.Canvas.Draw(Graph.DL, Graph.CharHeight * 6, Surface);
 end;

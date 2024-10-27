@@ -13,7 +13,7 @@ procedure DoTime();
 var
   T: Integer;
 begin
-  with Creatures.PC do
+  with Creatures.Character do
   begin
     T := Turns div 10;
     if (LastTurns <> T) then

@@ -114,11 +114,11 @@ begin
           0:
             begin
               with Creatures do
-                if (PC.Name = '') then
+                if (Character.Name = '') then
                 begin
                   S := TSettings.Create;
                   try
-                    PC.Name := S.Read('Settings', 'LastName', '');
+                    Character.Name := S.Read('Settings', 'LastName', '');
                   finally
                     S.Free;
                   end;

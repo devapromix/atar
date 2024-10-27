@@ -45,7 +45,7 @@ var
 begin
   LScriptCommand := AScript.Split([',']);
   for I := 0 to Length(LScriptCommand) - 1 do
-    with Creatures.PC do
+    with Creatures.Character do
       with TempSys do
       begin
         //

@@ -66,13 +66,13 @@ begin
   Result := 0;
   case A of
     1:
-      Result := Creatures.PC.Prop.Strength;
+      Result := Creatures.Character.Prop.Strength;
     2:
-      Result := Creatures.PC.Prop.Dexterity;
+      Result := Creatures.Character.Prop.Dexterity;
     3:
-      Result := Creatures.PC.Prop.Intelligence;
+      Result := Creatures.Character.Prop.Intelligence;
     4:
-      Result := Creatures.PC.Prop.Speed;
+      Result := Creatures.Character.Prop.Speed;
   end;
 end;
 
@@ -107,10 +107,10 @@ begin
           LRaceIndex := Key - (ord('A'));
           if (LRaceIndex < Races.RaceList.Count) then
           begin
-            Creatures.PC.Race := LRaceIndex;
+            Creatures.Character.Race := LRaceIndex;
             Graph.Messagebar.Add(Format(Language.GetLang(20),
-              [Creatures.PC.Name, MainForm.Caption]));
-            Creatures.PC.Redraw;
+              [Creatures.Character.Name, MainForm.Caption]));
+            Creatures.Character.Redraw;
             Scenes.Scene := SceneGame;
           end;
         end;
@@ -132,7 +132,7 @@ var
   J: Integer;
 begin
   try
-    Creatures.PC.Clear;
+    Creatures.Character.Clear;
     // Equipment
     for J := 0 to Races.RaceList[I].Equipment.Count - 1 do
     begin
@@ -171,16 +171,16 @@ begin
     // Items.Add('TAMARILIS', 12);
     Items.Add('KEY', 7);
 
-    Creatures.PC.Prop.Strength := Creatures.PC.Prop.Strength + Races.RaceList
+    Creatures.Character.Prop.Strength := Creatures.Character.Prop.Strength + Races.RaceList
       [I].Strength;
-    Creatures.PC.Prop.Dexterity := Creatures.PC.Prop.Dexterity + Races.RaceList
+    Creatures.Character.Prop.Dexterity := Creatures.Character.Prop.Dexterity + Races.RaceList
       [I].Dexterity;
-    Creatures.PC.Prop.Intelligence := Creatures.PC.Prop.Intelligence +
+    Creatures.Character.Prop.Intelligence := Creatures.Character.Prop.Intelligence +
       Races.RaceList[I].Intelligence;
-    Creatures.PC.Prop.Speed := Creatures.PC.Prop.Speed + Races.RaceList
+    Creatures.Character.Prop.Speed := Creatures.Character.Prop.Speed + Races.RaceList
       [I].Speed;
-    Creatures.PC.Calc;
-    Creatures.PC.Fill;
+    Creatures.Character.Calc;
+    Creatures.Character.Fill;
   except
     on E: Exception do
       Error.Add('SceneRace.MakePC', E.Message);
@@ -281,7 +281,7 @@ begin
       end;
       H := Races.RaceList.Count + 5;
       Font.Style := [fsBold];
-      Q := Creatures.PC.Name + ':';
+      Q := Creatures.Character.Name + ':';
       Graph.Text.DrawOut(T, H - 1, Q);
       M := '';
       for I := 1 to Length(Q) do
@@ -329,17 +329,17 @@ begin
       //
       Font.Color := cRdRed;;
       Graph.Text.DrawOut(T, H + U + 1, Format('%s: %d/%d',
-        [Language.GetLang(22), Creatures.PC.Life.Max, Creatures.PC.Life.Max]));
+        [Language.GetLang(22), Creatures.Character.Life.Max, Creatures.Character.Life.Max]));
       Font.Color := cRdBlue;
       Graph.Text.DrawOut(T, H + U + 2, Format('%s: %d/%d',
-        [Language.GetLang(23), Creatures.PC.Mana.Max, Creatures.PC.Mana.Max]));
+        [Language.GetLang(23), Creatures.Character.Mana.Max, Creatures.Character.Mana.Max]));
       Font.Color := cDkYellow;
       Graph.Text.DrawOut(T, H + U + 3, Format('%s: %d-%d',
-        [Language.GetLang(32), Creatures.PC.Prop.MinDamage,
-        Creatures.PC.Prop.MaxDamage]));
+        [Language.GetLang(32), Creatures.Character.Prop.MinDamage,
+        Creatures.Character.Prop.MaxDamage]));
       Font.Color := cDkYellow;
       Graph.Text.DrawOut(T, H + U + 4, Format('%s: %d', [Language.GetLang(33),
-        Creatures.PC.Prop.Protect]));
+        Creatures.Character.Prop.Protect]));
 
       R := 0;
       Font.Style := [fsBold];
@@ -368,17 +368,17 @@ begin
         M := M + '-';
       Graph.Text.DrawOut(T * 3, H, M);
       Font.Style := [];
-      for J := 1 to Creatures.PC.Inv.Count do
+      for J := 1 to Creatures.Character.Inv.Count do
       begin
         Inc(R);
         Font.Color := cDkYellow;
         V := Items.ItemIndex(J);
-        if Creatures.PC.Inv.GetDoll(J) then
+        if Creatures.Character.Inv.GetDoll(J) then
           Font.Style := [fsBold]
         else
           Font.Style := [];
-        if (Creatures.PC.Inv.GetCount(J) > 1) then
-          F := ' (' + IntToStr(Creatures.PC.Inv.GetCount(J)) + 'x)'
+        if (Creatures.Character.Inv.GetCount(J) > 1) then
+          F := ' (' + IntToStr(Creatures.Character.Inv.GetCount(J)) + 'x)'
         else
           F := '';
         Graph.Text.DrawText(T * 3, H + R,
@@ -392,7 +392,7 @@ begin
         Graph.Text.BarOut('a-' + Chr(96 + Races.RaceList.Count),
           Language.GetLang(181), False);
       //
-      Creatures.PC.Race := LRaceIndex;
+      Creatures.Character.Race := LRaceIndex;
       SceneInv.RedrawPCIcon;
       Draw((L * Graph.CharWidth) - 72, (H + 1) * Graph.CharHeight,
         SceneInv.Hero);

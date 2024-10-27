@@ -5,7 +5,7 @@ interface
 uses
   Graphics,
   Trollhunter.Creature,
-  Trollhunter.PC,
+  Dragonhunter.Character,
   Trollhunter.Enemy;
 
 type
@@ -13,13 +13,13 @@ type
 
   TCreatures = class(TObject)
   private
-    FPC: TPC;
+    FCharacter: TCharacter;
     LBAR: Graphics.TBitmap;
     MBAR: Graphics.TBitmap;
     LIFEBAR: Graphics.TBitmap;
     MANABAR: Graphics.TBitmap;
     FEnemy: TEnemies;
-    procedure SetPC(const Value: TPC);
+    procedure SetPC(const Value: TCharacter);
     procedure SetEnemy(const Value: TEnemies);
   public
     procedure Move;
@@ -37,7 +37,7 @@ type
     function CreatureIndex(ID: string): Integer;
     procedure Insert(AX, AY: Integer; CreatureID: string; Chance: Integer = 1);
     function GetDamage(ACreature: TCreature; AProtect: Integer): Integer;
-    property PC: TPC read FPC write SetPC;
+    property Character: TCharacter read FCharacter write SetPC;
     property Enemy: TEnemies read FEnemy write SetEnemy;
     constructor Create;
     destructor Destroy; override;
@@ -74,9 +74,9 @@ var
   LIndex: Integer;
 begin
   Result := False;
-  if (X = Creatures.PC.Pos.X) and (Y = Creatures.PC.Pos.Y) then
+  if (X = Creatures.Character.Pos.X) and (Y = Creatures.Character.Pos.Y) then
     Exit;
-  if not Creatures.PC.FreeCell(X, Y) then
+  if not Creatures.Character.FreeCell(X, Y) then
     Exit;
   for LIndex := 0 to High(Creatures.Enemy) do
     if not Creatures.Enemy[LIndex].Life.IsMin and
@@ -115,13 +115,13 @@ begin
     if (ADamage < 1) then
       ADamage := 1;
 
-    CX := (ACreature.Pos.X - (Creatures.PC.Pos.X - Graph.RW)) * TileSize;
-    CY := (ACreature.Pos.Y - (Creatures.PC.Pos.Y - Graph.RH)) * TileSize +
+    CX := (ACreature.Pos.X - (Creatures.Character.Pos.X - Graph.RW)) * TileSize;
+    CY := (ACreature.Pos.Y - (Creatures.Character.Pos.Y - Graph.RH)) * TileSize +
       Graph.CharHeight;
     with TAnimNumber.Create(-ADamage, CX, CY) do
       Free;
 
-    if (ACreature = Creatures.PC) then
+    if (ACreature = Creatures.Character) then
     begin
       // The %s hits you %d.
       Items.Damage(ArmorCategories, 7);
@@ -158,7 +158,7 @@ begin
     if (ADamage < 1) then
       ADamage := 1;
 
-    if (ACreature = Creatures.PC) then
+    if (ACreature = Creatures.Character) then
     begin
       // The %s hits your mana %d.
       Log.Add(Format(Language.GetLang(107), [EnemyName, ADamage]));
@@ -206,7 +206,7 @@ end;
 
 constructor TCreatures.Create;
 begin
-  FPC := TPC.Create;
+  FCharacter := TCharacter.Create;
   LBAR := Graphics.TBitmap.Create;
   LIFEBAR := Graphics.TBitmap.Create;
   LIFEBAR.Handle := LoadBitmap(hInstance, 'LIFEBAR');
@@ -222,7 +222,7 @@ begin
   if (Length(Enemy) > 0) then
     for LIndex := 0 to Length(Enemy) - 1 do
       Enemy[LIndex].Free;
-  FPC.Free;
+  FCharacter.Free;
   LBAR.Free;
   LIFEBAR.Free;
   MBAR.Free;
@@ -241,9 +241,9 @@ var
 begin
   try
     if (Length(Enemy) > 0) then
-      for LAP := 0 to PC.AP.Max do
+      for LAP := 0 to Character.AP.Max do
         for LIndex := 0 to High(Enemy) do
-          if not Enemy[LIndex].Life.IsMin and not PC.Life.IsMin then
+          if not Enemy[LIndex].Life.IsMin and not Character.Life.IsMin then
           begin
             with Enemy[LIndex] do
               if AP.IsMin then
@@ -307,9 +307,9 @@ begin
   FEnemy := Value;
 end;
 
-procedure TCreatures.SetPC(const Value: TPC);
+procedure TCreatures.SetPC(const Value: TCharacter);
 begin
-  FPC := Value;
+  FCharacter := Value;
 end;
 
 procedure TCreatures.Add(const X, Y: Integer; AName: string);
@@ -393,13 +393,13 @@ begin
       Exit;
     repeat
       I := Rand(0, High(Enemy));
-      PX := Rand(PC.Pos.X - 1, PC.Pos.X + 1);
-      PY := Rand(PC.Pos.Y - 1, PC.Pos.Y + 1);
+      PX := Rand(Character.Pos.X - 1, Character.Pos.X + 1);
+      PY := Rand(Character.Pos.Y - 1, Character.Pos.Y + 1);
     until (not Enemy[I].Life.IsMin) and (Map.Cell[PY][PX].Tile in FloorSet) and
-      not((PX = PC.Pos.X) and (PY = PC.Pos.Y)) and
+      not((PX = Character.Pos.X) and (PY = Character.Pos.Y)) and
       (Creatures.EmptyCell(PX, PY));;
     Enemy[I].SetPosition(PX, PY);
-    PC.Wait();
+    Character.Wait();
   except
     on E: Exception do
       Error.Add('Creatures.Summon', E.Message);
@@ -428,8 +428,8 @@ begin
       until (not Creatures.Enemy[I].Life.IsMin) and
         (Map.Cell[PY][PX].Tile in FloorSet) and (Creatures.EmptyCell(PX, PY));
     end;
-    Creatures.PC.SetPosition(PX, PY);
-    PC.Wait();
+    Creatures.Character.SetPosition(PX, PY);
+    Character.Wait();
   except
     on E: Exception do
       Error.Add('Creatures.Teleport', E.Message);

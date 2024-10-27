@@ -1,4 +1,4 @@
-﻿unit Trollhunter.PC;
+﻿unit Dragonhunter.Character;
 
 interface
 
@@ -14,7 +14,7 @@ uses
   Trollhunter.Statistics;
 
 type
-  TPC = class(TCreature)
+  TCharacter = class(TCreature)
   private
     FInv: TAdvInv;
     FTempSys: TTempSys;
@@ -134,7 +134,7 @@ uses
 
 { TPC }
 
-procedure TPC.Clear;
+procedure TCharacter.Clear;
 begin
   Prop.Decor := 'BLOOD';
   Prop.MinDamage := 1;
@@ -145,6 +145,7 @@ begin
   Prop.Strength := 15;
   Prop.Dexterity := 5;
   Prop.Intelligence := 8;
+  Prop.Perception := 5;
   Prop.Speed := 10;
   Dungeon := 0;
   Race := 0;
@@ -163,7 +164,7 @@ begin
   Fill();
 end;
 
-constructor TPC.Create;
+constructor TCharacter.Create;
 begin
   inherited Create;
   FF := TStringList.Create;
@@ -177,7 +178,7 @@ begin
   Clear;
 end;
 
-destructor TPC.Destroy;
+destructor TCharacter.Destroy;
 begin
   World.Free;
   Potions.Free;
@@ -190,7 +191,7 @@ begin
   inherited;
 end;
 
-procedure TPC.Redraw;
+procedure TCharacter.Redraw;
 var
   I, L: Integer;
   B, D: Graphics.TBitmap;
@@ -229,7 +230,7 @@ begin
   end;
 end;
 
-procedure TPC.Load;
+procedure TCharacter.Load;
 var
   ID, X, Y: Word;
 
@@ -259,6 +260,7 @@ begin
     Prop.Strength := Get;
     Prop.Dexterity := Get;
     Prop.Intelligence := Get;
+    Prop.Perception := Get;
     Prop.Speed := Get;
     Prop.Level := Get;
     Exp := Get;
@@ -281,7 +283,7 @@ begin
   end;
 end;
 
-procedure TPC.Save;
+procedure TCharacter.Save;
 
   procedure Add(V: Integer); overload;
   begin
@@ -308,6 +310,7 @@ begin
     Add(Prop.Strength);
     Add(Prop.Dexterity);
     Add(Prop.Intelligence);
+    Add(Prop.Perception);
     Add(Prop.Speed);
     //
     Add(Prop.Level);
@@ -333,7 +336,7 @@ begin
   end;
 end;
 
-function TPC.MaxExp(ALevel: Integer): Integer;
+function TCharacter.MaxExp(ALevel: Integer): Integer;
 var
   L: Integer;
 begin
@@ -344,7 +347,7 @@ begin
   Result := L * ((L * 3) + 30);
 end;
 
-procedure TPC.NewLevel;
+procedure TCharacter.NewLevel;
 begin
   with Prop do
   begin
@@ -357,7 +360,7 @@ begin
   Scenes.Scene := SceneLevelUp;
 end;
 
-function TPC.AddExp(Value: Word): Boolean;
+function TCharacter.AddExp(Value: Word): Boolean;
 begin
   Result := False;
   try
@@ -376,7 +379,7 @@ begin
   end;
 end;
 
-procedure TPC.Move(AX, AY: Integer);
+procedure TCharacter.Move(AX, AY: Integer);
 var
   I, V: Integer;
 begin
@@ -429,14 +432,14 @@ begin
     end;
 end;
 
-procedure TPC.Melee(I: Integer);
+procedure TCharacter.Melee(I: Integer);
 var
   D, J: Integer;
   N: string;
 begin
   with Creatures do
     try
-      D := GetDamage(PC, Enemy[I].Prop.Protect);
+      D := GetDamage(Character, Enemy[I].Prop.Protect);
       if (D > 0) and (Rand(1, Prop.Dexterity + Enemy[I].Prop.Dexterity) <=
         Prop.Dexterity) then
       begin
@@ -459,9 +462,9 @@ begin
           if (Rand(0, 9) = 0) then
             Items.Add(Enemy[I].Pos.X, Enemy[I].Pos.Y, Map.GetRandItemID);
           Log.Add(Format(Language.GetLang(73), [N])); // The %s dies.
-          if PC.AddExp(Enemy[I].Exp) then
-            Log.Add(Format(Language.GetLang(65), [PC.Prop.Level]));
-          with PC do
+          if Character.AddExp(Enemy[I].Exp) then
+            Log.Add(Format(Language.GetLang(65), [Character.Prop.Level]));
+          with Character do
             Rating := Rating + Enemy[I].Exp;
         end;
         if (Enemy[I].Prop.AIType = 'GOBLIN') then
@@ -495,7 +498,7 @@ begin
     end;
 end;
 
-procedure TPC.Ranged(I: Integer);
+procedure TCharacter.Ranged(I: Integer);
 var
   C, EX, EY: Integer;
   ProjID: string;
@@ -505,7 +508,7 @@ var
   var
     J: Integer;
   begin
-    with Creatures.PC do
+    with Creatures.Character do
       for J := 1 to Inv.Count do
         if Inv.GetDoll(J) and (Inv.GetIdent(J) = ProjID) then
         begin
@@ -527,11 +530,11 @@ begin
         if IsRangedWeapon then
         begin
           ProjID := GetDollItemID(ArmorCategories);
-          C := PC.Inv.GetCount(ProjID);
+          C := Character.Inv.GetCount(ProjID);
           if IsBow() then
-            PC.Prop.Projectile := 'ARROW';
+            Character.Prop.Projectile := 'ARROW';
           if IsCrossBow() then
-            PC.Prop.Projectile := 'BOLT';
+            Character.Prop.Projectile := 'BOLT';
           if (C > 0) then
           begin
             EX := Enemy[I].Pos.X;
@@ -544,7 +547,7 @@ begin
               Melee(I);
               if (C = 1) then
                 Rang(ProjID);
-              PC.Inv.Del(ProjID);
+              Character.Inv.Del(ProjID);
               Wait();
               Exit;
             finally
@@ -558,99 +561,99 @@ begin
   end;
 end;
 
-procedure TPC.SetText(const Value: string);
+procedure TCharacter.SetText(const Value: string);
 begin
   FF.Text := Value;
   Self.Load;
 end;
 
-procedure TPC.SetEffects(const Value: TEffects);
+procedure TCharacter.SetEffects(const Value: TEffects);
 begin
   FEffects := Value;
 end;
 
-procedure TPC.SetScrolls(const Value: TRandItems);
+procedure TCharacter.SetScrolls(const Value: TRandItems);
 begin
   FScrolls := Value;
 end;
 
-procedure TPC.SetPotions(const Value: TRandItems);
+procedure TCharacter.SetPotions(const Value: TRandItems);
 begin
   FPotions := Value;
 end;
 
-procedure TPC.Portal;
+procedure TCharacter.Portal;
 begin
   SceneGame.GoToPrevMap;
 end;
 
-procedure TPC.SetTurns(const Value: Integer);
+procedure TCharacter.SetTurns(const Value: Integer);
 begin
   FTurns := Value;
 end;
 
-procedure TPC.SetAtrPoint(const Value: Integer);
+procedure TCharacter.SetAtrPoint(const Value: Integer);
 begin
   FAtrPoint := Value;
 end;
 
-procedure TPC.SetDay(const Value: Integer);
+procedure TCharacter.SetDay(const Value: Integer);
 begin
   FDay := Value;
 end;
 
-procedure TPC.SetMonth(const Value: Integer);
+procedure TCharacter.SetMonth(const Value: Integer);
 begin
   FMonth := Value;
 end;
 
-procedure TPC.SetWeek(const Value: Integer);
+procedure TCharacter.SetWeek(const Value: Integer);
 begin
   FWeek := Value;
 end;
 
-procedure TPC.SetYear(const Value: Integer);
+procedure TCharacter.SetYear(const Value: Integer);
 begin
   FYear := Value;
 end;
 
-function TPC.GetText: string;
+function TCharacter.GetText: string;
 begin
   Self.Save;
   Result := FF.Text;
 end;
 
-procedure TPC.SetTempSys(const Value: TTempSys);
+procedure TCharacter.SetTempSys(const Value: TTempSys);
 begin
   FTempSys := Value;
 end;
 
-procedure TPC.SetRace(const Value: Integer);
+procedure TCharacter.SetRace(const Value: Integer);
 begin
   FRace := Value;
 end;
 
-procedure TPC.SetDungeon(const Value: Integer);
+procedure TCharacter.SetDungeon(const Value: Integer);
 begin
   FDungeon := Value;
 end;
 
-procedure TPC.SetLastTurns(const Value: Integer);
+procedure TCharacter.SetLastTurns(const Value: Integer);
 begin
   FLastTurns := Value;
 end;
 
-procedure TPC.SetKills(const Value: Integer);
+procedure TCharacter.SetKills(const Value: Integer);
 begin
   FKills := Value;
 end;
 
-procedure TPC.SetRating(const Value: Integer);
+procedure TCharacter.SetRating(const Value: Integer);
 begin
   FRating := Value;
 end;
 
-procedure TPC.DoDetectTraps;
+procedure TCharacter.DoDetectTraps;
 var
   AX, AY: Integer;
 begin
@@ -664,18 +667,18 @@ begin
       end;
 end;
 
-procedure TPC.DetectTraps;
+procedure TCharacter.DetectTraps;
 begin
   if (Rand(0, 100) < Skills.GetSkill('TRAPS').Level) then
     DoDetectTraps;
 end;
 
-procedure TPC.SetInv(const Value: TAdvInv);
+procedure TCharacter.SetInv(const Value: TAdvInv);
 begin
   FInv := Value;
 end;
 
-procedure TPC.Wait;
+procedure TCharacter.Wait;
 begin
   Move(0, 0);
   Creatures.Move;
@@ -683,13 +686,13 @@ begin
   Scenes.Render;
 end;
 
-procedure TPC.DoTime;
+procedure TCharacter.DoTime;
 begin
   Turns := Turns + 1;
   Trollhunter.Time.DoTime();
 end;
 
-procedure TPC.TrainSkill;
+procedure TCharacter.TrainSkill;
 var
   LItemIdent, LSkill: string;
 begin
@@ -710,42 +713,42 @@ begin
   }
 end;
 
-procedure TPC.AddDexterity;
+procedure TCharacter.AddDexterity;
 begin
   Prop.Dexterity := Prop.Dexterity + 1;
   Log.Add(Format('%s +1 (%d).', [Language.GetLang(16), Prop.Dexterity]));
   Calc;
 end;
 
-procedure TPC.AddSpeed;
+procedure TCharacter.AddSpeed;
 begin
   Prop.Speed := Prop.Speed + 1;
   Log.Add(Format('%s +1 (%d).', [Language.GetLang(18), Prop.Speed]));
   Calc;
 end;
 
-procedure TPC.AddStrength;
+procedure TCharacter.AddStrength;
 begin
   Prop.Strength := Prop.Strength + 1;
   Log.Add(Format('%s +1 (%d).', [Language.GetLang(15), Prop.Strength]));
   Calc;
 end;
 
-procedure TPC.AddIntelligence;
+procedure TCharacter.AddIntelligence;
 begin
   Prop.Intelligence := Prop.Intelligence + 1;
   Log.Add(Format('%s +1 (%d).', [Language.GetLang(17), Prop.Intelligence]));
   Calc;
 end;
 
-procedure TPC.AddPerception;
+procedure TCharacter.AddPerception;
 begin
   Prop.Perception := Prop.Perception + 1;
   Log.Add(Format('%s +1 (%d).', [Language.GetLang(19), Prop.Perception]));
   Calc;
 end;
 
-procedure TPC.Calc;
+procedure TCharacter.Calc;
 begin
   inherited Calc;
   AP.SetMax(GetMaxAP(GetSpeed));
@@ -755,7 +758,7 @@ begin
     GetAdvMana(Skills.GetSkill('MAGIC').Level));
 end;
 
-procedure TPC.Render;
+procedure TCharacter.Render;
 var
   TX, TY: Integer;
 begin
@@ -773,7 +776,7 @@ begin
   end;
 end;
 
-function TPC.GetRadius: Integer;
+function TCharacter.GetRadius: Integer;
 begin
   Prop.Radius := Clamp(Prop.Radius, 0, 9);
   Result := Prop.Radius;
@@ -781,7 +784,7 @@ begin
     Result := 1;
 end;
 
-function TPC.GetSpeed: Integer;
+function TCharacter.GetSpeed: Integer;
 begin
   Result := Prop.Speed;
   if TempSys.IsVar('Webbed') then
@@ -789,7 +792,7 @@ begin
       Prop.Speed);
 end;
 
-procedure TPC.Defeat;
+procedure TCharacter.Defeat;
 var
   S: TSettings;
 begin
@@ -797,7 +800,7 @@ begin
     Life.SetToMin;
     Mana.SetToMin;
     TakeScreenShot(False);
-    Rating := Rating + (Creatures.PC.Turns div 100);
+    Rating := Rating + (Creatures.Character.Turns div 100);
     if (Rating > 0) then
       Game.Scores.Add(Rating, Name, DateTimeToStr(Now), Prop.Level,
         Dungeon, Turns);

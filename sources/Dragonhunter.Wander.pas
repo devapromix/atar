@@ -43,7 +43,7 @@ uses
 
 function IsFreeCell(AX, AY: Integer): Boolean; stdcall;
 begin
-  Result := Creatures.PC.FreeCell(AX, AY);
+  Result := Creatures.Character.FreeCell(AX, AY);
 end;
 
 constructor TWander.Create;
@@ -73,7 +73,7 @@ var
 begin
   NX := 0;
   NY := 0;
-  if not DoAStar(Map.Width, Map.Height, Creatures.PC.Pos.X, Creatures.PC.Pos.Y,
+  if not DoAStar(Map.Width, Map.Height, Creatures.Character.Pos.X, Creatures.Character.Pos.Y,
     FTarget.X, FTarget.Y, @IsFreeCell, NX, NY) then
     Exit;
   if (NX <= 0) and (NY <= 0) or IsFound then
@@ -81,7 +81,7 @@ begin
     Finish;
     Exit;
   end;
-  Creatures.PC.SetPosition(NX, NY);
+  Creatures.Character.SetPosition(NX, NY);
 end;
 
 procedure TWander.Render;
@@ -90,19 +90,19 @@ var
 begin
   with Graph.Surface.Canvas do
   begin
-    for X := Trollhunter.Creatures.Creatures.PC.Pos.X -
-      Graph.RW to Trollhunter.Creatures.Creatures.PC.Pos.X + Graph.RW do
-      for Y := Trollhunter.Creatures.Creatures.PC.Pos.Y -
-        Graph.RH to Trollhunter.Creatures.Creatures.PC.Pos.Y + Graph.RH do
+    for X := Trollhunter.Creatures.Creatures.Character.Pos.X -
+      Graph.RW to Trollhunter.Creatures.Creatures.Character.Pos.X + Graph.RW do
+      for Y := Trollhunter.Creatures.Creatures.Character.Pos.Y -
+        Graph.RH to Trollhunter.Creatures.Creatures.Character.Pos.Y + Graph.RH do
       begin
         if (X < 0) or (Y < 0) or (X > MapSide - 1) or (Y > MapSide - 1) then
           Continue;
         if ((Wander.Target.X <> 0) and (Wander.Target.Y <> 0)) then
           if ((Wander.Target.X = X) and (Wander.Target.Y = Y)) then
           begin
-            DX := (X - (Trollhunter.Creatures.Creatures.PC.Pos.X - Graph.RW))
+            DX := (X - (Trollhunter.Creatures.Creatures.Character.Pos.X - Graph.RW))
               * TileSize;
-            DY := (Y - (Trollhunter.Creatures.Creatures.PC.Pos.Y - Graph.RH)) *
+            DY := (Y - (Trollhunter.Creatures.Creatures.Character.Pos.Y - Graph.RH)) *
               TileSize + Graph.CharHeight;
             Brush.Style := bsClear;
             Pen.Color := cLtYellow;
@@ -118,7 +118,7 @@ var
   X, Y, I: Integer;
 begin
   Result := False;
-  with Creatures.PC do
+  with Creatures.Character do
   begin
     for X := Pos.X - GetRadius to Pos.X + GetRadius do
       for Y := Pos.Y - GetRadius to Pos.Y + GetRadius do
@@ -142,7 +142,7 @@ begin
   WanderMode := True;
   FTarget.X := 0;
   FTarget.Y := 0;
-  while not Creatures.PC.FreeCell(FTarget.X, FTarget.Y) do
+  while not Creatures.Character.FreeCell(FTarget.X, FTarget.Y) do
   begin
     FTarget.X := RandomRange(0, MapSide - 1);
     FTarget.Y := RandomRange(0, MapSide - 1);

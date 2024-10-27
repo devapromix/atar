@@ -45,10 +45,10 @@ begin
     if F then
       Result := IntToStr(T.wYear) + IntToStr(T.wMonth) + IntToStr(T.wDay) +
         IntToStr(T.wHour) + IntToStr(T.wMinute) + IntToStr(T.wSecond) + '.png'
-    else if (Trim(Creatures.PC.Name) <> '') then
+    else if (Trim(Creatures.Character.Name) <> '') then
     begin
       Screenshot('Last.png');
-      Result := Creatures.PC.Name + '.png';
+      Result := Creatures.Character.Name + '.png';
     end;
     Screenshot(Result);
   except

@@ -99,11 +99,11 @@ begin
           begin
             SceneGame.Free;
             SceneGame := TSceneGame.Create;
-            Creatures.PC.Name := FStringList[I];
+            Creatures.Character.Name := FStringList[I];
             Game.Load();
             Graph.Messagebar.Clear;
             Graph.Messagebar.Add(Format(Language.GetLang(20),
-              [Creatures.PC.Name, MainForm.Caption]));
+              [Creatures.Character.Name, MainForm.Caption]));
             Scenes.Scene := SceneGame;
           end;
         end;

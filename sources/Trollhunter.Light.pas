@@ -36,7 +36,7 @@ var
   B: Graphics.TBitmap;
   D, H: Double;
 begin
-  if (Creatures.PC.Pos.X = X) and (Creatures.PC.Pos.Y = Y) then
+  if (Creatures.Character.Pos.X = X) and (Creatures.Character.Pos.Y = Y) then
     Exit;
   B := Graphics.TBitmap.Create;
   B.Width := TileSize;
@@ -44,7 +44,7 @@ begin
   B.Canvas.CopyRect(Bounds(0, 0, TileSize, TileSize), Graph.Surface.Canvas,
     Bounds(DX, DY, TileSize, TileSize));
   D := Map.Cell[Y][X].Light / 10;
-  H := 1 - (GetDist(Creatures.PC.Pos.X, Creatures.PC.Pos.Y, X, Y) / 10);
+  H := 1 - (GetDist(Creatures.Character.Pos.X, Creatures.Character.Pos.Y, X, Y) / 10);
   if (D < H) then
     D := H;
   if (D < LightMin) then

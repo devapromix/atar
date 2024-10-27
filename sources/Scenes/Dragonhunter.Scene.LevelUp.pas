@@ -47,7 +47,7 @@ uses
 
 function TSceneLevelUp.PossibleImproveAttribute: Boolean;
 begin
-  Result := Creatures.PC.AtrPoint > 0;
+  Result := Creatures.Character.AtrPoint > 0;
 end;
 
 constructor TSceneLevelUp.Create;
@@ -67,15 +67,15 @@ begin
     begin
       case I of
         0:
-          S := S + #32 + IntToStr(Creatures.PC.Prop.Strength);
+          S := S + #32 + IntToStr(Creatures.Character.Prop.Strength);
         1:
-          S := S + #32 + IntToStr(Creatures.PC.Prop.Dexterity);
+          S := S + #32 + IntToStr(Creatures.Character.Prop.Dexterity);
         2:
-          S := S + #32 + IntToStr(Creatures.PC.Prop.Intelligence);
+          S := S + #32 + IntToStr(Creatures.Character.Prop.Intelligence);
         3:
-          S := S + #32 + IntToStr(Creatures.PC.Prop.Perception);
+          S := S + #32 + IntToStr(Creatures.Character.Prop.Perception);
         4:
-          S := S + #32 + IntToStr(Creatures.PC.Prop.Speed);
+          S := S + #32 + IntToStr(Creatures.Character.Prop.Speed);
       end;
       if (FCursorPos = FSelCursorPos) then
       begin
@@ -122,37 +122,37 @@ begin
         end;
       13:
         if PossibleImproveAttribute then
-          with Creatures.PC do
+          with Creatures.Character do
           begin
             case FCursorPos of
               0:
-                if Creatures.PC.AtrPoint > 0 then
+                if Creatures.Character.AtrPoint > 0 then
                 begin
-                  Creatures.PC.AtrPoint := Creatures.PC.AtrPoint - 1;
+                  Creatures.Character.AtrPoint := Creatures.Character.AtrPoint - 1;
                   AddStrength;
                 end;
               1:
-                if Creatures.PC.AtrPoint > 0 then
+                if Creatures.Character.AtrPoint > 0 then
                 begin
-                  Creatures.PC.AtrPoint := Creatures.PC.AtrPoint - 1;
+                  Creatures.Character.AtrPoint := Creatures.Character.AtrPoint - 1;
                   AddDexterity;
                 end;
               2:
-                if Creatures.PC.AtrPoint > 0 then
+                if Creatures.Character.AtrPoint > 0 then
                 begin
-                  Creatures.PC.AtrPoint := Creatures.PC.AtrPoint - 1;
+                  Creatures.Character.AtrPoint := Creatures.Character.AtrPoint - 1;
                   AddIntelligence;
                 end;
               3:
-                if Creatures.PC.AtrPoint > 0 then
+                if Creatures.Character.AtrPoint > 0 then
                 begin
-                  Creatures.PC.AtrPoint := Creatures.PC.AtrPoint - 1;
+                  Creatures.Character.AtrPoint := Creatures.Character.AtrPoint - 1;
                   AddPerception;
                 end;
               4:
-                if Creatures.PC.AtrPoint > 0 then
+                if Creatures.Character.AtrPoint > 0 then
                 begin
-                  Creatures.PC.AtrPoint := Creatures.PC.AtrPoint - 1;
+                  Creatures.Character.AtrPoint := Creatures.Character.AtrPoint - 1;
                   AddSpeed;
                 end;
             end;

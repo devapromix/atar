@@ -47,9 +47,9 @@ uses
 
 procedure TSceneName.AddChar(S: string);
 begin
-  if (Length(Creatures.PC.Name) < 15) then
+  if (Length(Creatures.Character.Name) < 15) then
   begin
-    Creatures.PC.Name := Creatures.PC.Name + S;
+    Creatures.Character.Name := Creatures.Character.Name + S;
     Render;
   end;
 end;
@@ -67,7 +67,7 @@ end;
 
 function TSceneName.GetPath: string;
 begin
-  Result := Path + 'save\' + Creatures.PC.Name + '.sav';
+  Result := Path + 'save\' + Creatures.Character.Name + '.sav';
 end;
 
 procedure TSceneName.KeyDown(var Key: Word; Shift: TShiftState);
@@ -82,45 +82,45 @@ begin
       case Key of
         8:
           begin
-            if (Length(Creatures.PC.Name) > 0) then
+            if (Length(Creatures.Character.Name) > 0) then
             begin
-              N := Creatures.PC.Name;
+              N := Creatures.Character.Name;
               Delete(N, Length(N), 1);
-              Creatures.PC.Name := N;
+              Creatures.Character.Name := N;
               Render();
             end;
           end;
         13:
           begin
-            if (Creatures.PC.Name <> '') then
+            if (Creatures.Character.Name <> '') then
             begin
               SceneGame.Free;
               SceneGame := TSceneGame.Create;
-              if FileExists(Path + 'save\' + Creatures.PC.Name + '.sav') then
+              if FileExists(Path + 'save\' + Creatures.Character.Name + '.sav') then
               begin
                 Game.Load();
                 Graph.Messagebar.Add(Format(Language.GetLang(20),
-                  [Creatures.PC.Name, MainForm.Caption]));
+                  [Creatures.Character.Name, MainForm.Caption]));
                 Scenes.Scene := SceneGame;
               end
               else
               begin
-                N := Creatures.PC.Name;
+                N := Creatures.Character.Name;
                 Game.New;
-                Creatures.PC.Name := N;
+                Creatures.Character.Name := N;
                 SceneRace.MakePC;
                 Scenes.Scene := SceneRace;
               end;
             end
             else
             begin
-              Creatures.PC.Name := Name.Gen();
+              Creatures.Character.Name := Name.Gen();
               Render();
             end;
           end;
         32:
           begin
-            Creatures.PC.Name := Name.Gen();
+            Creatures.Character.Name := Name.Gen();
             Render();
           end;
       end;
@@ -145,7 +145,7 @@ begin
     F := FileExists(GetPath);
     N := 'space';
     Terminal.TextColor(cBgColor);
-    S := Language.GetLang(38) + #32 + Creatures.PC.Name + '_';
+    S := Language.GetLang(38) + #32 + Creatures.Character.Name + '_';
     W := Terminal.TextWidth(S);
     S := Language.GetLang(38);
     Terminal.NormalFont;
@@ -157,10 +157,10 @@ begin
       Terminal.Height div 2 - V, S);
     Terminal.BoldFont;
     Terminal.TextColor(cAcColor);
-    S := #32 + Creatures.PC.Name + '_';
+    S := #32 + Creatures.Character.Name + '_';
     Terminal.TextOut((Terminal.Width div 2) - (W div 2) + H,
       Terminal.Height div 2 - V, S);
-    if (Creatures.PC.Name = '') then
+    if (Creatures.Character.Name = '') then
       N := 'enter, ' + N;
     Graph.Text.BarOut(N, 48);
 

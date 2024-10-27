@@ -66,7 +66,7 @@ end;
 procedure TGame.New;
 begin
   try
-    Creatures.PC.Create;
+    Creatures.Character.Create;
     Game.Load;
     Log.Clear;
   except
@@ -83,12 +83,12 @@ begin
   IsGame := True;
   with Creatures do
     try
-      LFileName := PC.Name;
+      LFileName := Character.Name;
       if not FileExists(Path + 'save\' + LFileName + '.sav') then
       begin
-        PC.World.Gen;
-        Map.Gen(PC.Dungeon);
-        PC.Redraw;
+        Character.World.Gen;
+        Map.Gen(Character.Dungeon);
+        Character.Redraw;
         Res.Free;
         Res := TResources.Create;
         Exit;
@@ -100,45 +100,45 @@ begin
         LZip.FileName := Path + 'save\' + LFileName + '.sav';
         LZip.OpenArchive;
         // PC
-        PC.Text := LZip.ExtractToText('pc.txt');
+        Character.Text := LZip.ExtractToText('pc.txt');
         // Scrolls Properties
-        PC.Scrolls.Text := LZip.ExtractToText('scrolls.txt');
+        Character.Scrolls.Text := LZip.ExtractToText('scrolls.txt');
         // Potions Properties
-        PC.Potions.Text := LZip.ExtractToText('potions.txt');
+        Character.Potions.Text := LZip.ExtractToText('potions.txt');
         // Inventory
-        PC.Inv.Text := LZip.ExtractToText('inv.txt');
+        Character.Inv.Text := LZip.ExtractToText('inv.txt');
         if (I > -1) then
-          PC.Dungeon := I;
+          Character.Dungeon := I;
         // Skills
         Skills.Text := LZip.ExtractToText('skill.txt');
         // Map
-        if not LZip.FileExists(IntToStr(PC.Dungeon) + '.m') then
+        if not LZip.FileExists(IntToStr(Character.Dungeon) + '.m') then
         begin
-          Map.Gen(PC.Dungeon);
+          Map.Gen(Character.Dungeon);
         end
         else
         begin
-          Map.FM.Text := LZip.ExtractToText(IntToStr(PC.Dungeon) + '.m');
-          Map.FV.Text := LZip.ExtractToText(IntToStr(PC.Dungeon) + '.v');
-          Map.FS.Text := LZip.ExtractToText(IntToStr(PC.Dungeon) + '.s');
-          Map.FD.Text := LZip.ExtractToText(IntToStr(PC.Dungeon) + '.d');
-          Map.FL.Text := LZip.ExtractToText(IntToStr(PC.Dungeon) + '.l');
-          Map.Load(PC.Dungeon);
+          Map.FM.Text := LZip.ExtractToText(IntToStr(Character.Dungeon) + '.m');
+          Map.FV.Text := LZip.ExtractToText(IntToStr(Character.Dungeon) + '.v');
+          Map.FS.Text := LZip.ExtractToText(IntToStr(Character.Dungeon) + '.s');
+          Map.FD.Text := LZip.ExtractToText(IntToStr(Character.Dungeon) + '.d');
+          Map.FL.Text := LZip.ExtractToText(IntToStr(Character.Dungeon) + '.l');
+          Map.Load(Character.Dungeon);
         end;
         // Counters
-        PC.TempSys.Text := LZip.ExtractToText('effects.txt');
+        Character.TempSys.Text := LZip.ExtractToText('effects.txt');
         // Statistics
-        PC.Statistics.Text := LZip.ExtractToText('statistics.txt');
+        Character.Statistics.Text := LZip.ExtractToText('statistics.txt');
         // Log
         Log.Text := LZip.ExtractToText('log.txt');
         // World
-        PC.World.Text := LZip.ExtractToText('world.p');
+        Character.World.Text := LZip.ExtractToText('world.p');
         //
         LZip.CloseArchive;
       finally
         LZip.Free;
       end;
-      PC.Redraw;
+      Character.Redraw;
       Res.Free;
       Res := TResources.Create;
     except
@@ -157,10 +157,10 @@ begin
     LZip.FileName := AFileName;
     LZip.OpenArchive;
     // PC
-    Creatures.PC.Text := LZip.ExtractToText('pc.txt');
-    Result.Level := Creatures.PC.Prop.Level;
-    Result.Rating := Creatures.PC.Rating;
-    Result.Dungeon := Creatures.PC.Dungeon;
+    Creatures.Character.Text := LZip.ExtractToText('pc.txt');
+    Result.Level := Creatures.Character.Prop.Level;
+    Result.Rating := Creatures.Character.Rating;
+    Result.Dungeon := Creatures.Character.Dungeon;
     LZip.CloseArchive;
   finally
     LZip.Free;
@@ -177,39 +177,39 @@ begin
     Exit;
   with Creatures do
     try
-      if not PC.Life.IsMin and (PC.Name <> '') then
+      if not Character.Life.IsMin and (Character.Name <> '') then
       begin
-        LFileName := PC.Name;
+        LFileName := Character.Name;
         LZip := TZip.Create(MainForm);
         try
           LZip.Password := PWD;
           LZip.FileName := Path + 'save\' + LFileName + '.sav';
           LZip.OpenArchive;
           // PC
-          LZip.AddFromString('pc.txt', PC.Text);
+          LZip.AddFromString('pc.txt', Character.Text);
           // Scrolls Properties
-          LZip.AddFromString('scrolls.txt', PC.Scrolls.Text);
+          LZip.AddFromString('scrolls.txt', Character.Scrolls.Text);
           // Potions Properties
-          LZip.AddFromString('potions.txt', PC.Potions.Text);
+          LZip.AddFromString('potions.txt', Character.Potions.Text);
           // PC.Inv
-          LZip.AddFromString('inv.txt', PC.Inv.Text);
+          LZip.AddFromString('inv.txt', Character.Inv.Text);
           // PC.Skill
           LZip.AddFromString('skill.txt', Skills.Text);
           // Map
-          Map.Save(PC.Dungeon);
-          LZip.AddFromString(IntToStr(PC.Dungeon) + '.m', Map.FM.Text);
-          LZip.AddFromString(IntToStr(PC.Dungeon) + '.v', Map.FV.Text);
-          LZip.AddFromString(IntToStr(PC.Dungeon) + '.s', Map.FS.Text);
-          LZip.AddFromString(IntToStr(PC.Dungeon) + '.d', Map.FD.Text);
-          LZip.AddFromString(IntToStr(PC.Dungeon) + '.l', Map.FL.Text);
+          Map.Save(Character.Dungeon);
+          LZip.AddFromString(IntToStr(Character.Dungeon) + '.m', Map.FM.Text);
+          LZip.AddFromString(IntToStr(Character.Dungeon) + '.v', Map.FV.Text);
+          LZip.AddFromString(IntToStr(Character.Dungeon) + '.s', Map.FS.Text);
+          LZip.AddFromString(IntToStr(Character.Dungeon) + '.d', Map.FD.Text);
+          LZip.AddFromString(IntToStr(Character.Dungeon) + '.l', Map.FL.Text);
           // Counters
-          LZip.AddFromString('effects.txt', PC.TempSys.Text);
+          LZip.AddFromString('effects.txt', Character.TempSys.Text);
           // Statistics
-          LZip.AddFromString('statistics.txt', PC.Statistics.Text);
+          LZip.AddFromString('statistics.txt', Character.Statistics.Text);
           // Log
           LZip.AddFromString('log.txt', Log.Text);
           // World
-          LZip.AddFromString('world.p', PC.World.Text);
+          LZip.AddFromString('world.p', Character.World.Text);
           //
           LZip.CloseArchive;
         finally
@@ -217,7 +217,7 @@ begin
         end;
         LSettings := TSettings.Create;
         try
-          LSettings.Write('Settings', 'LastName', PC.Name);
+          LSettings.Write('Settings', 'LastName', Character.Name);
         finally
           LSettings.Free;
         end;

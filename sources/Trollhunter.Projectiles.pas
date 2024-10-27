@@ -140,7 +140,7 @@ var
 begin
   RX := 0;
   RY := 0;
-  if (ACreature = Creatures.PC) then
+  if (ACreature = Creatures.Character) then
   begin
     FX1 := ToX;
     FY1 := ToY;
@@ -165,7 +165,7 @@ begin
     LR := (I / L);
     AX := (FX1 + Trunc((FX2 - FX1) * LR));
     AY := (FY1 + Trunc((FY2 - FY1) * LR));
-    if (ACreature = Creatures.PC) then
+    if (ACreature = Creatures.Character) then
     begin
       RX := ((ToX - AX + Graph.RW) * TileSize);
       RY := ((ToY - AY + Graph.RH) * TileSize) + Graph.CharHeight;

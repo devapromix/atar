@@ -134,37 +134,37 @@ begin
     with Graph.Surface.Canvas do
     begin
       Font.Color := cRdYellow;
-      Add(Language.GetLang(37), Creatures.PC.Name);
-      Add(Language.GetLang(180), Language.GetLang(Creatures.PC.Race + 182));
-      Add(Language.GetLang(30), Creatures.PC.Prop.Level);
+      Add(Language.GetLang(37), Creatures.Character.Name);
+      Add(Language.GetLang(180), Language.GetLang(Creatures.Character.Race + 182));
+      Add(Language.GetLang(30), Creatures.Character.Prop.Level);
       Add(Graph.Bars.EXP, Language.GetLang(31),
-        Format('%d/%d', [Creatures.PC.EXP,
-        Creatures.PC.MaxExp(Creatures.PC.Prop.Level)]));
+        Format('%d/%d', [Creatures.Character.EXP,
+        Creatures.Character.MaxExp(Creatures.Character.Prop.Level)]));
       Add();
-      Add(Language.GetLang(15), Creatures.PC.Prop.Strength);
-      Add(Language.GetLang(16), Creatures.PC.Prop.Dexterity);
-      Add(Language.GetLang(17), Creatures.PC.Prop.Intelligence);
-      Add(Language.GetLang(18), Creatures.PC.GetSpeed);
+      Add(Language.GetLang(15), Creatures.Character.Prop.Strength);
+      Add(Language.GetLang(16), Creatures.Character.Prop.Dexterity);
+      Add(Language.GetLang(17), Creatures.Character.Prop.Intelligence);
+      Add(Language.GetLang(18), Creatures.Character.GetSpeed);
       Add();
-      Add(Language.GetLang(18), Creatures.PC.AtrPoint);
+      Add(Language.GetLang(18), Creatures.Character.AtrPoint);
       Add();
       Add(Graph.Bars.LIFE, Language.GetLang(22),
-        Format('%d/%d', [Creatures.PC.LIFE.Cur, Creatures.PC.LIFE.Max]));
+        Format('%d/%d', [Creatures.Character.LIFE.Cur, Creatures.Character.LIFE.Max]));
       Add(Graph.Bars.MANA, Language.GetLang(23),
-        Format('%d/%d', [Creatures.PC.MANA.Cur, Creatures.PC.MANA.Max]));
+        Format('%d/%d', [Creatures.Character.MANA.Cur, Creatures.Character.MANA.Max]));
       Add();
       Add(Graph.Bars.DAMAGE, Language.GetLang(32),
-        Format('%d-%d', [Creatures.PC.Prop.MinDamage,
-        Creatures.PC.Prop.MaxDamage]));
-      Add(Graph.Bars.PROTECT, Language.GetLang(33), Creatures.PC.Prop.PROTECT);
+        Format('%d-%d', [Creatures.Character.Prop.MinDamage,
+        Creatures.Character.Prop.MaxDamage]));
+      Add(Graph.Bars.PROTECT, Language.GetLang(33), Creatures.Character.Prop.PROTECT);
       Add();
-      Add(Language.GetLang(66), Creatures.PC.GetRadius);
-      Add(Language.GetLang(35), Creatures.PC.Turns);
-      Add(Language.GetLang(36), Creatures.PC.Rating);
+      Add(Language.GetLang(66), Creatures.Character.GetRadius);
+      Add(Language.GetLang(35), Creatures.Character.Turns);
+      Add(Language.GetLang(36), Creatures.Character.Rating);
       Add();
       // Location
       if ParamDebug then
-        S := ' (' + IntToStr(Creatures.PC.Dungeon) + ')'
+        S := ' (' + IntToStr(Creatures.Character.Dungeon) + ')'
       else
         S := '';
       Add(Language.GetLang(110),

@@ -42,7 +42,7 @@ var
 begin
   if (Map.Level > 0) then
   begin
-    D := (Rand(1, Map.Level * 3) * (100 - Creatures.PC.Prop.Protect)) div 100;
+    D := (Rand(1, Map.Level * 3) * (100 - Creatures.Character.Prop.Protect)) div 100;
     if (D > 0) then
       Damage(D)
     else
@@ -56,7 +56,7 @@ var
 begin
   if (Map.Level > 0) then
   begin
-    D := (Rand(1, Map.Level * 5) * (100 - Creatures.PC.Prop.Protect)) div 100;
+    D := (Rand(1, Map.Level * 5) * (100 - Creatures.Character.Prop.Protect)) div 100;
     if (D > 0) then
       Damage(D)
     else
@@ -75,7 +75,7 @@ begin
     ADamage := 0;
   with TAnimNumber.Create(-ADamage) do
     Free;
-  Creatures.PC.Life.Dec(ADamage);
+  Creatures.Character.Life.Dec(ADamage);
   Log.Add(Format(Language.GetLang(77), [ADamage]));
 end;
 

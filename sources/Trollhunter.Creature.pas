@@ -95,7 +95,7 @@ procedure TCreature.Move(AX, AY: Integer; B: Boolean = True);
   begin
     try
       D := Rand(1, 3);
-      if (Self = Creatures.PC) then
+      if (Self = Creatures.Character) then
         S := Language.GetLang(103)
       else
         S := Language.GetLang(Prop.Id);
@@ -108,7 +108,7 @@ procedure TCreature.Move(AX, AY: Integer; B: Boolean = True);
 
   procedure TrapPoison();
   begin
-    with Creatures.PC.TempSys do
+    with Creatures.Character.TempSys do
       try
         Add('Poison', Map.Level, Rand(Map.Level * 2, Map.Level * 4));
         Log.Add(Format(Language.GetLang(105), [Power('Poison'),
@@ -121,7 +121,7 @@ procedure TCreature.Move(AX, AY: Integer; B: Boolean = True);
 
   procedure TrapWeb();
   begin
-    with Creatures.PC.TempSys do
+    with Creatures.Character.TempSys do
       try
         Add('Webbed', Map.Level, Rand(Map.Level * 3, Map.Level * 5));
         Log.Add(Format(Language.GetLang(113), [Power('Webbed'),
@@ -139,11 +139,11 @@ procedure TCreature.Move(AX, AY: Integer; B: Boolean = True);
   begin
     try
       D := Rand(Map.Level * 3, Map.Level * 5);
-      with Creatures.PC do
+      with Creatures.Character do
       begin
         if (Mana.Cur < D) then
           D := Mana.Cur;
-        if (Self = Creatures.PC) then
+        if (Self = Creatures.Character) then
           S := Language.GetLang(103)
         else
           S := Language.GetLang(Prop.Id);

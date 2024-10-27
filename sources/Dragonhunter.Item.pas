@@ -256,7 +256,7 @@ begin
     LIndex := ItemIndex(LIdent);
     if (LIndex < 0) then
       Exit;
-    with Creatures.PC do
+    with Creatures.Character do
     begin
       LCount := ACount;
       if (LCount > 1) and not ItemPatterns.Patterns[LIndex].IsStack then
@@ -291,10 +291,10 @@ begin
       begin
         if Category = 'POTION' then
           Graph.ModTileColor(Icon, Sprite,
-            Creatures.PC.Potions.GetColor(ColorTag));
+            Creatures.Character.Potions.GetColor(ColorTag));
         if Category = 'SCROLL' then
           Graph.ModTileColor(Icon, Sprite,
-            Creatures.PC.Scrolls.GetColor(ColorTag));
+            Creatures.Character.Scrolls.GetColor(ColorTag));
         Exit;
       end;
       if (Color = 'NONE') then
@@ -327,7 +327,7 @@ procedure TItems.Damage(const ACategories: string; Chance: Byte);
 var
   I, J: Integer;
 begin
-  with Creatures.PC do
+  with Creatures.Character do
     for I := 1 to Inv.Count do
     begin
       if Inv.GetDoll(I) and not(ItemPatterns.Patterns[Items.ItemIndex(I)
@@ -372,7 +372,7 @@ end;
 procedure TItems.Key;
 begin
   Graph.Messagebar.Clear;
-  if (Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile
+  if (Map.Cell[Creatures.Character.Pos.Y][Creatures.Character.Pos.X].Tile
     in [tlLockedWoodChest, tlLockedBestChest]) then
   begin
     OpenChest(True);
@@ -450,7 +450,7 @@ var
   LIdent: string;
 begin
   Result := -1;
-  LIdent := Creatures.PC.Inv.GetIdent(AIdent);
+  LIdent := Creatures.Character.Inv.GetIdent(AIdent);
   if (LIdent = '') then
     Exit;
   Result := ItemIndex(LIdent);
@@ -464,7 +464,7 @@ var
   function IsAddToInv(I: Integer): Boolean;
   begin
     with Items.Item[I] do
-      Result := Creatures.PC.Inv.Add(Name, Count, Prop.Weight, Prop.Tough,
+      Result := Creatures.Character.Inv.Add(Name, Count, Prop.Weight, Prop.Tough,
         Prop.IsStack);
   end;
 
@@ -508,8 +508,8 @@ begin
     begin
       if (Length(Items.Item) > 0) then
         for I := 0 to High(Items.Item) do
-          if (Creatures.PC.Pos.X = Items.Item[I].Pos.X) and
-            (Creatures.PC.Pos.Y = Items.Item[I].Pos.Y) then
+          if (Creatures.Character.Pos.X = Items.Item[I].Pos.X) and
+            (Creatures.Character.Pos.Y = Items.Item[I].Pos.Y) then
           begin
             Inc(H);
             if (Index > 0) and (Index = H) then
@@ -519,15 +519,15 @@ begin
             end;
           end;
     end;
-    if (Items.CellItemsCount(Creatures.PC.Pos.X, Creatures.PC.Pos.Y) > 1) then
+    if (Items.CellItemsCount(Creatures.Character.Pos.X, Creatures.Character.Pos.Y) > 1) then
     begin
       Graph.Messagebar.Clear;
       Scenes.Scene := SceneItems;
     end
     else if (Length(Items.Item) > 0) then
       for I := 0 to High(Items.Item) do
-        if (Creatures.PC.Pos.X = Items.Item[I].Pos.X) and
-          (Creatures.PC.Pos.Y = Items.Item[I].Pos.Y) then
+        if (Creatures.Character.Pos.X = Items.Item[I].Pos.X) and
+          (Creatures.Character.Pos.Y = Items.Item[I].Pos.Y) then
         begin
           Add(I);
           Exit;
@@ -543,7 +543,7 @@ var
   C, I: Integer;
 begin
   try
-    C := Items.CellItemsCount(Creatures.PC.Pos.X, Creatures.PC.Pos.Y);
+    C := Items.CellItemsCount(Creatures.Character.Pos.X, Creatures.Character.Pos.Y);
     for I := 0 to C do
       Pickup(I);
   except
@@ -586,7 +586,7 @@ begin
   begin
     Font.Style := [fsBold];
     Font.Color := cRdYellow;
-    with Creatures.PC.Inv do
+    with Creatures.Character.Inv do
       Trollhunter.Graph.Graph.Text.TextCenter(Y,
         Format('%s: %d/%d | %s: %d/%ds', [Language.GetLang(41), Count, MaxCount,
         Language.GetLang(42), Weight, MaxWeight]));
@@ -614,7 +614,7 @@ var
 begin
   Result := False;
   // if (ItemA = ItemB) then Exit; {?}
-  with Creatures.PC.Inv do
+  with Creatures.Character.Inv do
   begin
     if (GetCount(ItemA) > 0) and (GetCount(ItemB) > 0) then
     begin
@@ -675,7 +675,7 @@ var
   I: Integer;
 begin
   Result := '';
-  with Creatures.PC do
+  with Creatures.Character do
     for I := 1 to Inv.Count do
       if Inv.GetDoll(I) and Items.IsCategory
         (ItemPatterns.Patterns[Items.ItemIndex(I)].Category, ACategories) then
@@ -690,7 +690,7 @@ var
   K, J: Integer;
 begin
   Result := False;
-  with Creatures.PC do
+  with Creatures.Character do
   begin
     for K := 1 to Inv.Count do
     begin
@@ -736,7 +736,7 @@ var
   LIndex, LTag: Integer;
 begin
   try
-    with Creatures.PC do
+    with Creatures.Character do
       for LSlot := 1 to Inv.Count do
       begin
         LIndex := ItemIndex(LSlot);
@@ -772,7 +772,7 @@ var
   LTough: Word;
 begin
   try
-    with Creatures.PC.Inv do
+    with Creatures.Character.Inv do
       for LSlot := 1 to Count do
       begin
         LTough := ItemPatterns.Patterns[ItemIndex(LSlot)].MaxTough;
@@ -791,7 +791,7 @@ begin
   if (ID = '') then
     Exit;
   Add(ID, ACount);
-  SceneItem.Equip(Creatures.PC.Inv.Count, False);
+  SceneItem.Equip(Creatures.Character.Inv.Count, False);
 end;
 
 function TItems.GetDollText(AItemIndex, AItemIdent: Integer): string;
@@ -810,7 +810,7 @@ begin
       LStr := Language.GetLang(I + 231);
       Break;
     end;
-  if Creatures.PC.Inv.GetDoll(AItemIndex) then
+  if Creatures.Character.Inv.GetDoll(AItemIndex) then
     Result := ' - ' + LStr;
 end;
 

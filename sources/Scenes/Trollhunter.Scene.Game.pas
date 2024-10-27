@@ -87,7 +87,7 @@ begin
     for Y := 0 to Map.Height - 1 do
       if (T = Map.Cell[Y][X].Tile) then
       begin
-        Creatures.PC.SetPosition(X, Y);
+        Creatures.Character.SetPosition(X, Y);
         Exit;
       end;
 end;
@@ -215,14 +215,14 @@ begin
   LTile := tlMin;
   case CursorMode of
     cmNone:
-      LTile := Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile;
+      LTile := Map.Cell[Creatures.Character.Pos.Y][Creatures.Character.Pos.X].Tile;
     cmLook, cmShoot:
       begin
-        LTile := Map.Cell[Creatures.PC.Look.Y][Creatures.PC.Look.X].Tile;
+        LTile := Map.Cell[Creatures.Character.Look.Y][Creatures.Character.Look.X].Tile;
         if (Length(Creatures.Enemy) > 0) then
           for I := 0 to High(Creatures.Enemy) do
-            if (Creatures.PC.Look.X = Creatures.Enemy[I].Pos.X) and
-              (Creatures.PC.Look.Y = Creatures.Enemy[I].Pos.Y) then
+            if (Creatures.Character.Look.X = Creatures.Enemy[I].Pos.X) and
+              (Creatures.Character.Look.Y = Creatures.Enemy[I].Pos.Y) then
             begin
               Graph.Messagebar.Add
                 ('#r' + Language.GetLang(Creatures.Enemy[I].Name) +
@@ -232,8 +232,8 @@ begin
             end;
         if (Length(Items.Item) > 0) then
           for I := 0 to High(Items.Item) do
-            if (Creatures.PC.Look.X = Items.Item[I].Pos.X) and
-              (Creatures.PC.Look.Y = Items.Item[I].Pos.Y) then
+            if (Creatures.Character.Look.X = Items.Item[I].Pos.X) and
+              (Creatures.Character.Look.Y = Items.Item[I].Pos.Y) then
             begin
               ItemInfo(I);
               Exit;
@@ -274,8 +274,8 @@ begin
   // Item
   if (Length(Items.Item) > 0) then
     for I := 0 to High(Items.Item) do
-      if (Creatures.PC.Pos.X = Items.Item[I].Pos.X) and
-        (Creatures.PC.Pos.Y = Items.Item[I].Pos.Y) then
+      if (Creatures.Character.Pos.X = Items.Item[I].Pos.X) and
+        (Creatures.Character.Pos.Y = Items.Item[I].Pos.Y) then
       begin
         ItemInfo(I);
         Break;
@@ -297,7 +297,7 @@ var
 
   procedure OpenDoor(AX, AY: Integer);
   begin
-    Map.Cell[Creatures.PC.Pos.Y + AY][Creatures.PC.Pos.X + AX].Tile :=
+    Map.Cell[Creatures.Character.Pos.Y + AY][Creatures.Character.Pos.X + AX].Tile :=
       tlOpenDoor;
     Log.Add(Language.GetLang(46));
   end;
@@ -311,28 +311,28 @@ var
     // Look
     if (CursorMode <> cmNone) then
     begin
-      if (GetDist(Creatures.PC.Pos.X, Creatures.PC.Pos.Y,
-        Creatures.PC.Look.X + X, Creatures.PC.Look.Y + Y) >
-        Creatures.PC.Prop.Distance) then
+      if (GetDist(Creatures.Character.Pos.X, Creatures.Character.Pos.Y,
+        Creatures.Character.Look.X + X, Creatures.Character.Look.Y + Y) >
+        Creatures.Character.Prop.Distance) then
         Exit;
-      if Map.Cell[Creatures.PC.Look.Y + Y, Creatures.PC.Look.X + X].FOV then
-        Creatures.PC.IncLook(X, Y);
+      if Map.Cell[Creatures.Character.Look.Y + Y, Creatures.Character.Look.X + X].FOV then
+        Creatures.Character.IncLook(X, Y);
       Scenes.Render;
       Exit;
     end
     else
       // Move
-      if Creatures.PC.FreeCell(Creatures.PC.Pos.X + X, Creatures.PC.Pos.Y + Y)
+      if Creatures.Character.FreeCell(Creatures.Character.Pos.X + X, Creatures.Character.Pos.Y + Y)
       then
       begin
-        TX := Creatures.PC.Pos.X + X;
-        TY := Creatures.PC.Pos.X + Y;
-        Creatures.PC.Move(X, Y);
-        if (TX <> Creatures.PC.Pos.X + X) or (TY <> Creatures.PC.Pos.X + Y) then
-          Creatures.PC.Statistics.Inc(stTilesMoved);
+        TX := Creatures.Character.Pos.X + X;
+        TY := Creatures.Character.Pos.X + Y;
+        Creatures.Character.Move(X, Y);
+        if (TX <> Creatures.Character.Pos.X + X) or (TY <> Creatures.Character.Pos.X + Y) then
+          Creatures.Character.Statistics.Inc(stTilesMoved);
       end
       else
-        case Map.Cell[Creatures.PC.Pos.Y + Y][Creatures.PC.Pos.X + X].Tile of
+        case Map.Cell[Creatures.Character.Pos.Y + Y][Creatures.Character.Pos.X + X].Tile of
           // Open door
           tlClosedDoor:
             OpenDoor(X, Y);
@@ -354,10 +354,10 @@ var
           // Locked door
           tlLockedDoor:
             begin
-              if (Creatures.PC.Inv.GetCount('KEY') > 0) then
+              if (Creatures.Character.Inv.GetCount('KEY') > 0) then
               begin
                 Log.Add(Language.GetLang(44));
-                Creatures.PC.Inv.Del('KEY');
+                Creatures.Character.Inv.Del('KEY');
                 OpenDoor(X, Y);
               end
               else
@@ -376,7 +376,7 @@ var
                 9:
                   T := tlLockedDoor;
               end;
-              Map.Cell[Creatures.PC.Pos.Y + Y][Creatures.PC.Pos.X + X]
+              Map.Cell[Creatures.Character.Pos.Y + Y][Creatures.Character.Pos.X + X]
                 .Tile := T;
               Log.Add(Language.GetLang(43));
             end;
@@ -390,7 +390,7 @@ var
   begin
     X := AX;
     Y := AY;
-    with Creatures.PC do
+    with Creatures.Character do
       if IsValidCell(Pos.X + AX, Pos.Y + AY) then
         DoMove();
   end;
@@ -404,9 +404,9 @@ begin
   inherited;
   try
     TransKeys(Key);
-    if Creatures.PC.Life.IsMin then
+    if Creatures.Character.Life.IsMin then
     begin
-      Creatures.PC.Defeat;
+      Creatures.Character.Defeat;
       Exit;
     end;
     T := tlMin;
@@ -438,7 +438,7 @@ begin
             cmShoot:
               begin
                 if (Length(Creatures.Enemy) > 0) then
-                  with Creatures.PC do
+                  with Creatures.Character do
                     for I := 0 to High(Creatures.Enemy) do
                       if not Creatures.Enemy[I].Life.IsMin and
                         (Look.X = Creatures.Enemy[I].Pos.X) and
@@ -457,7 +457,7 @@ begin
               CursorMode := cmNone
             else
             begin
-              Creatures.PC.Look := Creatures.PC.Pos;
+              Creatures.Character.Look := Creatures.Character.Pos;
               CursorMode := cmLook;
             end;
             Scenes.Render;
@@ -469,7 +469,7 @@ begin
               CursorMode := cmNone
             else if Items.IsRangedWeapon then
             begin
-              Creatures.PC.Look := Creatures.PC.Pos;
+              Creatures.Character.Look := Creatures.Character.Pos;
               CursorMode := cmShoot;
             end;
             Scenes.Render;
@@ -477,8 +477,8 @@ begin
         // Detect traps //
         ord('D'):
           begin
-            Creatures.PC.Wait;
-            Creatures.PC.DoDetectTraps;
+            Creatures.Character.Wait;
+            Creatures.Character.DoDetectTraps;
             Scenes.Render;
           end;
         ord('A'):
@@ -492,13 +492,13 @@ begin
         ord('M'):
           if ParamDebug then
           begin
-            Creatures.PC.Prop.Radius := Creatures.PC.Prop.Radius + 1;
+            Creatures.Character.Prop.Radius := Creatures.Character.Prop.Radius + 1;
             Scenes.Render;
           end;
         ord('N'):
           if ParamDebug then
           begin
-            Creatures.PC.Prop.Radius := Creatures.PC.Prop.Radius - 1;
+            Creatures.Character.Prop.Radius := Creatures.Character.Prop.Radius - 1;
             Scenes.Render;
           end;
         27, 123:
@@ -530,12 +530,12 @@ begin
         // New Level //
         ord('F'):
           if ParamDebug then
-            Creatures.PC.NewLevel
+            Creatures.Character.NewLevel
           else
             Scenes.Scene := SceneLevelUp;
         // Move //
         ord('W'), 12, 101, 53:
-          Creatures.PC.Wait;
+          Creatures.Character.Wait;
         35, 97, 49:
           if ssShift in Shift then
             Run(-1, 1)
@@ -579,46 +579,46 @@ begin
         // Use object //
         32, ord('U'):
           begin
-            case Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile of
+            case Map.Cell[Creatures.Character.Pos.Y][Creatures.Character.Pos.X].Tile of
               tlLifeShrine:
                 begin
                   Graph.Messagebar.Clear;
-                  with TAnimNumber.Create(Creatures.PC.Life.Max -
-                    Creatures.PC.Life.Cur) do
+                  with TAnimNumber.Create(Creatures.Character.Life.Max -
+                    Creatures.Character.Life.Cur) do
                     Free;
-                  Creatures.PC.Life.SetToMax;
-                  Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile :=
+                  Creatures.Character.Life.SetToMax;
+                  Map.Cell[Creatures.Character.Pos.Y][Creatures.Character.Pos.X].Tile :=
                     tlEmptyShrine;
-                  Creatures.PC.Rating := Creatures.PC.Rating + 25;
+                  Creatures.Character.Rating := Creatures.Character.Rating + 25;
                   // Log.Add('.');
                   Scenes.Render;
                 end;
               tlManaShrine:
                 begin
                   Graph.Messagebar.Clear;
-                  with TAnimNumber.Create(Creatures.PC.Mana.Max -
-                    Creatures.PC.Mana.Cur) do
+                  with TAnimNumber.Create(Creatures.Character.Mana.Max -
+                    Creatures.Character.Mana.Cur) do
                     Free;
-                  Creatures.PC.Mana.SetToMax;
-                  Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile :=
+                  Creatures.Character.Mana.SetToMax;
+                  Map.Cell[Creatures.Character.Pos.Y][Creatures.Character.Pos.X].Tile :=
                     tlEmptyShrine;
-                  Creatures.PC.Rating := Creatures.PC.Rating + 25;
+                  Creatures.Character.Rating := Creatures.Character.Rating + 25;
                   // Log.Add('.');
                   Scenes.Render;
                 end;
               tlMegaShrine:
                 begin
                   Graph.Messagebar.Clear;
-                  with TAnimNumber.Create(Creatures.PC.Life.Max -
-                    Creatures.PC.Life.Cur) do
+                  with TAnimNumber.Create(Creatures.Character.Life.Max -
+                    Creatures.Character.Life.Cur) do
                     Free;
-                  with TAnimNumber.Create(Creatures.PC.Mana.Max -
-                    Creatures.PC.Mana.Cur) do
+                  with TAnimNumber.Create(Creatures.Character.Mana.Max -
+                    Creatures.Character.Mana.Cur) do
                     Free;
-                  Creatures.PC.Fill;
-                  Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile :=
+                  Creatures.Character.Fill;
+                  Map.Cell[Creatures.Character.Pos.Y][Creatures.Character.Pos.X].Tile :=
                     tlEmptyShrine;
-                  Creatures.PC.Rating := Creatures.PC.Rating + 50;
+                  Creatures.Character.Rating := Creatures.Character.Rating + 50;
                   // Log.Add('.');
                   Scenes.Render;
                 end;
@@ -647,12 +647,12 @@ begin
               tlLockedWoodChest, tlLockedBestChest:
                 begin
                   Graph.Messagebar.Clear;
-                  if (Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile
+                  if (Map.Cell[Creatures.Character.Pos.Y][Creatures.Character.Pos.X].Tile
                     in [tlLockedWoodChest, tlLockedBestChest]) then
                   begin
-                    if (Creatures.PC.Inv.GetCount('KEY') > 0) then
+                    if (Creatures.Character.Inv.GetCount('KEY') > 0) then
                     begin
-                      Creatures.PC.Inv.Del('KEY');
+                      Creatures.Character.Inv.Del('KEY');
                       OpenChest(True);
                     end
                     else
@@ -706,7 +706,7 @@ begin
   Log.Render;
   Info();
   if IsGlobalMap then
-    Creatures.PC.World.Render
+    Creatures.Character.World.Render
   else
     Map.Render;
   TT := GetTickCount - TT;
@@ -718,16 +718,16 @@ begin
       Brush.Style := bsClear;
       Font.Color := cWhiteYel;
       TextOut(0, Graph.CharHeight, IntToStr(TT) + '(' + IntToStr(MaxTT) + ')');
-      TextOut(0, Graph.CharHeight * 2, Format('X%d:Y%d', [Creatures.PC.Pos.X,
-        Creatures.PC.Pos.Y]));
-      TextOut(0, Graph.CharHeight * 3, Format('LX%d:LY%d', [Creatures.PC.Look.X,
-        Creatures.PC.Look.Y]));
+      TextOut(0, Graph.CharHeight * 2, Format('X%d:Y%d', [Creatures.Character.Pos.X,
+        Creatures.Character.Pos.Y]));
+      TextOut(0, Graph.CharHeight * 3, Format('LX%d:LY%d', [Creatures.Character.Look.X,
+        Creatures.Character.Look.Y]));
     end;
   Graph.Messagebar.Render;
   // if IsGlobalMap then
   // else
   Map.MiniMap.Render;
-  Creatures.PC.Effects.Render;
+  Creatures.Character.Effects.Render;
   if ParamDebug then
     Wander.Render;
   Graph.Render;

@@ -404,7 +404,7 @@ begin
     LR := I / L;
     AX := x1 + Round((x2 - x1) * LR);
     AY := y1 + Round((y2 - y1) * LR);
-    if not Creatures.PC.FreeCell(AX, AY) then
+    if not Creatures.Character.FreeCell(AX, AY) then
       Exit;
   end;
   Result := True;
@@ -627,31 +627,31 @@ var
   I, J: Byte;
 begin
   J := 0;
-  case Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile of
+  case Map.Cell[Creatures.Character.Pos.Y][Creatures.Character.Pos.X].Tile of
     tlClosedBarrel:
       begin
         Log.Add(Language.GetLang(55));
-        Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile := tlOpenBarrel;
+        Map.Cell[Creatures.Character.Pos.Y][Creatures.Character.Pos.X].Tile := tlOpenBarrel;
         J := 2;
       end;
     tlClosedWoodChest, tlLockedWoodChest:
       begin
         Log.Add(Language.GetLang(45));
-        Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile :=
+        Map.Cell[Creatures.Character.Pos.Y][Creatures.Character.Pos.X].Tile :=
           tlOpenWoodChest;
         J := 3;
       end;
     tlLockedBestChest:
       begin
         Log.Add(Language.GetLang(45));
-        Map.Cell[Creatures.PC.Pos.Y][Creatures.PC.Pos.X].Tile :=
+        Map.Cell[Creatures.Character.Pos.Y][Creatures.Character.Pos.X].Tile :=
           tlOpenBestChest;
         J := 5;
       end;
   end;
   for I := 0 to J do
   begin
-    Dragonhunter.Item.Items.Add(Creatures.PC.Pos.X, Creatures.PC.Pos.Y,
+    Dragonhunter.Item.Items.Add(Creatures.Character.Pos.X, Creatures.Character.Pos.Y,
       Map.GetRandItemID);
     if not F or (Rand(1, 2) = 1) then
       Break;

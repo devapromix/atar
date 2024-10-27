@@ -65,7 +65,7 @@ begin
     case Key of
       38, 40:
         begin
-          C := Items.CellItemsCount(Creatures.PC.Pos.X, Creatures.PC.Pos.Y);
+          C := Items.CellItemsCount(Creatures.Character.Pos.X, Creatures.Character.Pos.Y);
           if (C > 0) then
           begin
             CursorPos := CursorPos + (Key - 39);
@@ -82,7 +82,7 @@ begin
         Scenes.Scene := SceneInv;
       13:
         begin
-          C := Items.CellItemsCount(Creatures.PC.Pos.X, Creatures.PC.Pos.Y);
+          C := Items.CellItemsCount(Creatures.Character.Pos.X, Creatures.Character.Pos.Y);
           if (C > 0) then
           begin
             K := (ord('A') + CursorPos) - 1;
@@ -92,11 +92,11 @@ begin
       ord('A') .. ord('Z'):
         begin
           I := (Key - (ord('A'))) + 1;
-          if (I <= Items.CellItemsCount(Creatures.PC.Pos.X, Creatures.PC.Pos.Y))
+          if (I <= Items.CellItemsCount(Creatures.Character.Pos.X, Creatures.Character.Pos.Y))
           then
           begin
             Items.Pickup(I);
-            if (Items.CellItemsCount(Creatures.PC.Pos.X, Creatures.PC.Pos.Y) = 0)
+            if (Items.CellItemsCount(Creatures.Character.Pos.X, Creatures.Character.Pos.Y) = 0)
             then
               Scenes.Scene := SceneGame
             else
@@ -128,11 +128,11 @@ begin
     Y := 2;
     with Graph.Surface.Canvas do
     begin
-      C := Items.CellItemsCount(Creatures.PC.Pos.X, Creatures.PC.Pos.Y);
+      C := Items.CellItemsCount(Creatures.Character.Pos.X, Creatures.Character.Pos.Y);
       if (C > 0) and (Length(Items.Item) > 0) then
         for I := 0 to High(Items.Item) do
-          if (Items.Item[I].Pos.X = Creatures.PC.Pos.X) and
-            (Items.Item[I].Pos.Y = Creatures.PC.Pos.Y) then
+          if (Items.Item[I].Pos.X = Creatures.Character.Pos.X) and
+            (Items.Item[I].Pos.Y = Creatures.Character.Pos.Y) then
           begin
             CursorPos := Clamp(CursorPos, 1, C);
             ID := Items.Item[I].Name;

@@ -154,7 +154,7 @@ begin
       DX := AX + Trunc((X - AX) * LR);
       DY := AY + Trunc((Y - AY) * LR);
       VizCell(DX, DY, F);
-      if not PC.FreeCell(DX, DY) and (I > 1) then
+      if not Character.FreeCell(DX, DY) and (I > 1) then
         Break;
     end;
   end;
@@ -333,10 +333,10 @@ begin
     end;
     ClearViz;
     // Hero pos
-    if (Trollhunter.Creatures.Creatures.PC.Dungeon = 0) then
+    if (Trollhunter.Creatures.Creatures.Character.Dungeon = 0) then
     begin
       GenNewFloorPos();
-      Trollhunter.Creatures.Creatures.PC.SetPosition(X, Y);
+      Trollhunter.Creatures.Creatures.Character.SetPosition(X, Y);
     end;
     // Add gate
     if MapPatterns.GetPattern.IsVillageEnt then
@@ -746,36 +746,36 @@ var
   B: Boolean;
   X, Y, DX, DY: Integer;
 begin
-  for X := Trollhunter.Creatures.Creatures.PC.Pos.X - (Graph.RW + 1)
-    to Trollhunter.Creatures.Creatures.PC.Pos.X + (Graph.RW + 1) do
-    for Y := Trollhunter.Creatures.Creatures.PC.Pos.Y - (Graph.RH + 1)
-      to Trollhunter.Creatures.Creatures.PC.Pos.Y + (Graph.RH + 1) do
+  for X := Trollhunter.Creatures.Creatures.Character.Pos.X - (Graph.RW + 1)
+    to Trollhunter.Creatures.Creatures.Character.Pos.X + (Graph.RW + 1) do
+    for Y := Trollhunter.Creatures.Creatures.Character.Pos.Y - (Graph.RH + 1)
+      to Trollhunter.Creatures.Creatures.Character.Pos.Y + (Graph.RH + 1) do
     begin
       if (X < 0) or (Y < 0) or (X > MapSide - 1) or (Y > MapSide - 1) then
         Continue;
       Map.Cell[Y][X].FOV := False;
     end;
   ///
-  for X := Trollhunter.Creatures.Creatures.PC.Pos.X -
-    Graph.RW to Trollhunter.Creatures.Creatures.PC.Pos.X + Graph.RW do
-    for Y := Trollhunter.Creatures.Creatures.PC.Pos.Y -
-      Graph.RH to Trollhunter.Creatures.Creatures.PC.Pos.Y + Graph.RH do
+  for X := Trollhunter.Creatures.Creatures.Character.Pos.X -
+    Graph.RW to Trollhunter.Creatures.Creatures.Character.Pos.X + Graph.RW do
+    for Y := Trollhunter.Creatures.Creatures.Character.Pos.Y -
+      Graph.RH to Trollhunter.Creatures.Creatures.Character.Pos.Y + Graph.RH do
     begin
       if (X < 0) or (Y < 0) or (X > MapSide - 1) or (Y > MapSide - 1) then
         Continue;
-      if (GetDist(Trollhunter.Creatures.Creatures.PC.Pos.X,
-        Trollhunter.Creatures.Creatures.PC.Pos.Y, X, Y) >
-        Trollhunter.Creatures.Creatures.PC.GetRadius) then
+      if (GetDist(Trollhunter.Creatures.Creatures.Character.Pos.X,
+        Trollhunter.Creatures.Creatures.Character.Pos.Y, X, Y) >
+        Trollhunter.Creatures.Creatures.Character.GetRadius) then
         Continue;
-      Map.LineFOV2(Trollhunter.Creatures.Creatures.PC.Pos.X,
-        Trollhunter.Creatures.Creatures.PC.Pos.Y, X, Y);
+      Map.LineFOV2(Trollhunter.Creatures.Creatures.Character.Pos.X,
+        Trollhunter.Creatures.Creatures.Character.Pos.Y, X, Y);
     end;
   with Graph.Surface.Canvas do
   begin
-    for X := Trollhunter.Creatures.Creatures.PC.Pos.X -
-      Graph.RW to Trollhunter.Creatures.Creatures.PC.Pos.X + Graph.RW do
-      for Y := Trollhunter.Creatures.Creatures.PC.Pos.Y -
-        Graph.RH to Trollhunter.Creatures.Creatures.PC.Pos.Y + Graph.RH do
+    for X := Trollhunter.Creatures.Creatures.Character.Pos.X -
+      Graph.RW to Trollhunter.Creatures.Creatures.Character.Pos.X + Graph.RW do
+      for Y := Trollhunter.Creatures.Creatures.Character.Pos.Y -
+        Graph.RH to Trollhunter.Creatures.Creatures.Character.Pos.Y + Graph.RH do
       begin
         if (X < 0) or (Y < 0) or (X > MapSide - 1) or (Y > MapSide - 1) then
           Continue;
@@ -786,9 +786,9 @@ begin
             Continue;
           B := True;
         end;
-        DX := (X - (Trollhunter.Creatures.Creatures.PC.Pos.X - Graph.RW))
+        DX := (X - (Trollhunter.Creatures.Creatures.Character.Pos.X - Graph.RW))
           * TileSize;
-        DY := (Y - (Trollhunter.Creatures.Creatures.PC.Pos.Y - Graph.RH)) *
+        DY := (Y - (Trollhunter.Creatures.Creatures.Character.Pos.Y - Graph.RH)) *
           TileSize + Graph.CharHeight;
         if not Map.Cell[Y, X].Viz then
           Map.VizCell(X, Y);
@@ -887,8 +887,8 @@ begin
 
         // Look
         if (CursorMode <> cmNone) then
-          if ((Trollhunter.Creatures.Creatures.PC.Look.X = X) and
-            (Trollhunter.Creatures.Creatures.PC.Look.Y = Y)) then
+          if ((Trollhunter.Creatures.Creatures.Character.Look.X = X) and
+            (Trollhunter.Creatures.Creatures.Character.Look.Y = Y)) then
           begin
             Brush.Style := bsClear;
             case CursorMode of
@@ -900,7 +900,7 @@ begin
             Rectangle(DX, DY, DX + TileSize, DY + TileSize);
           end;
       end;
-    Trollhunter.Creatures.Creatures.PC.Render;
+    Trollhunter.Creatures.Creatures.Character.Render;
   end;
 end;
 

@@ -782,9 +782,9 @@ begin
   T := Graphics.TBitmap.Create;
   try
     Left := Graph.DL + (Graph.CharWidth * 2) + 4;
-    S[1] := Format(C, [Creatures.PC.LIFE.Cur, Creatures.PC.LIFE.Max]);
-    S[2] := Format(C, [Creatures.PC.MANA.Cur, Creatures.PC.MANA.Max]);
-    S[3] := Format(C, [Creatures.PC.EXP, Creatures.PC.MaxExp]);
+    S[1] := Format(C, [Creatures.Character.LIFE.Cur, Creatures.Character.LIFE.Max]);
+    S[2] := Format(C, [Creatures.Character.MANA.Cur, Creatures.Character.MANA.Max]);
+    S[3] := Format(C, [Creatures.Character.EXP, Creatures.Character.MaxExp]);
     M := 0;
     for I := 1 to 3 do
       if (Length(S[I]) > M) then
@@ -794,7 +794,7 @@ begin
     begin
       Brush.Color := 0;
       // Life
-      if Creatures.PC.TempSys.IsVar('Poison') then
+      if Creatures.Character.TempSys.IsVar('Poison') then
       begin
         Draw(Graph.DL + 4, (Graph.CharHeight * 2), PLIFE);
         Font.Color := cFxGreen;
@@ -805,51 +805,51 @@ begin
         Font.Color := cRdRed;
       end;
       TextOut(Left, (Graph.CharHeight * 2), S[1]);
-      if not Creatures.PC.LIFE.IsMin then
+      if not Creatures.Character.LIFE.IsMin then
       begin
         T.Assign(LIFEBAR);
         if (T.Width > W) then
           T.Width := W;
-        T.Width := BarWidth(Creatures.PC.LIFE.Cur,
-          Creatures.PC.LIFE.Max, T.Width);
+        T.Width := BarWidth(Creatures.Character.LIFE.Cur,
+          Creatures.Character.LIFE.Max, T.Width);
         DrawBar(2);
       end;
       // Mana
       Font.Color := cRdBlue;
       Draw(Graph.DL + 4, (Graph.CharHeight * 3), MANA);
       TextOut(Left, (Graph.CharHeight * 3), S[2]);
-      if not Creatures.PC.MANA.IsMin then
+      if not Creatures.Character.MANA.IsMin then
       begin
         T.Assign(MANABAR);
         if (T.Width > W) then
           T.Width := W;
-        T.Width := BarWidth(Creatures.PC.MANA.Cur,
-          Creatures.PC.MANA.Max, T.Width);
+        T.Width := BarWidth(Creatures.Character.MANA.Cur,
+          Creatures.Character.MANA.Max, T.Width);
         DrawBar(3);
       end;
       // Exp
       Font.Color := cRdBrown;
       Draw(Graph.DL + 4, (Graph.CharHeight * 4), EXP);
       TextOut(Left, (Graph.CharHeight * 4), S[3]);
-      if (Creatures.PC.EXP > 0) then
+      if (Creatures.Character.EXP > 0) then
       begin
-        if (Creatures.PC.Prop.Level > 1) then
-          R := Creatures.PC.MaxExp(Creatures.PC.Prop.Level - 1)
+        if (Creatures.Character.Prop.Level > 1) then
+          R := Creatures.Character.MaxExp(Creatures.Character.Prop.Level - 1)
         else
           R := 0;
         T.Assign(EXPBAR);
         if (T.Width > W) then
           T.Width := W;
-        T.Width := BarWidth(Creatures.PC.EXP - R, Creatures.PC.MaxExp -
+        T.Width := BarWidth(Creatures.Character.EXP - R, Creatures.Character.MaxExp -
           R, T.Width);
         DrawBar(4);
       end;
       // Damage, Protect
       Font.Color := cRdPurple;
       Top := Graph.CharHeight * 5;
-      S[1] := Format('%d-%d', [Creatures.PC.Prop.MinDamage,
-        Creatures.PC.Prop.MaxDamage]);
-      S[2] := IntToStr(Creatures.PC.Prop.PROTECT);
+      S[1] := Format('%d-%d', [Creatures.Character.Prop.MinDamage,
+        Creatures.Character.Prop.MaxDamage]);
+      S[2] := IntToStr(Creatures.Character.Prop.PROTECT);
       M := Graph.DL + 4;
       Draw(M, Top, DAMAGE);
       M := M + (Graph.CharWidth * 2);

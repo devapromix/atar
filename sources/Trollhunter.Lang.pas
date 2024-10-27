@@ -141,7 +141,7 @@ begin
   LItemIndex := Items.ItemIndex(AItemIdent);
   // Scrolls and Potions
   LColorTag := ItemPatterns.Patterns[LItemIndex].ColorTag;
-  with Creatures.PC do
+  with Creatures.Character do
   begin
     if (LColorTag > 0) and
       (ItemPatterns.Patterns[LItemIndex].Category = 'POTION') and

@@ -32,7 +32,7 @@ uses
   Trollhunter.Error,
   Trollhunter.Graph,
   Trollhunter.TempSys,
-  Trollhunter.PC,
+  Dragonhunter.Character,
   Trollhunter.Game,
   Trollhunter.Creatures,
   Trollhunter.Utils;
@@ -71,7 +71,7 @@ var
   LEffectName: string;
   LEffectEnum: TEffectEnum;
 begin
-  LEffectName := Creatures.PC.TempSys.VarName(I);
+  LEffectName := Creatures.Character.TempSys.VarName(I);
   for LEffectEnum := Low(TEffectEnum) to High(TEffectEnum) do
     if (LEffectName = UpperCase(EffectName[LEffectEnum])) then
     begin
@@ -85,11 +85,11 @@ procedure TEffects.Render;
 var
   I, Left: Integer;
 begin
-  if Creatures.PC.TempSys.Count > 0 then
+  if Creatures.Character.TempSys.Count > 0 then
   begin
-    Surface.Width := Creatures.PC.TempSys.Count * TileSize;
+    Surface.Width := Creatures.Character.TempSys.Count * TileSize;
     Surface.Height := TileSize;
-    for I := 0 to Creatures.PC.TempSys.Count - 1 do
+    for I := 0 to Creatures.Character.TempSys.Count - 1 do
       Surface.Canvas.Draw(I * TileSize, 0, GetEffectImage(I));
     Left := ((Graph.Width - Graph.PW) div 2) - (Surface.Width div 2);
     Graph.Surface.Canvas.Draw(Left, Graph.Surface.Canvas.Font.Size + 8,

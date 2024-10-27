@@ -82,7 +82,7 @@ begin
     case Key of
       38, 40:
         begin
-          C := Creatures.PC.Inv.Count;
+          C := Creatures.Character.Inv.Count;
           if (C > 0) then
           begin
             CursorPos := CursorPos + (Key - 39);
@@ -92,7 +92,7 @@ begin
         end;
       8:
         begin
-          C := Items.CellItemsCount(Creatures.PC.Pos.X, Creatures.PC.Pos.Y);
+          C := Items.CellItemsCount(Creatures.Character.Pos.X, Creatures.Character.Pos.Y);
           if (C > 0) then
             Scenes.Scene := SceneItems;
         end;
@@ -100,7 +100,7 @@ begin
         Scenes.Scene := SceneChar;
       13:
         begin
-          C := Creatures.PC.Inv.Count;
+          C := Creatures.Character.Inv.Count;
           if (C > 0) then
           begin
             K := (ord('A') + CursorPos) - 1;
@@ -113,7 +113,7 @@ begin
           Log.Apply;
           Game.Save;
           ItemUseID := '';
-          Creatures.PC.Redraw;
+          Creatures.Character.Redraw;
           Graph.Messagebar.Clear;
           Scenes.Render;
           Exit;
@@ -121,7 +121,7 @@ begin
       ord('A') .. ord('Z'):
         begin
           I := (Key - (ord('A'))) + 1;
-          if (I <= Creatures.PC.Inv.Count) then
+          if (I <= Creatures.Character.Inv.Count) then
           begin
             if (ItemUseID <> '') then
             begin
@@ -130,7 +130,7 @@ begin
               ItemUseID := '';
               Log.Apply;
               Game.Save;
-              Creatures.PC.Redraw;
+              Creatures.Character.Redraw;
               Scenes.Render;
               Exit;
             end;
@@ -155,8 +155,8 @@ end;
 procedure TSceneInv.RedrawPCIcon;
 begin
   try
-    Creatures.PC.Redraw;
-    Hero.Assign(Creatures.PC.Image);
+    Creatures.Character.Redraw;
+    Hero.Assign(Creatures.Character.Image);
     ScaleBmp(Hero, 64, 64);
     Hero.Transparent := True;
   except
@@ -213,7 +213,7 @@ begin
     Y := 2;
     with Graph.Surface.Canvas do
     begin
-      C := Creatures.PC.Inv.Count;
+      C := Creatures.Character.Inv.Count;
       for I := 1 to C do
       begin
         CursorPos := ClampCycle(CursorPos, 1, C);
@@ -234,7 +234,7 @@ begin
 
         if (ItemPatterns.Patterns[ID].Sprite = '') then
           Tileset.Handle := Windows.LoadBitmap(hInstance,
-            PChar(Creatures.PC.Inv.GetIdent(I)))
+            PChar(Creatures.Character.Inv.GetIdent(I)))
         else
           Tileset.Handle := Windows.LoadBitmap(hInstance,
             PChar(ItemPatterns.Patterns[ID].Sprite));
@@ -245,7 +245,7 @@ begin
         Draw(Graph.CharWidth * 3, Y * Graph.CharHeight, Icon);
 
         Items.SetColor(ID);
-        if Creatures.PC.Inv.GetDoll(I) then
+        if Creatures.Character.Inv.GetDoll(I) then
         begin
           Font.Color := cRdYellow;
           Font.Style := [fsBold];
@@ -253,12 +253,12 @@ begin
         else if (Font.Style <> [fsBold]) then
           Font.Style := [];
         if ((ItemPatterns.Patterns[ID].MaxTough > 0) and
-          (Creatures.PC.Inv.GetTough(I) <= 0)) then
+          (Creatures.Character.Inv.GetTough(I) <= 0)) then
           Font.Color := cRed;
         Graph.Text.DrawText(5, Y,
           Trim(Language.GetItemLang(ItemPatterns.Patterns[ID].ID) +
-          Items.GetItemProp(Creatures.PC.Inv.GetCount(I),
-          Creatures.PC.Inv.GetTough(I), I, ID) + Items.GetWeight(ID) +
+          Items.GetItemProp(Creatures.Character.Inv.GetCount(I),
+          Creatures.Character.Inv.GetTough(I), I, ID) + Items.GetWeight(ID) +
           Items.GetDollText(I, ID)));
         Inc(Y);
       end;
@@ -269,7 +269,7 @@ begin
         Graph.Text.BarOut('enter, a-' + Chr(96 + C),
           Language.GetLang(24), False);
       Graph.Text.BarOut('space', Language.GetLang(8), False);
-      if (Items.CellItemsCount(Creatures.PC.Pos.X, Creatures.PC.Pos.Y) > 0) then
+      if (Items.CellItemsCount(Creatures.Character.Pos.X, Creatures.Character.Pos.Y) > 0) then
         Graph.Text.BarOut('backspace', Language.GetLang(111), False);
       Draw(Graph.Surface.Width - 72, Graph.CharHeight, Hero);
       if (ItemUseID <> '') then

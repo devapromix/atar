@@ -116,7 +116,7 @@ begin
   if AIndex > -1 then
     Result := Patterns[AIndex]
   else
-    Result := Patterns[Trollhunter.Creatures.Creatures.PC.Dungeon]
+    Result := Patterns[Trollhunter.Creatures.Creatures.Character.Dungeon]
 end;
 
 procedure TMapPats.Serialize;
