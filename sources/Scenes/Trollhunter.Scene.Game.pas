@@ -60,7 +60,7 @@ uses
   Trollhunter.Light,
   Trollhunter.Look,
   Trollhunter.Scene.Help,
-  Trollhunter.Scene.LevelUp,
+  Dragonhunter.Scene.LevelUp,
   Trollhunter.Skill,
   Trollhunter.Scene.Statistics,
   Trollhunter.Statistics,

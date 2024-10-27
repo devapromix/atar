@@ -1,31 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899.12.30 00:00:00.000.144,D:\Dev\________github-dragonhunter-git\sources\Scenes\Trollhunter.Scene.Name.pas=D:\Dev\________github-dragonhunter-git\sources\Scenes\Dragonhunter.Scene.Name.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.181,D:\Dev\________github-atar-git\sources\Trollhunter.Item.Pattern.pas=D:\Dev\________github-atar-git\sources\Unit1.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.725,D:\Dev\________github-dragonhunter-git\sources\Trollhunter.Effect.pas=D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Effect.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.894,D:\Dev\________github-dragonhunter-git\sources\Trollhunter.Resources.pas=D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.AStar.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.409,D:\Dev\________github-dragonhunter-git\sources\Trollhunter.Item.pas=D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Item.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.178,D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Terminal.pas=D:\Dev\________github-dragonhunter-git\sources\Unit1.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.202,D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.AStar.pas=D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Resources.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.520,D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Item.Random.pas=D:\Dev\________github-dragonhunter-git\sources\Trollhunter.RandItems.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.244,D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Scene.Menu.pas=</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.077,D:\Dev\________github-dragonhunter-git\sources\Scenes\Dragonhunter.Scene.Menu.pas=D:\Dev\________github-dragonhunter-git\sources\Scenes\Trollhunter.Scene.Menu.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.898,D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.dproj=D:\Dev\________github-dragonhunter-git\sources\Trollhunter.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.191,D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.AStar.pas=D:\Dev\________github-dragonhunter-git\sources\Trollhunter.AStar.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.144,D:\Dev\________github-dragonhunter-git\sources\Scenes\Dragonhunter.Scene.Name.pas=D:\Dev\________github-dragonhunter-git\sources\Scenes\Trollhunter.Scene.Name.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.181,D:\Dev\________github-atar-git\sources\Unit1.pas=D:\Dev\________github-atar-git\sources\Trollhunter.Item.Pattern.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.409,D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Item.pas=D:\Dev\________github-dragonhunter-git\sources\Trollhunter.Item.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.899,D:\Dev\________github-dragonhunter-git\sources\Scenes\Dragonhunter.Scene.Settings.pas=D:\Dev\________github-dragonhunter-git\sources\Scenes\Trollhunter.Scene.Settings.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.894,D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.AStar.pas=D:\Dev\________github-dragonhunter-git\sources\Trollhunter.Resources.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.945,=D:\Dev\________github-atar-git\sources\Unit1.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.369,D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Scene.Menu.pas=D:\Dev\________github-dragonhunter-git\sources\Unit1.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.074,D:\Dev\________github-dragonhunter-git\sources\Unit1.pas=D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Wander.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.990,D:\Dev\________github-dragonhunter-git\sources\Unit1.pas=D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Item.Default.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.899,D:\Dev\________github-dragonhunter-git\sources\Scenes\Trollhunter.Scene.Settings.pas=D:\Dev\________github-dragonhunter-git\sources\Scenes\Dragonhunter.Scene.Settings.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.680,D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Item.Script.pas=D:\Dev\________github-dragonhunter-git\sources\Unit1.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.191,D:\Dev\________github-dragonhunter-git\sources\Trollhunter.AStar.pas=D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.AStar.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.081,D:\Dev\________github-dragonhunter-git\sources\Forms\Trollhunter.MainForm.pas=D:\Dev\________github-dragonhunter-git\sources\Forms\Dragonhunter.MainForm.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.074,D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Wander.pas=D:\Dev\________github-dragonhunter-git\sources\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.082,D:\Dev\________github-dragonhunter-git\sources\Forms\Trollhunter.MainForm.dfm=D:\Dev\________github-dragonhunter-git\sources\Forms\Dragonhunter.MainForm.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.202,D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Resources.pas=D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.AStar.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.244,D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Scene.Menu.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.990,D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Item.Default.pas=D:\Dev\________github-dragonhunter-git\sources\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.725,D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Effect.pas=D:\Dev\________github-dragonhunter-git\sources\Trollhunter.Effect.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.178,D:\Dev\________github-dragonhunter-git\sources\Unit1.pas=D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Terminal.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.369,D:\Dev\________github-dragonhunter-git\sources\Unit1.pas=D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Scene.Menu.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.680,D:\Dev\________github-dragonhunter-git\sources\Unit1.pas=D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Item.Script.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.692,D:\Dev\________github-dragonhunter-git\sources\Trollhunter.Script.pas=D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Script.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.077,D:\Dev\________github-dragonhunter-git\sources\Scenes\Trollhunter.Scene.Menu.pas=D:\Dev\________github-dragonhunter-git\sources\Scenes\Dragonhunter.Scene.Menu.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.520,D:\Dev\________github-dragonhunter-git\sources\Trollhunter.RandItems.pas=D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Item.Random.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.898,D:\Dev\________github-dragonhunter-git\sources\Trollhunter.dproj=D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.893,=D:\Dev\________github-dragonhunter-git\sources\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.100,=D:\Dev\________github-dragonhunter-git\sources\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.000,=D:\Dev\________github-dragonhunter-git\sources\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.266,=D:\Dev\________github-dragonhunter-git\sources\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.948,=D:\Dev\________github-dragonhunter-git\sources\Unit1.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.893,=D:\Dev\________github-dragonhunter-git\sources\Unit1.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.100,=D:\Dev\________github-dragonhunter-git\sources\Unit1.pas</Transaction>
-    <Transaction>2024.10.27 08:18:25.081,D:\Dev\________github-dragonhunter-git\sources\Forms\Dragonhunter.MainForm.pas=D:\Dev\________github-dragonhunter-git\sources\Forms\Trollhunter.MainForm.pas</Transaction>
-    <Transaction>2024.10.27 08:18:25.082,D:\Dev\________github-dragonhunter-git\sources\Forms\Dragonhunter.MainForm.dfm=D:\Dev\________github-dragonhunter-git\sources\Forms\Trollhunter.MainForm.dfm</Transaction>
-    <Transaction>2024.10.27 08:40:08.692,D:\Dev\________github-dragonhunter-git\sources\Dragonhunter.Script.pas=D:\Dev\________github-dragonhunter-git\sources\Trollhunter.Script.pas</Transaction>
+    <Transaction>2024.10.27 18:22:28.749,D:\Dev\________github-dragonhunter-git\sources\Scenes\Dragonhunter.Scene.LevelUp.pas=D:\Dev\________github-dragonhunter-git\sources\Scenes\Trollhunter.Scene.LevelUp.pas</Transaction>
   </Transactions>
 </BorlandProject>

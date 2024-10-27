@@ -16,7 +16,7 @@ uses
   Trollhunter.Scene.Records in 'Scenes\Trollhunter.Scene.Records.pas',
   Trollhunter.Scene.Load in 'Scenes\Trollhunter.Scene.Load.pas',
   Trollhunter.Scene.Items in 'Scenes\Trollhunter.Scene.Items.pas',
-  Trollhunter.Scene.LevelUp in 'Scenes\Trollhunter.Scene.LevelUp.pas',
+  Dragonhunter.Scene.LevelUp in 'Scenes\Dragonhunter.Scene.LevelUp.pas',
   Trollhunter.Scene.Item in 'Scenes\Trollhunter.Scene.Item.pas',
   Trollhunter.Scene.Char in 'Scenes\Trollhunter.Scene.Char.pas',
   Dragonhunter.Scene.Settings in 'Scenes\Dragonhunter.Scene.Settings.pas',

@@ -128,7 +128,7 @@
         <DCCReference Include="Scenes\Trollhunter.Scene.Records.pas"/>
         <DCCReference Include="Scenes\Trollhunter.Scene.Load.pas"/>
         <DCCReference Include="Scenes\Trollhunter.Scene.Items.pas"/>
-        <DCCReference Include="Scenes\Trollhunter.Scene.LevelUp.pas"/>
+        <DCCReference Include="Scenes\Dragonhunter.Scene.LevelUp.pas"/>
         <DCCReference Include="Scenes\Trollhunter.Scene.Item.pas"/>
         <DCCReference Include="Scenes\Trollhunter.Scene.Char.pas"/>
         <DCCReference Include="Scenes\Dragonhunter.Scene.Settings.pas"/>

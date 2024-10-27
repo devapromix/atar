@@ -117,7 +117,7 @@ uses
   Trollhunter.Lang,
   Dragonhunter.Item,
   Trollhunter.Scenes,
-  Trollhunter.Scene.LevelUp,
+  Dragonhunter.Scene.LevelUp,
   Trollhunter.Creatures,
   Trollhunter.Projectiles,
   Trollhunter.Utils,

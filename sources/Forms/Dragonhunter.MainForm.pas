@@ -50,7 +50,7 @@ uses
   Trollhunter.Utils,
   Trollhunter.Screenshot,
   Trollhunter.Game,
-  Trollhunter.Scene.LevelUp,
+  Dragonhunter.Scene.LevelUp,
   Dragonhunter.Wander,
   Trollhunter.Scene.Game;
 
