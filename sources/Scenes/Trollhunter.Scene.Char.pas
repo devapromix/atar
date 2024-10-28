@@ -144,9 +144,10 @@ begin
       Add(Language.GetLang(15), Creatures.Character.Prop.Strength);
       Add(Language.GetLang(16), Creatures.Character.Prop.Dexterity);
       Add(Language.GetLang(17), Creatures.Character.Prop.Intelligence);
-      Add(Language.GetLang(18), Creatures.Character.GetSpeed);
+      Add(Language.GetLang(18), Creatures.Character.Prop.Perception);
+      Add(Language.GetLang(19), Creatures.Character.GetSpeed);
       Add();
-      Add(Language.GetLang(18), Creatures.Character.AtrPoint);
+      Add(Language.GetLang(19), Creatures.Character.AtrPoint);
       Add();
       Add(Graph.Bars.LIFE, Language.GetLang(22),
         Format('%d/%d', [Creatures.Character.LIFE.Cur, Creatures.Character.LIFE.Max]));

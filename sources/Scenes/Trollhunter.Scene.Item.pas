@@ -356,7 +356,7 @@ var
         Add(Format('%s %d', [Language.GetLang(17),
         DungeonItems[I].BonusIntelligence]));
         if (DungeonItems[I].BonusSpeed > 0) then
-        Add(Format('%s %d', [Language.GetLang(18),
+        Add(Format('%s %d', [Language.GetLang(19),
         DungeonItems[I].BonusSpeed]));
         if (DungeonItems[I].BonusLife > 0) then
         Add(Format('%s %d', [Language.GetLang(22), DungeonItems[I].BonusLife]));

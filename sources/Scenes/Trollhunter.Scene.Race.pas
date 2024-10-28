@@ -72,6 +72,8 @@ begin
     3:
       Result := Creatures.Character.Prop.Intelligence;
     4:
+      Result := Creatures.Character.Prop.Perception;
+    5:
       Result := Creatures.Character.Prop.Speed;
   end;
 end;
@@ -171,14 +173,16 @@ begin
     // Items.Add('TAMARILIS', 12);
     Items.Add('KEY', 7);
 
-    Creatures.Character.Prop.Strength := Creatures.Character.Prop.Strength + Races.RaceList
-      [I].Strength;
-    Creatures.Character.Prop.Dexterity := Creatures.Character.Prop.Dexterity + Races.RaceList
-      [I].Dexterity;
-    Creatures.Character.Prop.Intelligence := Creatures.Character.Prop.Intelligence +
-      Races.RaceList[I].Intelligence;
-    Creatures.Character.Prop.Speed := Creatures.Character.Prop.Speed + Races.RaceList
-      [I].Speed;
+    Creatures.Character.Prop.Strength := Creatures.Character.Prop.Strength +
+      Races.RaceList[I].Strength;
+    Creatures.Character.Prop.Dexterity := Creatures.Character.Prop.Dexterity +
+      Races.RaceList[I].Dexterity;
+    Creatures.Character.Prop.Intelligence :=
+      Creatures.Character.Prop.Intelligence + Races.RaceList[I].Intelligence;
+    Creatures.Character.Prop.Perception := Creatures.Character.Prop.Perception +
+      Races.RaceList[I].Perception;
+    Creatures.Character.Prop.Speed := Creatures.Character.Prop.Speed +
+      Races.RaceList[I].Speed;
     Creatures.Character.Calc;
     Creatures.Character.Fill;
   except
@@ -227,6 +231,7 @@ begin
     Result := Result + ' ' + Language.GetLang(332)
   else
     Result := Result + ' ' + Language.GetLang(333);
+  // Perception
   // End race description
   Result := Result + ' ' + Language.GetLang
     (Races.RaceList[ARaceIndex].EndDescr);
@@ -295,7 +300,7 @@ begin
         L := Length(GetLang(I + 14));
         end; }
       L := T;
-      for I := 1 to 4 do
+      for I := 1 to 5 do
       begin
         D := '';
         S := Language.GetLang(I + 14) + ': ' + IntToStr(GetAtrValue(I));
@@ -310,6 +315,8 @@ begin
           3:
             A := Races.RaceList[LRaceIndex].Intelligence;
           4:
+            A := Races.RaceList[LRaceIndex].Perception;
+          5:
             A := Races.RaceList[LRaceIndex].Speed;
         end;
         if (A > 0) then
@@ -329,10 +336,12 @@ begin
       //
       Font.Color := cRdRed;;
       Graph.Text.DrawOut(T, H + U + 1, Format('%s: %d/%d',
-        [Language.GetLang(22), Creatures.Character.Life.Max, Creatures.Character.Life.Max]));
+        [Language.GetLang(22), Creatures.Character.Life.Max,
+        Creatures.Character.Life.Max]));
       Font.Color := cRdBlue;
       Graph.Text.DrawOut(T, H + U + 2, Format('%s: %d/%d',
-        [Language.GetLang(23), Creatures.Character.Mana.Max, Creatures.Character.Mana.Max]));
+        [Language.GetLang(23), Creatures.Character.Mana.Max,
+        Creatures.Character.Mana.Max]));
       Font.Color := cDkYellow;
       Graph.Text.DrawOut(T, H + U + 3, Format('%s: %d-%d',
         [Language.GetLang(32), Creatures.Character.Prop.MinDamage,
