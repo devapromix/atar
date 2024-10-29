@@ -1,8 +1,10 @@
-unit Trollhunter.Entity;
+﻿unit Trollhunter.Entity;
 
 interface
 
-uses Types, Graphics;
+uses
+  System.Types,
+  Vcl.Graphics;
 
 type
   TEntity = class(TObject)
@@ -29,7 +31,7 @@ implementation
 
 constructor TEntity.Create;
 begin
-  Image := Graphics.TBitmap.Create;
+  Image := Vcl.Graphics.TBitmap.Create;
   Image.Transparent := True;
   Name := '';
 end;

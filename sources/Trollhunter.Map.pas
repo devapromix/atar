@@ -100,7 +100,7 @@ uses
   Trollhunter.Utils,
   Trollhunter.Error,
   Trollhunter.Graph,
-  Trollhunter.Color,
+  Dragonhunter.Color,
   Trollhunter.Light,
   Dragonhunter.Resources,
   Trollhunter.Map.Pattern,

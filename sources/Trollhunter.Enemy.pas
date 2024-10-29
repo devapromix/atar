@@ -73,14 +73,16 @@ end;
 
 procedure TEnemy.Melee;
 var
-  D: Integer;
+  LDamage: Integer;
 begin
   try
-    D := Creatures.GetDamage(Self, Creatures.Character.Prop.Protect);
-    if (D > 0) and (Rand(1, Prop.Dexterity + Creatures.Character.Prop.Dexterity) <=
+    LDamage := Creatures.GetDamage(Self, Creatures.Character.Prop.Protect);
+    if (LDamage > 0) and
+      (Rand(1, Prop.Dexterity + Creatures.Character.Prop.Dexterity) <=
       Prop.Dexterity) then
     begin
-      Creatures.SetDamage(Creatures.Character, Language.GetLang(Prop.Id), D);
+      Creatures.SetDamage(Creatures.Character,
+        Language.GetLang(Prop.Id), LDamage);
       Self.SetEffects();
       if Creatures.Character.Life.IsMin then
         Log.Add(Language.GetLang(72));
@@ -96,8 +98,8 @@ end;
 
 procedure TEnemy.Ranged;
 var
-  D: Integer;
-  P: TProjectile;
+  LDamage: Integer;
+  LProjectile: TProjectile;
 
   procedure AddCr(CrID: string; ManaCost: Byte);
   begin
@@ -119,14 +121,16 @@ begin
       Exit
     else
       Mana.Dec;
-    P := TProjectile.Create(Self, Pos.X, Pos.Y, Creatures.Character.Pos.X,
-      Creatures.Character.Pos.Y);
+    LProjectile := TProjectile.Create(Self, Pos.X, Pos.Y,
+      Creatures.Character.Pos.X, Creatures.Character.Pos.Y);
     try
-      D := Creatures.GetDamage(Self, Creatures.Character.Prop.Protect);
-      if (D > 0) and (Rand(1, Prop.Dexterity + Creatures.Character.Prop.Dexterity) <=
+      LDamage := Creatures.GetDamage(Self, Creatures.Character.Prop.Protect);
+      if (LDamage > 0) and
+        (Rand(1, Prop.Dexterity + Creatures.Character.Prop.Dexterity) <=
         Prop.Dexterity) then
       begin
-        Creatures.SetDamage(Creatures.Character, Language.GetLang(Prop.Id), D);
+        Creatures.SetDamage(Creatures.Character,
+          Language.GetLang(Prop.Id), LDamage);
         Self.SetEffects();
         if Creatures.Character.Life.IsMin then
           Log.Add(Language.GetLang(72));
@@ -135,7 +139,7 @@ begin
       else
         Log.Add(Format(Language.GetLang(76), [Language.GetLang(Prop.Id)]));
     finally
-      P.Free;
+      LProjectile.Free;
     end;
   except
     on E: Exception do
@@ -153,8 +157,8 @@ begin
         (Pos.X + AX = Creatures.Enemy[I].Pos.X) and
         (Pos.Y + AY = Creatures.Enemy[I].Pos.Y) then
         Exit;
-    if (Pos.X + AX = Creatures.Character.Pos.X) and (Pos.Y + AY = Creatures.Character.Pos.Y)
-    then
+    if (Pos.X + AX = Creatures.Character.Pos.X) and
+      (Pos.Y + AY = Creatures.Character.Pos.Y) then
       Melee
     else
       inherited Move(AX, AY, (Prop.Decor <> 'WEB') or (Prop.Decor <> 'SLIME'));
@@ -182,8 +186,8 @@ end;
 
 procedure TEnemy.Process2;
 begin
-  if ParamMove or (GetDist(Creatures.Character.Pos.X, Creatures.Character.Pos.Y, Pos.X, Pos.Y)
-    > MaxDistance) then
+  if ParamMove or (GetDist(Creatures.Character.Pos.X, Creatures.Character.Pos.Y,
+    Pos.X, Pos.Y) > MaxDistance) then
     Exit;
   try
 
@@ -196,10 +200,10 @@ end;
 procedure TEnemy.Process;
 var
   I, J, JX, JY, NX, NY: Integer;
-  L: TPoint;
+  LPos: TPoint;
 begin
-  if ParamMove or (GetDist(Creatures.Character.Pos.X, Creatures.Character.Pos.Y, Pos.X, Pos.Y)
-    > MaxDistance) then
+  if ParamMove or (GetDist(Creatures.Character.Pos.X, Creatures.Character.Pos.Y,
+    Pos.X, Pos.Y) > MaxDistance) then
     Exit;
   try
     if Prop.AIType = 'SIMPLE' then
@@ -222,8 +226,8 @@ begin
       if NY <> 0 then
         if (not FreeCell(Pos.X, Pos.Y + NY)) then
           NY := 0;
-      if GetDist(Creatures.Character.Pos.X, Creatures.Character.Pos.Y, Pos.X, Pos.Y) > Prop.Radius
-      then
+      if GetDist(Creatures.Character.Pos.X, Creatures.Character.Pos.Y, Pos.X,
+        Pos.Y) > Prop.Radius then
         Exit;
       if NX = 0 then
         Move(0, NY)
@@ -237,23 +241,23 @@ begin
     else
     begin
       if ((Prop.AIType = 'RANGED') or (Prop.AIType = 'NECRO')) and
-        (GetDist(Creatures.Character.Pos.X, Creatures.Character.Pos.Y, Pos.X, Pos.Y) <=
-        Prop.Distance) and LineDist(Creatures.Character.Pos.X, Creatures.Character.Pos.Y,
-        Pos.X, Pos.Y) then
+        (GetDist(Creatures.Character.Pos.X, Creatures.Character.Pos.Y, Pos.X,
+        Pos.Y) <= Prop.Distance) and LineDist(Creatures.Character.Pos.X,
+        Creatures.Character.Pos.Y, Pos.X, Pos.Y) then
       begin
         // Box(GetDist(Creatures.PC.X, Creatures.PC.Y, X, Y));
         Self.Ranged;
         Exit;
       end;
 
-      L := Creatures.Character.Pos;
+      LPos := Creatures.Character.Pos;
       if (Prop.AIType <> 'BERSERK') and (AI = aiRun) then
       begin
         if (Mana.Cur < Mana.Max) and (Rand(1, 4) = 1) then
           Mana.Inc;
         if (Life.Cur = Life.Max) then
           AI := aiCombat;
-        if ((L.X = Look.X) and (L.X = Look.Y)) or (Rand(1, 15) = 1) then
+        if ((LPos.X = Look.X) and (LPos.X = Look.Y)) or (Rand(1, 15) = 1) then
         begin
           AI := aiCombat;
           Process;
@@ -267,7 +271,7 @@ begin
             WY := Rand(Map.Height + 5, Map.Height - 6);
             until Map.Cell[WY][WX].Tile in FloorSet;
           }
-          L := Look;
+          LPos := Look;
           if not Life.IsMin and (Life.Cur < Life.Max) and (Rand(1, 3) = 1) then
             if not Mana.IsMin then
             begin
@@ -279,15 +283,15 @@ begin
         end;
       end;
       //
-      if not DoAStar(Map.Width, Map.Height, Pos.X, Pos.Y, L.X, L.Y, @IsFreeCell,
-        NX, NY) then
+      if not DoAStar(Map.Width, Map.Height, Pos.X, Pos.Y, LPos.X, LPos.Y,
+        @IsFreeCell, NX, NY) then
         Exit;
       //
       begin
         if (NX <= 0) or (NY <= 0) then
           Exit;
-        if (GetDist(Creatures.Character.Pos.X, Creatures.Character.Pos.Y, Pos.X, Pos.Y) >
-          Prop.Radius) then
+        if (GetDist(Creatures.Character.Pos.X, Creatures.Character.Pos.Y, Pos.X,
+          Pos.Y) > Prop.Radius) then
           Exit;
         for I := 0 to High(Creatures.Enemy) do
           if not Creatures.Enemy[I].Life.IsMin and
@@ -297,7 +301,8 @@ begin
             JX := Rand(NX - 1, NX + 1);
             JY := Rand(NY - 1, NY + 1);
             if Creatures.Character.FreeCell(JX, JY) and
-              not((JX = Creatures.Character.Pos.X) and (JY = Creatures.Character.Pos.Y)) then
+              not((JX = Creatures.Character.Pos.X) and
+              (JY = Creatures.Character.Pos.Y)) then
             begin
               for J := 0 to High(Creatures.Enemy) do
                 if not Creatures.Enemy[J].Life.IsMin and
@@ -308,7 +313,8 @@ begin
             end;
             Exit;
           end;
-        if (NX = Creatures.Character.Pos.X) and (NY = Creatures.Character.Pos.Y) then
+        if (NX = Creatures.Character.Pos.X) and (NY = Creatures.Character.Pos.Y)
+        then
           Melee()
         else
           Move(NX - Pos.X, NY - Pos.Y);

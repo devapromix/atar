@@ -87,11 +87,11 @@ end;
 
 procedure TMainForm.ActionIcon(N: Integer; Icon: TIcon);
 var
-  LNim: TNotifyIconData;
+  LNotifyIconData: TNotifyIconData;
 begin
-  with LNim do
+  with LNotifyIconData do
   begin
-    cbSize := System.SizeOf(LNim);
+    cbSize := System.SizeOf(LNotifyIconData);
     Wnd := MainForm.Handle;
     uID := 1;
     uFlags := NIF_ICON or NIF_MESSAGE or NIF_TIP;
@@ -101,11 +101,11 @@ begin
   end;
   case N of
     1:
-      Shell_NotifyIcon(Nim_Add, @LNim);
+      Shell_NotifyIcon(Nim_Add, @LNotifyIconData);
     2:
-      Shell_NotifyIcon(Nim_Delete, @LNim);
+      Shell_NotifyIcon(Nim_Delete, @LNotifyIconData);
     3:
-      Shell_NotifyIcon(Nim_Modify, @LNim);
+      Shell_NotifyIcon(Nim_Modify, @LNotifyIconData);
   end;
 end;
 

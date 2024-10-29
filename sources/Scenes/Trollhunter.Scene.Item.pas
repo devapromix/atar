@@ -51,7 +51,7 @@ uses
   Trollhunter.Graph,
   Trollhunter.Game,
   Trollhunter.Scene.Game,
-  Trollhunter.Color,
+  Dragonhunter.Color,
   Trollhunter.Utils,
   Trollhunter.Map,
   Trollhunter.Map.Tiles,

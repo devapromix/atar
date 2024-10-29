@@ -31,7 +31,7 @@ uses
   Vcl.Graphics,
   System.Types,
   Trollhunter.Graph,
-  Trollhunter.Color;
+  Dragonhunter.Color;
 
 procedure TTerminal.Clear;
 begin

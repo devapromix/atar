@@ -6,7 +6,7 @@ uses
   Windows,
   Graphics,
   Classes,
-  Trollhunter.Color,
+  Dragonhunter.Color,
   Trollhunter.Craft,
   Trollhunter.Entity,
   Dragonhunter.Item.Random,

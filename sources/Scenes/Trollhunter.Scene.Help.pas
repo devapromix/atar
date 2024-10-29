@@ -32,7 +32,7 @@ uses
   Trollhunter.Graph,
   Trollhunter.Error,
   Trollhunter.Lang,
-  Trollhunter.Color;
+  Dragonhunter.Color;
 
 { TSceneHelp }
 

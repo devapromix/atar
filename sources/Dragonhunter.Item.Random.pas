@@ -5,7 +5,7 @@ interface
 uses
   Classes,
   Graphics,
-  Trollhunter.Color;
+  Dragonhunter.Color;
 
 type
   TRandItemRec = record

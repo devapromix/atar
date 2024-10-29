@@ -34,7 +34,7 @@ implementation
 uses
   SysUtils,
   Trollhunter.Graph,
-  Trollhunter.Color,
+  Dragonhunter.Color,
   Trollhunter.Error,
   Trollhunter.Statistics,
   Trollhunter.Creatures,

@@ -15,14 +15,16 @@ type
   private
     FF: TStringList;
     function GetText: string;
-    procedure SetText(const Value: string);
+    procedure SetText(const AValue: string);
   public
     constructor Create;
     destructor Destroy; override;
     procedure Clear;
-    procedure Inc(const I: TStatisticsEnum; const Value: Cardinal = 1);
-    function Get(const I: TStatisticsEnum): Cardinal;
-    procedure SetValue(const I: TStatisticsEnum; const Value: Cardinal);
+    procedure Inc(const AStatisticsEnum: TStatisticsEnum;
+      const AValue: Cardinal = 1);
+    function Get(const AStatisticsEnum: TStatisticsEnum): Cardinal;
+    procedure SetValue(const AStatisticsEnum: TStatisticsEnum;
+      const AValue: Cardinal);
     property Text: string read GetText write SetText;
   end;
 
@@ -35,10 +37,10 @@ uses
 
 procedure TStatistics.Clear;
 var
-  I: TStatisticsEnum;
+  LStatisticsEnum: TStatisticsEnum;
 begin
   FF.Clear;
-  for I := Low(TStatisticsEnum) to High(TStatisticsEnum) do
+  for LStatisticsEnum := Low(TStatisticsEnum) to High(TStatisticsEnum) do
     FF.Append('0');
 end;
 
@@ -54,9 +56,9 @@ begin
   inherited;
 end;
 
-function TStatistics.Get(const I: TStatisticsEnum): Cardinal;
+function TStatistics.Get(const AStatisticsEnum: TStatisticsEnum): Cardinal;
 begin
-  Result := StrToIntDef(FF[Ord(I)], 0);
+  Result := StrToIntDef(FF[Ord(AStatisticsEnum)], 0);
 end;
 
 function TStatistics.GetText: string;
@@ -64,23 +66,25 @@ begin
   Result := FF.Text;
 end;
 
-procedure TStatistics.Inc(const I: TStatisticsEnum; const Value: Cardinal);
+procedure TStatistics.Inc(const AStatisticsEnum: TStatisticsEnum;
+  const AValue: Cardinal);
 var
-  N: Cardinal;
+  LValue: Cardinal;
 begin
-  N := StrToIntDef(FF[Ord(I)], 0);
-  N := N + Value;
-  FF[Ord(I)] := IntToStr(N);
+  LValue := StrToIntDef(FF[Ord(AStatisticsEnum)], 0);
+  LValue := LValue + AValue;
+  FF[Ord(AStatisticsEnum)] := IntToStr(LValue);
 end;
 
-procedure TStatistics.SetText(const Value: string);
+procedure TStatistics.SetText(const AValue: string);
 begin
-  FF.Text := Value;
+  FF.Text := AValue;
 end;
 
-procedure TStatistics.SetValue(const I: TStatisticsEnum; const Value: Cardinal);
+procedure TStatistics.SetValue(const AStatisticsEnum: TStatisticsEnum;
+  const AValue: Cardinal);
 begin
-  FF[Ord(I)] := IntToStr(Value);
+  FF[Ord(AStatisticsEnum)] := IntToStr(AValue);
 end;
 
 end.

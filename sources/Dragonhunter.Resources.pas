@@ -47,7 +47,7 @@ uses
   System.SysUtils,
   Trollhunter.Utils,
   Trollhunter.Graph,
-  Trollhunter.Color,
+  Dragonhunter.Color,
   Trollhunter.Light,
   Trollhunter.Map,
   Dragonhunter.MainForm,

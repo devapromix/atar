@@ -93,7 +93,7 @@ uses
   Trollhunter.Creatures,
   Dragonhunter.AStar,
   Trollhunter.Error,
-  Trollhunter.Color;
+  Dragonhunter.Color;
 
 var
   LExplodeResult: TExplodeResult;
@@ -631,7 +631,8 @@ begin
     tlClosedBarrel:
       begin
         Log.Add(Language.GetLang(55));
-        Map.Cell[Creatures.Character.Pos.Y][Creatures.Character.Pos.X].Tile := tlOpenBarrel;
+        Map.Cell[Creatures.Character.Pos.Y][Creatures.Character.Pos.X].Tile :=
+          tlOpenBarrel;
         J := 2;
       end;
     tlClosedWoodChest, tlLockedWoodChest:
@@ -651,8 +652,8 @@ begin
   end;
   for I := 0 to J do
   begin
-    Dragonhunter.Item.Items.Add(Creatures.Character.Pos.X, Creatures.Character.Pos.Y,
-      Map.GetRandItemID);
+    Dragonhunter.Item.Items.Add(Creatures.Character.Pos.X,
+      Creatures.Character.Pos.Y, Map.GetRandItemID);
     if not F or (Rand(1, 2) = 1) then
       Break;
   end;

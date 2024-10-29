@@ -29,7 +29,7 @@ uses
   Trollhunter.Map.Tiles,
   Trollhunter.Creatures,
   Trollhunter.Utils,
-  Trollhunter.Color,
+  Dragonhunter.Color,
   Trollhunter.Graph,
   Trollhunter.GlobalMap;
 
@@ -98,8 +98,10 @@ begin
       end
       else
       begin
-        for X := Creatures.Character.Pos.X - 7 to Creatures.Character.Pos.X + 7 do
-          for Y := Creatures.Character.Pos.Y - 7 to Creatures.Character.Pos.Y + 7 do
+        for X := Creatures.Character.Pos.X -
+          7 to Creatures.Character.Pos.X + 7 do
+          for Y := Creatures.Character.Pos.Y -
+            7 to Creatures.Character.Pos.Y + 7 do
             RenderCell(X, Y);
       end;
     end;
@@ -109,8 +111,8 @@ begin
       if Character.TempSys.IsVar('WizardEye') then
         for J := 0 to High(Enemy) do
           if not Enemy[J].Life.IsMin then
-            if (GetDist(Character.Pos.X, Character.Pos.Y, Enemy[J].Pos.X, Enemy[J].Pos.Y) <=
-              Character.TempSys.Power('WizardEye')) then
+            if (GetDist(Character.Pos.X, Character.Pos.Y, Enemy[J].Pos.X,
+              Enemy[J].Pos.Y) <= Character.TempSys.Power('WizardEye')) then
               PSet(Enemy[J].Pos.X, Enemy[J].Pos.Y, clRed);
 
     PSet(Creatures.Character.Pos.X, Creatures.Character.Pos.Y, cWhite);

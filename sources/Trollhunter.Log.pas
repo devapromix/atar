@@ -13,12 +13,12 @@ type
     FLast: string;
     FLine: string;
     FF: TStringList;
-    procedure AddToLog(Msg: string);
+    procedure AddToLog(AString: string);
     function GetText: string;
     procedure SetText(const Value: string);
   public
     property Text: string read GetText write SetText;
-    procedure Add(S: string);
+    procedure Add(AString: string);
     procedure Clear;
     procedure Apply;
     procedure Render;
@@ -35,27 +35,27 @@ implementation
 uses
   Trollhunter.Utils,
   Trollhunter.Graph,
-  Trollhunter.Color,
+  Dragonhunter.Color,
   Dragonhunter.AStar;
 
 { TLog }
 
-procedure TLog.Add(S: string);
+procedure TLog.Add(AString: string);
 begin
-  S := Trim(S);
-  if (S = '') then
+  AString := Trim(AString);
+  if (AString = '') then
     Exit;
-  FLine := FLine + S + #32;
+  FLine := FLine + AString + #32;
 end;
 
-procedure TLog.AddToLog(Msg: string);
+procedure TLog.AddToLog(AString: string);
 var
   E: TExplodeResult;
   F: TExplodeResult;
 begin
   E := nil;
   F := nil;
-  Msg := Trim(Graph.Text.ClearText(Msg));
+  AString := Trim(Graph.Text.ClearText(AString));
   if (FF.Count > 0) then
   begin
     FLast := FF[FF.Count - 1];
@@ -69,9 +69,9 @@ begin
   end
   else
     FLast := '';
-  if (Msg <> '') then
+  if (AString <> '') then
   begin
-    if (Msg = FLast) then
+    if (AString = FLast) then
     begin
       if (FLast <> '') then
       begin
@@ -82,7 +82,7 @@ begin
     else
     begin
       FCount := 1;
-      FF.Append(Msg);
+      FF.Append(AString);
     end;
   end;
   while (FF.Count > LogMax) do

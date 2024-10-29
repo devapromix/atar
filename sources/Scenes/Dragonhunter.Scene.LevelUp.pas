@@ -37,7 +37,7 @@ uses
   Trollhunter.Creatures,
   Trollhunter.Scenes,
   Trollhunter.Scene.Game,
-  Trollhunter.Color,
+  Dragonhunter.Color,
   Trollhunter.Error,
   Trollhunter.Log,
   Trollhunter.Lang,
@@ -54,7 +54,7 @@ constructor TSceneLevelUp.Create;
 begin
   inherited Create(4);
   FCursorPos := 0;
-  FCount := 4;
+  FCount := 5;
 end;
 
 procedure TSceneLevelUp.AtrItem(I: Integer; S: string);

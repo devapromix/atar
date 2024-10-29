@@ -39,7 +39,8 @@ uses
   Dragonhunter.Terminal,
   Dragonhunter.AStar,
   Trollhunter.Map,
-  Dragonhunter.Item, Trollhunter.Color;
+  Dragonhunter.Item,
+  Dragonhunter.Color;
 
 function IsFreeCell(AX, AY: Integer): Boolean; stdcall;
 begin

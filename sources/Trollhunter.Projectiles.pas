@@ -35,7 +35,7 @@ uses
   Types,
   Trollhunter.Graph,
   Trollhunter.Utils,
-  Trollhunter.Color;
+  Dragonhunter.Color;
 
 { TProjectile }
 

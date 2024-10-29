@@ -31,7 +31,7 @@ uses
   Graphics,
   SysUtils,
   Trollhunter.Graph,
-  Trollhunter.Color,
+  Dragonhunter.Color,
   Trollhunter.Scenes,
   Dragonhunter.MainForm,
   Dragonhunter.Scene.Menu,

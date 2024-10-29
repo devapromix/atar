@@ -39,7 +39,7 @@ uses
   Trollhunter.Creatures,
   Dragonhunter.MainForm,
   Trollhunter.Scenes,
-  Trollhunter.Color,
+  Dragonhunter.Color,
   Trollhunter.Scene.Inv,
   Trollhunter.Race,
   Trollhunter.Utils,

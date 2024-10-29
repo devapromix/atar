@@ -4,7 +4,7 @@ interface
 
 uses
   Graphics,
-  Trollhunter.Color;
+  Dragonhunter.Color;
 
 var
   Fullscreen: Boolean = True;

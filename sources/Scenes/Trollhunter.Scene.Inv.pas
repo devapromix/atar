@@ -40,7 +40,7 @@ uses
   SysUtils,
   Trollhunter.Error,
   Trollhunter.Graph,
-  Trollhunter.Color,
+  Dragonhunter.Color,
   Trollhunter.Game,
   Trollhunter.Utils,
   Trollhunter.Log,

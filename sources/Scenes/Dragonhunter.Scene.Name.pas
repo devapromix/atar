@@ -10,7 +10,7 @@ uses
 type
   TSceneName = class(TSceneBaseMenu)
   private
-    procedure AddChar(S: string);
+    procedure AddChar(const AChar: Char);
     function GetPath: string;
   public
     procedure Render(); override;
@@ -33,7 +33,7 @@ uses
   Trollhunter.Scenes,
   Trollhunter.Scene.Game,
   Trollhunter.Graph,
-  Trollhunter.Color,
+  Dragonhunter.Color,
   Trollhunter.Game,
   Dragonhunter.MainForm,
   Dragonhunter.Scene.Menu,
@@ -45,11 +45,11 @@ uses
 
 { TSceneName }
 
-procedure TSceneName.AddChar(S: string);
+procedure TSceneName.AddChar(const AChar: Char);
 begin
   if (Length(Creatures.Character.Name) < 15) then
   begin
-    Creatures.Character.Name := Creatures.Character.Name + S;
+    Creatures.Character.Name := Creatures.Character.Name + AChar;
     Render;
   end;
 end;
@@ -73,11 +73,11 @@ end;
 procedure TSceneName.KeyDown(var Key: Word; Shift: TShiftState);
 var
   N: string;
-  Name: TName;
+  LName: TName;
 begin
   inherited;
   try
-    Name := TName.Create;
+    LName := TName.Create;
     try
       case Key of
         8:
@@ -96,7 +96,8 @@ begin
             begin
               SceneGame.Free;
               SceneGame := TSceneGame.Create;
-              if FileExists(Path + 'save\' + Creatures.Character.Name + '.sav') then
+              if FileExists(Path + 'save\' + Creatures.Character.Name + '.sav')
+              then
               begin
                 Game.Load();
                 Graph.Messagebar.Add(Format(Language.GetLang(20),
@@ -114,18 +115,18 @@ begin
             end
             else
             begin
-              Creatures.Character.Name := Name.Gen();
+              Creatures.Character.Name := LName.Gen();
               Render();
             end;
           end;
         32:
           begin
-            Creatures.Character.Name := Name.Gen();
+            Creatures.Character.Name := LName.Gen();
             Render();
           end;
       end;
     finally
-      Name.Free;
+      LName.Free;
     end;
   except
     on E: Exception do
@@ -137,7 +138,7 @@ procedure TSceneName.Render;
 var
   S, N: string;
   W, H, V: Integer;
-  P: TPCInfo;
+  LPCInfo: TPCInfo;
   F: Boolean;
 begin
   inherited;
@@ -166,9 +167,9 @@ begin
 
     if F then
     begin
-      P := Game.GetPCInfo(GetPath);
-      S := AnsiLowerCase(Language.GetLang(30) + ': ' + IntToStr(P.Level) + ' | '
-        + Language.GetLang(36) + ': ' + IntToStr(P.Rating) + ' | ' +
+      LPCInfo := Game.GetPCInfo(GetPath);
+      S := AnsiLowerCase(Language.GetLang(30) + ': ' + IntToStr(LPCInfo.Level) +
+        ' | ' + Language.GetLang(36) + ': ' + IntToStr(LPCInfo.Rating) + ' | ' +
         Language.GetLang(140) + ': ' + GetFileDate(GetPath));
       Terminal.TextColor(cBgColor);
       W := Terminal.TextWidth(S);
