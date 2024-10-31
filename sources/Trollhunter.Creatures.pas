@@ -116,8 +116,8 @@ begin
       ADamage := 1;
 
     CX := (ACreature.Pos.X - (Creatures.Character.Pos.X - Graph.RW)) * TileSize;
-    CY := (ACreature.Pos.Y - (Creatures.Character.Pos.Y - Graph.RH)) * TileSize +
-      Graph.CharHeight;
+    CY := (ACreature.Pos.Y - (Creatures.Character.Pos.Y - Graph.RH)) * TileSize
+      + Graph.CharHeight;
     with TAnimNumber.Create(-ADamage, CX, CY) do
       Free;
 
@@ -315,10 +315,10 @@ end;
 procedure TCreatures.Add(const X, Y: Integer; AName: string);
 var
   A, I, P: Integer;
-  B: Graphics.TBitmap;
+  LImage: Graphics.TBitmap;
 begin
   try
-    B := Graphics.TBitmap.Create;
+    LImage := Graphics.TBitmap.Create;
     try
       AName := UpperCase(Trim(AName));
       if (AName = '') then
@@ -335,10 +335,10 @@ begin
         Look := Point(X, Y);
         Name := AName;
         Prop := CreaturePatterns.Patterns[P];
-        B.Handle := Windows.LoadBitmap(hInstance, PChar(Name));
-        Graph.BitmapFromTileset(Image, B, 0);
+        LImage.Handle := Windows.LoadBitmap(hInstance, PChar(Name));
+        Graph.BitmapFromTileset(Image, LImage, 0);
         Image.Transparent := True;
-        Graph.BitmapFromTileset(Spot, B, 1);
+        Graph.BitmapFromTileset(Spot, LImage, 1);
         Spot.Transparent := True;
         Calc();
         Fill();
@@ -346,7 +346,7 @@ begin
         Map.Cell[Y][X].Tile := tlFloor; { ? }
       end;
     finally
-      B.Free;
+      LImage.Free;
     end;
   except
     on E: Exception do
