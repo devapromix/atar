@@ -75,7 +75,8 @@ uses
   Dragonhunter.Item.Script in 'Dragonhunter.Item.Script.pas',
   Dragonhunter.Item.Default in 'Dragonhunter.Item.Default.pas',
   Dragonhunter.Terminal in 'Dragonhunter.Terminal.pas',
-  Dragonhunter.Wander in 'Dragonhunter.Wander.pas';
+  Dragonhunter.Wander in 'Dragonhunter.Wander.pas',
+  Dragonhunter.Frame in 'Dragonhunter.Frame.pas';
 
 {$R *.res}
 

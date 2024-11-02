@@ -18,6 +18,10 @@ type
     function TextWidth(const AText: string): Integer;
     procedure NormalFont;
     procedure BoldFont;
+    procedure AddToMessagebar(const AMessage: string);
+    procedure BarOut(const KeyID: string; LangID: Word;
+      IsNewBar: Boolean = False);
+
   end;
 
 var
@@ -82,6 +86,17 @@ begin
     Brush.Color := 0;
     Brush.Style := bsClear;
   end;
+end;
+
+procedure TTerminal.AddToMessagebar(const AMessage: string);
+begin
+  Graph.Messagebar.Add(AMessage);
+end;
+
+procedure TTerminal.BarOut(const KeyID: string; LangID: Word;
+  IsNewBar: Boolean);
+begin
+  Graph.Text.BarOut(KeyID, LangID, IsNewBar);
 end;
 
 procedure TTerminal.BoldFont;

@@ -32,7 +32,6 @@ uses
   Trollhunter.Creatures,
   Trollhunter.Scenes,
   Trollhunter.Scene.Game,
-  Trollhunter.Graph,
   Dragonhunter.Color,
   Trollhunter.Game,
   Dragonhunter.MainForm,
@@ -41,7 +40,8 @@ uses
   Trollhunter.Utils,
   Trollhunter.Error,
   Trollhunter.Lang,
-  Trollhunter.Scene.Race;
+  Trollhunter.Scene.Race,
+  Dragonhunter.Frame;
 
 { TSceneName }
 
@@ -100,7 +100,7 @@ begin
               then
               begin
                 Game.Load();
-                Graph.Messagebar.Add(Format(Language.GetLang(20),
+                Terminal.AddToMessagebar(Format(Language.GetLang(20),
                   [Creatures.Character.Name, MainForm.Caption]));
                 Scenes.Scene := SceneGame;
               end
@@ -163,7 +163,7 @@ begin
       Terminal.Height div 2 - V, S);
     if (Creatures.Character.Name = '') then
       N := 'enter, ' + N;
-    Graph.Text.BarOut(N, 48);
+    Terminal.BarOut(N, 48);
 
     if F then
     begin
@@ -175,7 +175,7 @@ begin
       W := Terminal.TextWidth(S);
       Terminal.TextOut((Terminal.Width div 2) - (W div 2),
         Terminal.Height div 2 + 1, S);
-      Graph.Text.BarOut('enter', 1);
+      Terminal.BarOut('enter', 1);
     end;
 
     Terminal.TextColor(cAcColor);

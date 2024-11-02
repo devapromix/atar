@@ -32,7 +32,6 @@ uses
   SysUtils,
   Dragonhunter.Terminal,
   Dragonhunter.Item,
-  Trollhunter.Graph,
   Dragonhunter.Color,
   Dragonhunter.Scene.Name,
   Trollhunter.Scenes,
@@ -51,7 +50,8 @@ uses
   Trollhunter.Race,
   Trollhunter.Creature.Pattern,
   Trollhunter.Map.Pattern,
-  Trollhunter.Item.Pattern;
+  Trollhunter.Item.Pattern,
+  Dragonhunter.Frame;
 
 { TSceneMenu }
 
@@ -233,18 +233,7 @@ const
     '        \|                                                                                        ');
 
 begin
-  with Graph.Surface.Canvas do
-  begin
-    H := High(Logo) * Graph.CharHeight;
-    X := (Graph.Surface.Width div 2) -
-      ((Length(Logo[0]) * Graph.CharWidth) div 2);
-    for Y := 0 to High(Logo) do
-    begin
-      Font.Style := [fsBold];
-      Font.Color := DarkColor(cLtRed, Y * 5);
-      // TextOut(X, (Y * Graph.CharHeight) + ((T div 2) - (H div 2)), Logo[Y]);
-    end;
-  end;
+
 end;
 
 initialization

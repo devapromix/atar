@@ -122,18 +122,8 @@ type
     procedure LoadFromFile(const FileName: String); override;
   end;
 
-type
-  TFrameStyle = (bsSingle, bsDouble);
-
-type
-  TFrame = class(TObject)
-    procedure Draw(const Left, Top, Width, Height: Integer;
-      const Style: TFrameStyle = bsSingle);
-  end;
-
 var
   Graph: TGraph;
-  Frame: TFrame;
 
 implementation
 
@@ -166,17 +156,6 @@ uses
   then stretchblt(b.canvas.handle,Gsize-1,0,-Gsize,Gsize,b.canvas.handle,0,0,Gsize,Gsize,srccopy);
   end;
 }
-
-type
-  TFrameChars = record
-    TopLeft, TopRight, BottomLeft, BottomRight, Horizontal, Vertical: Char;
-  end;
-
-const
-  SingleFrame: TFrameChars = (TopLeft: '┌'; TopRight: '┐'; BottomLeft: '└';
-    BottomRight: '┘'; Horizontal: '─'; Vertical: '│');
-  DoubleFrame: TFrameChars = (TopLeft: '╔'; TopRight: '╗'; BottomLeft: '╚';
-    BottomRight: '╝'; Horizontal: '═'; Vertical: '║');
 
 procedure TGraph.Clear(AColor: Integer);
 begin
@@ -782,8 +761,10 @@ begin
   T := Graphics.TBitmap.Create;
   try
     Left := Graph.DL + (Graph.CharWidth * 2) + 4;
-    S[1] := Format(C, [Creatures.Character.LIFE.Cur, Creatures.Character.LIFE.Max]);
-    S[2] := Format(C, [Creatures.Character.MANA.Cur, Creatures.Character.MANA.Max]);
+    S[1] := Format(C, [Creatures.Character.LIFE.Cur,
+      Creatures.Character.LIFE.Max]);
+    S[2] := Format(C, [Creatures.Character.MANA.Cur,
+      Creatures.Character.MANA.Max]);
     S[3] := Format(C, [Creatures.Character.EXP, Creatures.Character.MaxExp]);
     M := 0;
     for I := 1 to 3 do
@@ -840,8 +821,8 @@ begin
         T.Assign(EXPBAR);
         if (T.Width > W) then
           T.Width := W;
-        T.Width := BarWidth(Creatures.Character.EXP - R, Creatures.Character.MaxExp -
-          R, T.Width);
+        T.Width := BarWidth(Creatures.Character.EXP - R,
+          Creatures.Character.MaxExp - R, T.Width);
         DrawBar(4);
       end;
       // Damage, Protect
@@ -938,45 +919,5 @@ begin
   if (vFileExt = '.bmp') then
     inherited LoadFromFile(FileName);
 end;
-
-{ TFrame }
-
-procedure TFrame.Draw(const Left, Top, Width, Height: Integer;
-  const Style: TFrameStyle = bsSingle);
-var
-  Frame: TFrameChars;
-  I: Integer;
-begin
-  case Style of
-    bsSingle:
-      Frame := SingleFrame;
-    bsDouble:
-      Frame := DoubleFrame;
-  end;
-
-  Graph.Text.DrawOut(Left, Top, Frame.TopLeft);
-  for I := 1 to Width - 2 do
-    Graph.Text.DrawOut(Left + I, Top, Frame.Horizontal);
-  Graph.Text.DrawOut(Left + I, Top, Frame.TopRight);
-
-  for I := 1 to Height - 2 do
-  begin
-    Graph.Text.DrawOut(Left, Top + I, Frame.Vertical);
-    Graph.Text.DrawOut(Left + Width - 1, Top + I, Frame.Vertical);
-  end;
-
-  Graph.Text.DrawOut(Left, Top + Height - 1, Frame.BottomLeft);
-  for I := 1 to Width - 2 do
-    Graph.Text.DrawOut(Left + I, Top + Height - 1, Frame.Horizontal);
-  Graph.Text.DrawOut(Left + I, Top + Height - 1, Frame.BottomRight);
-end;
-
-initialization
-
-Frame := TFrame.Create;
-
-finalization
-
-FreeAndNil(Frame);
 
 end.

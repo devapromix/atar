@@ -39,7 +39,8 @@ uses
   Trollhunter.Utils,
   Trollhunter.Lang,
   Trollhunter.Settings,
-  Dragonhunter.Terminal;
+  Dragonhunter.Terminal,
+  Dragonhunter.Frame;
 
 { TSceneSettings }
 
