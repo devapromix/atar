@@ -32,6 +32,7 @@ implementation
 
 uses
   System.Math,
+  System.SysUtils,
   Vcl.Graphics,
   Trollhunter.Utils,
   Trollhunter.Graph,
@@ -74,8 +75,8 @@ var
 begin
   NX := 0;
   NY := 0;
-  if not DoAStar(Map.Width, Map.Height, Creatures.Character.Pos.X, Creatures.Character.Pos.Y,
-    FTarget.X, FTarget.Y, @IsFreeCell, NX, NY) then
+  if not DoAStar(Map.Width, Map.Height, Creatures.Character.Pos.X,
+    Creatures.Character.Pos.Y, FTarget.X, FTarget.Y, @IsFreeCell, NX, NY) then
     Exit;
   if (NX <= 0) and (NY <= 0) or IsFound then
   begin
@@ -94,17 +95,18 @@ begin
     for X := Trollhunter.Creatures.Creatures.Character.Pos.X -
       Graph.RW to Trollhunter.Creatures.Creatures.Character.Pos.X + Graph.RW do
       for Y := Trollhunter.Creatures.Creatures.Character.Pos.Y -
-        Graph.RH to Trollhunter.Creatures.Creatures.Character.Pos.Y + Graph.RH do
+        Graph.RH to Trollhunter.Creatures.Creatures.Character.Pos.Y +
+        Graph.RH do
       begin
         if (X < 0) or (Y < 0) or (X > MapSide - 1) or (Y > MapSide - 1) then
           Continue;
         if ((Wander.Target.X <> 0) and (Wander.Target.Y <> 0)) then
           if ((Wander.Target.X = X) and (Wander.Target.Y = Y)) then
           begin
-            DX := (X - (Trollhunter.Creatures.Creatures.Character.Pos.X - Graph.RW))
-              * TileSize;
-            DY := (Y - (Trollhunter.Creatures.Creatures.Character.Pos.Y - Graph.RH)) *
-              TileSize + Graph.CharHeight;
+            DX := (X - (Trollhunter.Creatures.Creatures.Character.Pos.X -
+              Graph.RW)) * TileSize;
+            DY := (Y - (Trollhunter.Creatures.Creatures.Character.Pos.Y -
+              Graph.RH)) * TileSize + Graph.CharHeight;
             Brush.Style := bsClear;
             Pen.Color := cLtYellow;
             Rectangle(DX, DY, DX + TileSize, DY + TileSize);
@@ -139,15 +141,26 @@ begin
 end;
 
 procedure TWander.Start;
+var
+  LNextPoint: TPoint;
+  I: Integer;
 begin
   WanderMode := True;
   FTarget.X := 0;
   FTarget.Y := 0;
-  while not Creatures.Character.FreeCell(FTarget.X, FTarget.Y) do
-  begin
-    FTarget.X := RandomRange(0, MapSide - 1);
-    FTarget.Y := RandomRange(0, MapSide - 1);
-  end;
+  repeat
+    if Items.Count > 0 then
+    begin
+      I := RandomRange(0, Items.Count);
+      FTarget.X := Items.Item[I].Pos.X;
+      FTarget.Y := Items.Item[I].Pos.Y;
+    end
+    else
+    begin
+      FTarget.X := RandomRange(0, MapSide - 1);
+      FTarget.Y := RandomRange(0, MapSide - 1);
+    end;
+  until Creatures.Character.FreeCell(FTarget.X, FTarget.Y);
 end;
 
 initialization

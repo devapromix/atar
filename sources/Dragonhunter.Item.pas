@@ -142,6 +142,7 @@ type
     destructor Destroy; override;
     function IsCategory(const ACategory, ACategories: string): Boolean;
     property ItemScript: TItemScript read FItemScript write FItemScript;
+    function Count: Integer;
   end;
 
 var
@@ -307,6 +308,11 @@ begin
       on E: Exception do
         Error.Add('Items.Colors', E.Message);
     end;
+end;
+
+function TItems.Count: Integer;
+begin
+  Result := Length(Items.Item)
 end;
 
 function TItems.Craft(A, B: string): string;
