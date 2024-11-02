@@ -122,7 +122,7 @@ uses
   Trollhunter.Projectiles,
   Trollhunter.Utils,
   Trollhunter.Map,
-  Trollhunter.Scene.Item,
+  Dragonhunter.Scene.Item,
   Trollhunter.Scene.Game,
   Trollhunter.Time,
   Trollhunter.Settings,

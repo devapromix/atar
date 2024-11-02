@@ -1,4 +1,4 @@
-﻿unit Trollhunter.Scene.Item;
+﻿unit Dragonhunter.Scene.Item;
 
 interface
 
@@ -56,7 +56,9 @@ uses
   Trollhunter.Map,
   Trollhunter.Map.Tiles,
   Trollhunter.Lang,
-  Trollhunter.Skill, Trollhunter.Item.Pattern;
+  Trollhunter.Skill,
+  Trollhunter.Item.Pattern,
+  Dragonhunter.Terminal;
 
 { TSceneItem }
 
@@ -206,7 +208,8 @@ begin
         end;
       ord('D'):
         if Items.IsCategory(ItemPatterns.Patterns[LPatItemIndex].Category,
-          DropCategories) and not Creatures.Character.Inv.GetDoll(ItemIndex) then
+          DropCategories) and not Creatures.Character.Inv.GetDoll(ItemIndex)
+        then
         begin
           Drop(ItemIndex);
           Log.Apply;
@@ -366,8 +369,8 @@ var
       Font.Color := cWhiteGre;
       if (ItemPatterns.Patterns[AItemIndex].ManaCost > 0) then
         Add(Format('%s -%d (%d/%d)', [Language.GetLang(23),
-          ItemPatterns.Patterns[AItemIndex].ManaCost, Creatures.Character.Mana.Cur,
-          Creatures.Character.Mana.Max]));
+          ItemPatterns.Patterns[AItemIndex].ManaCost,
+          Creatures.Character.Mana.Cur, Creatures.Character.Mana.Max]));
       { if (ItemPatterns.Patterns[I].NeedMagic > 0) then
         Add(Format('%s %d (%d)', [Language.GetLang(280),
         ItemPatterns.Patterns[I].NeedMagic, Skills.GetSkill('MAGIC').Level])); }
@@ -431,17 +434,19 @@ begin
       if Items.IsCategory(ItemPatterns.Patterns[I].Category, EquipmentCategories)
       then
         AddCommand('W', Language.GetLang(95));
-      if Items.IsCategory(ItemPatterns.Patterns[I].Category, UseCategories) then
-        AddCommand('U', Language.GetLang(98));
       if Items.IsCategory(ItemPatterns.Patterns[I].Category, PotionCategories)
       then
         AddCommand('Q', Language.GetLang(93));
       if Items.IsCategory(ItemPatterns.Patterns[I].Category, ScrollCategories)
       then
         AddCommand('R', Language.GetLang(99));
+      if Items.IsCategory(ItemPatterns.Patterns[I].Category, UseCategories) then
+        AddCommand('U', Language.GetLang(98));
       if Items.IsCategory(ItemPatterns.Patterns[I].Category, DropCategories) and
         not Creatures.Character.Inv.GetDoll(ItemIndex) then
         AddCommand('D', Language.GetLang(90));
+      Frame.Draw((Terminal.Width div 2) - 30, Terminal.Height div 2 -
+        14, 60, 22);
       Render;
       Tileset.Free;
     except
@@ -460,8 +465,8 @@ var
   J, T, C: Integer;
 begin
   try
-    if not(Map.Cell[Creatures.Character.Pos.Y][Creatures.Character.Pos.X].Tile in FloorSet +
-      [tlOpenWoodChest, tlOpenBestChest, tlOpenBarrel]) then
+    if not(Map.Cell[Creatures.Character.Pos.Y][Creatures.Character.Pos.X].Tile
+      in FloorSet + [tlOpenWoodChest, tlOpenBestChest, tlOpenBarrel]) then
       Exit;
     T := Creatures.Character.Inv.GetTough(AItemIndex);
     J := KeyIDToInvItemID(AItemIndex);

@@ -159,7 +159,7 @@ uses
   Trollhunter.Creatures,
   Trollhunter.Scenes,
   Trollhunter.Log,
-  Trollhunter.Scene.Item,
+  Dragonhunter.Scene.Item,
   Trollhunter.Map.Tiles,
   Trollhunter.Scene.Items,
   Trollhunter.Lang,

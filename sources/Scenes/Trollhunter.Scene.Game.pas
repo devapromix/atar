@@ -53,7 +53,7 @@ uses
   Dragonhunter.Scene.Menu,
   Trollhunter.Scene.Inv,
   Trollhunter.Projectiles,
-  Trollhunter.Scene.Item,
+  Dragonhunter.Scene.Item,
   Trollhunter.Decorator,
   Trollhunter.Scene.Char,
   Trollhunter.Lang,
