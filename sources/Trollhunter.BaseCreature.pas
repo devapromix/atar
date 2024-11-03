@@ -4,7 +4,7 @@ interface
 
 uses
   Trollhunter.Entity,
-  Trollhunter.Bar;
+  Dragonhunter.Bar;
 
 type
   TBaseCreature = class(TEntity)

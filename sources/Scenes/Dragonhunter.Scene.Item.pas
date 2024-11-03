@@ -419,16 +419,16 @@ begin
           RenderItemInfo(I)
         else
         begin
-          if (ItemPatterns.Patterns[I].Category = 'SCROLL') and
-            Creatures.Character.Scrolls.IsDefined(T) then
-            RenderItemInfo(I)
-          else
-            Add(Language.GetLang(23));
-          if (ItemPatterns.Patterns[I].Category = 'POTION') and
-            Creatures.Character.Potions.IsDefined(T) then
-            RenderItemInfo(I)
-          else
-            Add(Language.GetLang(23));
+          if (ItemPatterns.Patterns[I].Category = 'SCROLL') then
+            if Creatures.Character.Scrolls.IsDefined(T) then
+              RenderItemInfo(I)
+            else
+              Add(Language.GetLang(23));
+          if (ItemPatterns.Patterns[I].Category = 'POTION') then
+            if Creatures.Character.Potions.IsDefined(T) then
+              RenderItemInfo(I)
+            else
+              Add(Language.GetLang(23));
         end;
       end;
       Text.BarOut('esc', Language.GetLang(49), True);

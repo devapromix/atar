@@ -56,7 +56,7 @@ uses
   Trollhunter.Race in 'Trollhunter.Race.pas',
   Trollhunter.Skill in 'Trollhunter.Skill.pas',
   Trollhunter.Entity in 'Trollhunter.Entity.pas',
-  Trollhunter.Bar in 'Trollhunter.Bar.pas',
+  Dragonhunter.Bar in 'Dragonhunter.Bar.pas',
   Trollhunter.MiniMap in 'Trollhunter.MiniMap.pas',
   Trollhunter.CustomMap in 'Trollhunter.CustomMap.pas',
   Dragonhunter.Item.Random in 'Dragonhunter.Item.Random.pas',
