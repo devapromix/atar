@@ -390,6 +390,15 @@ var
     end;
   end;
 
+  procedure Unidentified();
+  begin
+    Terminal.TextColor(cLtRed);
+    Terminal.BoldFont;
+    Add(Language.GetLang(382));
+    Terminal.TextColor(cBgColor);
+    Terminal.NormalFont;
+  end;
+
 begin
   Commands := '';
   FMenuCount := 0;
@@ -423,12 +432,12 @@ begin
             if Creatures.Character.Scrolls.IsDefined(T) then
               RenderItemInfo(I)
             else
-              Add(Language.GetLang(23));
+              Unidentified();
           if (ItemPatterns.Patterns[I].Category = 'POTION') then
             if Creatures.Character.Potions.IsDefined(T) then
               RenderItemInfo(I)
             else
-              Add(Language.GetLang(23));
+              Unidentified();
         end;
       end;
       Text.BarOut('esc', Language.GetLang(49), True);
