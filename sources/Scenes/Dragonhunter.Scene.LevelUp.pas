@@ -11,11 +11,10 @@ type
   TSceneLevelUp = class(TSceneBaseGame)
   private
     FCount: Integer;
-    FWidth: Integer;
+    FHeight: Integer;
     FCursorPos: Integer;
     FSelCursorPos: Integer;
     procedure AtrItem(I: Integer; S: string);
-    function PossibleImproveAttribute: Boolean;
   public
     procedure Render(); override;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
@@ -41,14 +40,11 @@ uses
   Trollhunter.Error,
   Trollhunter.Log,
   Trollhunter.Lang,
-  Trollhunter.Utils;
+  Trollhunter.Utils,
+  Dragonhunter.Terminal,
+  Dragonhunter.Frame;
 
 { TSceneLevelUp }
-
-function TSceneLevelUp.PossibleImproveAttribute: Boolean;
-begin
-  Result := Creatures.Character.AtrPoint > 0;
-end;
 
 constructor TSceneLevelUp.Create;
 begin
@@ -61,7 +57,7 @@ procedure TSceneLevelUp.AtrItem(I: Integer; S: string);
 var
   LStr: string;
 begin
-  LStr := IfThen(PossibleImproveAttribute, '+ 1');
+  LStr := IfThen(Creatures.Character.PossibleImproveAttribute, '+ 1');
   try
     with Graph.Surface.Canvas do
     begin
@@ -79,22 +75,24 @@ begin
       end;
       if (FCursorPos = FSelCursorPos) then
       begin
-        Font.Color := cAcColor;
-        Font.Style := [fsBold];
-        Graph.RenderMenuLine(FSelCursorPos + 1, FWidth, False, 50, cDkGray);
+        Terminal.BoldFont;
+        Terminal.TextColor(cAcColor);
+        Terminal.MenuLine(Terminal.Width div 2 - 27, Terminal.Height div 2 - 1 +
+          FSelCursorPos, 54);
       end
       else
       begin
-        Font.Color := cBgColor;
-        Font.Style := [];
+        Terminal.NormalFont;
+        Terminal.TextColor(cBgColor);
       end;
       TextOut((Graph.Width div 2) - (TextWidth(S) div 2),
-        (FSelCursorPos * Graph.CharHeight) + FWidth + Graph.CharHeight, S);
+        (FSelCursorPos * Graph.CharHeight) + FHeight + Graph.CharHeight, S);
       Font.Color := cLtBlue;
       if (FSelCursorPos = FCursorPos) then
         TextOut((Graph.Width div 2) - (TextWidth(S) div 2) +
           ((Length(S) + 1) * Graph.CharWidth),
-          (FSelCursorPos * Graph.CharHeight) + FWidth + Graph.CharHeight, LStr);
+          (FSelCursorPos * Graph.CharHeight) + FHeight +
+          Graph.CharHeight, LStr);
       Inc(FSelCursorPos);
     end;
   except
@@ -121,39 +119,39 @@ begin
           Render;
         end;
       13:
-        if PossibleImproveAttribute then
-          with Creatures.Character do
+        with Creatures.Character do
+          if PossibleImproveAttribute then
           begin
             case FCursorPos of
               0:
-                if Creatures.Character.AtrPoint > 0 then
+                if PossibleImproveAttribute then
                 begin
-                  Creatures.Character.AtrPoint := Creatures.Character.AtrPoint - 1;
-                  AddStrength;
+                  if UseAtrPoint then
+                    AddStrength;
                 end;
               1:
-                if Creatures.Character.AtrPoint > 0 then
+                if PossibleImproveAttribute then
                 begin
-                  Creatures.Character.AtrPoint := Creatures.Character.AtrPoint - 1;
-                  AddDexterity;
+                  if UseAtrPoint then
+                    AddDexterity;
                 end;
               2:
-                if Creatures.Character.AtrPoint > 0 then
+                if PossibleImproveAttribute then
                 begin
-                  Creatures.Character.AtrPoint := Creatures.Character.AtrPoint - 1;
-                  AddIntelligence;
+                  if UseAtrPoint then
+                    AddIntelligence;
                 end;
               3:
-                if Creatures.Character.AtrPoint > 0 then
+                if PossibleImproveAttribute then
                 begin
-                  Creatures.Character.AtrPoint := Creatures.Character.AtrPoint - 1;
-                  AddPerception;
+                  if UseAtrPoint then
+                    AddPerception;
                 end;
               4:
-                if Creatures.Character.AtrPoint > 0 then
+                if PossibleImproveAttribute then
                 begin
-                  Creatures.Character.AtrPoint := Creatures.Character.AtrPoint - 1;
-                  AddSpeed;
+                  if UseAtrPoint then
+                    AddSpeed;
                 end;
             end;
             Calc;
@@ -180,23 +178,25 @@ begin
   inherited;
   try
     FSelCursorPos := 0;
-    FWidth := (Graph.Height div 2) - (FCount * Graph.CharHeight div 2);
+    FHeight := (Graph.Height div 2) - (FCount * Graph.CharHeight div 2);
     with Graph.Surface.Canvas do
     begin
       for LIndex := 0 to FCount - 1 do
         AtrItem(LIndex, Language.GetLang(LIndex + 15));
-      FWidth := FWidth div Graph.CharHeight;
+      FHeight := FHeight div Graph.CharHeight;
       Font.Style := [];
       Font.Color := cBgColor;
-      if PossibleImproveAttribute then
+      if Creatures.Character.PossibleImproveAttribute then
       begin
-        Graph.Text.TextCenter(FWidth - 3, Language.GetLang(60));
-        Graph.Text.TextCenter(FWidth - 2, Language.GetLang(62));
-        Graph.Text.TextCenter(FWidth - 1, Language.GetLang(63));
+        Graph.Text.TextCenter(FHeight - 3, Language.GetLang(60));
+        Graph.Text.TextCenter(FHeight - 2, Language.GetLang(62));
+        Graph.Text.TextCenter(FHeight - 1, Language.GetLang(63));
       end;
       Font.Style := [];
     end;
-    Graph.Render;
+    Terminal.TextColor(cAcColor);
+    Frame.Draw((Terminal.Width div 2) - 30, Terminal.Height div 2 - 7, 60, 13);
+    Terminal.Render;
   except
     on E: Exception do
       Error.Add('SceneLevelUp.Render', E.Message);

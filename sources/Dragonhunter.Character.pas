@@ -101,6 +101,8 @@ type
     procedure Portal;
     function GetSpeed: Integer;
     procedure NewLevel;
+    function PossibleImproveAttribute: Boolean;
+    function UseAtrPoint: Boolean;
   end;
 
 implementation
@@ -587,6 +589,11 @@ begin
   SceneGame.GoToPrevMap;
 end;
 
+function TCharacter.PossibleImproveAttribute: Boolean;
+begin
+  Result := AtrPoint > 0;
+end;
+
 procedure TCharacter.SetTurns(const Value: Integer);
 begin
   FTurns := Value;
@@ -711,6 +718,16 @@ begin
     'Unarmed fighting':3,
     'Throwing':2,
   }
+end;
+
+function TCharacter.UseAtrPoint: Boolean;
+begin
+  Result := False;
+  if PossibleImproveAttribute then
+  begin
+    AtrPoint := AtrPoint - 1;
+    Result := True;
+  end;
 end;
 
 procedure TCharacter.AddDexterity;
