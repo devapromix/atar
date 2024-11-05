@@ -38,7 +38,8 @@ uses
   Dragonhunter.Color,
   Trollhunter.Utils,
   Trollhunter.Lang,
-  Trollhunter.Scene.Inv, Trollhunter.Item.Pattern;
+  Trollhunter.Scene.Inv,
+  Trollhunter.Item.Pattern;
 
 { TSceneItem }
 
@@ -57,19 +58,20 @@ end;
 
 procedure TSceneItems.KeyDown(var Key: Word; Shift: TShiftState);
 var
-  I, C: Integer;
-  K: Word;
+  LItemIndex, LCount: Integer;
+  LKey: Word;
 begin
   inherited;
   try
     case Key of
       38, 40:
         begin
-          C := Items.CellItemsCount(Creatures.Character.Pos.X, Creatures.Character.Pos.Y);
-          if (C > 0) then
+          LCount := Items.CellItemsCount(Creatures.Character.Pos.X,
+            Creatures.Character.Pos.Y);
+          if (LCount > 0) then
           begin
             CursorPos := CursorPos + (Key - 39);
-            CursorPos := ClampCycle(CursorPos, 1, C);
+            CursorPos := ClampCycle(CursorPos, 1, LCount);
             Render;
           end;
         end;
@@ -82,22 +84,23 @@ begin
         Scenes.Scene := SceneInv;
       13:
         begin
-          C := Items.CellItemsCount(Creatures.Character.Pos.X, Creatures.Character.Pos.Y);
-          if (C > 0) then
+          LCount := Items.CellItemsCount(Creatures.Character.Pos.X,
+            Creatures.Character.Pos.Y);
+          if (LCount > 0) then
           begin
-            K := (ord('A') + CursorPos) - 1;
-            KeyDown(K, Shift);
+            LKey := (ord('A') + CursorPos) - 1;
+            KeyDown(LKey, Shift);
           end;
         end;
       ord('A') .. ord('Z'):
         begin
-          I := (Key - (ord('A'))) + 1;
-          if (I <= Items.CellItemsCount(Creatures.Character.Pos.X, Creatures.Character.Pos.Y))
-          then
+          LItemIndex := (Key - (ord('A'))) + 1;
+          if (LItemIndex <= Items.CellItemsCount(Creatures.Character.Pos.X,
+            Creatures.Character.Pos.Y)) then
           begin
-            Items.Pickup(I);
-            if (Items.CellItemsCount(Creatures.Character.Pos.X, Creatures.Character.Pos.Y) = 0)
-            then
+            Items.Pickup(LItemIndex);
+            if (Items.CellItemsCount(Creatures.Character.Pos.X,
+              Creatures.Character.Pos.Y) = 0) then
               Scenes.Scene := SceneGame
             else
               Render;
@@ -119,7 +122,7 @@ end;
 procedure TSceneItems.Render;
 var
   Tileset: Graphics.TBitmap;
-  I, Y, C, V: Integer;
+  I, Y, LCount, V: Integer;
   S, ID: string;
 begin
   inherited;
@@ -128,13 +131,14 @@ begin
     Y := 2;
     with Graph.Surface.Canvas do
     begin
-      C := Items.CellItemsCount(Creatures.Character.Pos.X, Creatures.Character.Pos.Y);
-      if (C > 0) and (Length(Items.Item) > 0) then
+      LCount := Items.CellItemsCount(Creatures.Character.Pos.X,
+        Creatures.Character.Pos.Y);
+      if (LCount > 0) and (Length(Items.Item) > 0) then
         for I := 0 to High(Items.Item) do
           if (Items.Item[I].Pos.X = Creatures.Character.Pos.X) and
             (Items.Item[I].Pos.Y = Creatures.Character.Pos.Y) then
           begin
-            CursorPos := Clamp(CursorPos, 1, C);
+            CursorPos := Clamp(CursorPos, 1, LCount);
             ID := Items.Item[I].Name;
             if (ID = '') then
               Continue;
@@ -172,10 +176,10 @@ begin
             Inc(Y);
           end;
       Items.RenderPCInvStat(Y);
-      if (C = 1) then
+      if (LCount = 1) then
         Graph.Text.BarOut('enter, a', Language.GetLang(26), False)
-      else if (C > 1) then
-        Graph.Text.BarOut('enter, a-' + Chr(96 + C),
+      else if (LCount > 1) then
+        Graph.Text.BarOut('enter, a-' + Chr(96 + LCount),
           Language.GetLang(26), False);
       Graph.Text.BarOut('backspace', Language.GetLang(25), False);
       Graph.Text.BarOut('space', Language.GetLang(50), False);

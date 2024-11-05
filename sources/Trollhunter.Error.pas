@@ -3,8 +3,8 @@
 interface
 
 uses
-SysUtils,
-Classes;
+  SysUtils,
+  Classes;
 
 type
   TError = class(TObject)
