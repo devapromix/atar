@@ -3,7 +3,7 @@
 interface
 
 uses
-  Trollhunter.Entity;
+  Dragonhunter.Entity;
 
 type
   TBaseTrap = class(TEntity)

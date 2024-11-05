@@ -3,7 +3,7 @@
 interface
 
 uses
-  Trollhunter.Entity,
+  Dragonhunter.Entity,
   Dragonhunter.Bar;
 
 type

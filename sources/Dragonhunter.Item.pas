@@ -8,7 +8,7 @@ uses
   Classes,
   Dragonhunter.Color,
   Trollhunter.Craft,
-  Trollhunter.Entity,
+  Dragonhunter.Entity,
   Dragonhunter.Item.Random,
   Trollhunter.Item.Pattern,
   Dragonhunter.Item.Script;

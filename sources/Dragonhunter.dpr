@@ -55,7 +55,7 @@ uses
   Trollhunter.Time in 'Trollhunter.Time.pas',
   Trollhunter.Race in 'Trollhunter.Race.pas',
   Trollhunter.Skill in 'Trollhunter.Skill.pas',
-  Trollhunter.Entity in 'Trollhunter.Entity.pas',
+  Dragonhunter.Entity in 'Dragonhunter.Entity.pas',
   Dragonhunter.Bar in 'Dragonhunter.Bar.pas',
   Trollhunter.MiniMap in 'Trollhunter.MiniMap.pas',
   Trollhunter.CustomMap in 'Trollhunter.CustomMap.pas',

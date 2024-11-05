@@ -167,7 +167,7 @@
         <DCCReference Include="Trollhunter.Time.pas"/>
         <DCCReference Include="Trollhunter.Race.pas"/>
         <DCCReference Include="Trollhunter.Skill.pas"/>
-        <DCCReference Include="Trollhunter.Entity.pas"/>
+        <DCCReference Include="Dragonhunter.Entity.pas"/>
         <DCCReference Include="Dragonhunter.Bar.pas"/>
         <DCCReference Include="Trollhunter.MiniMap.pas"/>
         <DCCReference Include="Trollhunter.CustomMap.pas"/>
