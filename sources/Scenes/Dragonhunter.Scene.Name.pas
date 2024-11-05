@@ -9,7 +9,10 @@ uses
 
 type
   TSceneName = class(TSceneBaseMenu)
-  private
+  private const
+    MAX_NAME_LENGTH = 15;
+    VALID_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-';
+    procedure DelChar;
     procedure AddChar(const AChar: Char);
     function GetPath: string;
   public
@@ -47,7 +50,7 @@ uses
 
 procedure TSceneName.AddChar(const AChar: Char);
 begin
-  if (Length(Creatures.Character.Name) < 15) then
+  if (Length(Creatures.Character.Name) < MAX_NAME_LENGTH) then
   begin
     Creatures.Character.Name := Creatures.Character.Name + AChar;
     Render;
@@ -63,6 +66,19 @@ destructor TSceneName.Destroy;
 begin
 
   inherited;
+end;
+
+procedure TSceneName.DelChar;
+var
+  N: string;
+begin
+  if (Length(Creatures.Character.Name) > 0) then
+  begin
+    N := Creatures.Character.Name;
+    Delete(N, Length(N), 1);
+    Creatures.Character.Name := N;
+    Render;
+  end;
 end;
 
 function TSceneName.GetPath: string;
@@ -81,15 +97,7 @@ begin
     try
       case Key of
         8:
-          begin
-            if (Length(Creatures.Character.Name) > 0) then
-            begin
-              N := Creatures.Character.Name;
-              Delete(N, Length(N), 1);
-              Creatures.Character.Name := N;
-              Render();
-            end;
-          end;
+          DelChar();
         13:
           begin
             if (Creatures.Character.Name <> '') then
@@ -189,13 +197,8 @@ begin
 end;
 
 procedure TSceneName.KeyPress(var Key: Char);
-const
-  C1 = 'abcdefghijklmnopqrstuvwxyz';
-  C2 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  C3 = '-';
-  Chars = C1 + C2 + C3;
 begin
-  if (Pos(Key, Chars) > 0) then
+  if (Pos(Key, VALID_CHARS) > 0) then
     AddChar(Key);
 end;
 
