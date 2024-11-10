@@ -12,6 +12,7 @@ type
   private const
     MAX_NAME_LENGTH = 15;
     VALID_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-';
+    procedure NewName;
     procedure DelChar;
     procedure AddChar(const AChar: Char);
     function GetPath: string;
@@ -68,15 +69,28 @@ begin
   inherited;
 end;
 
+procedure TSceneName.NewName;
+var
+  LName: string;
+begin
+  begin
+    LName := Creatures.Character.Name;
+    Game.New;
+    Creatures.Character.Name := LName;
+    SceneRace.MakePC;
+    Scenes.Scene := SceneRace;
+  end;
+end;
+
 procedure TSceneName.DelChar;
 var
-  N: string;
+  LName: string;
 begin
   if (Length(Creatures.Character.Name) > 0) then
   begin
-    N := Creatures.Character.Name;
-    Delete(N, Length(N), 1);
-    Creatures.Character.Name := N;
+    LName := Creatures.Character.Name;
+    Delete(LName, Length(LName), 1);
+    Creatures.Character.Name := LName;
     Render;
   end;
 end;
@@ -88,7 +102,6 @@ end;
 
 procedure TSceneName.KeyDown(var Key: Word; Shift: TShiftState);
 var
-  N: string;
   LName: TName;
 begin
   inherited;
@@ -113,13 +126,7 @@ begin
                 Scenes.Scene := SceneGame;
               end
               else
-              begin
-                N := Creatures.Character.Name;
-                Game.New;
-                Creatures.Character.Name := N;
-                SceneRace.MakePC;
-                Scenes.Scene := SceneRace;
-              end;
+                NewName;
             end
             else
             begin
@@ -147,11 +154,10 @@ var
   S, N: string;
   W, H, V: Integer;
   LPCInfo: TPCInfo;
-  F: Boolean;
+  // F: Boolean;
 begin
   inherited;
   try
-    F := FileExists(GetPath);
     N := 'space';
     Terminal.TextColor(cBgColor);
     S := Language.GetLang(38) + #32 + Creatures.Character.Name + '_';
@@ -160,7 +166,7 @@ begin
     Terminal.NormalFont;
     H := Terminal.TextWidth(S);
     V := 0;
-    if F then
+    if FileExists(GetPath) then
       V := 1;
     Terminal.TextOut((Terminal.Width div 2) - (W div 2),
       Terminal.Height div 2 - V, S);
@@ -173,7 +179,7 @@ begin
       N := 'enter, ' + N;
     Terminal.BarOut(N, 48);
 
-    if F then
+    if FileExists(GetPath) then
     begin
       LPCInfo := Game.GetPCInfo(GetPath);
       S := AnsiLowerCase(Language.GetLang(30) + ': ' + IntToStr(LPCInfo.Level) +
