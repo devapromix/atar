@@ -1,4 +1,4 @@
-unit Trollhunter.Time;
+﻿unit Trollhunter.Time;
 
 interface
 
