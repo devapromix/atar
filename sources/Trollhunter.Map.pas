@@ -795,88 +795,88 @@ begin
         case Map.Cell[Y][X].Tile of
           tlWall, tlHiddenDoor:
             if B then
-              Draw(DX, DY, Res.FOGWALL)
+              Draw(DX, DY, GameResources.FOGWALL)
             else
-              Draw(DX, DY, Res.WALL);
+              Draw(DX, DY, GameResources.WALL);
           tlVillageGate:
             if B then
-              Draw(DX, DY, Res.FOGGATE)
+              Draw(DX, DY, GameResources.FOGGATE)
             else
-              Draw(DX, DY, Res.GATE);
+              Draw(DX, DY, GameResources.GATE);
           tlOpenDoor:
             if B then
-              Draw(DX, DY, Res.FOGODOOR)
+              Draw(DX, DY, GameResources.FOGODOOR)
             else
-              Draw(DX, DY, Res.ODOOR);
+              Draw(DX, DY, GameResources.ODOOR);
           tlClosedDoor .. tlLockedDoor:
             if B then
-              Draw(DX, DY, Res.FOGCDOOR)
+              Draw(DX, DY, GameResources.FOGCDOOR)
             else
-              Draw(DX, DY, Res.CDOOR);
+              Draw(DX, DY, GameResources.CDOOR);
           tlEmptyShrine .. tlMegaShrine:
             begin
               if B then
-                Draw(DX, DY, Res.SHRINE[Map.Cell[Y][X].Tile].FOG)
+                Draw(DX, DY, GameResources.SHRINE[Map.Cell[Y][X].Tile].FOG)
               else
-                Draw(DX, DY, Res.SHRINE[Map.Cell[Y][X].Tile].IMG);
+                Draw(DX, DY, GameResources.SHRINE[Map.Cell[Y][X].Tile].IMG);
             end;
           tlOpenWoodChest .. tlClosedBarrel:
             begin
               if B then
-                Draw(DX, DY, Res.CHEST[Map.Cell[Y][X].Tile].FOG)
+                Draw(DX, DY, GameResources.CHEST[Map.Cell[Y][X].Tile].FOG)
               else
-                Draw(DX, DY, Res.CHEST[Map.Cell[Y][X].Tile].IMG);
+                Draw(DX, DY, GameResources.CHEST[Map.Cell[Y][X].Tile].IMG);
             end;
           tlStone:
             if B then
-              Draw(DX, DY, Res.FOGSTONE)
+              Draw(DX, DY, GameResources.FOGSTONE)
             else
-              Draw(DX, DY, Res.STONE);
+              Draw(DX, DY, GameResources.STONE);
           tlGrass:
             if B then
-              Draw(DX, DY, Res.FOGGRASS)
+              Draw(DX, DY, GameResources.FOGGRASS)
             else
-              Draw(DX, DY, Res.GRASS);
+              Draw(DX, DY, GameResources.GRASS);
           tlTree:
             if B then
-              Draw(DX, DY, Res.FOGTREE)
+              Draw(DX, DY, GameResources.FOGTREE)
             else
-              Draw(DX, DY, Res.TREE);
+              Draw(DX, DY, GameResources.TREE);
           tlBush:
             if B then
-              Draw(DX, DY, Res.FOGBUSH)
+              Draw(DX, DY, GameResources.FOGBUSH)
             else
-              Draw(DX, DY, Res.BUSH);
+              Draw(DX, DY, GameResources.BUSH);
           tlPrevDungeon:
             if B then
-              Draw(DX, DY, Res.FOGUP)
+              Draw(DX, DY, GameResources.FOGUP)
             else
-              Draw(DX, DY, Res.UP);
+              Draw(DX, DY, GameResources.UP);
           tlNextDungeon, tlAltNextDungeon:
             if B then
-              Draw(DX, DY, Res.FOGDOWN)
+              Draw(DX, DY, GameResources.FOGDOWN)
             else
-              Draw(DX, DY, Res.DOWN);
+              Draw(DX, DY, GameResources.DOWN);
         else
           if MapPatterns.GetPattern.FloorTile = 'GRASS' then
             if B then
-              Draw(DX, DY, Res.FOGGRASS)
+              Draw(DX, DY, GameResources.FOGGRASS)
             else
-              Draw(DX, DY, Res.GRASS);
+              Draw(DX, DY, GameResources.GRASS);
           if MapPatterns.GetPattern.FloorTile = 'FLOOR' then
             if B then
-              Draw(DX, DY, Res.FOGFLOOR)
+              Draw(DX, DY, GameResources.FOGFLOOR)
             else
-              Draw(DX, DY, Res.FLOOR);
+              Draw(DX, DY, GameResources.FLOOR);
         end;
         if B then
           Continue;
         case Map.Cell[Y][X].Tile of
           tlLockedDoor, tlLockedWoodChest, tlLockedBestChest:
-            Draw(DX, DY, Res.LOCK); { ? }
+            Draw(DX, DY, GameResources.LOCK); { ? }
           tlOpenWoodChest, tlOpenBestChest:
             if (Dragonhunter.Item.Items.CellItemsCount(X, Y) > 0) then
-              Draw(DX, DY, Res.TREASURE);
+              Draw(DX, DY, GameResources.TREASURE);
         end;
         Decorators.Render(X, Y, DX, DY);
         Trollhunter.Creatures.Creatures.Render(X, Y, DX, DY, True);

@@ -39,7 +39,7 @@ type
   end;
 
 var
-  Res: TResources;
+  GameResources: TResources;
 
 implementation
 
@@ -341,6 +341,6 @@ initialization
 
 finalization
 
-Res.Free;
+GameResources.Free;
 
 end.

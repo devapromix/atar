@@ -153,7 +153,7 @@ begin
           * TileSize;
         DY := (Y - (Trollhunter.Creatures.Creatures.Character.Pos.Y - Graph.RH)) *
           TileSize + Graph.CharHeight;
-        Draw(DX, DY, Res.GRASS);
+        Draw(DX, DY, GameResources.GRASS);
       end;
   Trollhunter.Creatures.Creatures.Character.Render;
 end;

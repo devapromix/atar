@@ -89,8 +89,8 @@ begin
         Character.World.Gen;
         Map.Gen(Character.Dungeon);
         Character.Redraw;
-        Res.Free;
-        Res := TResources.Create;
+        GameResources.Free;
+        GameResources := TResources.Create;
         Exit;
       end;
       // Open save
@@ -139,8 +139,8 @@ begin
         LZip.Free;
       end;
       Character.Redraw;
-      Res.Free;
-      Res := TResources.Create;
+      GameResources.Free;
+      GameResources := TResources.Create;
     except
       on E: Exception do
         Error.Add('Game.Load', E.Message);

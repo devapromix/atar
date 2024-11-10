@@ -215,14 +215,14 @@ end;
 
 function AddMultiLineText(aText: string; Canv: TCanvas; aRect: TRect): Integer;
 var
-  I, C, Res: word;
+  I, C, LRes: word;
   SL: TStringList;
   S: string;
   TH: Integer;
 
   procedure AddRow(AStr: string);
   begin
-    Canv.TextOut(aRect.Left, Res * TH + aRect.Top, AStr);
+    Canv.TextOut(aRect.Left, LRes * TH + aRect.Top, AStr);
   end;
 
   function Addline(AStr, aword: string): Boolean;
@@ -231,7 +231,7 @@ var
     if Result then
     begin
       AddRow(AStr);
-      Inc(Res)
+      Inc(LRes)
     end;
   end;
 
@@ -245,7 +245,7 @@ var
 
 begin
   WordDivider;
-  Res := 0;
+  LRes := 0;
   S := '';
   TH := Canv.TextHeight('1') - 10;
   C := SL.Count - 1;
@@ -257,10 +257,10 @@ begin
     if (I = C) and (S <> '') then // if needed Add last string
     begin
       AddRow(S);
-      Inc(Res);
+      Inc(LRes);
     end;
   end;
-  Result := Res;
+  Result := LRes;
   FreeAndNil(SL);
 end;
 
