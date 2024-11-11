@@ -139,7 +139,7 @@
         <DCCReference Include="Trollhunter.Creatures.pas"/>
         <DCCReference Include="Trollhunter.Graph.pas"/>
         <DCCReference Include="Trollhunter.Craft.pas"/>
-        <DCCReference Include="Trollhunter.Map.pas"/>
+        <DCCReference Include="Dragonhunter.Map.pas"/>
         <DCCReference Include="Trollhunter.Utils.pas"/>
         <DCCReference Include="Dragonhunter.Item.pas"/>
         <DCCReference Include="Trollhunter.Trap.pas"/>
@@ -181,7 +181,7 @@
         <DCCReference Include="Trollhunter.Statistics.pas"/>
         <DCCReference Include="Trollhunter.Zip.pas"/>
         <DCCReference Include="Trollhunter.Town.pas"/>
-        <DCCReference Include="Trollhunter.Map.Pattern.pas"/>
+        <DCCReference Include="Dragonhunter.Map.Pattern.pas"/>
         <DCCReference Include="Trollhunter.Creature.Pattern.pas"/>
         <DCCReference Include="Trollhunter.Item.Pattern.pas"/>
         <DCCReference Include="Dragonhunter.Item.Script.pas"/>

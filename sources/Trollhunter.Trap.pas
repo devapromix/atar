@@ -27,7 +27,7 @@ implementation
 
 uses
   SysUtils,
-  Trollhunter.Map,
+  Dragonhunter.Map,
   Trollhunter.Graph,
   Trollhunter.Creatures,
   Trollhunter.Utils,
@@ -42,7 +42,8 @@ var
 begin
   if (Map.Level > 0) then
   begin
-    D := (Rand(1, Map.Level * 3) * (100 - Creatures.Character.Prop.Protect)) div 100;
+    D := (Rand(1, Map.Level * 3) *
+      (100 - Creatures.Character.Prop.Protect)) div 100;
     if (D > 0) then
       Damage(D)
     else
@@ -56,7 +57,8 @@ var
 begin
   if (Map.Level > 0) then
   begin
-    D := (Rand(1, Map.Level * 5) * (100 - Creatures.Character.Prop.Protect)) div 100;
+    D := (Rand(1, Map.Level * 5) *
+      (100 - Creatures.Character.Prop.Protect)) div 100;
     if (D > 0) then
       Damage(D)
     else

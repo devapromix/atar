@@ -46,10 +46,10 @@ uses
   Trollhunter.Lang,
   Trollhunter.Settings,
   Trollhunter.Creature,
-  Trollhunter.Map,
+  Dragonhunter.Map,
   Trollhunter.Race,
   Trollhunter.Creature.Pattern,
-  Trollhunter.Map.Pattern,
+  Dragonhunter.Map.Pattern,
   Trollhunter.Item.Pattern,
   Dragonhunter.Frame;
 

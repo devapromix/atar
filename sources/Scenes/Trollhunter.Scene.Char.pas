@@ -45,9 +45,9 @@ uses
   Dragonhunter.Item,
   Dragonhunter.Color,
   Trollhunter.Lang,
-  Trollhunter.Map,
+  Dragonhunter.Map,
   Trollhunter.Skill,
-  Trollhunter.Map.Pattern;
+  Dragonhunter.Map.Pattern;
 
 { TSceneChar }
 
@@ -135,7 +135,8 @@ begin
     begin
       Font.Color := cRdYellow;
       Add(Language.GetLang(37), Creatures.Character.Name);
-      Add(Language.GetLang(180), Language.GetLang(Creatures.Character.Race + 182));
+      Add(Language.GetLang(180),
+        Language.GetLang(Creatures.Character.Race + 182));
       Add(Language.GetLang(30), Creatures.Character.Prop.Level);
       Add(Graph.Bars.EXP, Language.GetLang(31),
         Format('%d/%d', [Creatures.Character.EXP,
@@ -150,14 +151,17 @@ begin
       Add(Language.GetLang(19), Creatures.Character.AtrPoint);
       Add();
       Add(Graph.Bars.LIFE, Language.GetLang(22),
-        Format('%d/%d', [Creatures.Character.LIFE.Cur, Creatures.Character.LIFE.Max]));
+        Format('%d/%d', [Creatures.Character.LIFE.Cur,
+        Creatures.Character.LIFE.Max]));
       Add(Graph.Bars.MANA, Language.GetLang(23),
-        Format('%d/%d', [Creatures.Character.MANA.Cur, Creatures.Character.MANA.Max]));
+        Format('%d/%d', [Creatures.Character.MANA.Cur,
+        Creatures.Character.MANA.Max]));
       Add();
       Add(Graph.Bars.DAMAGE, Language.GetLang(32),
         Format('%d-%d', [Creatures.Character.Prop.MinDamage,
         Creatures.Character.Prop.MaxDamage]));
-      Add(Graph.Bars.PROTECT, Language.GetLang(33), Creatures.Character.Prop.PROTECT);
+      Add(Graph.Bars.PROTECT, Language.GetLang(33),
+        Creatures.Character.Prop.PROTECT);
       Add();
       Add(Language.GetLang(66), Creatures.Character.GetRadius);
       Add(Language.GetLang(35), Creatures.Character.Turns);

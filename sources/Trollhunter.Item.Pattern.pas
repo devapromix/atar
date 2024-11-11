@@ -80,7 +80,7 @@ uses
   Trollhunter.Error,
   Dragonhunter.MainForm,
   Trollhunter.Zip,
-  Trollhunter.Map,
+  Dragonhunter.Map,
   Dragonhunter.Item;
 
 { TMapPattern }

@@ -34,7 +34,7 @@ uses
   Trollhunter.Projectiles,
   Trollhunter.Decorator,
   Dragonhunter.AStar,
-  Trollhunter.Map;
+  Dragonhunter.Map;
 
 procedure TEnemy.AddRandomPoisonEffect;
 var

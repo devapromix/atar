@@ -135,14 +135,14 @@ uses
   Forms,
   JPEG,
   Trollhunter.Creatures,
-  Trollhunter.Map,
+  Dragonhunter.Map,
   Trollhunter.Log,
   Dragonhunter.MainForm,
   Trollhunter.Utils,
   Trollhunter.Error,
   Trollhunter.Settings,
   Trollhunter.Lang,
-  Trollhunter.Map.Pattern;
+  Dragonhunter.Map.Pattern;
 
 {$R images.res}
 { TGraph }

@@ -1,4 +1,4 @@
-﻿unit Trollhunter.Map;
+﻿unit Dragonhunter.Map;
 
 interface
 
@@ -103,7 +103,7 @@ uses
   Dragonhunter.Color,
   Trollhunter.Light,
   Dragonhunter.Resources,
-  Trollhunter.Map.Pattern,
+  Dragonhunter.Map.Pattern,
   Trollhunter.Item.Pattern,
   Dragonhunter.Item.Default,
   Dragonhunter.Wander;
@@ -775,7 +775,8 @@ begin
     for X := Trollhunter.Creatures.Creatures.Character.Pos.X -
       Graph.RW to Trollhunter.Creatures.Creatures.Character.Pos.X + Graph.RW do
       for Y := Trollhunter.Creatures.Creatures.Character.Pos.Y -
-        Graph.RH to Trollhunter.Creatures.Creatures.Character.Pos.Y + Graph.RH do
+        Graph.RH to Trollhunter.Creatures.Creatures.Character.Pos.Y +
+        Graph.RH do
       begin
         if (X < 0) or (Y < 0) or (X > MapSide - 1) or (Y > MapSide - 1) then
           Continue;
@@ -788,8 +789,8 @@ begin
         end;
         DX := (X - (Trollhunter.Creatures.Creatures.Character.Pos.X - Graph.RW))
           * TileSize;
-        DY := (Y - (Trollhunter.Creatures.Creatures.Character.Pos.Y - Graph.RH)) *
-          TileSize + Graph.CharHeight;
+        DY := (Y - (Trollhunter.Creatures.Creatures.Character.Pos.Y - Graph.RH))
+          * TileSize + Graph.CharHeight;
         if not Map.Cell[Y, X].Viz then
           Map.VizCell(X, Y);
         case Map.Cell[Y][X].Tile of

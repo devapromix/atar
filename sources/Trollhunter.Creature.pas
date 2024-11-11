@@ -38,7 +38,7 @@ implementation
 uses
   Math,
   SysUtils,
-  Trollhunter.Map,
+  Dragonhunter.Map,
   Trollhunter.Map.Tiles,
   Trollhunter.Utils,
   Trollhunter.Creatures,

@@ -88,7 +88,7 @@ uses
   Dragonhunter.Item,
   Trollhunter.Lang,
   Trollhunter.Map.Tiles,
-  Trollhunter.Map,
+  Dragonhunter.Map,
   Trollhunter.Log,
   Trollhunter.Creatures,
   Dragonhunter.AStar,

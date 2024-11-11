@@ -6,7 +6,7 @@ uses
   System.Classes,
   Dragonhunter.Item,
   Trollhunter.Creature,
-  Trollhunter.Map;
+  Dragonhunter.Map;
 
 type
   TLanguageString = class(TObject)

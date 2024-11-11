@@ -49,11 +49,11 @@ uses
   Trollhunter.Graph,
   Dragonhunter.Color,
   Trollhunter.Light,
-  Trollhunter.Map,
+  Dragonhunter.Map,
   Dragonhunter.MainForm,
   Trollhunter.Decorator,
   Trollhunter.Game,
-  Trollhunter.Map.Pattern,
+  Dragonhunter.Map.Pattern,
   Trollhunter.Log,
   Trollhunter.Error,
   Trollhunter.Zip;
@@ -72,12 +72,12 @@ var
     Graph.BitmapFromTileset(CHEST[I].IMG, T, B);
   end;
 
-  procedure SetTile(var AImg, AFog: Graphics.TBitmap; ResName, S: string;
-    IsTransparent: Boolean = False);
+  procedure SetTile(var AImg, AFog: Graphics.TBitmap;
+    ResName, AResPatName: string; IsTransparent: Boolean = False);
   begin
-    if (S = '') then
-      S := ResName;
-    AImg.Handle := LoadBitmap(hInstance, PChar(S));
+    if (AResPatName = '') then
+      AResPatName := ResName;
+    AImg.Handle := LoadBitmap(hInstance, PChar(AResPatName));
     ScaleBmp(AImg, TileSize, TileSize);
     if IsTransparent then
     begin
@@ -197,7 +197,7 @@ begin
   // Plants
   TREE := Graphics.TBitmap.Create;
   FOGTREE := Graphics.TBitmap.Create;
-  SetTile(TREE, FOGTREE, 'TREE', '', True);
+  SetTile(TREE, FOGTREE, 'TREE0', MapPatterns.GetPattern.TreeRes, True);
   BUSH := Graphics.TBitmap.Create;
   FOGBUSH := Graphics.TBitmap.Create;
   SetTile(BUSH, FOGBUSH, 'BUSH', '', True);

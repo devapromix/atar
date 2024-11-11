@@ -154,7 +154,7 @@ uses
   SysUtils,
   Trollhunter.Utils,
   Trollhunter.Error,
-  Trollhunter.Map,
+  Dragonhunter.Map,
   Trollhunter.Graph,
   Trollhunter.Creatures,
   Trollhunter.Scenes,
@@ -470,8 +470,8 @@ var
   function IsAddToInv(I: Integer): Boolean;
   begin
     with Items.Item[I] do
-      Result := Creatures.Character.Inv.Add(Name, Count, Prop.Weight, Prop.Tough,
-        Prop.IsStack);
+      Result := Creatures.Character.Inv.Add(Name, Count, Prop.Weight,
+        Prop.Tough, Prop.IsStack);
   end;
 
   procedure RenderText();
@@ -493,7 +493,7 @@ var
       Exit;
     end;
     Graph.Messagebar.Clear;
-    S := Language.GetItemLang(Items.Item[I].Prop.Id);
+    S := Language.GetItemLang(Items.Item[I].Prop.ID);
     if (Items.Item[I].Count > 1) then
       S := S + ' (' + IntToStr(Items.Item[I].Count) + ')';
     if (Length(Items.Item) > 1) then
@@ -525,7 +525,8 @@ begin
             end;
           end;
     end;
-    if (Items.CellItemsCount(Creatures.Character.Pos.X, Creatures.Character.Pos.Y) > 1) then
+    if (Items.CellItemsCount(Creatures.Character.Pos.X,
+      Creatures.Character.Pos.Y) > 1) then
     begin
       Graph.Messagebar.Clear;
       Scenes.Scene := SceneItems;
@@ -549,7 +550,8 @@ var
   C, I: Integer;
 begin
   try
-    C := Items.CellItemsCount(Creatures.Character.Pos.X, Creatures.Character.Pos.Y);
+    C := Items.CellItemsCount(Creatures.Character.Pos.X,
+      Creatures.Character.Pos.Y);
     for I := 0 to C do
       Pickup(I);
   except

@@ -6,7 +6,7 @@ uses
   Classes,
   Graphics,
   Trollhunter.Scene,
-  Trollhunter.Map,
+  Dragonhunter.Map,
   Trollhunter.Map.Tiles;
 
 var
@@ -65,7 +65,8 @@ uses
   Trollhunter.Scene.Statistics,
   Trollhunter.Statistics,
   Trollhunter.GlobalMap,
-  Trollhunter.Map.Pattern, Dragonhunter.Wander;
+  Dragonhunter.Map.Pattern,
+  Dragonhunter.Wander;
 
 { TGame }
 

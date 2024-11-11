@@ -28,7 +28,7 @@ uses
   Trollhunter.Graph,
   Trollhunter.Creatures,
   Trollhunter.Decorator,
-  Trollhunter.Map,
+  Dragonhunter.Map,
   Trollhunter.Map.Tiles;
 
 procedure TLight.Render(X, Y, DX, DY: Integer);
@@ -44,7 +44,8 @@ begin
   B.Canvas.CopyRect(Bounds(0, 0, TileSize, TileSize), Graph.Surface.Canvas,
     Bounds(DX, DY, TileSize, TileSize));
   D := Map.Cell[Y][X].Light / 10;
-  H := 1 - (GetDist(Creatures.Character.Pos.X, Creatures.Character.Pos.Y, X, Y) / 10);
+  H := 1 - (GetDist(Creatures.Character.Pos.X, Creatures.Character.Pos.Y,
+    X, Y) / 10);
   if (D < H) then
     D := H;
   if (D < LightMin) then

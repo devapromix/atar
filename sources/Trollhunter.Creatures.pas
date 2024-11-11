@@ -63,7 +63,7 @@ uses
   Trollhunter.Log,
   Trollhunter.Lang,
   Trollhunter.Decorator,
-  Trollhunter.Map,
+  Dragonhunter.Map,
   Trollhunter.Map.Tiles,
   Trollhunter.Creature.Pattern;
 

@@ -27,7 +27,7 @@ implementation
 
 uses
   Dialogs,
-  Trollhunter.Map,
+  Dragonhunter.Map,
   Trollhunter.Creatures,
   Trollhunter.Error,
   Dragonhunter.Item;

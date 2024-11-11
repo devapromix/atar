@@ -121,10 +121,10 @@ uses
   Trollhunter.Graph,
   Trollhunter.Error,
   Trollhunter.Light,
-  Trollhunter.Map,
+  Dragonhunter.Map,
   Trollhunter.Map.Tiles,
   Trollhunter.Utils,
-  Trollhunter.Map.Pattern;
+  Dragonhunter.Map.Pattern;
 
 { TDecorators }
 

@@ -39,7 +39,7 @@ uses
   Trollhunter.Creatures,
   Dragonhunter.Terminal,
   Dragonhunter.AStar,
-  Trollhunter.Map,
+  Dragonhunter.Map,
   Dragonhunter.Item,
   Dragonhunter.Color;
 

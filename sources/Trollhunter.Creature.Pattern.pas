@@ -78,7 +78,7 @@ uses
   Trollhunter.Error,
   Dragonhunter.MainForm,
   Trollhunter.Zip,
-  Trollhunter.Map,
+  Dragonhunter.Map,
   Trollhunter.Creatures,
   Trollhunter.Creature;
 
