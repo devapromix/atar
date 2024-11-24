@@ -200,7 +200,7 @@ begin
   SetTile(TREE, FOGTREE, 'TREE0', MapPatterns.GetPattern.TreeRes, True);
   BUSH := Graphics.TBitmap.Create;
   FOGBUSH := Graphics.TBitmap.Create;
-  SetTile(BUSH, FOGBUSH, 'BUSH', '', True);
+  SetTile(BUSH, FOGBUSH, 'BUSH0', MapPatterns.GetPattern.BushRes, True);
 
   // Up and Down
   UP := Graphics.TBitmap.Create;
