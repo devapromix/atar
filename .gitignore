@@ -1,0 +1,4 @@
+/sources/__history
+/*.exe
+/test/png/Win32/Debug/*.exe
+/test/png/__history
