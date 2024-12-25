@@ -69,14 +69,14 @@ uses
   Trollhunter.Statistics in 'Trollhunter.Statistics.pas',
   Trollhunter.Zip in 'Trollhunter.Zip.pas',
   Trollhunter.Town in 'Trollhunter.Town.pas',
-  Dragonhunter.Map.Pattern in 'Dragonhunter.Map.Pattern.pas',
   Trollhunter.Creature.Pattern in 'Trollhunter.Creature.Pattern.pas',
   Trollhunter.Item.Pattern in 'Trollhunter.Item.Pattern.pas',
   Dragonhunter.Item.Script in 'Dragonhunter.Item.Script.pas',
   Dragonhunter.Item.Default in 'Dragonhunter.Item.Default.pas',
   Dragonhunter.Terminal in 'Dragonhunter.Terminal.pas',
   Dragonhunter.Wander in 'Dragonhunter.Wander.pas',
-  Dragonhunter.Frame in 'Dragonhunter.Frame.pas';
+  Dragonhunter.Frame in 'Dragonhunter.Frame.pas',
+  Dragonhunter.Map.Pattern in 'Dragonhunter.Map.Pattern.pas';
 
 {$R *.res}
 
