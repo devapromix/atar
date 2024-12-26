@@ -2,3 +2,7 @@
 /*.exe
 /test/png/Win32/Debug/*.exe
 /test/png/__history
+/sources/Forms/__history
+/sources/Scenes/__history
+/test/wav/Win32/Debug/*.exe
+/test/wav/__history
