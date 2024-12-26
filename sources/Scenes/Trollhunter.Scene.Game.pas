@@ -39,7 +39,6 @@ uses
   Windows, Dialogs,
   Types,
   SysUtils,
-  Dragonhunter.MainForm,
   Trollhunter.Graph,
   Trollhunter.Creatures,
   Trollhunter.Scenes,
