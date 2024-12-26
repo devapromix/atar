@@ -10,7 +10,7 @@ uses
 type
   TForm1 = class(TForm)
     Image1: TImage;
-    procedure Image1MouseEnter(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -25,17 +25,17 @@ implementation
 {$R *.dfm}
 
 uses
-  Vcl.Imaging.pngimage;
+  PNGImage;
 
 var
-  png: TPNGObject;
+  Png: TPNGImage;
 
-procedure TForm1.Image1MouseEnter(Sender: TObject);
+procedure TForm1.FormCreate(Sender: TObject);
 begin
-  png := TPNGObject.Create;
-  png.LoadFromResourceName(HInstance, 'mage');
-  Image1.Canvas.Draw(0, 0, png);
-  png.Free;
+  Png := TPNGImage.Create;
+  Png.LoadFromResourceName(HInstance, 'mage');
+  Image1.Canvas.Draw(0, 0, Png);
+  Png.Free;
 end;
 
 end.
