@@ -3,6 +3,8 @@ del /s *.dcu
 del /s *.ppu
 del /s *.dsk
 del /s *.bak
+del /s *.drc
+del /s *.map
 del /s *.identcache
 del /s *.otares
 del /s *.local

@@ -1,5 +1,7 @@
 ﻿program Elinoor;
 
+{$R *.dres}
+
 uses
   Windows,
   Forms,
