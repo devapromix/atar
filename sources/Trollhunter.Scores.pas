@@ -35,7 +35,7 @@ uses
   Trollhunter.Utils,
   Trollhunter.Zip,
   Trollhunter.Error,
-  Dragonhunter.MainForm,
+  Engine.MainForm,
   Trollhunter.Lang;
 
 { TScores }

@@ -37,7 +37,7 @@ uses
   Trollhunter.Scene.Game,
   Trollhunter.Lang,
   Trollhunter.Creatures,
-  Dragonhunter.MainForm,
+  Engine.MainForm,
   Trollhunter.Scenes,
   Dragonhunter.Color,
   Trollhunter.Scene.Inv,

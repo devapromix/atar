@@ -113,7 +113,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="Forms\Elinoor.MainForm.pas">
+        <DCCReference Include="Forms\Elinoor\Engine.MainForm.pas">
             <Form>MainForm</Form>
         </DCCReference>
         <DCCReference Include="Scenes\Trollhunter.Scenes.pas"/>

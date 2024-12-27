@@ -3,7 +3,7 @@
 uses
   Windows,
   Forms,
-  Elinoor.MainForm in 'Forms\Elinoor.MainForm.pas' {MainForm},
+  Engine.MainForm in 'Forms\Elinoor\Engine.MainForm.pas' {MainForm},
   Trollhunter.Scenes in 'Scenes\Trollhunter.Scenes.pas',
   Trollhunter.Scene in 'Scenes\Trollhunter.Scene.pas',
   Trollhunter.Scene.BaseMenu in 'Scenes\Trollhunter.Scene.BaseMenu.pas',
@@ -82,6 +82,8 @@ uses
 
 var
   UniqueMapping: THandle;
+
+{$DEFINE ELINOOR}
 
 begin
   UniqueMapping := CreateFileMapping($FFFFFFFF, nil, PAGE_READONLY, 0, 32,
