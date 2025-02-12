@@ -68,7 +68,7 @@ var
 
   procedure ChestBitmap(A: PChar; B: Integer);
   begin
-    T.Handle := LoadBitmap(hInstance, A);
+    T.Handle := LoadBitmap(HInstance, A);
     Graph.BitmapFromTileset(CHEST[I].IMG, T, B);
   end;
 
@@ -77,7 +77,9 @@ var
   begin
     if (AResPatName = '') then
       AResPatName := ResName;
-    AImg.Handle := LoadBitmap(hInstance, PChar(AResPatName));
+    { Png := TPNGImage.Create;
+      Png.LoadFromResourceName(HInstance, PChar(AResPatName)); }
+    AImg.Handle := LoadBitmap(HInstance, PChar(AResPatName));
     ScaleBmp(AImg, TileSize, TileSize);
     if IsTransparent then
     begin
@@ -98,7 +100,7 @@ begin
   F := Graphics.TBitmap.Create;
   // Fog
   FOG := Graphics.TBitmap.Create;
-  FOG.Handle := LoadBitmap(hInstance, 'FOG');
+  FOG.Handle := LoadBitmap(HInstance, 'FOG');
   ScaleBmp(FOG, TileSize, TileSize);
   FOG.TransparentColor := clWhite;
   FOG.Transparent := True;
@@ -131,7 +133,7 @@ begin
       case I of
         tlEmptyShrine:
           begin
-            T.Handle := LoadBitmap(hInstance, 'EMPTYSHRINE');
+            T.Handle := LoadBitmap(HInstance, 'EMPTYSHRINE');
             ScaleBmp(T, TileSize, TileSize);
           end;
         tlLifeShrine:
@@ -179,13 +181,13 @@ begin
   end;
   // Lock
   LOCK := Graphics.TBitmap.Create;
-  LOCK.Handle := LoadBitmap(hInstance, 'LOCK');
+  LOCK.Handle := LoadBitmap(HInstance, 'LOCK');
   ScaleBmp(LOCK, TileSize, TileSize);
   LOCK.Transparent := True;
 
   // Treasure
   TREASURE := Graphics.TBitmap.Create;
-  TREASURE.Handle := LoadBitmap(hInstance, 'TREASURE');
+  TREASURE.Handle := LoadBitmap(HInstance, 'TREASURE');
   ScaleBmp(TREASURE, TileSize, TileSize);
   TREASURE.Transparent := True;
 
@@ -212,7 +214,7 @@ begin
 
   // Gate
   GATE := Graphics.TBitmap.Create;
-  GATE.Handle := LoadBitmap(hInstance, 'GATE');
+  GATE.Handle := LoadBitmap(HInstance, 'GATE');
   ScaleBmp(GATE, TileSize, TileSize);
   GATE.Transparent := True;
   T.Assign(WALL);
@@ -231,7 +233,7 @@ begin
 
   // Doors
   CDOOR := Graphics.TBitmap.Create;
-  CDOOR.Handle := LoadBitmap(hInstance, 'CDOOR');
+  CDOOR.Handle := LoadBitmap(HInstance, 'CDOOR');
   ScaleBmp(CDOOR, TileSize, TileSize);
   CDOOR.Transparent := True;
   T.Assign(CDOOR);
@@ -244,7 +246,7 @@ begin
     Gamma(FOGCDOOR, LightMin);
 
   ODOOR := Graphics.TBitmap.Create;
-  ODOOR.Handle := LoadBitmap(hInstance, 'ODOOR');
+  ODOOR.Handle := LoadBitmap(HInstance, 'ODOOR');
   ScaleBmp(ODOOR, TileSize, TileSize);
   ODOOR.Transparent := True;
   T.Assign(WALL);

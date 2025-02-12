@@ -65,8 +65,7 @@ uses
   Trollhunter.Statistics,
   Trollhunter.GlobalMap,
   Dragonhunter.Map.Pattern,
-  Dragonhunter.Wander,
-  Elinoor.Scene.Temple;
+  Dragonhunter.Wander;
 
 { TGame }
 
@@ -697,8 +696,6 @@ begin
         ord('K'):
           if ParamDebug then
             GoToAltNextMap;
-        ord('T'):
-          Scenes.Scene := SceneTemple;
       end;
   except
     on E: Exception do
